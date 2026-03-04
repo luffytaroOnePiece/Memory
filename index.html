@@ -387,6 +387,108 @@
             display: none !important;
         }
 
+        /* Stagger animation for tree items */
+        .tree-item-enter {
+            opacity: 0;
+            transform: translateX(-8px);
+            animation: itemSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes itemSlideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Folder count badge */
+        .folder-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+        }
+
+        /* Recently Viewed Section */
+        .recent-section {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+            opacity: 0;
+        }
+
+        .recent-header {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recent-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-color), transparent);
+        }
+
+        .recent-list {
+            display: flex;
+            gap: 0.6rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+        }
+
+        .recent-card {
+            flex-shrink: 0;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            max-width: 220px;
+            min-width: 160px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .recent-card:hover {
+            background: var(--bg-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .recent-card-title {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-card-path {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0.7;
+        }
+
         /* Utility States */
         .loading,
         .error,
@@ -616,6 +718,12 @@
         </header>
 
         <main>
+            <!-- Recently Viewed -->
+            <div class="recent-section" id="recentSection" style="display:none;">
+                <div class="recent-header">Recently Viewed</div>
+                <div class="recent-list" id="recentList"></div>
+            </div>
+
             <div class="controls">
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
@@ -660,9 +768,12 @@
         let totalStats = { folders: 0, files: 0 };
         let allFoldersOpen = false;
 
+        let staggerIndex = 0;
+
         document.addEventListener("DOMContentLoaded", () => {
             initSearch();
             initToggleAll();
+            renderRecentlyViewed();
 
             fetch('index.json')
                 .then(response => {
@@ -695,6 +806,7 @@
             }
 
             totalStats = { folders: 0, files: 0 };
+            staggerIndex = 0;
             const rootUl = document.createElement('ul');
 
             // Build DOM iteratively
@@ -723,10 +835,15 @@
                 for (const [key, value] of entries) {
                     const li = document.createElement('li');
 
+                    // Stagger animation
+                    li.classList.add('tree-item-enter');
+                    li.style.animationDelay = `${staggerIndex * 50}ms`;
+                    staggerIndex++;
+
                     if (typeof value === 'string') {
                         // File Node
                         totalStats.files++;
-                        li.className = 'file';
+                        li.className += ' file';
                         li.dataset.name = value.toLowerCase();
 
                         const a = document.createElement('a');
@@ -746,14 +863,18 @@
                     } else {
                         // Folder Node
                         totalStats.folders++;
-                        li.className = 'folder';
+                        li.className += ' folder';
                         li.dataset.name = key.toLowerCase();
+
+                        // Count total files inside this folder recursively
+                        const itemCount = countItems(value);
 
                         const div = document.createElement('div');
                         div.className = 'folder-name';
                         div.innerHTML = `
                             <span class="icon"></span>
                             <span class="text" data-original-text="${key}">${key}</span>
+                            <span class="folder-count">${itemCount}</span>
                         `;
 
                         div.onclick = function (e) {
@@ -890,13 +1011,77 @@
             }
         }
 
+        // ── Count items recursively ──
+        function countItems(node) {
+            let count = 0;
+            if (Array.isArray(node)) {
+                node.forEach(item => count += countItems(item));
+            } else if (typeof node === 'object' && node !== null) {
+                for (const val of Object.values(node)) {
+                    if (typeof val === 'string') count++;
+                    else count += countItems(val);
+                }
+            }
+            return count;
+        }
+
+        // ── Recently Viewed (localStorage) ──
+        const RECENT_KEY = 'memorybank_recent';
+        const MAX_RECENT = 5;
+
+        function getRecentlyViewed() {
+            try {
+                return JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
+            } catch { return []; }
+        }
+
+        function addRecentlyViewed(url, title) {
+            let recent = getRecentlyViewed();
+            // Remove duplicate
+            recent = recent.filter(r => r.url !== url);
+            // Add to front
+            recent.unshift({ url, title, time: Date.now() });
+            // Cap at MAX_RECENT
+            recent = recent.slice(0, MAX_RECENT);
+            localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+            renderRecentlyViewed();
+        }
+
+        function renderRecentlyViewed() {
+            const recent = getRecentlyViewed();
+            const section = document.getElementById('recentSection');
+            const list = document.getElementById('recentList');
+
+            if (recent.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = '';
+            list.innerHTML = '';
+
+            recent.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'recent-card';
+                // Extract path segments for display
+                const pathParts = item.url.replace('.html', '').split('/');
+                const pathDisplay = pathParts.slice(0, -1).join(' › ');
+                card.innerHTML = `
+                    <span class="recent-card-title">${item.title}</span>
+                    <span class="recent-card-path">${pathDisplay || 'Root'}</span>
+                `;
+                card.addEventListener('click', () => openViewer(item.url, item.title));
+                list.appendChild(card);
+            });
+        }
+
         // ── Viewer overlay logic ──
         function openViewer(url, title) {
             const overlay = document.getElementById('viewerOverlay');
             const frame = document.getElementById('viewerFrame');
             const breadcrumb = document.getElementById('viewerBreadcrumb');
 
-            // Build breadcrumb from URL path: e.g. "Games/EldenRing/1.html" → Games › EldenRing › title
+            // Build breadcrumb from URL path
             const parts = url.replace('.html', '').split('/');
             let crumbHTML = '<span class="breadcrumb-segment">Memory Bank</span>';
             for (let i = 0; i < parts.length - 1; i++) {
@@ -910,6 +1095,9 @@
             frame.src = url;
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Track in recently viewed
+            addRecentlyViewed(url, title);
         }
 
         function closeViewer() {
