@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best DEX Builds — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #030a08;
+    --surface: #060f0c;
+    --border: #0d1f18;
+    --accent: #3db36e;
+    --accent-glow: rgba(61,179,110,0.18);
+    --gold: #c8a84b;
+    --text: #cdf0dc;
+    --muted: #2e5540;
+    --dex-color: #3db36e;
+    --dex-bright: #5edd94;
+    --dex-glow: rgba(61,179,110,0.15);
+    --dex-dark: #0d3320;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Diagonal slash lines — speed / precision feel */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 60px,
+        rgba(61,179,110,0.018) 60px,
+        rgba(61,179,110,0.018) 61px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -10%; right: -8%;
+    width: 560px; height: 560px;
+    background: radial-gradient(ellipse, rgba(61,179,110,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-bl {
+    position: fixed;
+    bottom: -15%; left: -8%;
+    width: 480px; height: 480px;
+    background: radial-gradient(ellipse, rgba(30,120,70,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 54px;
+    animation: sliceIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .dex-emblem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px; height: 68px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: radial-gradient(circle at 40% 35%, rgba(61,179,110,0.35) 0%, rgba(13,51,32,0.2) 70%);
+    border: 1px solid rgba(61,179,110,0.45);
+    box-shadow: 0 0 40px rgba(61,179,110,0.2), inset 0 0 20px rgba(30,100,60,0.15);
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--dex-bright);
+    margin: 0 auto 22px;
+    letter-spacing: 0.05em;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5.5vw, 66px);
+    font-weight: 900; letter-spacing: 0.02em;
+    line-height: 1; margin-bottom: 8px;
+  }
+
+  h1 .dex {
+    color: var(--dex-bright);
+    text-shadow: 0 0 30px rgba(93,221,148,0.5), 0 0 60px rgba(61,179,110,0.25);
+  }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2.2vw, 22px);
+    font-weight: 400; color: var(--muted);
+    letter-spacing: 0.08em; margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before, .divider::after {
+    content: ''; width: 80px; height: 1px;
+  }
+  .divider::before { background: linear-gradient(90deg, transparent, rgba(61,179,110,0.5)); }
+  .divider::after  { background: linear-gradient(90deg, rgba(61,179,110,0.5), transparent); }
+  .divider-icon { color: var(--dex-color); font-size: 14px; letter-spacing: 8px; opacity: 0.7; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 530px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── BUILD CARDS ── */
+  .builds-grid {
+    display: flex; flex-direction: column; gap: 2px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .build-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--dex-dark);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    position: relative;
+  }
+
+  .build-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(61,179,110,0.07) 0%, transparent 38%);
+    opacity: 0; transition: opacity 0.25s;
+    pointer-events: none;
+  }
+
+  /* Slash accent on hover */
+  .build-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 3px; height: 0;
+    background: var(--dex-color);
+    transition: height 0.3s ease;
+    opacity: 0.4;
+  }
+
+  .build-card:hover {
+    border-left-color: var(--dex-color);
+    background: rgba(6,15,12,0.98);
+    box-shadow: 0 0 30px rgba(61,179,110,0.07), -4px 0 20px rgba(61,179,110,0.12);
+  }
+  .build-card:hover::before { opacity: 1; }
+  .build-card:hover::after  { height: 100%; }
+
+  .build-card.top { border-left-color: var(--gold); }
+  .build-card.top::before {
+    background: linear-gradient(90deg, rgba(200,168,75,0.1) 0%, transparent 38%);
+    opacity: 1;
+  }
+  .build-card.top:hover {
+    border-left-color: var(--gold);
+    box-shadow: 0 0 30px rgba(200,168,75,0.08), -4px 0 20px rgba(200,168,75,0.14);
+  }
+
+  /* Rank */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.28);
+  }
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 24px; font-weight: 900; line-height: 1;
+  }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.5); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Body */
+  .card-body { padding: 22px 24px; position: relative; z-index: 1; }
+
+  .build-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .build-card.top .build-name { color: var(--gold); }
+
+  .build-archetype {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .arch-bleed   { color: #f472b6; border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.07); }
+  .arch-speed   { color: #3db36e; border-color: rgba(61,179,110,0.4);  background: rgba(61,179,110,0.07); }
+  .arch-hybrid  { color: #818cf8; border-color: rgba(129,140,248,0.4); background: rgba(129,140,248,0.07); }
+  .arch-crit    { color: #fbbf24; border-color: rgba(251,191,36,0.4);  background: rgba(251,191,36,0.07); }
+  .arch-poke    { color: #38bdf8; border-color: rgba(56,189,248,0.4);  background: rgba(56,189,248,0.07); }
+  .arch-status  { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+  .arch-frost   { color: #7dd3fc; border-color: rgba(125,211,252,0.4); background: rgba(125,211,252,0.07); }
+
+  .build-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 14px;
+  }
+
+  .info-row {
+    display: flex; flex-wrap: wrap;
+    gap: 20px; margin-bottom: 14px;
+  }
+  .info-block { display: flex; flex-direction: column; gap: 3px; }
+  .info-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .info-val { font-size: 13px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; }
+  .info-val.green { color: var(--dex-bright); font-family: 'Cinzel', serif; font-weight: 600; }
+
+  .stat-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .stat-pill {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.1em;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+  }
+  .sp-dex  { color: #3db36e; border-color: rgba(61,179,110,0.45);  background: rgba(61,179,110,0.08); }
+  .sp-vit  { color: #f87171; border-color: rgba(248,113,113,0.4);  background: rgba(248,113,113,0.08); }
+  .sp-end  { color: #fbbf24; border-color: rgba(251,191,36,0.4);   background: rgba(251,191,36,0.08); }
+  .sp-str  { color: #fb923c; border-color: rgba(251,146,60,0.35);  background: rgba(251,146,60,0.07); }
+  .sp-arc  { color: #c084fc; border-color: rgba(192,132,252,0.35); background: rgba(192,132,252,0.07); }
+  .sp-int  { color: #60a5fa; border-color: rgba(96,165,250,0.35);  background: rgba(96,165,250,0.07); }
+  .sp-mind { color: #a78bfa; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.07); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .item-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(205,240,220,0.5);
+    padding: 2px 8px;
+    border: 1px solid rgba(61,179,110,0.1);
+    background: rgba(61,179,110,0.03); border-radius: 1px;
+  }
+
+  /* Side panel */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 22px; gap: 10px;
+    min-width: 100px;
+    position: relative; z-index: 1;
+  }
+
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 30px; font-weight: 900; line-height: 1;
+  }
+  .tier-s  { color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+  .tier-sa { color: #d4a010; }
+  .tier-a  { color: var(--dex-bright); text-shadow: 0 0 14px rgba(93,221,148,0.4); }
+  .tier-ab { color: #2a7a48; }
+  .tier-b  { color: var(--muted); }
+
+  .tier-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .diff-wrap { text-align: center; }
+  .diff-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 3px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); }
+  .dot.on { background: var(--dex-color); border-color: var(--dex-color); }
+  .diff-text {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase;
+  }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 2px;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--dex-color);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--dex-bright);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(61,179,110,0.35), transparent);
+  }
+
+  .weapon-table { width: 100%; }
+  .weapon-table tr { border-bottom: 1px solid rgba(13,31,24,0.9); }
+  .weapon-table tr:last-child { border-bottom: none; }
+  .weapon-table td { padding: 8px 0; font-size: 13px; vertical-align: middle; }
+  .weapon-table .w-name { color: var(--text); font-weight: 400; font-style: italic; }
+  .weapon-table .w-req  { color: var(--dex-bright); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; text-align: right; white-space: nowrap; }
+  .weapon-table .w-note { color: var(--muted); font-size: 11px; font-weight: 300; font-style: italic; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--dex-color); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.7; }
+
+  @keyframes sliceIn {
+    from { opacity: 0; transform: translateX(-20px) skewX(-2deg); }
+    to   { opacity: 1; transform: translateX(0) skewX(0); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .build-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="glow-bl"></div>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="dex-emblem">DEX</div>
+    <div class="eyebrow">The Lands Between · Dexterity Mastery</div>
+    <h1>
+      <span class="dex">Dexterity</span><br>
+      <span class="rest">Builds</span>
+    </h1>
+    <div class="h1-sub">Blade Dancer's Codex · Elden Ring</div>
+    <div class="divider"><span class="divider-icon">— ✦ —</span></div>
+    <p class="subtitle">Ranked by speed, combo efficiency, critical hit potential & PvE/PvP dominance. Pure dexterity — fast, precise, lethal.</p>
+  </header>
+
+  <!-- BUILDS -->
+  <div class="builds-grid">
+
+    <!-- #1 Rivers of Blood -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Rivers of Blood Powerstance</div>
+          <span class="build-archetype arch-bleed">Bleed King</span>
+        </div>
+        <div class="build-desc">The most iconic DEX build in the game. Dual-wield Rivers of Blood — Corpse Piler ash fires a rapid flurry that procs hemorrhage almost instantly on any target. Trivialises every boss including Malenia herself.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 50</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val green">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Rivers of Blood ×2</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Corpse Piler</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 50</span>
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-str">STR 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rivers of Blood ×2</span>
+          <span class="item-tag">Corpse Piler</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Seppuku</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #2 Uchigatana Unsheathe -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Uchigatana Unsheathe Samurai</div>
+          <span class="build-archetype arch-crit">Iaijutsu Crit</span>
+        </div>
+        <div class="build-desc">Unsheathe is the single most satisfying weapon art in Elden Ring — a lightning-fast draw strike with enormous critical damage. Twin Uchigatanas powerstanced bleeds while landing massive stagger crits on bosses.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Uchigatana ×2</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Unsheathe</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 70</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 35</span>
+          <span class="stat-pill sp-str">STR 15</span>
+          <span class="stat-pill sp-arc">ARC 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Uchigatana ×2</span>
+          <span class="item-tag">Unsheathe</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">Claw Talisman</span>
+          <span class="item-tag">Rotten Winged Sword Insignia</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #3 Hand of Malenia -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Hand of Malenia Blade Dancer</div>
+          <span class="build-archetype arch-speed">Waterfowl Mimic</span>
+        </div>
+        <div class="build-desc">Wield the same blade as Malenia herself. Scarlet Aeonia ash of war mimics her deadly Waterfowl Dance — a spinning flurry that heals on each hit. The highest mastery expression DEX build in the entire game.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Hand of Malenia</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Scarlet Aeonia</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 80</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 35</span>
+          <span class="stat-pill sp-str">STR 16</span>
+          <span class="stat-pill sp-mind">MIND 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Hand of Malenia</span>
+          <span class="item-tag">Scarlet Aeonia</span>
+          <span class="item-tag">Rotten Winged Sword Insignia</span>
+          <span class="item-tag">Millicent's Prosthesis</span>
+          <span class="item-tag">Seppuku</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-sa">S−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
+          <div class="diff-text">Expert</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #4 Eleonora Poleblade -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Eleonora's Poleblade Twinblade</div>
+          <span class="build-archetype arch-bleed">Frost + Bleed</span>
+        </div>
+        <div class="build-desc">Bloodblade Dance ash fires an explosive flurry of spinning strikes that simultaneously builds bleed. Add Cold affinity on a second twinblade to stack Frostbite first, then proc hemorrhage for devastating combo damage.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 60</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val green">ARC 45</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai / Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Eleonora's Poleblade</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 60</span>
+          <span class="stat-pill sp-arc">ARC 45</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 32</span>
+          <span class="stat-pill sp-str">STR 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Eleonora's Poleblade</span>
+          <span class="item-tag">Bloodblade Dance</span>
+          <span class="item-tag">Cold Twinblade</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #5 Nagakiba Long Reach -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Nagakiba Bleed Piercer</div>
+          <span class="build-archetype arch-poke">Long Reach</span>
+        </div>
+        <div class="build-desc">Longest range katana in the game. Piercing Fang or Unsheathe on the Nagakiba combined with bleed infusion — safely pokes bosses from outside their attack range while hemorrhage stacks rapidly on every thrust.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 65</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Nagakiba</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Unsheathe / Piercing Fang</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 65</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 32</span>
+          <span class="stat-pill sp-arc">ARC 30</span>
+          <span class="stat-pill sp-str">STR 18</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Nagakiba</span>
+          <span class="item-tag">Piercing Fang</span>
+          <span class="item-tag">Rotten Winged Sword Insignia</span>
+          <span class="item-tag">Millicent's Prosthesis</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #6 Reduvia Dagger -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Reduvia Blood Blade Duelist</div>
+          <span class="build-archetype arch-bleed">Ranged Bleed</span>
+        </div>
+        <div class="build-desc">Reduvia's blood projectile ash fires at range building hemorrhage without closing distance. Paired with Bloodhound's Fang for melee — a deadly mid-range dex duelist that bleeds from safety and closes in for the kill.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 55</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val green">ARC 45</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Reduvia + Bloodhound's Fang</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 55</span>
+          <span class="stat-pill sp-arc">ARC 45</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-str">STR 13</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Reduvia</span>
+          <span class="item-tag">Reduvia Blood Blade</span>
+          <span class="item-tag">Bloodhound's Fang</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Claw Talisman</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #7 Moonveil DEX/INT -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Moonveil Spellblade</div>
+          <span class="build-archetype arch-hybrid">DEX + INT</span>
+        </div>
+        <div class="build-desc">Split between DEX and INT for a deadly hybrid — fast katana combos in melee, Transient Moonlight beam at range. The best PvP DEX build in the game, with range options that pure DEX builds completely lack.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 50</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val green">INT 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Moonveil Katana</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 50</span>
+          <span class="stat-pill sp-int">INT 60</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-mind">MIND 28</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Moonveil Katana</span>
+          <span class="item-tag">Transient Moonlight</span>
+          <span class="item-tag">Glintstone Pebble</span>
+          <span class="item-tag">Night Comet</span>
+          <span class="item-tag">Radagon Icon</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #8 Cold Antspur Rapier -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Antspur Rapier Rot + Frost</div>
+          <span class="build-archetype arch-status">Dual Status</span>
+        </div>
+        <div class="build-desc">Antspur Rapier inflicts Scarlet Rot naturally — add Cold affinity for Frostbite on the same weapon. Two status effects from one weapon. When Frostbite procs before Rot, the combined absorption penalty is catastrophic.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai / Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Cold Antspur Rapier</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Quickstep / Impaling Thrust</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 60</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-int">INT 15</span>
+          <span class="stat-pill sp-str">STR 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Cold Antspur Rapier</span>
+          <span class="item-tag">Impaling Thrust</span>
+          <span class="item-tag">Frozen Armament</span>
+          <span class="item-tag">Rotten Breath</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">A−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #9 Bloodhound's Fang -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Bloodhound's Fang Acrobat</div>
+          <span class="build-archetype arch-speed">Dodge + Counter</span>
+        </div>
+        <div class="build-desc">Bloodhound's Step + Bloodhound's Finesse creates an ultra-mobile DEX build that phases through attacks and counters with a devastating curved greatsword slash. A high-expression build beloved by the community for its fluidity.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai / Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Bloodhound's Fang</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Bloodhound's Finesse</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 60</span>
+          <span class="stat-pill sp-str">STR 22</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 35</span>
+          <span class="stat-pill sp-arc">ARC 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Bloodhound's Fang</span>
+          <span class="item-tag">Bloodhound's Finesse</span>
+          <span class="item-tag">Bloodhound's Step</span>
+          <span class="item-tag">Rotten Winged Sword Insignia</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #10 Scavenger's Curved Sword -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Scavenger's Bleed Twin Blades</div>
+          <span class="build-archetype arch-bleed">Budget Bleed</span>
+        </div>
+        <div class="build-desc">Powerstanced Scavenger's Curved Swords with blood affinity — a budget-friendly bleed machine accessible early. Remarkably fast L1 combo chains build hemorrhage in seconds. The best early-game DEX/bleed option bar none.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val green">DEX 50</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val green">ARC 40</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Samurai / Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Scavenger's Curved Sword ×2</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-dex">DEX 50</span>
+          <span class="stat-pill sp-arc">ARC 40</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-str">STR 14</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Scavenger's Curved Sword ×2</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+          <span class="item-tag">White Mask</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-b">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /builds-grid -->
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Top DEX Weapons Ranked</div>
+      <table class="weapon-table">
+        <tr><td class="w-name">Rivers of Blood</td><td class="w-req">DEX 12 / ARC 18</td></tr>
+        <tr><td class="w-note" colspan="2">Best bleed katana. Corpse Piler ash is the fastest hemorrhage proc in the game.</td></tr>
+        <tr><td class="w-name">Hand of Malenia</td><td class="w-req">DEX 48</td></tr>
+        <tr><td class="w-note" colspan="2">Highest DEX requirement. Waterfowl Dance ash heals on hit — pinnacle DEX weapon.</td></tr>
+        <tr><td class="w-name">Moonveil Katana</td><td class="w-req">DEX 23 / INT 23</td></tr>
+        <tr><td class="w-note" colspan="2">Best hybrid. Transient Moonlight beam dominates PvP at any range.</td></tr>
+        <tr><td class="w-name">Uchigatana</td><td class="w-req">DEX 15</td></tr>
+        <tr><td class="w-note" colspan="2">Best starter. Scales incredibly well — still viable at max level with right infusion.</td></tr>
+        <tr><td class="w-name">Bloodhound's Fang</td><td class="w-req">DEX 17 / STR 18</td></tr>
+        <tr><td class="w-note" colspan="2">Most mobile weapon. Bloodhound's Step + Finesse is unmatched in fluidity.</td></tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">Essential DEX Talismans</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Rotten Winged Sword Insignia</strong> — Boosts attack by up to 18% as you land successive hits. Mandatory for any fast-hitting DEX build.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Millicent's Prosthesis</strong> — +5 DEX plus stacking attack boost on successive hits. Stacks with RWSI for insane late-combo damage.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Lord of Blood's Exultation</strong> — +20% attack for 20 seconds when blood loss occurs nearby. Essentially permanent uptime on a bleed DEX build.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Claw Talisman</strong> — Boosts jump attack damage by 15%. Jump R2 into Unsheathe is the highest single-hit DEX combo.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">White Mask</strong> (Armor) — Not a talisman but +10% attack for 20s on blood loss. The must-have helm for every bleed DEX build.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

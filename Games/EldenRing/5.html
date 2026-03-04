@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Faith Builds — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080600;
+    --surface: #100d02;
+    --border: #1e1a04;
+    --accent: #d4a44a;
+    --accent-glow: rgba(212,164,74,0.18);
+    --gold: #f0cc6a;
+    --text: #f5eacc;
+    --muted: #5a4a18;
+    --fai-color: #d4a44a;
+    --fai-bright: #f0cc6a;
+    --fai-glow: rgba(212,164,74,0.15);
+    --fai-dark: #2e1f00;
+    --sacred: #e8d48a;
+    --flame: #e05a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Divine rays emanating from top */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -5%; left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 70%;
+    background:
+      repeating-conic-gradient(
+        from 270deg at 50% 0%,
+        rgba(212,164,74,0.025) 0deg,
+        transparent 3deg,
+        transparent 8deg,
+        rgba(212,164,74,0.015) 9deg,
+        transparent 12deg
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -15%; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(212,164,74,0.1) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-bottom {
+    position: fixed;
+    bottom: -20%; right: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(224,90,26,0.07) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 54px;
+    animation: divineIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .fai-emblem {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px; height: 72px;
+    margin: 0 auto 22px;
+  }
+
+  .fai-emblem::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(212,164,74,0.3) 0%, rgba(80,50,0,0.15) 65%);
+    border: 1px solid rgba(212,164,74,0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(212,164,74,0.25), inset 0 0 24px rgba(180,130,20,0.15);
+    animation: holyPulse 3s ease-in-out infinite;
+  }
+
+  .fai-emblem-text {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 900;
+    color: var(--fai-bright);
+    letter-spacing: 0.05em;
+    position: relative; z-index: 1;
+  }
+
+  @keyframes holyPulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(212,164,74,0.2), inset 0 0 20px rgba(180,130,20,0.1); }
+    50%       { box-shadow: 0 0 55px rgba(212,164,74,0.35), inset 0 0 30px rgba(180,130,20,0.2); }
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5.5vw, 66px);
+    font-weight: 900; letter-spacing: 0.03em; line-height: 1; margin-bottom: 8px;
+  }
+
+  h1 .fai {
+    color: var(--fai-bright);
+    text-shadow: 0 0 30px rgba(240,204,106,0.55), 0 0 60px rgba(212,164,74,0.25);
+  }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2.2vw, 22px);
+    font-weight: 400; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,164,74,0.5)); }
+  .divider::after  { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, rgba(212,164,74,0.5), transparent); }
+  .divider-icon { color: var(--fai-color); font-size: 16px; letter-spacing: 10px; opacity: 0.75; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 530px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── BUILD CARDS ── */
+  .builds-grid {
+    display: flex; flex-direction: column; gap: 2px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .build-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--fai-dark);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .build-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(212,164,74,0.07) 0%, transparent 40%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  /* Sacred shimmer top edge */
+  .build-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(212,164,74,0.0) 30%, rgba(212,164,74,0.3) 50%, rgba(212,164,74,0.0) 70%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .build-card:hover {
+    border-left-color: var(--fai-color);
+    background: rgba(12,10,2,0.98);
+    box-shadow: 0 0 35px rgba(212,164,74,0.07), -4px 0 22px rgba(212,164,74,0.12);
+  }
+  .build-card:hover::before { opacity: 1; }
+  .build-card:hover::after  { opacity: 1; }
+
+  .build-card.top { border-left-color: var(--fai-color); }
+  .build-card.top::before { background: linear-gradient(90deg, rgba(212,164,74,0.1) 0%, transparent 38%); opacity: 1; }
+  .build-card.top:hover { box-shadow: 0 0 40px rgba(240,204,106,0.1), -4px 0 25px rgba(212,164,74,0.18); }
+
+  /* Rank */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.3);
+  }
+  .rank-num { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; line-height: 1; }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 16px rgba(255,215,0,0.55); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Body */
+  .card-body { padding: 22px 24px; position: relative; z-index: 1; }
+
+  .build-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .build-card.top .build-name { color: var(--fai-bright); }
+
+  .build-archetype {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .arch-sacred  { color: #f0cc6a; border-color: rgba(240,204,106,0.4); background: rgba(240,204,106,0.07); }
+  .arch-flame   { color: #e05a1a; border-color: rgba(224,90,26,0.4);   background: rgba(224,90,26,0.07); }
+  .arch-dragon  { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+  .arch-hybrid  { color: #fb923c; border-color: rgba(251,146,60,0.4);  background: rgba(251,146,60,0.07); }
+  .arch-black   { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.07); }
+  .arch-heal    { color: #86efac; border-color: rgba(134,239,172,0.4); background: rgba(134,239,172,0.07); }
+  .arch-pct     { color: #38bdf8; border-color: rgba(56,189,248,0.4);  background: rgba(56,189,248,0.07); }
+
+  .build-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 14px;
+  }
+
+  .info-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 14px; }
+  .info-block { display: flex; flex-direction: column; gap: 3px; }
+  .info-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .info-val { font-size: 13px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; }
+  .info-val.gold { color: var(--fai-bright); font-family: 'Cinzel', serif; font-weight: 600; }
+
+  .stat-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .stat-pill {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.1em;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+  }
+  .sp-fai  { color: #d4a44a; border-color: rgba(212,164,74,0.45);  background: rgba(212,164,74,0.09); }
+  .sp-str  { color: #fb923c; border-color: rgba(251,146,60,0.4);   background: rgba(251,146,60,0.08); }
+  .sp-dex  { color: #34d399; border-color: rgba(52,211,153,0.4);   background: rgba(52,211,153,0.08); }
+  .sp-vit  { color: #f87171; border-color: rgba(248,113,113,0.4);  background: rgba(248,113,113,0.08); }
+  .sp-end  { color: #fbbf24; border-color: rgba(251,191,36,0.4);   background: rgba(251,191,36,0.08); }
+  .sp-arc  { color: #c084fc; border-color: rgba(192,132,252,0.4);  background: rgba(192,132,252,0.08); }
+  .sp-mind { color: #a78bfa; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.07); }
+  .sp-int  { color: #60a5fa; border-color: rgba(96,165,250,0.35);  background: rgba(96,165,250,0.07); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .item-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(245,234,204,0.5);
+    padding: 2px 8px;
+    border: 1px solid rgba(212,164,74,0.1);
+    background: rgba(212,164,74,0.03); border-radius: 1px;
+  }
+
+  /* Side */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 22px; gap: 10px;
+    min-width: 100px; position: relative; z-index: 1;
+  }
+
+  .tier-badge { font-family: 'Cinzel', serif; font-size: 30px; font-weight: 900; line-height: 1; }
+  .tier-s  { color: #ffd700; text-shadow: 0 0 22px rgba(255,215,0,0.55); }
+  .tier-sa { color: #e0b020; }
+  .tier-a  { color: var(--fai-bright); text-shadow: 0 0 14px rgba(240,204,106,0.4); }
+  .tier-ab { color: #8a6820; }
+  .tier-b  { color: var(--muted); }
+
+  .tier-label { font-family: 'Cinzel', serif; font-size: 8px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+  .diff-wrap { text-align: center; }
+  .diff-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 3px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); }
+  .dot.on { background: var(--fai-color); border-color: var(--fai-color); }
+  .diff-text { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 2px;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--fai-color);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fai-bright); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212,164,74,0.35), transparent); }
+
+  .seal-table { width: 100%; }
+  .seal-table tr { border-bottom: 1px solid rgba(30,26,4,0.9); }
+  .seal-table tr:last-child { border-bottom: none; }
+  .seal-table td { padding: 8px 0; font-size: 13px; vertical-align: middle; }
+  .seal-table .s-name { color: var(--text); font-weight: 400; font-style: italic; }
+  .seal-table .s-req  { color: var(--fai-bright); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; text-align: right; white-space: nowrap; }
+  .seal-table .s-note { color: var(--muted); font-size: 11px; font-weight: 300; font-style: italic; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--fai-color); font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.75; }
+
+  @keyframes divineIn {
+    from { opacity: 0; transform: translateY(-22px); filter: brightness(1.6); }
+    to   { opacity: 1; transform: translateY(0);     filter: brightness(1); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .build-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="glow-bottom"></div>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="fai-emblem"><span class="fai-emblem-text">FAI</span></div>
+    <div class="eyebrow">The Lands Between · Faith Mastery</div>
+    <h1>
+      <span class="fai">Faith</span><br>
+      <span class="rest">Builds</span>
+    </h1>
+    <div class="h1-sub">Prophet's Codex · Elden Ring</div>
+    <div class="divider"><span class="divider-icon">✦ ☀ ✦</span></div>
+    <p class="subtitle">Ranked by incantation potency, boss kill efficiency, utility & PvE dominance. Sacred flame, black fire, dragon communion and holy wrath — faith has it all.</p>
+  </header>
+
+  <!-- BUILDS -->
+  <div class="builds-grid">
+
+    <!-- #1 Black Flame Prophet -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Black Flame Prophet</div>
+          <span class="build-archetype arch-black">% HP Damage</span>
+        </div>
+        <div class="build-desc">Black Flame incantations deal damage equal to a percentage of the enemy's max HP — making them permanently relevant regardless of how hard endgame bosses scale. Black Flame's Protection also gives a 35% physical damage reduction buff.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Dragon Communion Seal</div></div>
+          <div class="info-block"><div class="info-label">Flask</div><div class="info-val">Cerulean Hidden Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 80</span>
+          <span class="stat-pill sp-arc">ARC 20</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 40</span>
+          <span class="stat-pill sp-end">END 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Black Flame</span>
+          <span class="item-tag">Black Flame Blade</span>
+          <span class="item-tag">Black Flame's Protection</span>
+          <span class="item-tag">Giantsflame Take Thee</span>
+          <span class="item-tag">Catch Flame</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #2 Godslayer Faith Warrior -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Godslayer Greatsword Warrior</div>
+          <span class="build-archetype arch-black">Fire + Melee</span>
+        </div>
+        <div class="build-desc">The Queen's Black Flame weapon art launches a devastating spinning fire slash that melts poise and HP alike. Pre-buff with Black Flame Blade and Flame Grant Me Strength for a melee faith hybrid that shreds every endgame boss.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 60</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">STR 35</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Godslayer's Greatsword</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 60</span>
+          <span class="stat-pill sp-str">STR 35</span>
+          <span class="stat-pill sp-vit">VIT 58</span>
+          <span class="stat-pill sp-end">END 42</span>
+          <span class="stat-pill sp-mind">MIND 22</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Godslayer's Greatsword</span>
+          <span class="item-tag">Queen's Black Flame</span>
+          <span class="item-tag">Black Flame Blade</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Golden Vow</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #3 Dragon Communion Agheel -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Dragon Communion Invoker</div>
+          <span class="build-archetype arch-dragon">Dragonfire</span>
+        </div>
+        <div class="build-desc">Agheel's Flame and Ekzykes's Decay breathe devastating dragon fire and scarlet rot across massive AOE zones. Dragon Communion Seal scales with both FAI and ARC — unlock the Dragon Communion altar for the full arsenal of breath attacks.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 50</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">ARC 50</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet / Confessor</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Dragon Communion Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 50</span>
+          <span class="stat-pill sp-arc">ARC 50</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 38</span>
+          <span class="stat-pill sp-end">END 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Agheel's Flame</span>
+          <span class="item-tag">Ekzykes's Decay</span>
+          <span class="item-tag">Dragonfire</span>
+          <span class="item-tag">Greyoll's Roar</span>
+          <span class="item-tag">Rotten Breath</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-sa">S−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #4 Flame of the Fell God -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Fell God Fire Caster</div>
+          <span class="build-archetype arch-flame">Giant Flame</span>
+        </div>
+        <div class="build-desc">Flame of the Fell God launches a giant ball of fire that creates an enormous lingering explosion — one of the highest single-hit damages in any FAI build. Giantsflame Take Thee and Fire's Deadly Sin make this a scorched-earth caster.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Giant's Seal</div></div>
+          <div class="info-block"><div class="info-label">Flask</div><div class="info-val">Flame-Shrouding Cracked Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 80</span>
+          <span class="stat-pill sp-vit">VIT 50</span>
+          <span class="stat-pill sp-mind">MIND 42</span>
+          <span class="stat-pill sp-end">END 22</span>
+          <span class="stat-pill sp-str">STR 14</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Flame of the Fell God</span>
+          <span class="item-tag">Giantsflame Take Thee</span>
+          <span class="item-tag">Fire's Deadly Sin</span>
+          <span class="item-tag">Surge O Flame!</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #5 Holy Paladin -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Sacred Holy Paladin</div>
+          <span class="build-archetype arch-sacred">Holy Melee</span>
+        </div>
+        <div class="build-desc">Golden Epitaph or Sacred Erdtree Sword buffed with Golden Vow and Blessing of the Erdtree — the quintessential paladin fantasy. Holy damage bypasses some enemy resistances and the self-heal sustain is unmatched in extended fights.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 60</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">STR 30</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Confessor / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Sacred Erdtree Sword</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 60</span>
+          <span class="stat-pill sp-str">STR 30</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 40</span>
+          <span class="stat-pill sp-mind">MIND 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Sacred Erdtree Sword</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Blessing of the Erdtree</span>
+          <span class="item-tag">Discus of Light</span>
+          <span class="item-tag">Wrath of Gold</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #6 Erdtree Heal Support -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Erdtree Heal Battle Cleric</div>
+          <span class="build-archetype arch-heal">Sustain Cleric</span>
+        </div>
+        <div class="build-desc">Erdtree Heal + Blessing of the Erdtree creates a virtually unkillable tank. Combine with heavy armour, a greatshield and Sacred infused weapons — a build that wins every fight through pure attrition and regeneration. Unstoppable in long fights.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Confessor</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Erdtree Seal</div></div>
+          <div class="info-block"><div class="info-label">Shield</div><div class="info-val">Erdtree Greatshield</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 70</span>
+          <span class="stat-pill sp-vit">VIT 65</span>
+          <span class="stat-pill sp-end">END 50</span>
+          <span class="stat-pill sp-str">STR 28</span>
+          <span class="stat-pill sp-mind">MIND 30</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Erdtree Heal</span>
+          <span class="item-tag">Blessing of the Erdtree</span>
+          <span class="item-tag">Lord's Heal</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Barricade Shield</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #7 Lightning Incantation -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Lightning Storm Caller</div>
+          <span class="build-archetype arch-sacred">Lightning</span>
+        </div>
+        <div class="build-desc">Ancient Dragons' Lightning Strike and Honed Bolt hit enormous AOE zones with lightning that bypasses most dragon and beast resistances. Lightning Spear spam is fast, reliable and FP-efficient — the best faith option for mobile boss fights.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet / Confessor</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Gravel Stone Seal</div></div>
+          <div class="info-block"><div class="info-label">Flask</div><div class="info-val">Lightning-Shrouding Cracked Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 70</span>
+          <span class="stat-pill sp-vit">VIT 52</span>
+          <span class="stat-pill sp-mind">MIND 38</span>
+          <span class="stat-pill sp-end">END 25</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Ancient Dragons' Lightning Strike</span>
+          <span class="item-tag">Honed Bolt</span>
+          <span class="item-tag">Lightning Spear</span>
+          <span class="item-tag">Vyke's Dragonbolt</span>
+          <span class="item-tag">Electrify Armament</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #8 Fire Knight Sword -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Fire Knight Flame Dancer</div>
+          <span class="build-archetype arch-flame">Flame Melee</span>
+        </div>
+        <div class="build-desc">Fire Knight's Greatsword with Flame Skewer ash — a fast leaping stab that scales purely with FAI and STR. Pre-buff with Flame Grant Me Strength and Black Flame Blade for monstrous fire damage that stacks with the sword's innate fire output.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 55</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">STR 26</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet / Confessor</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Fire Knight's Greatsword</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 55</span>
+          <span class="stat-pill sp-str">STR 26</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 38</span>
+          <span class="stat-pill sp-mind">MIND 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Fire Knight's Greatsword</span>
+          <span class="item-tag">Flame Skewer</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Black Flame Blade</span>
+          <span class="item-tag">Golden Vow</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">A−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #9 Pest Threads -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Pest Threads Scarlet Witch</div>
+          <span class="build-archetype arch-pct">Pest + Rot</span>
+        </div>
+        <div class="build-desc">Pest Threads fires rapid needles that individually each deal full FAI-scaling damage — the fastest-hitting faith incantation. Combine with Ekzykes's Decay breath for rot build-up and you have an unstoppable rapid-fire and status combo.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 60</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">ARC 30</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prophet</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Dragon Communion Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 60</span>
+          <span class="stat-pill sp-arc">ARC 30</span>
+          <span class="stat-pill sp-vit">VIT 52</span>
+          <span class="stat-pill sp-mind">MIND 38</span>
+          <span class="stat-pill sp-end">END 22</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Pest Threads</span>
+          <span class="item-tag">Ekzykes's Decay</span>
+          <span class="item-tag">Swarm of Flies</span>
+          <span class="item-tag">Rotten Breath</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #10 Crucible Knight -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Crucible Knight Aspect Build</div>
+          <span class="build-archetype arch-hybrid">Aspect Hybrid</span>
+        </div>
+        <div class="build-desc">Crucible Aspects grant the player Crucible Knight abilities — Tail, Horns and Breath incantations that deal excellent physical-faith hybrid damage. Aspect of the Crucible: Tail is a sweeping AOE that hits twice and deals both physical and sacred damage.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val gold">FAI 55</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val gold">STR 25</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Confessor / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Erdtree Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-fai">FAI 55</span>
+          <span class="stat-pill sp-str">STR 25</span>
+          <span class="stat-pill sp-vit">VIT 58</span>
+          <span class="stat-pill sp-end">END 38</span>
+          <span class="stat-pill sp-mind">MIND 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Aspect of the Crucible: Tail</span>
+          <span class="item-tag">Aspect of the Crucible: Horns</span>
+          <span class="item-tag">Aspect of the Crucible: Breath</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-b">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Best Faith Seals Ranked</div>
+      <table class="seal-table">
+        <tr><td class="s-name">Dragon Communion Seal</td><td class="s-req">FAI 10 / ARC 10</td></tr>
+        <tr><td class="s-note" colspan="2">Best for FAI/ARC hybrids. Only seal that scales with both attributes simultaneously.</td></tr>
+        <tr><td class="s-name">Erdtree Seal</td><td class="s-req">FAI 40</td></tr>
+        <tr><td class="s-note" colspan="2">Highest pure FAI scaling. Best seal for pure faith builds at 80 FAI.</td></tr>
+        <tr><td class="s-name">Giant's Seal</td><td class="s-req">FAI 14</td></tr>
+        <tr><td class="s-note" colspan="2">Boosts Giant Flame incantations by 20%. Mandatory for fire-focused builds.</td></tr>
+        <tr><td class="s-name">Gravel Stone Seal</td><td class="s-req">FAI 18</td></tr>
+        <tr><td class="s-note" colspan="2">Boosts Dragon Cult (lightning) incantations by 15%. Best for storm callers.</td></tr>
+        <tr><td class="s-name">Golden Order Seal</td><td class="s-req">FAI 17 / INT 17</td></tr>
+        <tr><td class="s-note" colspan="2">Scales with both FAI and INT. Best for golden order / sword incantation hybrids.</td></tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">Essential Faith Talismans</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Two Fingers Heirloom</strong> — Raises FAI by +5. Lets you meet incantation requirements without spending levels.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Faithful's Canvas Talisman</strong> — Boosts incantation potency by 4%. Stacks with seal-specific buffs for maximum output.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Radagon Icon</strong> — Shortens incantation cast time. Arguably more useful on FAI than INT builds due to the longer cast animations.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Flock's Canvas Talisman</strong> — Boosts incantation potency by 8%. The best general damage talisman for pure faith casters.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Fire Scorpion Charm</strong> — +12% fire damage at cost of -17% physical damage received. Essential glass cannon fire faith builds.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

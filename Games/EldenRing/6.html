@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Arcane Builds — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060408;
+    --surface: #0c0810;
+    --border: #160d1e;
+    --accent: #9b59b6;
+    --accent-glow: rgba(155,89,182,0.2);
+    --gold: #c8a84b;
+    --text: #e8d4f5;
+    --muted: #4a2d5a;
+    --arc-color: #b06fd4;
+    --arc-bright: #d4a0f0;
+    --arc-glow: rgba(176,111,212,0.15);
+    --arc-dark: #200a30;
+    --blood: #c0392b;
+    --rot: #7a9e1a;
+    --death: #3a4a5a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Swirling arcane particles effect */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(155,89,182,0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 80%, rgba(192,57,43,0.05) 0%, transparent 40%),
+      radial-gradient(ellipse at 60% 10%, rgba(176,111,212,0.05) 0%, transparent 35%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Arcane sigil circles */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px; height: 900px;
+    border-radius: 50%;
+    border: 1px solid rgba(155,89,182,0.04);
+    box-shadow:
+      0 0 0 80px rgba(155,89,182,0.025),
+      0 0 0 180px rgba(155,89,182,0.015),
+      0 0 0 300px rgba(155,89,182,0.008);
+    pointer-events: none;
+    z-index: 0;
+    animation: sigil-rotate 40s linear infinite;
+  }
+
+  @keyframes sigil-rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 54px;
+    animation: mysticalIn 1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .arc-emblem {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px; height: 72px;
+    margin: 0 auto 22px;
+  }
+
+  .arc-emblem::before {
+    content: '';
+    position: absolute; inset: 0;
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    background: radial-gradient(circle at 50% 40%, rgba(176,111,212,0.35) 0%, rgba(32,10,48,0.2) 65%);
+    border: 1px solid rgba(176,111,212,0.5);
+    box-shadow: 0 0 40px rgba(176,111,212,0.25), inset 0 0 24px rgba(130,60,180,0.15);
+    animation: arcPulse 4s ease-in-out infinite;
+  }
+
+  .arc-emblem-text {
+    font-family: 'Cinzel', serif;
+    font-size: 15px; font-weight: 900;
+    color: var(--arc-bright);
+    letter-spacing: 0.05em;
+    position: relative; z-index: 1;
+  }
+
+  @keyframes arcPulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(176,111,212,0.18), inset 0 0 18px rgba(130,60,180,0.1); }
+    50%       { box-shadow: 0 0 50px rgba(176,111,212,0.35), inset 0 0 32px rgba(130,60,180,0.22); filter: brightness(1.1); }
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5.5vw, 66px);
+    font-weight: 900; letter-spacing: 0.03em; line-height: 1; margin-bottom: 8px;
+  }
+
+  h1 .arc {
+    color: var(--arc-bright);
+    text-shadow: 0 0 35px rgba(212,160,240,0.55), 0 0 70px rgba(155,89,182,0.3);
+  }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2.2vw, 22px);
+    font-weight: 400; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, rgba(176,111,212,0.5)); }
+  .divider::after  { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, rgba(176,111,212,0.5), transparent); }
+  .divider-icon { color: var(--arc-color); font-size: 16px; letter-spacing: 8px; opacity: 0.7; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 540px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── BUILD CARDS ── */
+  .builds-grid {
+    display: flex; flex-direction: column; gap: 2px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .build-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--arc-dark);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .build-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(176,111,212,0.08) 0%, transparent 40%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  /* Mystical shimmer */
+  .build-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(176,111,212,0.25) 40%, rgba(192,57,43,0.2) 60%, transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+
+  .build-card:hover {
+    border-left-color: var(--arc-color);
+    background: rgba(8,4,12,0.98);
+    box-shadow: 0 0 35px rgba(176,111,212,0.07), -4px 0 22px rgba(176,111,212,0.14);
+  }
+  .build-card:hover::before { opacity: 1; }
+  .build-card:hover::after  { opacity: 1; }
+
+  .build-card.top { border-left-color: var(--gold); }
+  .build-card.top::before { background: linear-gradient(90deg, rgba(200,168,75,0.1) 0%, transparent 38%); opacity: 1; }
+  .build-card.top:hover { border-left-color: var(--gold); box-shadow: 0 0 35px rgba(200,168,75,0.08), -4px 0 22px rgba(200,168,75,0.14); }
+
+  /* Rank */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.3);
+  }
+  .rank-num { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; line-height: 1; }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 16px rgba(255,215,0,0.55); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Body */
+  .card-body { padding: 22px 24px; position: relative; z-index: 1; }
+
+  .build-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .build-card.top .build-name { color: var(--gold); }
+
+  .build-archetype {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .arch-bleed   { color: #f472b6; border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.07); }
+  .arch-rot     { color: #a3e635; border-color: rgba(163,230,53,0.4);  background: rgba(163,230,53,0.07); }
+  .arch-dragon  { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+  .arch-poison  { color: #4ade80; border-color: rgba(74,222,128,0.4);  background: rgba(74,222,128,0.07); }
+  .arch-death   { color: #94a3b8; border-color: rgba(148,163,184,0.4); background: rgba(148,163,184,0.07); }
+  .arch-frost   { color: #7dd3fc; border-color: rgba(125,211,252,0.4); background: rgba(125,211,252,0.07); }
+  .arch-hybrid  { color: #fb923c; border-color: rgba(251,146,60,0.4);  background: rgba(251,146,60,0.07); }
+  .arch-multi   { color: var(--arc-bright); border-color: rgba(212,160,240,0.4); background: rgba(212,160,240,0.07); }
+
+  .build-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 14px;
+  }
+
+  .info-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 14px; }
+  .info-block { display: flex; flex-direction: column; gap: 3px; }
+  .info-label { font-family: 'Cinzel', serif; font-size: 8px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .info-val { font-size: 13px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; }
+  .info-val.purple { color: var(--arc-bright); font-family: 'Cinzel', serif; font-weight: 600; }
+
+  .stat-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .stat-pill {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.1em;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+  }
+  .sp-arc  { color: #b06fd4; border-color: rgba(176,111,212,0.45); background: rgba(176,111,212,0.09); }
+  .sp-dex  { color: #34d399; border-color: rgba(52,211,153,0.4);   background: rgba(52,211,153,0.08); }
+  .sp-fai  { color: #d4a44a; border-color: rgba(212,164,74,0.4);   background: rgba(212,164,74,0.08); }
+  .sp-vit  { color: #f87171; border-color: rgba(248,113,113,0.4);  background: rgba(248,113,113,0.08); }
+  .sp-end  { color: #fbbf24; border-color: rgba(251,191,36,0.4);   background: rgba(251,191,36,0.08); }
+  .sp-str  { color: #fb923c; border-color: rgba(251,146,60,0.35);  background: rgba(251,146,60,0.07); }
+  .sp-mind { color: #a78bfa; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.07); }
+  .sp-int  { color: #60a5fa; border-color: rgba(96,165,250,0.35);  background: rgba(96,165,250,0.07); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .item-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(232,212,245,0.5);
+    padding: 2px 8px;
+    border: 1px solid rgba(176,111,212,0.12);
+    background: rgba(176,111,212,0.03); border-radius: 1px;
+  }
+
+  /* Status chip */
+  .status-chip {
+    display: inline-flex; align-items: center;
+    gap: 4px; font-family: 'Cinzel', serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 2px 8px; border: 1px solid; border-radius: 1px;
+    margin-right: 4px; margin-bottom: 2px;
+  }
+  .chip-bleed { color: #f472b6; border-color: rgba(244,114,182,0.35); background: rgba(244,114,182,0.06); }
+  .chip-rot   { color: #a3e635; border-color: rgba(163,230,53,0.35);  background: rgba(163,230,53,0.06); }
+  .chip-poi   { color: #4ade80; border-color: rgba(74,222,128,0.35);  background: rgba(74,222,128,0.06); }
+  .chip-frost { color: #7dd3fc; border-color: rgba(125,211,252,0.35); background: rgba(125,211,252,0.06); }
+  .chip-death { color: #94a3b8; border-color: rgba(148,163,184,0.35); background: rgba(148,163,184,0.06); }
+
+  /* Side */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 22px; gap: 10px;
+    min-width: 100px; position: relative; z-index: 1;
+  }
+
+  .tier-badge { font-family: 'Cinzel', serif; font-size: 30px; font-weight: 900; line-height: 1; }
+  .tier-s  { color: #ffd700; text-shadow: 0 0 22px rgba(255,215,0,0.55); }
+  .tier-sa { color: #d4a010; }
+  .tier-a  { color: var(--arc-bright); text-shadow: 0 0 14px rgba(212,160,240,0.4); }
+  .tier-ab { color: #6a3890; }
+  .tier-b  { color: var(--muted); }
+
+  .tier-label { font-family: 'Cinzel', serif; font-size: 8px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+  /* Status icons row in side panel */
+  .status-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 2px; }
+
+  .diff-wrap { text-align: center; }
+  .diff-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 3px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); }
+  .dot.on { background: var(--arc-color); border-color: var(--arc-color); }
+  .diff-text { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── BOTTOM ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 2px;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--arc-color);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--arc-bright); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(176,111,212,0.35), transparent); }
+
+  .status-table { width: 100%; }
+  .status-table tr { border-bottom: 1px solid rgba(22,13,30,0.9); }
+  .status-table tr:last-child { border-bottom: none; }
+  .status-table td { padding: 8px 0; font-size: 13px; vertical-align: middle; }
+  .status-table .st-name { color: var(--text); font-weight: 400; }
+  .status-table .st-effect { color: var(--arc-bright); font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; text-align: right; white-space: nowrap; }
+  .status-table .st-note  { color: var(--muted); font-size: 11px; font-weight: 300; font-style: italic; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--arc-color); font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.75; }
+
+  @keyframes mysticalIn {
+    from { opacity: 0; transform: translateY(-18px) scale(0.98); filter: brightness(1.8) saturate(0.5); }
+    to   { opacity: 1; transform: translateY(0) scale(1);        filter: brightness(1) saturate(1); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .build-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="arc-emblem"><span class="arc-emblem-text">ARC</span></div>
+    <div class="eyebrow">The Lands Between · Arcane Mastery</div>
+    <h1>
+      <span class="arc">Arcane</span><br>
+      <span class="rest">Builds</span>
+    </h1>
+    <div class="h1-sub">Occultist's Codex · Elden Ring</div>
+    <div class="divider"><span class="divider-icon">◈ ✦ ◈</span></div>
+    <p class="subtitle">The most versatile attribute in the game — bleed, rot, poison, death, frost, dragon communion. Arcane empowers every status effect simultaneously and scales discovery, making every build uniquely potent.</p>
+  </header>
+
+  <!-- BUILDS -->
+  <div class="builds-grid">
+
+    <!-- #1 Rivers of Blood ARC -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Rivers of Blood Pure Arcane</div>
+          <span class="build-archetype arch-bleed">Hemorrhage King</span>
+        </div>
+        <div class="build-desc">At ARC 80 Rivers of Blood's Corpse Piler fires a bleed-drenched flurry that procs hemorrhage in under one second on most enemies. White Mask + Lord of Blood's Exultation activates the moment blood flows — pure ARC is objectively the strongest possible scaling for this weapon.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">DEX 20</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Rivers of Blood ×2</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Corpse Piler</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-dex">DEX 20</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-str">STR 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rivers of Blood ×2</span>
+          <span class="item-tag">Corpse Piler</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">Millicent's Prosthesis</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #2 Mohgwyn's Sacred Spear -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Mohgwyn Sacred Spear Ritualist</div>
+          <span class="build-archetype arch-bleed">Blood Ritual</span>
+        </div>
+        <div class="build-desc">Bloodboon Ritual ash calls down columns of Mohg's accursed blood from the sky — each pillar individually stacks hemorrhage and deals fire damage simultaneously. With ARC 80 the spear's innate bleed absolutely shreds through any boss who dares approach.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">STR 24</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit / Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Mohgwyn's Sacred Spear</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Bloodboon Ritual</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-str">STR 24</span>
+          <span class="stat-pill sp-vit">VIT 58</span>
+          <span class="stat-pill sp-end">END 32</span>
+          <span class="stat-pill sp-mind">MIND 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Mohgwyn's Sacred Spear</span>
+          <span class="item-tag">Bloodboon Ritual</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Seppuku</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #3 Rot + Bleed Double Status -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Rot & Blood Dual Status Hunter</div>
+          <span class="build-archetype arch-multi">Double Status</span>
+        </div>
+        <div class="build-desc">Rivers of Blood in the main hand + Antspur Rapier (Cold) offhand. Each weapon simultaneously builds a different status — hemorrhage from Rivers, Scarlet Rot from Antspur. When both proc back-to-back the combined absorption penalties are catastrophic. ARC supercharges both proc rates.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 70</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">DEX 25</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapons</div><div class="info-val">Rivers of Blood + Antspur Rapier</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 70</span>
+          <span class="stat-pill sp-dex">DEX 25</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 30</span>
+          <span class="stat-pill sp-str">STR 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rivers of Blood</span>
+          <span class="item-tag">Antspur Rapier (Cold)</span>
+          <span class="item-tag">Ekzykes's Decay</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-sa">S−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+          <span class="status-chip chip-rot">Rot</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #4 Dragon Communion ARC -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Dragon Communion Pure ARC</div>
+          <span class="build-archetype arch-dragon">Dragonlord</span>
+        </div>
+        <div class="build-desc">Dragon Communion Seal scales exclusively with ARC at high investment — giving pure ARC builds the most powerful dragon breath incantations in the game. Ekzykes's Decay and Agheel's Flame become devastating, and Greyoll's Roar debuffs all enemies in range by lowering all their stats simultaneously.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">FAI 15</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit / Prophet</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Dragon Communion Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-fai">FAI 15</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 40</span>
+          <span class="stat-pill sp-end">END 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Ekzykes's Decay</span>
+          <span class="item-tag">Agheel's Flame</span>
+          <span class="item-tag">Greyoll's Roar</span>
+          <span class="item-tag">Dragonice</span>
+          <span class="item-tag">Borealis's Mist</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-rot">Rot</span>
+          <span class="status-chip chip-frost">Frost</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #5 Occult Weapon Infusion -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Occult Infusion Berserker</div>
+          <span class="build-archetype arch-hybrid">Occult Melee</span>
+        </div>
+        <div class="build-desc">Occult affinity weapons scale purely with ARC — making almost any weapon in the game devastatingly powerful at high arcane. Occult Giant-Crusher or Scythe can reach AR values competitive with dedicated STR builds while also applying bleed. The most flexible ARC build concept.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">STR 40</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit / Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Occult Giant-Crusher / Scythe</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-str">STR 40</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 40</span>
+          <span class="stat-pill sp-mind">MIND 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Occult Giant-Crusher</span>
+          <span class="item-tag">Occult Scythe</span>
+          <span class="item-tag">Royal Knight's Resolve</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Golden Vow</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #6 Swarm of Flies -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Swarm of Flies Blood Mage</div>
+          <span class="build-archetype arch-bleed">Ranged Bleed</span>
+        </div>
+        <div class="build-desc">Swarm of Flies incantation fires a cloud of bloodflies that builds hemorrhage from mid-range entirely safely — no need to close in at all. At ARC 80 it procs in two casts on almost any boss. Combine with Seppuku self-buff and the White Mask for relentless distance bleeding.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 80</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">FAI 12</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Seal</div><div class="info-val">Dragon Communion Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 80</span>
+          <span class="stat-pill sp-fai">FAI 12</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 38</span>
+          <span class="stat-pill sp-end">END 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Swarm of Flies</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+          <span class="item-tag">Bloody Helice</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #7 Poison Build -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Poison Venomous Arcane</div>
+          <span class="build-archetype arch-poison">Toxic Stack</span>
+        </div>
+        <div class="build-desc">Viper Bite + Poison Mist + Venomous Fang — at ARC 80 poison procs and reapplies almost instantly, while Deadly Poison deals significantly more DPS over time than regular Poison. A unique patient playstyle that stacks absurd passive damage ticks, especially effective against slower bosses.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 75</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">DEX 25</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Venomous Fang / Serpent Bow</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 75</span>
+          <span class="stat-pill sp-dex">DEX 25</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 28</span>
+          <span class="stat-pill sp-fai">FAI 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Venomous Fang</span>
+          <span class="item-tag">Poison Mist</span>
+          <span class="item-tag">Viper Bite</span>
+          <span class="item-tag">Serpentbone Blade</span>
+          <span class="item-tag">Deadly Poison Arrows</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-poi">Poison</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #8 Death Sorcery ARC/INT -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Death Ritual ARC Hexblade</div>
+          <span class="build-archetype arch-death">Death Element</span>
+        </div>
+        <div class="build-desc">Prince of Death's Staff scales with both INT and ARC — granting access to Fia's Death sorceries that deal Death-element damage immune to most boss resistances. Tibia's Summons and Explosive Ghostflame hit for absurd values when both stats are invested in tandem at 50/50 split.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 50</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">INT 50</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prisoner / Bandit</div></div>
+          <div class="info-block"><div class="info-label">Seal / Staff</div><div class="info-val">Prince of Death's Staff</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 50</span>
+          <span class="stat-pill sp-int">INT 50</span>
+          <span class="stat-pill sp-vit">VIT 52</span>
+          <span class="stat-pill sp-mind">MIND 35</span>
+          <span class="stat-pill sp-end">END 22</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Explosive Ghostflame</span>
+          <span class="item-tag">Tibia's Summons</span>
+          <span class="item-tag">Death Lightning</span>
+          <span class="item-tag">Ghostflame Ignition</span>
+          <span class="item-tag">Night Comet</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">A−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-death">Death</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #9 Bloody Helice -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Bloody Helice Evasion Duelist</div>
+          <span class="build-archetype arch-bleed">Dodge Counter</span>
+        </div>
+        <div class="build-desc">Dynast's Finesse ash of war back-steps through attacks then counters with a massive thrust that applies bleed on hit — ARC supercharges the hemorrhage buildup on every connection. The most stylish PvP-viable ARC build, rewarding reads and aggressive evasion.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 60</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">DEX 30</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit / Samurai</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Bloody Helice</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 60</span>
+          <span class="stat-pill sp-dex">DEX 30</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 32</span>
+          <span class="stat-pill sp-str">STR 16</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Bloody Helice</span>
+          <span class="item-tag">Dynast's Finesse</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">White Mask</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #10 Triple Status -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Triple Status Chaos Build</div>
+          <span class="build-archetype arch-multi">Bleed+Rot+Frost</span>
+        </div>
+        <div class="build-desc">The most chaotic ARC build — three simultaneous status effects. Rivers of Blood builds bleed, Ekzykes's Decay breathes scarlet rot, Cold Antspur Rapier adds frostbite. At ARC 60+ all three proc rates are terrifying. When all three activate in sequence the combined absorption debuffs reduce enemy defence to near-zero.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val purple">ARC 65</div></div>
+          <div class="info-block"><div class="info-label">Secondary</div><div class="info-val purple">FAI 15</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Bandit</div></div>
+          <div class="info-block"><div class="info-label">Weapons</div><div class="info-val">RoB + Cold Antspur + DC Seal</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-arc">ARC 65</span>
+          <span class="stat-pill sp-dex">DEX 22</span>
+          <span class="stat-pill sp-fai">FAI 15</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 28</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rivers of Blood</span>
+          <span class="item-tag">Cold Antspur Rapier</span>
+          <span class="item-tag">Ekzykes's Decay</span>
+          <span class="item-tag">Swarm of Flies</span>
+          <span class="item-tag">White Mask</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-b">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="status-row">
+          <span class="status-chip chip-bleed">Bleed</span>
+          <span class="status-chip chip-rot">Rot</span>
+          <span class="status-chip chip-frost">Frost</span>
+        </div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Arcane Status Effects Ranked</div>
+      <table class="status-table">
+        <tr><td class="st-name">🩸 Hemorrhage (Bleed)</td><td class="st-effect">% Max HP burst</td></tr>
+        <tr><td class="st-note" colspan="2">Best overall. % HP damage procs instantly, scales with ARC. Works on nearly every boss.</td></tr>
+        <tr><td class="st-name">🌿 Scarlet Rot</td><td class="st-effect">% HP over time</td></tr>
+        <tr><td class="st-note" colspan="2">Persistent % HP drain. Best on Dragons and large slow bosses. Ekzykes's Decay covers huge AOE.</td></tr>
+        <tr><td class="st-name">❄ Frostbite</td><td class="st-effect">−20% absorption</td></tr>
+        <tr><td class="st-note" colspan="2">Stacking buff. Doesn't deal direct damage but amplifies all follow-up damage by 20% on proc.</td></tr>
+        <tr><td class="st-name">☠ Poison / Deadly Poison</td><td class="st-effect">HP/s drain</td></tr>
+        <tr><td class="st-note" colspan="2">Slow burn. Deadly Poison does 3× the DPS of regular Poison. Best on patient players.</td></tr>
+        <tr><td class="st-name">💀 Death Blight</td><td class="st-effect">Instant kill</td></tr>
+        <tr><td class="st-note" colspan="2">Extremely rare, limited bosses. Tibia's Summons can apply it — mostly a niche curiosity.</td></tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">Essential Arcane Talismans</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">◈</span><span><strong style="color:var(--text)">Lord of Blood's Exultation</strong> — +20% attack for 20s when blood loss occurs nearby. Near-permanent uptime on any bleed build. The #1 ARC talisman.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◈</span><span><strong style="color:var(--text)">Millicent's Prosthesis</strong> — +5 DEX plus stacking attack boost on consecutive hits. Stacks multiplicatively with RWSI for end-combo burst.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◈</span><span><strong style="color:var(--text)">Rotten Winged Sword Insignia</strong> — Up to +18% attack on successive hits. Mandatory on any fast-hitting ARC weapon build.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◈</span><span><strong style="color:var(--text)">White Mask</strong> (Helm) — +10% attack for 20s on blood loss. The single most impactful piece of gear for any ARC bleed build — not optional.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◈</span><span><strong style="color:var(--text)">Shard of Alexander</strong> — +15% Ash of War damage. Mandatory for Corpse Piler and Bloodboon Ritual builds to maximise each activation.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
