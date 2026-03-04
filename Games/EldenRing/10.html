@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Dex/Arcane Builds — Tier Rankings</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-deepest: #060409;
+    --bg-dark: #0c0810;
+    --bg-mid: #110d18;
+    --bg-card: #150f1e;
+    --bg-card-hover: #1c1428;
+    --gold: #c9952a;
+    --gold-light: #e8b84b;
+    --gold-glow: #f0c96088;
+    --arcane: #9b4de0;
+    --arcane-light: #bf7cf5;
+    --arcane-glow: #9b4de066;
+    --blood: #c0392b;
+    --blood-light: #e05a4a;
+    --frost: #4db8d4;
+    --frost-light: #7dd6ea;
+    --poison: #6abf4b;
+    --text-primary: #e8dfc8;
+    --text-muted: #8a7a6a;
+    --text-dim: #4a3f35;
+    --border-dim: #2a1f30;
+    --border-gold: #c9952a55;
+    --gold-bg-tint: #c9952a0d;
+    --rune-color: #9b4de022;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg-deepest);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ─── LAYERED BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, #3a1a5a44 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, #1a0a2a33 0%, transparent 50%),
+      radial-gradient(ellipse 40% 60% at 10% 60%, #0d0a1a44 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none; z-index: 1; opacity: 0.6;
+  }
+
+  /* Geometric rune pattern */
+  .rune-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  .rune-bg svg { width: 100%; height: 100%; opacity: 0.025; }
+
+  .wrapper { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+  @keyframes glowPulse { 0%,100%{text-shadow:0 0 20px var(--arcane-glow),0 0 40px #9b4de033;} 50%{text-shadow:0 0 30px var(--arcane-glow),0 0 60px #9b4de044,0 0 80px #9b4de022;} }
+  @keyframes goldShimmer { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+  @keyframes borderFlicker { 0%,100%{opacity:0.8;} 45%,55%{opacity:0.4;} 50%{opacity:0.2;} }
+  @keyframes riseUp { from{opacity:0;transform:translateY(60px) scale(0.97);} to{opacity:1;transform:translateY(0) scale(1);} }
+  @keyframes slideRight { from{opacity:0;transform:translateX(-40px);} to{opacity:1;transform:translateX(0);} }
+  @keyframes emblemSpin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  @keyframes emblemReveal { from{opacity:0;transform:scale(0.5) rotate(-20deg);} to{opacity:1;transform:scale(1) rotate(0deg);} }
+
+  /* ─── HEADER ─── */
+  .header { text-align: center; padding: 70px 20px 50px; animation: fadeDown 1.2s cubic-bezier(.16,1,.3,1) both; }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.35em;
+    color: var(--arcane-light); text-transform: uppercase;
+    border: 1px solid var(--arcane-glow); display: inline-block;
+    padding: 5px 20px; margin-bottom: 24px;
+    background: #9b4de011; border-radius: 2px;
+    animation: fadeIn 1.5s 0.3s both;
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif; font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1.1; letter-spacing: 0.02em;
+    color: var(--text-primary);
+    text-shadow: 0 0 60px var(--arcane-glow), 0 2px 4px rgba(0,0,0,0.8);
+    animation: glowPulse 4s 1s ease-in-out infinite, fadeDown 1.2s 0.2s both;
+    margin-bottom: 16px;
+  }
+
+  .main-title span { color: var(--arcane-light); }
+
+  .subtitle {
+    font-family: 'Crimson Pro', serif; font-size: 1.15rem; font-style: italic;
+    color: var(--text-muted); letter-spacing: 0.05em; max-width: 550px; margin: 0 auto;
+    animation: fadeIn 1s 0.8s both;
+  }
+
+  /* ─── DECORATIVE EMBLEM ─── */
+  .emblem-wrap {
+    display: flex; align-items: center; justify-content: center;
+    gap: 30px; margin: 36px 0 54px;
+    animation: fadeIn 1.2s 0.6s both;
+  }
+  .emblem-line { flex: 1; height: 1px; max-width: 200px; background: linear-gradient(to right, transparent, var(--arcane-glow)); }
+  .emblem-line.right { background: linear-gradient(to left, transparent, var(--arcane-glow)); }
+
+  .emblem {
+    position: relative; width: 110px; height: 110px;
+    animation: emblemReveal 1.4s 0.4s cubic-bezier(.16,1,.3,1) both;
+  }
+  .emblem-outer {
+    position: absolute; inset: 0; border: 1px solid var(--arcane-glow);
+    border-radius: 50%; animation: emblemSpin 30s linear infinite;
+  }
+  .emblem-outer::before, .emblem-outer::after {
+    content: ''; position: absolute;
+    top: 50%; left: -6px; right: -6px; height: 1px;
+    background: var(--arcane-glow); transform: translateY(-50%);
+  }
+  .emblem-outer::after { transform: translateY(-50%) rotate(60deg); }
+  .emblem-inner {
+    position: absolute; inset: 15px; border: 1px solid #c9952a55;
+    border-radius: 50%; animation: emblemSpin 20s linear infinite reverse;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .emblem-num {
+    font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; font-weight: 900;
+    color: var(--gold-light); line-height: 1;
+    text-shadow: 0 0 20px var(--gold-glow), 0 0 40px #c9952a44;
+    animation: goldShimmer 3s ease-in-out infinite;
+    position: relative; z-index: 2;
+  }
+  .emblem-inner::before {
+    content: '✦'; position: absolute; font-size: 0.5rem; color: var(--arcane-light);
+    top: 4px; left: 50%; transform: translateX(-50%);
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before, .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border-dim);
+  }
+
+  /* ─── RANKING TABLE ─── */
+  .rankings { display: flex; flex-direction: column; gap: 0; margin-bottom: 50px; }
+
+  .rank-row {
+    position: relative; display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: 0 16px; align-items: start;
+    padding: 18px 20px 18px 24px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-dim);
+    border-left: 3px solid transparent;
+    cursor: pointer; transition: all 0.3s cubic-bezier(.16,1,.3,1);
+    overflow: hidden;
+  }
+  .rank-row:last-child { border-bottom: 1px solid var(--border-dim); }
+
+  /* Stagger animations */
+  .rank-row:nth-child(1) { animation: riseUp 0.7s 0.2s both; }
+  .rank-row:nth-child(2) { animation: riseUp 0.7s 0.35s both; }
+  .rank-row:nth-child(3) { animation: riseUp 0.7s 0.5s both; }
+  .rank-row:nth-child(4) { animation: riseUp 0.7s 0.65s both; }
+  .rank-row:nth-child(5) { animation: riseUp 0.7s 0.8s both; }
+  .rank-row:nth-child(6) { animation: riseUp 0.7s 0.95s both; }
+  .rank-row:nth-child(7) { animation: riseUp 0.7s 1.1s both; }
+  .rank-row:nth-child(8) { animation: riseUp 0.7s 1.25s both; }
+
+  /* Top 3 gold treatment */
+  .rank-row.top-gold {
+    border-left-color: var(--gold);
+    background: linear-gradient(to right, var(--gold-bg-tint), var(--bg-card));
+  }
+  .rank-row.top-gold::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(to bottom, var(--gold-light), var(--gold));
+    box-shadow: 0 0 12px var(--gold-glow), 0 0 25px #c9952a33;
+  }
+
+  .rank-row:not(.top-gold):hover {
+    border-left-color: var(--arcane);
+    background: var(--bg-card-hover);
+  }
+  .rank-row.top-gold:hover { background: linear-gradient(to right, #c9952a18, var(--bg-card-hover)); }
+
+  /* Glow sweep on hover */
+  .rank-row::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 20% 50%, var(--arcane-glow) 0%, transparent 70%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .rank-row:hover::after { opacity: 1; }
+
+  /* ─── RANK NUMBER ─── */
+  .rank-num {
+    font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; font-weight: 700;
+    line-height: 1; text-align: center; padding-top: 3px;
+    position: relative; z-index: 1;
+  }
+  .rank-num.gold-1 { color: var(--gold-light); text-shadow: 0 0 15px var(--gold-glow); }
+  .rank-num.gold-2 { color: #c0c0c0; text-shadow: 0 0 10px #c0c0c055; }
+  .rank-num.gold-3 { color: #cd7f32; text-shadow: 0 0 10px #cd7f3244; }
+  .rank-num.other { color: var(--text-dim); font-size: 1rem; font-family: 'Cinzel', serif; }
+
+  /* ─── BUILD INFO ─── */
+  .build-info { position: relative; z-index: 1; }
+
+  .build-name {
+    font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--text-primary); margin-bottom: 4px; letter-spacing: 0.03em;
+  }
+  .top-gold .build-name { color: var(--gold-light); }
+
+  .build-desc {
+    font-family: 'Crimson Pro', serif; font-size: 0.88rem; font-style: italic;
+    color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .tag {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+    padding: 3px 9px; border-radius: 2px; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .tag.arcane  { color: var(--arcane-light);  border: 1px solid var(--arcane); background: #9b4de015; }
+  .tag.dex     { color: var(--frost-light);   border: 1px solid var(--frost);  background: #4db8d415; }
+  .tag.blood   { color: var(--blood-light);   border: 1px solid var(--blood);  background: #c0392b15; }
+  .tag.poison  { color: var(--poison);        border: 1px solid var(--poison); background: #6abf4b15; }
+  .tag.faith   { color: var(--gold-light);    border: 1px solid var(--gold);   background: #c9952a15; }
+  .tag.str     { color: #e8a87a;              border: 1px solid #c07040;       background: #c0704015; }
+
+  /* ─── META COLUMN ─── */
+  .build-meta { position: relative; z-index: 1; text-align: right; min-width: 100px; }
+
+  .diff-label {
+    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.15em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px;
+  }
+  .difficulty-dots { display: flex; gap: 4px; justify-content: flex-end; margin-bottom: 10px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--arcane); }
+  .dot.filled { background: var(--arcane); box-shadow: 0 0 5px var(--arcane-glow); }
+
+  .stat-line {
+    font-family: 'Crimson Pro', serif; font-size: 0.78rem;
+    color: var(--text-muted); text-align: right; margin-bottom: 2px;
+  }
+  .stat-line strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ─── RATING BADGE ─── */
+  .rating-wrap { position: relative; z-index: 1; display: flex; align-items: flex-start; }
+  .rating {
+    font-family: 'Cinzel Decorative', serif; font-size: 1.6rem; font-weight: 700;
+    min-width: 52px; text-align: center; line-height: 1;
+    padding: 8px 10px; border: 1px solid; border-radius: 3px;
+  }
+  .rating.S-plus { color: var(--gold-light); border-color: var(--gold); background: var(--gold-bg-tint); text-shadow: 0 0 15px var(--gold-glow); box-shadow: 0 0 12px #c9952a22; }
+  .rating.S      { color: var(--arcane-light); border-color: var(--arcane); background: #9b4de011; text-shadow: 0 0 12px var(--arcane-glow); }
+  .rating.A-plus { color: #e8a87a; border-color: #c07040; background: #c0704011; }
+  .rating.A      { color: #d4c890; border-color: #a0986a; background: #a0986a11; }
+  .rating.B-plus { color: var(--frost-light); border-color: var(--frost); background: #4db8d411; }
+
+  /* ─── HOVER DETAIL PANEL ─── */
+  .detail-panel {
+    grid-column: 1 / -1; overflow: hidden; max-height: 0;
+    transition: max-height 0.4s cubic-bezier(.16,1,.3,1), opacity 0.3s;
+    opacity: 0;
+  }
+  .rank-row.expanded .detail-panel { max-height: 200px; opacity: 1; }
+
+  .detail-inner {
+    border-top: 1px solid var(--border-dim); margin-top: 14px; padding-top: 14px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+  }
+
+  .detail-col-title {
+    font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.2em;
+    color: var(--arcane-light); text-transform: uppercase; margin-bottom: 5px;
+  }
+  .detail-col p {
+    font-family: 'Crimson Pro', serif; font-size: 0.85rem; color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .detail-col strong { color: var(--text-primary); }
+
+  /* ─── BOTTOM PANELS ─── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px;
+  }
+  @media(max-width:700px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--bg-card); border: 1px solid var(--border-dim);
+    border-top: 2px solid var(--arcane); padding: 24px;
+    animation: fadeUp 0.8s 1.4s both;
+  }
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.2em;
+    color: var(--arcane-light); text-transform: uppercase; margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-dim);
+  }
+
+  /* Weapons table */
+  .weapons-table { width: 100%; border-collapse: collapse; }
+  .weapons-table th {
+    font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase; text-align: left;
+    padding: 0 0 8px; border-bottom: 1px solid var(--border-dim);
+  }
+  .weapons-table td {
+    font-family: 'Crimson Pro', serif; font-size: 0.88rem; color: var(--text-muted);
+    padding: 7px 0; border-bottom: 1px solid #1a1428; vertical-align: top;
+  }
+  .weapons-table td:first-child { color: var(--text-primary); font-weight: 600; width: 40%; }
+  .weapons-table tr:hover td { color: var(--text-primary); }
+  .wtype { font-size: 0.75rem; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+  .wtype.arc { color: var(--arcane); }
+  .wtype.bleed { color: var(--blood-light); }
+  .wtype.pois { color: var(--poison); }
+
+  /* Tips list */
+  .tips-list { list-style: none; }
+  .tips-list li {
+    font-family: 'Crimson Pro', serif; font-size: 0.9rem; color: var(--text-muted);
+    padding: 8px 0; border-bottom: 1px solid #1a1428; line-height: 1.5;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .tips-list li::before {
+    content: '✦'; color: var(--arcane-light); font-size: 0.6rem; margin-top: 4px; flex-shrink: 0;
+  }
+  .tips-list li strong { color: var(--text-primary); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center; padding: 30px 0 0;
+    border-top: 1px solid var(--border-dim);
+    animation: fadeIn 1s 1.8s both;
+  }
+  .footer-emblem {
+    font-family: 'Uncial Antiqua', serif; font-size: 0.65rem; letter-spacing: 0.2em;
+    color: var(--text-dim); line-height: 2;
+  }
+  .footer-emblem span { color: var(--arcane); }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 700px) {
+    .rank-row { grid-template-columns: 40px 1fr auto; gap: 10px; padding: 14px; }
+    .build-meta { display: none; }
+    .detail-inner { grid-template-columns: 1fr 1fr; }
+    .detail-inner .detail-col:last-child { grid-column: 1 / -1; }
+  }
+  @media(max-width: 500px) {
+    .rank-row { grid-template-columns: 36px 1fr auto; }
+    .rating { font-size: 1.2rem; min-width: 44px; padding: 6px 8px; }
+  }
+
+  /* Click hint */
+  .click-hint {
+    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.2em;
+    color: var(--text-dim); text-align: center; text-transform: uppercase;
+    margin-bottom: 10px; animation: fadeIn 1s 1.6s both;
+  }
+</style>
+</head>
+<body>
+
+<!-- Rune pattern background -->
+<div class="rune-bg">
+  <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="hexGrid" x="0" y="0" width="80" height="92.4" patternUnits="userSpaceOnUse">
+        <polygon points="40,0 80,23.1 80,69.3 40,92.4 0,69.3 0,23.1" fill="none" stroke="#9b4de0" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hexGrid)"/>
+    <!-- Central sigil -->
+    <g transform="translate(500,400)" stroke="#9b4de0" stroke-width="0.8" fill="none">
+      <circle r="280"/><circle r="200"/><circle r="120"/>
+      <line x1="-280" y1="0" x2="280" y2="0"/>
+      <line x1="0" y1="-280" x2="0" y2="280"/>
+      <line x1="-198" y1="-70" x2="198" y2="70"/>
+      <line x1="-198" y1="70" x2="198" y2="-70"/>
+      <polygon points="0,-200 173,-100 173,100 0,200 -173,100 -173,-100" opacity="0.5"/>
+    </g>
+  </svg>
+</div>
+
+<div class="wrapper">
+
+  <!-- ─── HEADER ─── -->
+  <header class="header">
+    <div class="eyebrow">Tarnished's Compendium · Season IV</div>
+    <h1 class="main-title">Best <span>Dex / Arcane</span><br>Build Sets</h1>
+    <p class="subtitle">The forbidden art of scaling blades with eldritch power — ranked by endgame dominance & grace</p>
+  </header>
+
+  <!-- ─── EMBLEM ─── -->
+  <div class="emblem-wrap">
+    <div class="emblem-line"></div>
+    <div class="emblem">
+      <div class="emblem-outer"></div>
+      <div class="emblem-inner">
+        <div class="emblem-num">8</div>
+      </div>
+    </div>
+    <div class="emblem-line right"></div>
+  </div>
+
+  <!-- ─── RANKING TABLE ─── -->
+  <div class="section-label">Tier Rankings</div>
+  <p class="click-hint">↓ Tap any build to reveal details ↓</p>
+
+  <div class="rankings">
+
+    <!-- RANK 1 -->
+    <div class="rank-row top-gold" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num gold-1">I</div>
+      <div class="build-info">
+        <div class="build-name">Rivers of Blood Hemorrhage Lord</div>
+        <div class="build-desc">The undisputed sovereign of bleed — Rivers of Blood's Corpse Piler art shreds anything with a pulse at lightning speed.</div>
+        <div class="tags">
+          <span class="tag blood">Bleed</span>
+          <span class="tag arcane">Arcane 60</span>
+          <span class="tag dex">Dex 18</span>
+          <span class="tag blood">Hemorrhage</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Vig <strong>60</strong> · End <strong>30</strong> · Dex <strong>18</strong> · Arc <strong>60</strong>. Soft cap at Arc 60 for bleed build-up. Keep Dex at minimum requirement.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Lord of Blood's Exultation talisman triggers +20% atk when blood loss occurs nearby — near-permanent uptime with double Rivers.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Enemies immune to bleed (skeletons, constructs) hard-counter this build. Carry a backup cold weapon.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Bleed: <strong>89</strong></div>
+        <div class="stat-line">AR: <strong>~850</strong></div>
+        <div class="stat-line">DLC: <strong>✓ Yes</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating S-plus">S+</div></div>
+    </div>
+
+    <!-- RANK 2 -->
+    <div class="rank-row top-gold" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num gold-2">II</div>
+      <div class="build-info">
+        <div class="build-name">Mohgwyn's Dynast — Spear of Night</div>
+        <div class="build-desc">Mohgwyn's Sacred Spear channels the Lord of Blood's consecration — Bloodboon Ritual annihilates entire arenas.</div>
+        <div class="tags">
+          <span class="tag blood">Bleed</span>
+          <span class="tag arcane">Arcane 55</span>
+          <span class="tag faith">Faith 24</span>
+          <span class="tag blood">AoE</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Vig <strong>55</strong> · Str <strong>24</strong> · Dex <strong>14</strong> · Fth <strong>24</strong> · Arc <strong>55</strong>. Spear scales primarily with Arcane.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Bloodboon Ritual covers huge AoE — stack with White Mask helmet for the bleed proc bonus and Rotten Winged Sword Insignia.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Slower than RoB. The Ritual requires good spacing and leaves you exposed. Better in PvE than PvP meta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Bleed: <strong>84</strong></div>
+        <div class="stat-line">AR: <strong>~760</strong></div>
+        <div class="stat-line">DLC: <strong>✓ Yes</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating S-plus">S+</div></div>
+    </div>
+
+    <!-- RANK 3 -->
+    <div class="rank-row top-gold" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num gold-3">III</div>
+      <div class="build-info">
+        <div class="build-name">Occult Nagakiba — The Serpent Blade</div>
+        <div class="build-desc">Occult infusion on the longest katana in the game. Exceptional reach, high bleed, and stunning Piercing Fang art.</div>
+        <div class="tags">
+          <span class="tag arcane">Occult</span>
+          <span class="tag dex">Dex 22</span>
+          <span class="tag blood">Bleed</span>
+          <span class="tag arcane">Arcane 50</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Vig <strong>50</strong> · End <strong>25</strong> · Dex <strong>22</strong> · Arc <strong>55+</strong>. Occult scales C/C with Dex/Arc at +25.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Pair with Uchigatana offhand + double Nagakiba for dual-wield. Seppuku ash on both for bleed build stacking.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Requires higher Dex investment than RoB. Less explosive damage burst, trades for consistency and range.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Bleed: <strong>74</strong></div>
+        <div class="stat-line">AR: <strong>~700</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating S">S</div></div>
+    </div>
+
+    <!-- RANK 4 -->
+    <div class="rank-row" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num other">4</div>
+      <div class="build-info">
+        <div class="build-name">Venomous Dancer — Poison Perfumer</div>
+        <div class="build-desc">Rot/Poison stacking via Kindred of Rot's Exultation + Mushroom Crown. Chip damage powerhouse over long encounters.</div>
+        <div class="tags">
+          <span class="tag poison">Poison</span>
+          <span class="tag poison">Scarlet Rot</span>
+          <span class="tag arcane">Arcane 45</span>
+          <span class="tag dex">Dex 20</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Arc <strong>45–60</strong> · Dex <strong>20</strong>. Prioritize survivability. Poison buildup scales well from Arcane.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Mushroom Crown + Kindred of Rot's Exultation = +25% atk. Antspur Rapier applies Scarlet Rot — use alongside Serpentbone Blade.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Many late-game bosses are rot/poison immune. Slower TTK than bleed. Better for multi-enemy PvE content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Poison: <strong>79</strong></div>
+        <div class="stat-line">AR: <strong>~580</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating A-plus">A+</div></div>
+    </div>
+
+    <!-- RANK 5 -->
+    <div class="rank-row" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num other">5</div>
+      <div class="build-info">
+        <div class="build-name">Cold Moonveil — The Arcane Weaver</div>
+        <div class="build-desc">Cold Moonveil fuses Frostbite with Transient Moonlight's absurd range. A hybrid that shines in every content type.</div>
+        <div class="tags">
+          <span class="tag dex">Dex 40</span>
+          <span class="tag arcane">Int 40</span>
+          <span class="tag frost">Frostbite</span>
+          <span class="tag dex">Katana</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Dex <strong>40</strong> · Int <strong>40</strong> · Vig <strong>50</strong>. Softcap for both scaling stats gives enormous damage on Moonveil's magic attacks.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Transient Moonlight (L2) is a guarded projectile. Frostbite proc followed by R1 combos shreds health bars. Magic Scorpion Charm talisman.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Not a pure Arcane build — splits Int/Dex. NPC invaders and magic-resist enemies reduce effectiveness significantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Frost: <strong>65</strong></div>
+        <div class="stat-line">AR: <strong>~690</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating A-plus">A+</div></div>
+    </div>
+
+    <!-- RANK 6 -->
+    <div class="rank-row" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num other">6</div>
+      <div class="build-info">
+        <div class="build-name">Eleonora's Twin Blade — Crimson Dancer</div>
+        <div class="build-desc">Eleonora's Poleblade's Bloodblade Dance art is a spinning storm of bleed procs. Offhand Rivers for double coverage.</div>
+        <div class="tags">
+          <span class="tag blood">Bleed</span>
+          <span class="tag arcane">Arcane 50</span>
+          <span class="tag dex">Dex 16</span>
+          <span class="tag blood">AoE Spin</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Arc <strong>50–60</strong> · Dex <strong>16</strong> · Str <strong>12</strong>. Minimal Str/Dex investment frees levels for Vigor and Arcane.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Bloodblade Dance hits multiple times per activation — each hit builds bleed separately. Lord of Blood's Exultation keeps the damage buff rolling.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Dance art leaves you in place — dangerous in PvP. Smaller Arcane gain than dedicated bleed builds. Mediocre damage outside the art.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Bleed: <strong>72</strong></div>
+        <div class="stat-line">AR: <strong>~650</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating A">A</div></div>
+    </div>
+
+    <!-- RANK 7 -->
+    <div class="rank-row" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num other">7</div>
+      <div class="build-info">
+        <div class="build-name">Sacred Relic Sword — Waves of Gold</div>
+        <div class="build-desc">Post-Elden Beast reward. Wave of Gold covers absurd AOE range — faith/dex hybrid that farms mobs at godlike speed.</div>
+        <div class="tags">
+          <span class="tag faith">Faith 48</span>
+          <span class="tag dex">Dex 14</span>
+          <span class="tag faith">Holy</span>
+          <span class="tag faith">AoE Farm</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Fth <strong>48+</strong> · Dex <strong>14</strong> · Str <strong>22</strong>. Sacred infusion scaling. Primarily a PvE rune farm tool with the Wave of Gold art.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Wave of Gold clears Palace Approach Ledge Road — best rune farm in the game. Erdtree Favor+2 and Golden Scarab for efficiency.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Holy damage is almost universally resisted by endgame undead content. Nearly useless in PvP and DLC bosses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Holy: <strong>61</strong></div>
+        <div class="stat-line">AR: <strong>~720</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating A">A</div></div>
+    </div>
+
+    <!-- RANK 8 -->
+    <div class="rank-row" onclick="this.classList.toggle('expanded')">
+      <div class="rank-num other">8</div>
+      <div class="build-info">
+        <div class="build-name">Cold Reduvia — Phantom Dagger</div>
+        <div class="build-desc">Reduvia's Blood Blade projectiles build bleed from range. Cold infusion adds Frostbite for devastating status stacking.</div>
+        <div class="tags">
+          <span class="tag blood">Bleed</span>
+          <span class="tag frost">Frost</span>
+          <span class="tag arcane">Arcane 40</span>
+          <span class="tag dex">Dex 13</span>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Stat Spread</div>
+              <p>Arc <strong>40</strong> · Dex <strong>13</strong> · Vig <strong>50</strong>. Entry-level Arcane/Dex gateway build. Great for new players exploring bleed.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Key Synergy</div>
+              <p>Ranged bleed via Blood Blade projectiles is safe and effective. Pair with Uchigatana on back for melee bleed follow-up after Frost proc.</p>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Weakness</div>
+              <p>Lower ceiling than katana builds at high levels. Dagger moveset less versatile. FP costs add up quickly without management.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="build-meta">
+        <div class="diff-label">Difficulty</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+        </div>
+        <div class="stat-line">Bleed: <strong>60</strong></div>
+        <div class="stat-line">AR: <strong>~490</strong></div>
+        <div class="stat-line">DLC: <strong>✗ No</strong></div>
+      </div>
+      <div class="rating-wrap"><div class="rating B-plus">B+</div></div>
+    </div>
+
+  </div><!-- /rankings -->
+
+  <!-- ─── BOTTOM PANELS ─── -->
+  <div class="bottom-grid">
+
+    <div class="panel">
+      <div class="panel-title">⚔ Arcane Weapons Codex</div>
+      <table class="weapons-table">
+        <thead>
+          <tr>
+            <th>Weapon</th>
+            <th>Type</th>
+            <th>Best Infusion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rivers of Blood</td>
+            <td><span class="wtype bleed">Bleed / Arc</span></td>
+            <td>Native (Cannot infuse)</td>
+          </tr>
+          <tr>
+            <td>Mohgwyn's Sacred Spear</td>
+            <td><span class="wtype bleed">Blood / Fth/Arc</span></td>
+            <td>Native</td>
+          </tr>
+          <tr>
+            <td>Nagakiba</td>
+            <td><span class="wtype arc">Occult</span></td>
+            <td>Occult +25</td>
+          </tr>
+          <tr>
+            <td>Uchigatana</td>
+            <td><span class="wtype bleed">Bleed / Dex</span></td>
+            <td>Blood or Occult</td>
+          </tr>
+          <tr>
+            <td>Antspur Rapier</td>
+            <td><span class="wtype pois">Rot / Pois</span></td>
+            <td>Poison +25</td>
+          </tr>
+          <tr>
+            <td>Eleonora's Poleblade</td>
+            <td><span class="wtype bleed">Bleed / Arc/Dex</span></td>
+            <td>Native</td>
+          </tr>
+          <tr>
+            <td>Reduvia</td>
+            <td><span class="wtype bleed">Bleed / Dex/Arc</span></td>
+            <td>Native</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">✦ Arcane Builder's Grimoire</div>
+      <ul class="tips-list">
+        <li><strong>Arcane softcap is 60.</strong> Beyond this, returns diminish sharply — invest excess into Vigor or Endurance.</li>
+        <li><strong>Lord of Blood's Exultation</strong> (Talisman) grants +20% atk on nearby bleed proc — essential for any hemorrhage build.</li>
+        <li><strong>White Mask helmet</strong> also triggers a +10% atk bonus on bleed — stack it with the talisman for near-constant buff.</li>
+        <li><strong>Seppuku Ash of War</strong> on an offhand weapon applies a bleed buff and increases the weapon's innate bleed buildup for 60 seconds.</li>
+        <li><strong>Never use pure Arcane scaling weapons</strong> with standard Smithing Stones — they require Somber Smithing Stones and cannot be infused.</li>
+        <li><strong>Kindred of Rot's Exultation</strong> activates on poison/rot proc — swap for this when running the Venomous Dancer build.</li>
+        <li><strong>The Arcane stat</strong> also raises Item Discovery — a hidden benefit making farming easier while you optimize your build.</li>
+      </ul>
+    </div>
+
+  </div><!-- /bottom-grid -->
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="footer-emblem">
+      RANKING CRITERIA: <span>Endgame PvE dominance</span> · Status build-up efficiency · Ease of execution · Boss viability · DLC compatibility
+      <br>
+      These rankings reflect patch 1.12 · Shadow of the Erdtree DLC included · PvP performance weighted at 20%
+    </div>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+  // Prevent double-toggle on expand/collapse with smooth feel
+  document.querySelectorAll('.rank-row').forEach(row => {
+    row.addEventListener('click', function(e) {
+      const isExpanded = this.classList.contains('expanded');
+      // Collapse all others
+      document.querySelectorAll('.rank-row.expanded').forEach(r => {
+        if (r !== this) r.classList.remove('expanded');
+      });
+    });
+  });
+
+  // Subtle parallax on rune bg
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    document.querySelector('.rune-bg svg').style.transform = `translate(${x}px, ${y}px) scale(1.04)`;
+  });
+</script>
+</body>
+</html>
