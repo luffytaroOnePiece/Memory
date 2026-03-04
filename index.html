@@ -1,285 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Bank</title>
-    <meta name="description" content="A repository of knowledge, thoughts, and reference material.">
-    
+    <title>Memory Bank Search</title>
+    <meta name="description" content="A modern, dynamic repository of knowledge and reference material.">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
-            --bg-base: #0f172a;
-            --bg-glass: rgba(30, 41, 59, 0.7);
-            --bg-hover: rgba(51, 65, 85, 0.8);
+            --bg-base: #050505;
+            --bg-surface: rgba(20, 20, 22, 0.65);
+            --bg-glass: rgba(30, 30, 35, 0.5);
+            --bg-hover: rgba(255, 255, 255, 0.05);
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-muted: #8b8b99;
             --border-color: rgba(255, 255, 255, 0.08);
-            --folder-color: #fbbf24;
-            --file-color: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border-focus: rgba(147, 197, 253, 0.5);
+            --folder-color: #fcd34d;
+            --file-color: #60a5fa;
+            --accent-glow: rgba(96, 165, 250, 0.2);
+            --ring-glow: rgba(96, 165, 250, 0.4);
+            --transition-speed: 0.3s;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-base);
-            /* Soft radial gradient to add depth */
-            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.05), transparent 25%),
-                              radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.05), transparent 25%);
             color: var(--text-main);
-            margin: 0;
-            padding: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient animated background meshes */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 60%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, #9333ea 0%, transparent 70%);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(5%, 10%) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-5%, -10%) scale(0.9);
+            }
         }
 
         .container {
             width: 100%;
             max-width: 900px;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 2.5rem;
+            z-index: 1;
         }
 
+        /* Header layout */
         header {
             text-align: center;
-            animation: fadeInDown 0.8s ease-out forwards;
+            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            margin: 0;
-            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff 20%, #9ca3af 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
         }
 
-        p.subtitle {
+        .subtitle {
             color: var(--text-muted);
-            margin-top: 0.5rem;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 300;
         }
 
+        /* Search and controls */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+            opacity: 0;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all var(--transition-speed);
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--text-muted);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px var(--ring-glow), 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            background: rgba(30, 30, 35, 0.8);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stats span {
+            background: var(--bg-surface);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(8px);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .toggle-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+            background: var(--bg-hover);
+        }
+
+        /* Tree Container Layout */
         .tree-container {
             background: var(--bg-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 16px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 24px;
             padding: 2rem;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid var(--border-color);
             min-height: 400px;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
             opacity: 0;
+            position: relative;
         }
 
         /* Tree Styles */
         ul {
             list-style: none;
-            padding-left: 0;
-            margin: 0;
         }
 
-        .folder, .file {
-            margin: 0.25rem 0;
+        .folder,
+        .file {
+            margin: 0.2rem 0;
+            position: relative;
         }
 
-        .folder-name, .file-name {
+        .folder-name,
+        .file-name {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
             position: relative;
+            overflow: hidden;
         }
 
-        .folder-name:hover, .file-name:hover {
+        /* Shine effect on hover */
+        .folder-name::after,
+        .file-name::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            transition: 0.5s;
+        }
+
+        .folder-name:hover::after,
+        .file-name:hover::after {
+            left: 100%;
+        }
+
+        .folder-name:hover,
+        .file-name:hover {
             background-color: var(--bg-hover);
-            transform: translateX(4px);
         }
 
-        /* Connecting lines for children */
+        /* Lines */
         .children {
-            margin-left: 1.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid var(--border-color);
-            display: none;
-            animation: expandTree 0.3s ease-out forwards;
+            margin-left: 1.4rem;
+            padding-left: 0.6rem;
+            border-left: 1px dashed rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            visibility: hidden;
         }
 
-        .folder.open > .children {
-            display: block;
+        .folder.open>.children {
+            max-height: 5000px;
+            /* arbitrary large value for transition */
+            opacity: 1;
+            visibility: visible;
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
         }
 
         /* Icons */
         .icon {
             margin-right: 1rem;
-            font-size: 1.25rem;
             display: inline-flex;
             justify-content: center;
             align-items: center;
             width: 24px;
             height: 24px;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.3rem;
+            z-index: 2;
         }
 
-        .folder > .folder-name .icon {
+        .folder>.folder-name .icon {
             color: var(--folder-color);
         }
 
-        .folder.open > .folder-name .icon {
-            transform: rotate(90deg);
-        }
-        
-        .folder.open > .folder-name .icon::before {
-            content: '📂';
-        }
-        .folder > .folder-name .icon::before {
+        .folder>.folder-name .icon::before {
             content: '📁';
         }
 
-        .file > .file-name {
+        .folder.open>.folder-name .icon {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .folder.open>.folder-name .icon::before {
+            content: '📂';
+        }
+
+        .file>.file-name {
             text-decoration: none;
             color: var(--text-main);
-            font-weight: 300;
+            font-weight: 400;
         }
 
-        .file > .file-name:hover {
-            color: #fff;
-        }
-
-        .file > .file-name .icon::before {
+        .file>.file-name .icon::before {
             content: '📄';
-            filter: drop-shadow(0 0 8px var(--accent-glow));
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
+            font-size: 1.1rem;
+        }
+
+        .file>.file-name:hover .text {
+            color: #fff;
+            transform: translateX(4px);
         }
 
         /* Typography */
         .text {
             font-size: 1.05rem;
-            line-height: 1.4;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .folder > .folder-name .text {
+        .folder>.folder-name .text {
             font-weight: 500;
             color: #e2e8f0;
         }
 
-        /* Loading & Error States */
-        .loading, .error {
+        /* Highlight classes for search */
+        .highlight {
+            background-color: rgba(96, 165, 250, 0.4);
+            color: #fff;
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Utility States */
+        .loading,
+        .error,
+        .empty-state {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem 2rem;
             color: var(--text-muted);
-            font-size: 1.1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
-        .loading::after {
-            content: '';
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border-color);
-            border-top-color: var(--accent);
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--file-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        .error {
-            color: #ef4444;
-        }
-
-        /* Animations */
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-        @keyframes expandTree {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-            font-style: italic;
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
+
 <body>
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="container">
         <header>
             <h1>Memory Bank</h1>
-            <p class="subtitle">Personal Repository & Archives</p>
+            <p class="subtitle">Systematic Knowledge Repository</p>
         </header>
 
-        <main class="tree-container" id="tree-root">
-            <div class="loading">Initializing bank...</div>
+        <main>
+            <div class="controls">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search for files or folders..." autocomplete="off"
+                        spellcheck="false">
+                </div>
+
+                <div class="toolbar">
+                    <div class="stats">
+                        <span id="folderCount">0 folders</span>
+                        <span id="fileCount">0 files</span>
+                    </div>
+                    <button id="toggleAllBtn" class="toggle-btn">Expand All</button>
+                </div>
+            </div>
+
+            <div class="tree-container" id="tree-root">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Connecting to Memory Bank...</div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
+        let globalData = null;
+        let totalStats = { folders: 0, files: 0 };
+        let allFoldersOpen = false;
+
         document.addEventListener("DOMContentLoaded", () => {
+            initSearch();
+            initToggleAll();
+
             fetch('index.json')
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status} - failed to fetch index.json`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                    const treeRoot = document.getElementById('tree-root');
-                    treeRoot.innerHTML = '';
-                    
-                    if (!data || Object.keys(data).length === 0) {
-                        treeRoot.innerHTML = '<div class="empty-state">Your memory bank is empty.</div>';
-                        return;
-                    }
-
-                    const rootUl = document.createElement('ul');
-                    const treeNodes = createNodes(data, '');
-                    rootUl.appendChild(treeNodes);
-                    treeRoot.appendChild(rootUl);
+                    globalData = data;
+                    renderTree();
                 })
                 .catch(error => {
-                    console.error('Error loading index.json:', error);
+                    console.error('API Error:', error);
                     document.getElementById('tree-root').innerHTML = `
                         <div class="error">
-                            <span>Could not access your Memory Bank</span>
-                            <span style="font-size: 0.9rem; opacity: 0.8">${error.message}</span>
+                            <span style="font-size: 2rem;">⚠️</span>
+                            <span>Could not sync Memory Bank data</span>
+                            <span style="font-size: 0.9rem; opacity: 0.7">${error.message}</span>
                         </div>
                     `;
                 });
         });
+
+        function renderTree() {
+            const treeRoot = document.getElementById('tree-root');
+            treeRoot.innerHTML = '';
+
+            if (!globalData || Object.keys(globalData).length === 0) {
+                treeRoot.innerHTML = '<div class="empty-state">Your memory bank is entirely empty.</div>';
+                return;
+            }
+
+            totalStats = { folders: 0, files: 0 };
+            const rootUl = document.createElement('ul');
+
+            // Build DOM iteratively
+            const treeNodes = createNodes(globalData, '');
+            rootUl.appendChild(treeNodes);
+            treeRoot.appendChild(rootUl);
+
+            // Update stats
+            document.getElementById('folderCount').innerText = `${totalStats.folders} folder${totalStats.folders !== 1 ? 's' : ''}`;
+            document.getElementById('fileCount').innerText = `${totalStats.files} file${totalStats.files !== 1 ? 's' : ''}`;
+
+            // Re-apply search if exists
+            filterTree(document.getElementById('searchInput').value);
+        }
 
         function createNodes(node, path) {
             const fragment = document.createDocumentFragment();
@@ -289,57 +561,55 @@
                     fragment.appendChild(createNodes(item, path));
                 });
             } else if (typeof node === 'object' && node !== null) {
-                // Keep entries sorted for a cleaner folder structure (optional, but nice)
-                const entries = Object.entries(node).sort((a, b) => {
-                    // Sort folders over files conceptually, or just alphabetically
-                    return a[0].localeCompare(b[0]);
-                });
+                const entries = Object.entries(node).sort((a, b) => a[0].localeCompare(b[0]));
 
                 for (const [key, value] of entries) {
                     const li = document.createElement('li');
-                    
+
                     if (typeof value === 'string') {
-                        // It's a file
+                        // File Node
+                        totalStats.files++;
                         li.className = 'file';
+                        li.dataset.name = value.toLowerCase();
+
                         const a = document.createElement('a');
                         a.className = 'file-name';
-                        
-                        // Construct path: path/to/id.html
-                        const currentPath = path ? `${path}/${key}.html` : `${key}.html`;
-                        a.href = currentPath;
-                        
+                        a.href = path ? `${path}/${key}.html` : `${key}.html`;
+
                         a.innerHTML = `
                             <span class="icon"></span>
-                            <span class="text">${value}</span>
+                            <span class="text" data-original-text="${value}">${value}</span>
                         `;
                         li.appendChild(a);
                     } else {
-                        // It's a folder
+                        // Folder Node
+                        totalStats.folders++;
                         li.className = 'folder';
-                        
+                        li.dataset.name = key.toLowerCase();
+
                         const div = document.createElement('div');
                         div.className = 'folder-name';
                         div.innerHTML = `
                             <span class="icon"></span>
-                            <span class="text">${key}</span>
+                            <span class="text" data-original-text="${key}">${key}</span>
                         `;
-                        
-                        // Toggle logic
-                        div.onclick = function(e) {
+
+                        div.onclick = function (e) {
                             e.stopPropagation();
                             li.classList.toggle('open');
+                            updateToggleButtonState();
                         };
                         li.appendChild(div);
-                        
+
                         const childrenDiv = document.createElement('div');
                         childrenDiv.className = 'children';
-                        
+
                         const currentPath = path ? `${path}/${key}` : `${key}`;
                         const childUl = document.createElement('ul');
-                        
+
                         childUl.appendChild(createNodes(value, currentPath));
                         childrenDiv.appendChild(childUl);
-                        
+
                         li.appendChild(childrenDiv);
                     }
                     fragment.appendChild(li);
@@ -347,6 +617,117 @@
             }
             return fragment;
         }
+
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                filterTree(e.target.value);
+            });
+        }
+
+        function filterTree(query) {
+            if (!globalData) return;
+
+            query = query.toLowerCase().trim();
+            const root = document.getElementById('tree-root');
+            const allFiles = root.querySelectorAll('.file');
+            const allFolders = root.querySelectorAll('.folder');
+
+            if (query === '') {
+                // Reset View
+                allFiles.forEach(el => {
+                    el.classList.remove('hidden');
+                    const textSpan = el.querySelector('.text');
+                    textSpan.innerHTML = textSpan.dataset.originalText;
+                });
+                allFolders.forEach(el => {
+                    el.classList.remove('hidden');
+                    // Only remove highlights, keep open/close state
+                    const textSpan = el.querySelector('.folder-name .text');
+                    textSpan.innerHTML = textSpan.dataset.originalText;
+                });
+                return;
+            }
+
+            // Highlighting syntax
+            const highlightText = (text, q) => {
+                const regex = new RegExp(`(${q})`, "gi");
+                return text.replace(regex, `<span class="highlight">$1</span>`);
+            };
+
+            // First pass: hidden all
+            allFiles.forEach(f => f.classList.add('hidden'));
+            allFolders.forEach(f => {
+                f.classList.add('hidden');
+                f.classList.remove('open'); // close initially when searching unless match
+            });
+
+            // Second pass: Find matches and reveal parents
+            allFiles.forEach(fileEl => {
+                const name = fileEl.dataset.name;
+                const originalText = fileEl.querySelector('.text').dataset.originalText;
+
+                if (name.includes(query)) {
+                    fileEl.classList.remove('hidden');
+                    fileEl.querySelector('.text').innerHTML = highlightText(originalText, query);
+                    revealParents(fileEl);
+                }
+            });
+
+            allFolders.forEach(folderEl => {
+                const name = folderEl.dataset.name;
+                const originalText = folderEl.querySelector('.folder-name .text').dataset.originalText;
+
+                if (name.includes(query)) {
+                    folderEl.classList.remove('hidden');
+                    folderEl.querySelector('.folder-name .text').innerHTML = highlightText(originalText, query);
+                    revealParents(folderEl);
+                    // Also reveal immediate children to make search feeling logical
+                    const children = folderEl.querySelectorAll(':scope > .children > ul > li');
+                    children.forEach(c => c.classList.remove('hidden'));
+                }
+            });
+        }
+
+        function revealParents(element) {
+            let parent = element.parentElement;
+            while (parent && parent.id !== 'tree-root') {
+                if (parent.classList.contains('folder')) {
+                    parent.classList.remove('hidden');
+                    parent.classList.add('open');
+                }
+                parent = parent.parentElement;
+            }
+        }
+
+        function initToggleAll() {
+            const btn = document.getElementById('toggleAllBtn');
+            btn.addEventListener('click', () => {
+                allFoldersOpen = !allFoldersOpen;
+                const folders = document.querySelectorAll('.folder');
+                folders.forEach(f => f.classList.toggle('open', allFoldersOpen));
+                btn.innerText = allFoldersOpen ? 'Collapse All' : 'Expand All';
+            });
+        }
+
+        function updateToggleButtonState() {
+            // Keep button text in sync if manually clicked
+            const folders = document.querySelectorAll('.folder');
+            if (folders.length === 0) return;
+
+            const openFolders = document.querySelectorAll('.folder.open');
+            const btn = document.getElementById('toggleAllBtn');
+            const threshold = folders.length / 2;
+
+            if (openFolders.length > threshold) {
+                allFoldersOpen = true;
+                btn.innerText = 'Collapse All';
+            } else {
+                allFoldersOpen = false;
+                btn.innerText = 'Expand All';
+            }
+        }
     </script>
 </body>
+
 </html>

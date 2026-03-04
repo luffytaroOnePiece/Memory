@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best STR Builds — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0604;
+    --surface: #110a06;
+    --border: #1f140a;
+    --accent: #e05a2b;
+    --accent-glow: rgba(224,90,43,0.2);
+    --gold: #c8a84b;
+    --text: #f0ddd0;
+    --muted: #5a4035;
+    --str-color: #e05a2b;
+    --str-glow: rgba(224,90,43,0.15);
+    --str-deep: #7a2a10;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    bottom: -20%; left: -10%;
+    width: 700px; height: 700px;
+    background: radial-gradient(ellipse, rgba(224,90,43,0.06) 0%, transparent 65%);
+    pointer-events: none; z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -15%; right: -5%;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(180,50,10,0.07) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Crack texture lines */
+  .crack-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(135deg, transparent 48%, rgba(224,90,43,0.015) 49%, rgba(224,90,43,0.015) 50%, transparent 51%),
+      linear-gradient(45deg, transparent 48%, rgba(180,60,20,0.01) 49%, rgba(180,60,20,0.01) 50%, transparent 51%);
+    background-size: 80px 80px, 120px 120px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: smashIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .str-emblem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; height: 70px;
+    border-radius: 4px;
+    background: radial-gradient(circle at 40% 35%, rgba(224,90,43,0.3) 0%, rgba(120,30,5,0.1) 70%);
+    border: 1px solid rgba(224,90,43,0.5);
+    box-shadow: 0 0 40px rgba(224,90,43,0.2), inset 0 0 20px rgba(180,50,10,0.15);
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--str-color);
+    margin: 0 auto 22px;
+    letter-spacing: 0.04em;
+    transform: rotate(-2deg);
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5.5vw, 66px);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  h1 .str { color: var(--str-color); text-shadow: 0 0 40px rgba(224,90,43,0.6), 0 4px 12px rgba(0,0,0,0.8); }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(15px, 2.2vw, 24px);
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before, .divider::after {
+    content: ''; width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(224,90,43,0.5));
+  }
+  .divider::after { background: linear-gradient(90deg, rgba(224,90,43,0.5), transparent); }
+  .divider-icon { color: var(--str-color); font-size: 16px; letter-spacing: 6px; opacity: 0.7; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 520px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── BUILD CARDS ── */
+  .builds-grid {
+    display: flex; flex-direction: column; gap: 2px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .build-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--str-deep);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .build-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(224,90,43,0.07) 0%, transparent 35%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .build-card:hover {
+    border-left-color: var(--str-color);
+    background: rgba(14,8,4,0.98);
+    box-shadow: 0 0 30px rgba(224,90,43,0.08), -4px 0 20px rgba(224,90,43,0.12);
+  }
+  .build-card:hover::before { opacity: 1; }
+
+  .build-card.top { border-left-color: var(--gold); }
+  .build-card.top::before { background: linear-gradient(90deg, rgba(200,168,75,0.1) 0%, transparent 35%); opacity: 1; }
+  .build-card.top:hover { border-left-color: var(--gold); box-shadow: 0 0 30px rgba(200,168,75,0.1), -4px 0 20px rgba(200,168,75,0.15); }
+
+  /* Rank col */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.25);
+  }
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 24px; font-weight: 900; line-height: 1;
+  }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.5); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Card body */
+  .card-body { padding: 22px 24px; position: relative; z-index: 1; }
+
+  .build-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .build-card.top .build-name { color: var(--gold); }
+
+  .build-archetype {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .arch-oneshot  { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.07); }
+  .arch-tank     { color: #e05a2b; border-color: rgba(224,90,43,0.4); background: rgba(224,90,43,0.07); }
+  .arch-hybrid   { color: #fb923c; border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.07); }
+  .arch-poise    { color: #fbbf24; border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.07); }
+  .arch-guard    { color: #a3e635; border-color: rgba(163,230,53,0.4); background: rgba(163,230,53,0.07); }
+  .arch-special  { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+
+  .build-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 14px;
+  }
+
+  .info-row {
+    display: flex; flex-wrap: wrap;
+    gap: 20px; margin-bottom: 14px;
+  }
+  .info-block { display: flex; flex-direction: column; gap: 3px; }
+  .info-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .info-val { font-size: 13px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; }
+  .info-val.orange { color: var(--str-color); font-family: 'Cinzel', serif; font-weight: 600; }
+
+  .stat-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .stat-pill {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.1em;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+  }
+  .sp-str  { color: #e05a2b; border-color: rgba(224,90,43,0.45); background: rgba(224,90,43,0.08); }
+  .sp-vit  { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); }
+  .sp-end  { color: #fbbf24; border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.08); }
+  .sp-dex  { color: #34d399; border-color: rgba(52,211,153,0.35); background: rgba(52,211,153,0.07); }
+  .sp-mind { color: #a78bfa; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.07); }
+  .sp-fai  { color: #c8a84b; border-color: rgba(200,168,75,0.4); background: rgba(200,168,75,0.07); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .item-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(240,221,208,0.55);
+    padding: 2px 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02); border-radius: 1px;
+  }
+
+  /* Card side */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 22px; gap: 10px;
+    min-width: 100px;
+    position: relative; z-index: 1;
+  }
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 30px; font-weight: 900; line-height: 1;
+  }
+  .tier-s  { color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+  .tier-sa { color: #e0b020; }
+  .tier-a  { color: var(--str-color); text-shadow: 0 0 14px rgba(224,90,43,0.4); }
+  .tier-ab { color: #a04020; }
+  .tier-b  { color: var(--muted); }
+
+  .tier-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .diff-wrap { text-align: center; }
+  .diff-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 3px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); }
+  .dot.on { background: var(--str-color); border-color: var(--str-color); }
+  .diff-text {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase;
+  }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 2px;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--str-color);
+    padding: 20px 22px;
+  }
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--str-color);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(224,90,43,0.35), transparent);
+  }
+
+  .weapon-table { width: 100%; }
+  .weapon-table tr { border-bottom: 1px solid rgba(31,20,10,0.9); }
+  .weapon-table tr:last-child { border-bottom: none; }
+  .weapon-table td { padding: 8px 0; font-size: 13px; vertical-align: middle; }
+  .weapon-table .w-name { color: var(--text); font-weight: 400; font-style: italic; }
+  .weapon-table .w-req { color: var(--str-color); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; text-align: right; white-space: nowrap; }
+  .weapon-table .w-note { color: var(--muted); font-size: 11px; font-weight: 300; font-style: italic; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--str-color); font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.7; }
+
+  @keyframes smashIn {
+    from { opacity: 0; transform: translateY(-28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .build-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="crack-bg"></div>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="str-emblem">STR</div>
+    <div class="eyebrow">The Lands Between · Strength Mastery</div>
+    <h1>
+      <span class="str">Strength</span><br>
+      <span class="rest">Builds</span>
+    </h1>
+    <div class="h1-sub">Colossus Codex · Elden Ring</div>
+    <div class="divider"><span class="divider-icon">⚔ ⚔ ⚔</span></div>
+    <p class="subtitle">Ranked by raw damage ceiling, poise dominance, stagger potential & PvE boss-kill efficiency. Pure brute force — no sorceries, no cheap tricks.</p>
+  </header>
+
+  <!-- BUILD CARDS -->
+  <div class="builds-grid">
+
+    <!-- #1 Giant Crusher -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Giant-Crusher One-Shot King</div>
+          <span class="build-archetype arch-oneshot">One-Shot</span>
+        </div>
+        <div class="build-desc">The definitive STR build. Giant-Crusher + Royal Knight's Resolve + Lion's Claw can delete entire boss health bars in a single charged R2. The highest single-hit damage achievable in the game.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Giant-Crusher</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Royal Knight's Resolve</div></div>
+          <div class="info-block"><div class="info-label">Flask Mix</div><div class="info-val">Stonebarb + Strength-knot</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 80</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 51</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+          <span class="stat-pill sp-mind">MIND 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Giant-Crusher</span>
+          <span class="item-tag">Royal Knight's Resolve</span>
+          <span class="item-tag">Lion's Claw</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Golden Vow</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #2 Greatsword Berserk -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Greatsword Berserk Build</div>
+          <span class="build-archetype arch-tank">Tank Aggro</span>
+        </div>
+        <div class="build-desc">The internet's favourite build — the iconic Guts sword. Draconic Tree Sentinel falls in two Endure-buffed charge attacks. Exceptional poise and damage output with Flame of the Redmanes stagger tech.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Greatsword (Colossal)</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Flame of the Redmanes</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 70</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 45</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 18</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Greatsword</span>
+          <span class="item-tag">Flame of the Redmanes</span>
+          <span class="item-tag">Endure</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Boiled Crabs</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #3 Great Stars Bleed STR -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Great Stars Bleed Crusher</div>
+          <span class="build-archetype arch-hybrid">STR + Bleed</span>
+        </div>
+        <div class="build-desc">Great Stars naturally inflicts bleed while also healing you on every hit. A self-sustaining STR juggernaut — each swing heals HP and stacks hemorrhage simultaneously. Exceptional for prolonged boss fights.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 65</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Great Stars</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Seppuku / War Cry</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 65</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 40</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 18</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Great Stars</span>
+          <span class="item-tag">War Cry</span>
+          <span class="item-tag">Bloodboil Aromatic</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-sa">S−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #4 Grafted Blade -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Grafted Blade Greatsword Knight</div>
+          <span class="build-archetype arch-poise">Max Poise</span>
+        </div>
+        <div class="build-desc">The Grafted Blade Greatsword's Oath of Vengeance buffs all stats simultaneously. Pair with Bull-Goat armour for near-maximum poise — you tank through every attack while delivering massive colossal weapon damage.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Grafted Blade Greatsword</div></div>
+          <div class="info-block"><div class="info-label">Armour</div><div class="info-val">Bull-Goat Set</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 70</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 50</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Oath of Vengeance</span>
+          <span class="item-tag">Endure</span>
+          <span class="item-tag">Bull-Goat Armour</span>
+          <span class="item-tag">Dragoncrest Greatshield Talisman</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #5 Prelate's Inferno -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Prelate's Inferno Hammer</div>
+          <span class="build-archetype arch-tank">Fire Crusher</span>
+        </div>
+        <div class="build-desc">Prelate's Inferno Crozier has the highest base damage of any weapon in the game and its Ash of War spins it creating a column of fire that stagger-locks bosses. Visually insane and mechanically dominant.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 75</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Prelate's Inferno Crozier</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Prelate's Charge</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 75</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 48</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+          <span class="stat-pill sp-fai">FAI 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Prelate's Charge</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Bloodboil Aromatic</span>
+          <span class="item-tag">Erdtree's Favor</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #6 Shield Poke Spear -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Greatshield Spear Turtle</div>
+          <span class="build-archetype arch-guard">Guard Counter</span>
+        </div>
+        <div class="build-desc">Fingerprint Stone Shield + Barricade Shield ash of war gives near-infinite guard with zero stamina drain. Guard counter attacks deal massive poise damage. The most defensive STR strategy — impenetrable fortress build.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Spear / Lance + Greatshield</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Barricade Shield</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 60</span>
+          <span class="stat-pill sp-vit">VIT 60</span>
+          <span class="stat-pill sp-end">END 55</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Fingerprint Stone Shield</span>
+          <span class="item-tag">Barricade Shield</span>
+          <span class="item-tag">Spear / Partisan</span>
+          <span class="item-tag">Shield Crash</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #7 Starscourge Radahn -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Radahn Twin Greatswords</div>
+          <span class="build-archetype arch-hybrid">Powerstance STR</span>
+        </div>
+        <div class="build-desc">Starscourge Greatsword powerstanced — the same weapons Radahn uses. Gravitational Pull ash of war sucks enemies in while the dual-wield R1 combo devastates anything caught in range. Pure fantasy fulfillment.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Starscourge Greatsword ×2</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Gravitational Pull</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 60</span>
+          <span class="stat-pill sp-dex">DEX 25</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 40</span>
+          <span class="stat-pill sp-mind">MIND 20</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Gravitational Pull</span>
+          <span class="item-tag">Starcaller Cry</span>
+          <span class="item-tag">Golden Vow</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #8 Omen Cleaver -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Omen Cleaver Bleed Axe</div>
+          <span class="build-archetype arch-hybrid">STR + Status</span>
+        </div>
+        <div class="build-desc">The Omen Cleaver has a naturally wide sweep hitbox and inflicts bleed. When combined with War Cry and powerstanced axes, the bleed procs come fast and the wide arcs catch everything — excellent in tight corridors.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Omen Cleaver ×2</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">War Cry</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 60</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 38</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 18</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">War Cry</span>
+          <span class="item-tag">Seppuku</span>
+          <span class="item-tag">Bloodboil Aromatic</span>
+          <span class="item-tag">Lord of Blood's Exultation</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">A−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #9 Ruins Greatsword -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Ruins Greatsword Gravity Mage</div>
+          <span class="build-archetype arch-special">STR + Gravity</span>
+        </div>
+        <div class="build-desc">The Ruins Greatsword ash of war fires a gravity shockwave that staggers everything in front of you — and it scales with STR. An unusual hybrid that brings spellblade flavour without needing high intelligence.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 66</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero / Vagabond</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Ruins Greatsword</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Wave of Destruction</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 66</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 40</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+          <span class="stat-pill sp-mind">MIND 18</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Wave of Destruction</span>
+          <span class="item-tag">Endure</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Golden Vow</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #10 Anvil Hammer -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Anvil Hammer Earth Shaker</div>
+          <span class="build-archetype arch-poise">Ground Slam</span>
+        </div>
+        <div class="build-desc">Anvil Hammer's Troll's Roar ash creates a shockwave that launches all enemies into the air simultaneously. Hilariously effective in multi-enemy encounters — a crowd-control STR build unlike anything else in the game.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val orange">STR 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Hero</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Anvil Hammer</div></div>
+          <div class="info-block"><div class="info-label">Ash of War</div><div class="info-val">Troll's Roar</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-str">STR 60</span>
+          <span class="stat-pill sp-vit">VIT 58</span>
+          <span class="stat-pill sp-end">END 44</span>
+          <span class="stat-pill sp-dex">DEX 10</span>
+          <span class="stat-pill sp-mind">MIND 15</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Troll's Roar</span>
+          <span class="item-tag">Endure</span>
+          <span class="item-tag">Flame Grant Me Strength</span>
+          <span class="item-tag">Erdtree's Favor +2</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-b">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /builds-grid -->
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Top STR Weapons Ranked</div>
+      <table class="weapon-table">
+        <tr>
+          <td class="w-name">Giant-Crusher</td>
+          <td class="w-req">STR 60 req</td>
+        </tr>
+        <tr><td class="w-note" colspan="2">Highest AR of any colossal weapon. One-shot potential with RKR buff.</td></tr>
+        <tr>
+          <td class="w-name">Greatsword (Colossal)</td>
+          <td class="w-req">STR 31 req</td>
+        </tr>
+        <tr><td class="w-note" colspan="2">The Guts sword. Best all-rounder colossal with Flame of the Redmanes.</td></tr>
+        <tr>
+          <td class="w-name">Prelate's Inferno Crozier</td>
+          <td class="w-req">STR 45 req</td>
+        </tr>
+        <tr><td class="w-note" colspan="2">Highest base damage in-game. Fire spin ash staggers constantly.</td></tr>
+        <tr>
+          <td class="w-name">Starscourge Greatsword</td>
+          <td class="w-req">STR 38 req</td>
+        </tr>
+        <tr><td class="w-note" colspan="2">Radahn's weapon. Gravity pull + massive colossal GS damage.</td></tr>
+        <tr>
+          <td class="w-name">Ruins Greatsword</td>
+          <td class="w-req">STR 50 req</td>
+        </tr>
+        <tr><td class="w-note" colspan="2">Wave of Destruction shockwave ash scales with STR, no INT needed.</td></tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">Essential STR Talismans</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Shard of Alexander</strong> — Boosts Ash of War damage by 15%. Mandatory on any build using Lion's Claw or Flame of the Redmanes.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Dragoncrest Greatshield Talisman</strong> — Reduces all physical damage taken by 20%. The tankiest talisman for STR builds.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Bull-Goat's Talisman</strong> — Increases poise significantly. Combined with colossal weapons lets you tank through most boss combos.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Two-Handed Sword Talisman</strong> — Boosts two-handed attack damage by 6%. Free damage on any colossal build using two hands.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Erdtree's Favor +2</strong> — Raises HP, stamina and equip load simultaneously. The backbone talisman of every endgame STR build.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

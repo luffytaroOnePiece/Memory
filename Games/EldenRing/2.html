@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best INT Builds — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05060d;
+    --surface: #090b16;
+    --border: #12172a;
+    --accent: #4a9fd4;
+    --accent-glow: rgba(74,159,212,0.2);
+    --gold: #c8a84b;
+    --text: #ccd6f0;
+    --muted: #4a5470;
+    --int-color: #4a9fd4;
+    --int-glow: rgba(74,159,212,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Arcane sigil BG */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    border: 1px solid rgba(74,159,212,0.04);
+    box-shadow:
+      0 0 0 60px rgba(74,159,212,0.02),
+      0 0 0 120px rgba(74,159,212,0.015),
+      0 0 0 200px rgba(74,159,212,0.01);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(74,159,212,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.9s ease both;
+  }
+
+  .int-orb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,159,212,0.25) 0%, rgba(74,159,212,0.05) 70%);
+    border: 1px solid rgba(74,159,212,0.4);
+    box-shadow: 0 0 30px rgba(74,159,212,0.2), inset 0 0 20px rgba(74,159,212,0.1);
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--int-color);
+    margin: 0 auto 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5.5vw, 64px);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  h1 .int { color: var(--int-color); text-shadow: 0 0 30px rgba(74,159,212,0.5); }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(16px, 2.5vw, 26px);
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(74,159,212,0.4));
+  }
+  .divider::after { background: linear-gradient(90deg, rgba(74,159,212,0.4), transparent); }
+  .divider-gem { color: var(--int-color); font-size: 14px; letter-spacing: 6px; opacity: 0.7; }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── BUILD CARDS ── */
+  .builds-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .build-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+
+  .build-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--int-glow) 0%, transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .build-card:hover {
+    border-left-color: var(--int-color);
+    background: rgba(9,11,22,0.98);
+    box-shadow: 0 0 30px rgba(74,159,212,0.08), -4px 0 20px rgba(74,159,212,0.1);
+  }
+
+  .build-card:hover::before { opacity: 1; }
+
+  .build-card.top { border-left-color: var(--gold); }
+  .build-card.top::before { background: linear-gradient(90deg, rgba(200,168,75,0.12) 0%, transparent 40%); opacity: 1; }
+  .build-card.top:hover { border-left-color: var(--gold); box-shadow: 0 0 30px rgba(200,168,75,0.1), -4px 0 20px rgba(200,168,75,0.15); }
+
+  /* Rank column */
+  .rank-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .rn-1 { color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.4); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Main content */
+  .card-body {
+    padding: 22px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .build-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+
+  .build-card.top .build-name { color: var(--gold); }
+
+  .build-archetype {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border: 1px solid;
+    border-radius: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .arch-glass   { color: #e879f9; border-color: rgba(232,121,249,0.35); background: rgba(232,121,249,0.06); }
+  .arch-hybrid  { color: #818cf8; border-color: rgba(129,140,248,0.35); background: rgba(129,140,248,0.06); }
+  .arch-support { color: #34d399; border-color: rgba(52,211,153,0.35); background: rgba(52,211,153,0.06); }
+  .arch-burst   { color: #f87171; border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.06); }
+  .arch-pve     { color: var(--int-color); border-color: rgba(74,159,212,0.35); background: rgba(74,159,212,0.06); }
+
+  .build-desc {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  /* Info row */
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .info-block { display: flex; flex-direction: column; gap: 3px; }
+
+  .info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .info-val {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .info-val.blue { color: var(--int-color); font-family: 'Cinzel', serif; font-weight: 600; }
+
+  /* Stat pills */
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .stat-pill {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid;
+    border-radius: 1px;
+  }
+
+  .sp-int  { color: #4a9fd4; border-color: rgba(74,159,212,0.4); background: rgba(74,159,212,0.08); }
+  .sp-vit  { color: #f87171; border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.07); }
+  .sp-mind { color: #a78bfa; border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.07); }
+  .sp-dex  { color: #34d399; border-color: rgba(52,211,153,0.35); background: rgba(52,211,153,0.07); }
+  .sp-str  { color: #fb923c; border-color: rgba(251,146,60,0.35); background: rgba(251,146,60,0.07); }
+  .sp-end  { color: #fbbf24; border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.07); }
+
+  /* Spells / Weapons tags */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .item-tag {
+    font-size: 11px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(204,214,240,0.6);
+    padding: 2px 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    border-radius: 1px;
+  }
+
+  /* Right panel */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 22px;
+    gap: 10px;
+    min-width: 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .tier-s  { color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+  .tier-sa { color: #e0b020; }
+  .tier-a  { color: var(--int-color); text-shadow: 0 0 14px rgba(74,159,212,0.4); }
+  .tier-ab { color: #3a7fa8; }
+  .tier-b  { color: var(--muted); }
+
+  .tier-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .diff-wrap { text-align: center; }
+  .diff-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 3px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); }
+  .dot.on { background: var(--int-color); border-color: var(--int-color); }
+  .diff-text { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── SEPARATOR ── */
+  .section-sep {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0 4px;
+    opacity: 0.4;
+  }
+  .section-sep::before, .section-sep::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .sep-text {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── BOTTOM PANEL ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 2px;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--int-color);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(74,159,212,0.3), transparent);
+  }
+
+  .tip-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .tip-bullet {
+    color: var(--int-color);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.6;
+  }
+
+  .staff-table { width: 100%; }
+  .staff-table tr { border-bottom: 1px solid rgba(18,23,42,0.8); }
+  .staff-table tr:last-child { border-bottom: none; }
+  .staff-table td {
+    padding: 8px 0;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .staff-table .s-name { color: var(--text); font-weight: 400; font-style: italic; }
+  .staff-table .s-int {
+    color: var(--int-color);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .staff-table .s-note { color: var(--muted); font-size: 11px; font-weight: 300; font-style: italic; text-align: right; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .build-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .info-row { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="int-orb">INT</div>
+    <div class="eyebrow">The Lands Between · Intelligence Mastery</div>
+    <h1>
+      <span class="int">Intelligence</span><br>
+      <span class="rest">Builds</span>
+    </h1>
+    <div class="h1-sub">Sorcerer's Codex · Elden Ring</div>
+    <div class="divider"><span class="divider-gem">✦ ✦ ✦</span></div>
+    <p class="subtitle">Ranked purely by INT scaling dominance, spell potency, boss kill speed & PvE viability. Pure sorcery — no faith, no bleed.</p>
+  </header>
+
+  <!-- BUILD CARDS -->
+  <div class="builds-grid">
+
+    <!-- ═══ #1 COMET AZUR ═══ -->
+    <div class="build-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Comet Azur Glass Cannon</div>
+          <span class="build-archetype arch-burst">Burst Nuke</span>
+        </div>
+        <div class="build-desc">The most infamous build in Elden Ring history. Cerulean Hidden Tear removes FP cost for 15 seconds — channel Comet Azur continuously and delete any boss's entire HP bar.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer / Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Lusat's Glintstone Staff</div></div>
+          <div class="info-block"><div class="info-label">Flask Mix</div><div class="info-val">Cerulean Hidden Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 80</span>
+          <span class="stat-pill sp-mind">MIND 35</span>
+          <span class="stat-pill sp-vit">VIT 50</span>
+          <span class="stat-pill sp-end">END 25</span>
+          <span class="stat-pill sp-dex">DEX 16</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Comet Azur</span>
+          <span class="item-tag">Stars of Ruin</span>
+          <span class="item-tag">Rock Sling</span>
+          <span class="item-tag">Terra Magicus</span>
+          <span class="item-tag">Magic Glintblade</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #2 MOONVEIL ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Moonveil INT Duelist</div>
+          <span class="build-archetype arch-hybrid">Hybrid Melee</span>
+        </div>
+        <div class="build-desc">Transient Moonlight weapon art fires a massive INT-scaling beam that staggers and melts in a single frame. Dominates both PvE and PvP. The most balanced INT build in the game.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Moonveil Katana</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Carian Regal Scepter</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 70</span>
+          <span class="stat-pill sp-dex">DEX 40</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 30</span>
+          <span class="stat-pill sp-end">END 30</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Transient Moonlight</span>
+          <span class="item-tag">Glintstone Pebble</span>
+          <span class="item-tag">Carian Greatsword</span>
+          <span class="item-tag">Night Comet</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-s">S</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #3 STARS OF RUIN ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Stars of Ruin Sniper</div>
+          <span class="build-archetype arch-pve">Tracking Caster</span>
+        </div>
+        <div class="build-desc">Stars of Ruin fires 12 homing projectiles that each deal heavy INT damage and can't be easily dodged. Devastating against mobile bosses. Pairs perfectly with Lusat's Staff.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 80</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Lusat's Glintstone Staff</div></div>
+          <div class="info-block"><div class="info-label">Flask</div><div class="info-val">Magic-Shrouding Cracked Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 80</span>
+          <span class="stat-pill sp-mind">MIND 40</span>
+          <span class="stat-pill sp-vit">VIT 50</span>
+          <span class="stat-pill sp-end">END 22</span>
+          <span class="stat-pill sp-dex">DEX 16</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Stars of Ruin</span>
+          <span class="item-tag">Rock Sling</span>
+          <span class="item-tag">Comet</span>
+          <span class="item-tag">Terra Magicus</span>
+          <span class="item-tag">Glintstone Arc</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-sa">S−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #4 COLD SORCERY ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Cold Sorcery Frostbiter</div>
+          <span class="build-archetype arch-hybrid">Frost + INT</span>
+        </div>
+        <div class="build-desc">Applies Frostbite via Cold-infused weapons and sorceries to shred enemy absorption by 20%, then follows up with massive Comet spam. A beautiful synergy that melts armoured bosses.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 70</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Cold Uchigatana / Claymore</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Carian Regal Scepter</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 70</span>
+          <span class="stat-pill sp-dex">DEX 35</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 30</span>
+          <span class="stat-pill sp-end">END 28</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Frozen Armament</span>
+          <span class="item-tag">Comet Azur</span>
+          <span class="item-tag">Glintstone Pebble</span>
+          <span class="item-tag">Night Comet</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #5 NIGHT SORCERY ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Night Sorcery Assassin</div>
+          <span class="build-archetype arch-pve">Stealth Caster</span>
+        </div>
+        <div class="build-desc">Night Comet and other Night sorceries are invisible to enemies and can't be deflected by shields. Exploits AI targeting while dealing full INT damage unseen — the most cheese-friendly INT build.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 72</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Meteorite Staff (early) → Lusat's</div></div>
+          <div class="info-block"><div class="info-label">Armor</div><div class="info-val">White Reed / Carian Knight</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 72</span>
+          <span class="stat-pill sp-mind">MIND 35</span>
+          <span class="stat-pill sp-vit">VIT 50</span>
+          <span class="stat-pill sp-end">END 25</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Night Comet</span>
+          <span class="item-tag">Night Maiden's Mist</span>
+          <span class="item-tag">Eternal Darkness</span>
+          <span class="item-tag">Unseen Form</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #6 CARIAN KNIGHT ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Carian Knight Swordmage</div>
+          <span class="build-archetype arch-hybrid">Melee + Spell</span>
+        </div>
+        <div class="build-desc">CGSW + Carian Grandeur weapon art for savage melee INT damage. Fights at mid-range with sword swings and Glintblade sorceries. High expression, high reward playstyle.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Prisoner</div></div>
+          <div class="info-block"><div class="info-label">Weapon</div><div class="info-val">Carian Glintblade Staff / CGSW</div></div>
+          <div class="info-block"><div class="info-label">Talisman</div><div class="info-val">Graven-Mass Talisman</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 60</span>
+          <span class="stat-pill sp-str">STR 22</span>
+          <span class="stat-pill sp-dex">DEX 18</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-mind">MIND 28</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Carian Grandeur</span>
+          <span class="item-tag">Magic Glintblade</span>
+          <span class="item-tag">Glintblade Phalanx</span>
+          <span class="item-tag">Carian Slicer</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #7 ROCK SLING ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Rock Sling Poise Breaker</div>
+          <span class="build-archetype arch-pve">Stance Break</span>
+        </div>
+        <div class="build-desc">Rock Sling fires three boulders with physical damage that ignore magic resistance. Stagger-locks most bosses and triggers critical hits constantly. The best early-game INT tool that stays viable all game.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 60</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Meteorite Staff → Lusat's</div></div>
+          <div class="info-block"><div class="info-label">Talisman</div><div class="info-val">Radagon Icon</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 60</span>
+          <span class="stat-pill sp-mind">MIND 30</span>
+          <span class="stat-pill sp-vit">VIT 55</span>
+          <span class="stat-pill sp-end">END 25</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rock Sling</span>
+          <span class="item-tag">Meteorite</span>
+          <span class="item-tag">Cannon of Haima</span>
+          <span class="item-tag">Glintstone Pebble</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-a">A</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Easy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #8 RENNALA REMEMBRANCE ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Full Moon Ritualist</div>
+          <span class="build-archetype arch-support">Debuff Caster</span>
+        </div>
+        <div class="build-desc">Rennala's Full Moon and Ranni's Dark Moon reduce enemy spell resistance by 10%, setting up devastating follow-up spell combos. A strategic support-style INT build with enormous burst potential.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 68</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Carian Regal Scepter</div></div>
+          <div class="info-block"><div class="info-label">Flask</div><div class="info-val">Cerulean Hidden Tear</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 68</span>
+          <span class="stat-pill sp-mind">MIND 38</span>
+          <span class="stat-pill sp-vit">VIT 52</span>
+          <span class="stat-pill sp-end">END 22</span>
+          <span class="stat-pill sp-dex">DEX 14</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Rennala's Full Moon</span>
+          <span class="item-tag">Ranni's Dark Moon</span>
+          <span class="item-tag">Comet Azur</span>
+          <span class="item-tag">Stars of Ruin</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">A−</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #9 DEATH SORCERY ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Death Sorcery Hexblade</div>
+          <span class="build-archetype arch-glass">Death Ritual</span>
+        </div>
+        <div class="build-desc">Fia's sorceries and the Prince of Death's Staff open up unique Death-element spells immune to most boss resistances. Niche but potent against specific enemy types in Nokron and the Deeproot Depths.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 65</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Prince of Death's Staff</div></div>
+          <div class="info-block"><div class="info-label">Bonus</div><div class="info-val">Also scales with FAI</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 65</span>
+          <span class="stat-pill sp-mind">MIND 35</span>
+          <span class="stat-pill sp-vit">VIT 50</span>
+          <span class="stat-pill sp-end">END 22</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Explosive Ghostflame</span>
+          <span class="item-tag">Death Lightning</span>
+          <span class="item-tag">Ghostflame Ignition</span>
+          <span class="item-tag">Tibia's Summons</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-ab">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="diff-text">Medium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ #10 GAVEL OF HAIMA ═══ -->
+    <div class="build-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="build-header">
+          <div class="build-name">Haima Cannon Brute</div>
+          <span class="build-archetype arch-burst">Slow Burst</span>
+        </div>
+        <div class="build-desc">Cannon of Haima is a slow-charging massive projectile with insane poise damage and stagger. Pairs with Collapsing Stars to immobilize targets first. Extremely fun, massively satisfying on large bosses.</div>
+        <div class="info-row">
+          <div class="info-block"><div class="info-label">Primary Stat</div><div class="info-val blue">INT 72</div></div>
+          <div class="info-block"><div class="info-label">Starting Class</div><div class="info-val">Astrologer</div></div>
+          <div class="info-block"><div class="info-label">Staff</div><div class="info-val">Lusat's Glintstone Staff</div></div>
+          <div class="info-block"><div class="info-label">Talisman</div><div class="info-val">Graven School + Radagon Icon</div></div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-pill sp-int">INT 72</span>
+          <span class="stat-pill sp-mind">MIND 40</span>
+          <span class="stat-pill sp-vit">VIT 48</span>
+          <span class="stat-pill sp-end">END 22</span>
+          <span class="stat-pill sp-dex">DEX 12</span>
+        </div>
+        <div class="tag-row">
+          <span class="item-tag">Cannon of Haima</span>
+          <span class="item-tag">Collapsing Stars</span>
+          <span class="item-tag">Gavel of Haima</span>
+          <span class="item-tag">Rock Sling</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="tier-badge tier-b">B+</div>
+        <div class="tier-label">PvE Tier</div>
+        <div class="diff-wrap">
+          <div class="diff-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+          <div class="diff-text">Hard</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /builds-grid -->
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Best INT Staves Ranked</div>
+      <table class="staff-table">
+        <tr>
+          <td class="s-name">Lusat's Glintstone Staff</td>
+          <td class="s-int">INT 52 req</td>
+          <td class="s-note">Highest spell damage, costs +50% FP</td>
+        </tr>
+        <tr>
+          <td class="s-name">Carian Regal Scepter</td>
+          <td class="s-int">INT 60 req</td>
+          <td class="s-note">Best all-round staff, boosts Full Moon</td>
+        </tr>
+        <tr>
+          <td class="s-name">Meteorite Staff</td>
+          <td class="s-int">INT 18 req</td>
+          <td class="s-note">Best early game, can't be upgraded</td>
+        </tr>
+        <tr>
+          <td class="s-name">Prince of Death's Staff</td>
+          <td class="s-int">INT 38 req</td>
+          <td class="s-note">Scales with INT + FAI both</td>
+        </tr>
+        <tr>
+          <td class="s-name">Carian Glintblade Staff</td>
+          <td class="s-int">INT 22 req</td>
+          <td class="s-note">Best for Glintblade-type sorceries</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">Essential INT Talismans</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Graven-Mass Talisman</strong> — Boosts sorcery damage by 8%. Best universal INT talisman in the game.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Graven School Talisman</strong> — 4% boost, stackable with Graven-Mass for combined 12% sorcery buff.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Radagon Icon</strong> — Reduces sorcery cast time significantly. Mandatory on any serious caster build.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Magic Scorpion Charm</strong> — +12% magic damage at the cost of -17% physical damage received. Glass cannon essential.</span></div>
+        <div class="tip-item"><span class="tip-bullet">✦</span><span><strong style="color:var(--text)">Cerulean Amber Medallion</strong> — Increases FP pool. Vital for Mind-strapped pure caster builds.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

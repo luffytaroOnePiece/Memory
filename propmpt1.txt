@@ -1,0 +1,41 @@
+Create a stunning, production-grade HTML file for: [TOPIC]
+
+Design requirements:
+- Choose a bold, unique aesthetic direction that fits the topic's personality 
+  (dark/moody, neon, earthy, futuristic, medieval, etc.)
+- Pick distinctive Google Fonts — NO Arial, Inter, Roboto or generic fonts
+- Use a cohesive color palette with CSS variables — one dominant color, 
+  one sharp accent, atmospheric background
+- Add layered background effects: radial gradients, subtle textures, 
+  geometric patterns or grain overlays that match the theme
+- Staggered CSS entrance animations on all elements (fadeIn, slideIn, riseUp)
+- Hover interactions on every card/row that reveal hidden details
+- Mobile responsive
+
+Content to include:
+- Themed header with eyebrow label, large display title, subtitle
+- A large decorative number or emblem relevant to the topic
+- Main ranking table or card grid with:
+    · Rank column (gold/silver/bronze for top 3 with glow effects)
+    · Name + description column
+    · Key attribute tags/pills with color-coded borders per category
+    · Metadata columns (stats, type, difficulty, year, etc. — relevant to topic)
+    · Right-side rating badge (S+, S, A+, A, B+... or 9.8, 9.7... scale)
+    · Hover state that reveals extra detail panel
+- Two bottom info panels side by side:
+    · Left: a reference table (best weapons / tools / items relevant to topic)
+    · Right: a tips/essentials list with bullet icons
+- Footer with ranking criteria note
+
+Styling rules:
+- Top 3 rows get golden left border + subtle gold background tint
+- All other rows get themed accent left border on hover
+- Pill/tag components must be color-coded by category with colored border + 
+  tinted background (never solid fill)
+- Difficulty shown as dot pips (5 dots, filled = on)
+- Tier/score shown in large Cinzel/Bebas/Barlow Condensed font with glow
+- Everything must feel handcrafted and specific to [TOPIC] — 
+  not generic AI output
+
+Output: Single complete .html file, no external dependencies except 
+Google Fonts CDN. All CSS and JS inline.
