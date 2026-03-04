@@ -61,9 +61,11 @@
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            animation: float 20s infinite ease-in-out alternate;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: float 25s infinite ease-in-out alternate;
+            will-change: transform;
+            contain: strict;
         }
 
         .blob-1 {
@@ -120,7 +122,7 @@
         /* Header layout */
         header {
             text-align: center;
-            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             position: relative;
         }
 
@@ -146,8 +148,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-            opacity: 0;
+            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .search-wrapper {
@@ -241,8 +242,7 @@
             border: 1px solid var(--border-color);
             min-height: 400px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-            opacity: 0;
+            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             position: relative;
         }
 
@@ -300,17 +300,11 @@
             border-left: 1px dashed rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-            visibility: hidden;
+            display: none;
         }
 
         .folder.open>.children {
-            max-height: 5000px;
-            /* arbitrary large value for transition */
-            opacity: 1;
-            visibility: visible;
+            display: block;
             margin-top: 0.2rem;
             margin-bottom: 0.2rem;
         }
@@ -387,19 +381,7 @@
             display: none !important;
         }
 
-        /* Stagger animation for tree items */
-        .tree-item-enter {
-            opacity: 0;
-            transform: translateX(-8px);
-            animation: itemSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes itemSlideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+        /* Tree items render instantly — no stagger delay */
 
         /* Folder count badge */
         .folder-count {
@@ -417,8 +399,7 @@
 
         /* Recently Viewed Section */
         .recent-section {
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-            opacity: 0;
+            animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .recent-header {
@@ -768,7 +749,7 @@
         let totalStats = { folders: 0, files: 0 };
         let allFoldersOpen = false;
 
-        let staggerIndex = 0;
+
 
         document.addEventListener("DOMContentLoaded", () => {
             initSearch();
@@ -806,7 +787,6 @@
             }
 
             totalStats = { folders: 0, files: 0 };
-            staggerIndex = 0;
             const rootUl = document.createElement('ul');
 
             // Build DOM iteratively
@@ -835,10 +815,7 @@
                 for (const [key, value] of entries) {
                     const li = document.createElement('li');
 
-                    // Stagger animation
-                    li.classList.add('tree-item-enter');
-                    li.style.animationDelay = `${staggerIndex * 50}ms`;
-                    staggerIndex++;
+
 
                     if (typeof value === 'string') {
                         // File Node
