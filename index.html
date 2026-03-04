@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Bank</title>
+    <meta name="description" content="A repository of knowledge, thoughts, and reference material.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0f172a;
+            --bg-glass: rgba(30, 41, 59, 0.7);
+            --bg-hover: rgba(51, 65, 85, 0.8);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --folder-color: #fbbf24;
+            --file-color: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-base);
+            /* Soft radial gradient to add depth */
+            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.05), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.05), transparent 25%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        header {
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1.15rem;
+            font-weight: 300;
+        }
+
+        .tree-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            min-height: 400px;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        /* Tree Styles */
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .folder, .file {
+            margin: 0.25rem 0;
+        }
+
+        .folder-name, .file-name {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            position: relative;
+        }
+
+        .folder-name:hover, .file-name:hover {
+            background-color: var(--bg-hover);
+            transform: translateX(4px);
+        }
+
+        /* Connecting lines for children */
+        .children {
+            margin-left: 1.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border-color);
+            display: none;
+            animation: expandTree 0.3s ease-out forwards;
+        }
+
+        .folder.open > .children {
+            display: block;
+        }
+
+        /* Icons */
+        .icon {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .folder > .folder-name .icon {
+            color: var(--folder-color);
+        }
+
+        .folder.open > .folder-name .icon {
+            transform: rotate(90deg);
+        }
+        
+        .folder.open > .folder-name .icon::before {
+            content: '📂';
+        }
+        .folder > .folder-name .icon::before {
+            content: '📁';
+        }
+
+        .file > .file-name {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 300;
+        }
+
+        .file > .file-name:hover {
+            color: #fff;
+        }
+
+        .file > .file-name .icon::before {
+            content: '📄';
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        /* Typography */
+        .text {
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .folder > .folder-name .text {
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        /* Loading & Error States */
+        .loading, .error {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .loading::after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes expandTree {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Memory Bank</h1>
+            <p class="subtitle">Personal Repository & Archives</p>
+        </header>
+
+        <main class="tree-container" id="tree-root">
+            <div class="loading">Initializing bank...</div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('index.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status} - failed to fetch index.json`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const treeRoot = document.getElementById('tree-root');
+                    treeRoot.innerHTML = '';
+                    
+                    if (!data || Object.keys(data).length === 0) {
+                        treeRoot.innerHTML = '<div class="empty-state">Your memory bank is empty.</div>';
+                        return;
+                    }
+
+                    const rootUl = document.createElement('ul');
+                    const treeNodes = createNodes(data, '');
+                    rootUl.appendChild(treeNodes);
+                    treeRoot.appendChild(rootUl);
+                })
+                .catch(error => {
+                    console.error('Error loading index.json:', error);
+                    document.getElementById('tree-root').innerHTML = `
+                        <div class="error">
+                            <span>Could not access your Memory Bank</span>
+                            <span style="font-size: 0.9rem; opacity: 0.8">${error.message}</span>
+                        </div>
+                    `;
+                });
+        });
+
+        function createNodes(node, path) {
+            const fragment = document.createDocumentFragment();
+
+            if (Array.isArray(node)) {
+                node.forEach(item => {
+                    fragment.appendChild(createNodes(item, path));
+                });
+            } else if (typeof node === 'object' && node !== null) {
+                // Keep entries sorted for a cleaner folder structure (optional, but nice)
+                const entries = Object.entries(node).sort((a, b) => {
+                    // Sort folders over files conceptually, or just alphabetically
+                    return a[0].localeCompare(b[0]);
+                });
+
+                for (const [key, value] of entries) {
+                    const li = document.createElement('li');
+                    
+                    if (typeof value === 'string') {
+                        // It's a file
+                        li.className = 'file';
+                        const a = document.createElement('a');
+                        a.className = 'file-name';
+                        
+                        // Construct path: path/to/id.html
+                        const currentPath = path ? `${path}/${key}.html` : `${key}.html`;
+                        a.href = currentPath;
+                        
+                        a.innerHTML = `
+                            <span class="icon"></span>
+                            <span class="text">${value}</span>
+                        `;
+                        li.appendChild(a);
+                    } else {
+                        // It's a folder
+                        li.className = 'folder';
+                        
+                        const div = document.createElement('div');
+                        div.className = 'folder-name';
+                        div.innerHTML = `
+                            <span class="icon"></span>
+                            <span class="text">${key}</span>
+                        `;
+                        
+                        // Toggle logic
+                        div.onclick = function(e) {
+                            e.stopPropagation();
+                            li.classList.toggle('open');
+                        };
+                        li.appendChild(div);
+                        
+                        const childrenDiv = document.createElement('div');
+                        childrenDiv.className = 'children';
+                        
+                        const currentPath = path ? `${path}/${key}` : `${key}`;
+                        const childUl = document.createElement('ul');
+                        
+                        childUl.appendChild(createNodes(value, currentPath));
+                        childrenDiv.appendChild(childUl);
+                        
+                        li.appendChild(childrenDiv);
+                    }
+                    fragment.appendChild(li);
+                }
+            }
+            return fragment;
+        }
+    </script>
+</body>
+</html>

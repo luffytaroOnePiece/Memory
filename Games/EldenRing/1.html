@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 10 Elden Ring Builds</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080608;
+    --surface: #0e0b10;
+    --border: #221a28;
+    --accent: #c8a84b;
+    --accent2: #8b4fcf;
+    --glow: rgba(200,168,75,0.15);
+    --text: #e2d9c8;
+    --muted: #6b5f75;
+    --rune: #c8a84b;
+    --blood: #8b1a1a;
+    --frost: #4a8fa8;
+    --faith: #c49a3c;
+    --arcane: #9b59b6;
+    --str: #b5451b;
+    --dex: #3a8c5c;
+    --int: #2e6fa3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 52px 24px 60px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Atmospheric grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse at center top, rgba(200,168,75,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1020px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: fadeDown 0.9s ease both;
+  }
+
+  .rune-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .rune-divider::before,
+  .rune-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+  }
+
+  .rune-divider::after {
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .rune-icon {
+    font-size: 22px;
+    color: var(--accent);
+    opacity: 0.8;
+    letter-spacing: 6px;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-top: 12px;
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--accent);
+    position: relative;
+    animation: fadeUp 0.9s ease 0.25s both;
+    box-shadow: 0 0 60px rgba(200,168,75,0.05), inset 0 0 0 1px rgba(200,168,75,0.04);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: rgba(14,11,16,0.95);
+    border-bottom: 1px solid rgba(200,168,75,0.25);
+  }
+
+  thead th {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 18px;
+    text-align: left;
+  }
+
+  thead th:first-child { width: 60px; text-align: center; }
+  thead th.center { text-align: center; }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(34,26,40,0.8);
+    transition: background 0.25s ease;
+    animation: fadeRow 0.5s ease both;
+  }
+
+  tbody tr:nth-child(1)  { animation-delay: 0.30s; }
+  tbody tr:nth-child(2)  { animation-delay: 0.36s; }
+  tbody tr:nth-child(3)  { animation-delay: 0.42s; }
+  tbody tr:nth-child(4)  { animation-delay: 0.48s; }
+  tbody tr:nth-child(5)  { animation-delay: 0.54s; }
+  tbody tr:nth-child(6)  { animation-delay: 0.60s; }
+  tbody tr:nth-child(7)  { animation-delay: 0.66s; }
+  tbody tr:nth-child(8)  { animation-delay: 0.72s; }
+  tbody tr:nth-child(9)  { animation-delay: 0.78s; }
+  tbody tr:nth-child(10) { animation-delay: 0.84s; }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(200,168,75,0.03); }
+  tbody tr.top3 { background: rgba(200,168,75,0.04); }
+  tbody tr.top3:hover { background: rgba(200,168,75,0.07); }
+
+  td {
+    padding: 16px 18px;
+    vertical-align: middle;
+    font-size: 14px;
+  }
+
+  /* Rank */
+  .rank-cell { text-align: center; }
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .rank-1 { background: rgba(255,215,0,0.1); color: #ffd700; border: 1px solid rgba(255,215,0,0.4); box-shadow: 0 0 12px rgba(255,215,0,0.15); }
+  .rank-2 { background: rgba(192,192,192,0.08); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.3); }
+  .rank-3 { background: rgba(205,127,50,0.1); color: #cd7f32; border: 1px solid rgba(205,127,50,0.35); }
+  .rank-n { background: rgba(255,255,255,0.03); color: var(--muted); border: 1px solid var(--border); }
+
+  /* Build name */
+  .build-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .build-desc {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  /* Stats pills */
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .stat-pill {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+
+  .stat-str   { color: #e05a2b; border-color: rgba(224,90,43,0.3); background: rgba(224,90,43,0.08); }
+  .stat-dex   { color: #3db36e; border-color: rgba(61,179,110,0.3); background: rgba(61,179,110,0.08); }
+  .stat-int   { color: #4a9fd4; border-color: rgba(74,159,212,0.3); background: rgba(74,159,212,0.08); }
+  .stat-fai   { color: #d4a44a; border-color: rgba(212,164,74,0.3); background: rgba(212,164,74,0.08); }
+  .stat-arc   { color: #a86fcd; border-color: rgba(168,111,205,0.3); background: rgba(168,111,205,0.08); }
+  .stat-vit   { color: #c44a4a; border-color: rgba(196,74,74,0.3); background: rgba(196,74,74,0.08); }
+
+  /* Weapon cell */
+  .weapon-cell {
+    font-size: 13px;
+    color: var(--text);
+    opacity: 0.85;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* Difficulty */
+  .diff-cell { text-align: center; }
+  .diff-pips {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 3px;
+  }
+  .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+  .pip.filled { background: var(--accent); border-color: var(--accent); }
+  .diff-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    font-family: 'Cinzel', serif;
+  }
+
+  /* Power rating */
+  .power-cell { text-align: center; }
+  .power-num {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .power-1 { color: #ffd700; text-shadow: 0 0 16px rgba(255,215,0,0.4); }
+  .power-2 { color: #c0c0c0; }
+  .power-3 { color: #cd7f32; }
+
+  .power-bar {
+    width: 52px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .power-fill { height: 100%; border-radius: 2px; background: var(--accent); }
+  .power-fill.g1 { background: #ffd700; }
+  .power-fill.g2 { background: #c0c0c0; }
+  .power-fill.g3 { background: #cd7f32; }
+
+  /* Playstyle badge */
+  .style-cell { text-align: center; }
+  .style-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 1px;
+    border: 1px solid;
+  }
+  .style-aggro   { color: #e05a2b; border-color: rgba(224,90,43,0.35); background: rgba(224,90,43,0.06); }
+  .style-ranged  { color: #4a9fd4; border-color: rgba(74,159,212,0.35); background: rgba(74,159,212,0.06); }
+  .style-tank    { color: #c44a4a; border-color: rgba(196,74,74,0.35); background: rgba(196,74,74,0.06); }
+  .style-caster  { color: #a86fcd; border-color: rgba(168,111,205,0.35); background: rgba(168,111,205,0.06); }
+  .style-hybrid  { color: #d4a44a; border-color: rgba(212,164,74,0.35); background: rgba(212,164,74,0.06); }
+  .style-tech    { color: #3db36e; border-color: rgba(61,179,110,0.35); background: rgba(61,179,110,0.06); }
+
+  /* Footer */
+  footer {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeUp 0.8s ease 1s both;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .footer-stamp {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(200,168,75,0.35);
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeRow {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @media (max-width: 720px) {
+    .weapon-col, .style-col { display: none; }
+    td, th { padding: 12px 10px; }
+    h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="rune-divider"><span class="rune-icon">⚔ ✦ ⚔</span></div>
+    <div class="eyebrow">The Lands Between · Character Mastery</div>
+    <h1>Top 10 <em>Elden Ring</em><br>Builds</h1>
+    <p class="subtitle">Ranked by power ceiling, versatility, boss efficiency & PvE dominance</p>
+  </header>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Build Name</th>
+          <th>Primary Stats</th>
+          <th class="weapon-col">Signature Weapon</th>
+          <th class="style-col center">Playstyle</th>
+          <th class="center">Mastery</th>
+          <th class="center">Power</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- 1 -->
+        <tr class="top3">
+          <td class="rank-cell"><div class="rank-badge rank-1">1</div></td>
+          <td>
+            <div class="build-name">Bleed Arcane Dancer</div>
+            <div class="build-desc">Rivers of Blood powerstancing — trivialises nearly every boss in the game</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-arc">Arc 80</span>
+              <span class="stat-pill stat-dex">Dex 45</span>
+              <span class="stat-pill stat-vit">Vit 60</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Rivers of Blood ×2</td>
+          <td class="style-cell style-col"><span class="style-badge style-aggro">Aggressive</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Medium</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num power-1">S</div>
+            <div class="power-bar"><div class="power-fill g1" style="width:100%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 2 -->
+        <tr class="top3">
+          <td class="rank-cell"><div class="rank-badge rank-2">2</div></td>
+          <td>
+            <div class="build-name">Frost + Bleed Twinblade</div>
+            <div class="build-desc">Coldbone Twinblade exploits dual status stacking for insane proc damage</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-dex">Dex 60</span>
+              <span class="stat-pill stat-arc">Arc 45</span>
+              <span class="stat-pill stat-vit">Vit 55</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Eleonora's Poleblade</td>
+          <td class="style-cell style-col"><span class="style-badge style-tech">Technical</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Hard</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num power-2">S</div>
+            <div class="power-bar"><div class="power-fill g2" style="width:97%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 3 -->
+        <tr class="top3">
+          <td class="rank-cell"><div class="rank-badge rank-3">3</div></td>
+          <td>
+            <div class="build-name">Comet Azur Glass Cannon</div>
+            <div class="build-desc">Cerulean Hidden Tear + Comet Azur melts health bars in seconds flat</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-int">Int 80</span>
+              <span class="stat-pill stat-int">Mind 50</span>
+              <span class="stat-pill stat-vit">Vit 40</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Lusat's Staff + Comet Azur</td>
+          <td class="style-cell style-col"><span class="style-badge style-caster">Caster</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Easy</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num power-3">S−</div>
+            <div class="power-bar"><div class="power-fill g3" style="width:94%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 4 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">4</div></td>
+          <td>
+            <div class="build-name">Strength Colossal Knight</div>
+            <div class="build-desc">Giant-Crusher with Royal Knight's Resolve — one-shot potential on anything</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-str">Str 80</span>
+              <span class="stat-pill stat-vit">End 50</span>
+              <span class="stat-pill stat-vit">Vit 60</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Giant-Crusher / Greatsword</td>
+          <td class="style-cell style-col"><span class="style-badge style-tank">Tank</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Medium</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">A+</div>
+            <div class="power-bar"><div class="power-fill" style="width:90%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 5 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">5</div></td>
+          <td>
+            <div class="build-name">Sacred Flame Prophet</div>
+            <div class="build-desc">Black Flame incantations melt boss percentage HP — scales beautifully endgame</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-fai">Fai 80</span>
+              <span class="stat-pill stat-vit">Mind 45</span>
+              <span class="stat-pill stat-str">Str 25</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Dragon Communion Seal</td>
+          <td class="style-cell style-col"><span class="style-badge style-ranged">Ranged</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Medium</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">A+</div>
+            <div class="power-bar"><div class="power-fill" style="width:88%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 6 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">6</div></td>
+          <td>
+            <div class="build-name">Dexterity Samurai</div>
+            <div class="build-desc">Rivers of Blood origin — Uchigatana w/ Unsheathe ash. Responsive & rewarding</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-dex">Dex 70</span>
+              <span class="stat-pill stat-vit">Vit 55</span>
+              <span class="stat-pill stat-arc">Arc 20</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Uchigatana / Hand of Malenia</td>
+          <td class="style-cell style-col"><span class="style-badge style-aggro">Aggressive</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Hard</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">A</div>
+            <div class="power-bar"><div class="power-fill" style="width:84%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 7 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">7</div></td>
+          <td>
+            <div class="build-name">Moonveil Int Duelist</div>
+            <div class="build-desc">Transient Moonlight provides massive range — dominant in both PvE and PvP</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-int">Int 70</span>
+              <span class="stat-pill stat-dex">Dex 40</span>
+              <span class="stat-pill stat-vit">Vit 50</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Moonveil Katana</td>
+          <td class="style-cell style-col"><span class="style-badge style-tech">Technical</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Hard</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">A</div>
+            <div class="power-bar"><div class="power-fill" style="width:82%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 8 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">8</div></td>
+          <td>
+            <div class="build-name">Dragon Communion Hybrid</div>
+            <div class="build-desc">Dragonfire incantations fused with melee — Beastman's synergy hits extremely hard</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-fai">Fai 45</span>
+              <span class="stat-pill stat-arc">Arc 45</span>
+              <span class="stat-pill stat-str">Str 30</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Beastman's Cleaver</td>
+          <td class="style-cell style-col"><span class="style-badge style-hybrid">Hybrid</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Hard</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">B+</div>
+            <div class="power-bar"><div class="power-fill" style="width:78%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 9 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">9</div></td>
+          <td>
+            <div class="build-name">Godslayer Faith Warrior</div>
+            <div class="build-desc">Godslayer Greatsword ash pairs beautifully with Black Flame buffs late game</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-fai">Fai 60</span>
+              <span class="stat-pill stat-str">Str 35</span>
+              <span class="stat-pill stat-vit">Vit 55</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Godslayer's Greatsword</td>
+          <td class="style-cell style-col"><span class="style-badge style-hybrid">Hybrid</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Medium</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">B+</div>
+            <div class="power-bar"><div class="power-fill" style="width:75%"></div></div>
+          </td>
+        </tr>
+
+        <!-- 10 -->
+        <tr>
+          <td class="rank-cell"><div class="rank-badge rank-n">10</div></td>
+          <td>
+            <div class="build-name">Poison Rot Archer</div>
+            <div class="build-desc">Arrows' Sting talisman + Rotbone arrows — the ultimate patience build for Dragon bosses</div>
+          </td>
+          <td>
+            <div class="stats">
+              <span class="stat-pill stat-dex">Dex 50</span>
+              <span class="stat-pill stat-arc">Arc 60</span>
+              <span class="stat-pill stat-vit">Vit 45</span>
+            </div>
+          </td>
+          <td class="weapon-cell weapon-col">Black Bow / Serpent Bow</td>
+          <td class="style-cell style-col"><span class="style-badge style-ranged">Ranged</span></td>
+          <td class="diff-cell">
+            <div class="diff-pips">
+              <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+            <div class="diff-label">Easy</div>
+          </td>
+          <td class="power-cell">
+            <div class="power-num">B</div>
+            <div class="power-bar"><div class="power-fill" style="width:70%"></div></div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div class="footer-note">Ranked for PvE endgame performance · Elden Ring v1.12 · Shadow of the Erdtree considered</div>
+    <div class="footer-stamp">★ Tarnished's Codex ★</div>
+  </footer>
+
+</div>
+</body>
+</html>
