@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FH5 Biomes of Mexico</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --surface: #0b0e18;
+    --border: #151a28;
+    --text: #dde4ed;
+    --muted: #4a5568;
+    --card-h: 200px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    padding: 48px 20px 64px;
+    overflow-x: hidden;
+  }
+
+  /* Atmospheric grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    margin-bottom: 52px;
+    animation: fadeDown 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%);
+  }
+
+  .badge-fh5 { background: #f5a623; color: #060810; }
+  .badge-mx  { background: transparent; border: 1px solid #2d3748; color: var(--muted); clip-path: none; }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(50px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.85;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  h1 .line1 { color: #4a5568; font-weight: 300; font-size: 0.48em; letter-spacing: 0.12em; display: block; margin-bottom: 4px; }
+  h1 .line2 { color: #f5a623; display: block; }
+  h1 .line3 { color: var(--text); display: block; }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 460px;
+    line-height: 1.6;
+    border-left: 2px solid #f5a623;
+    padding-left: 12px;
+  }
+
+  .biome-count {
+    text-align: right;
+  }
+
+  .count-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(245,166,35,0.12);
+    letter-spacing: -0.04em;
+  }
+
+  .count-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: -8px;
+    text-align: right;
+  }
+
+  /* ── GRID ── */
+  .biome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    animation: riseUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+  }
+
+  /* ── CARD ── */
+  .biome-card {
+    position: relative;
+    min-height: var(--card-h);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .biome-card:hover { transform: scale(1.015); z-index: 2; }
+  .biome-card:hover .card-overlay { opacity: 0.5; }
+  .biome-card:hover .card-details { transform: translateY(0); opacity: 1; }
+  .biome-card:hover .card-title { transform: translateY(-4px); }
+
+  /* Gradient background per biome */
+  .card-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.4s ease;
+  }
+
+  .biome-card:hover .card-bg { transform: scale(1.06); }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(6,8,16,0.55);
+    transition: opacity 0.3s ease;
+  }
+
+  /* Bottom gradient for text legibility */
+  .card-fog {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 70%;
+    pointer-events: none;
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    min-height: var(--card-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 18px 18px;
+  }
+
+  .card-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 28px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+    transition: transform 0.3s ease;
+  }
+
+  .biome-card:hover .card-icon { transform: scale(1.2) rotate(-5deg); }
+
+  .card-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    opacity: 0.6;
+  }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    transition: transform 0.3s ease;
+    margin-bottom: 6px;
+  }
+
+  .card-region {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  /* Tags */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 1px;
+    border: 1px solid;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Details panel (revealed on hover) */
+  .card-details {
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+  }
+
+  .detail-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .detail-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .detail-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ── BIOME THEMES ── */
+
+  /* 1. Rainforest */
+  .b-rainforest .card-bg {
+    background: radial-gradient(ellipse at 30% 40%, #1a3d1a 0%, #0d2210 40%, #060f06 100%);
+  }
+  .b-rainforest .card-fog {
+    background: linear-gradient(to top, rgba(10,30,10,0.95) 0%, transparent 100%);
+  }
+  .b-rainforest .card-title { color: #6fcf6f; }
+  .b-rainforest .card-num { color: #4a9e4a; }
+  .b-rainforest .tag { color: #6fcf6f; border-color: rgba(111,207,111,0.35); background: rgba(111,207,111,0.1); }
+
+  /* Canopy dots */
+  .b-rainforest .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(100,200,100,0.08) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 60%, rgba(60,150,60,0.06) 0%, transparent 30%);
+  }
+
+  /* 2. Desert */
+  .b-desert .card-bg {
+    background: radial-gradient(ellipse at 60% 30%, #6b3a1a 0%, #3d1f08 40%, #1a0d04 100%);
+  }
+  .b-desert .card-fog {
+    background: linear-gradient(to top, rgba(30,15,5,0.95) 0%, transparent 100%);
+  }
+  .b-desert .card-title { color: #f5a623; }
+  .b-desert .card-num { color: #c47d1a; }
+  .b-desert .tag { color: #f5a623; border-color: rgba(245,166,35,0.35); background: rgba(245,166,35,0.1); }
+  .b-desert .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 70% 20%, rgba(255,180,50,0.12) 0%, transparent 50%);
+  }
+
+  /* 3. Canyon */
+  .b-canyon .card-bg {
+    background: radial-gradient(ellipse at 40% 60%, #6b2d1a 0%, #3d180a 40%, #1a0904 100%);
+  }
+  .b-canyon .card-fog {
+    background: linear-gradient(to top, rgba(26,10,4,0.95) 0%, transparent 100%);
+  }
+  .b-canyon .card-title { color: #e8754a; }
+  .b-canyon .card-num { color: #b5552a; }
+  .b-canyon .tag { color: #e8754a; border-color: rgba(232,117,74,0.35); background: rgba(232,117,74,0.1); }
+  .b-canyon .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(180deg, transparent, transparent 18px, rgba(180,80,40,0.04) 18px, rgba(180,80,40,0.04) 19px);
+  }
+
+  /* 4. Volcano */
+  .b-volcano .card-bg {
+    background: radial-gradient(ellipse at 50% 80%, #4a0a0a 0%, #220408 50%, #080108 100%);
+  }
+  .b-volcano .card-fog {
+    background: linear-gradient(to top, rgba(20,4,4,0.95) 0%, transparent 100%);
+  }
+  .b-volcano .card-title { color: #ff4444; }
+  .b-volcano .card-num { color: #cc2222; }
+  .b-volcano .tag { color: #ff6666; border-color: rgba(255,80,80,0.35); background: rgba(255,80,80,0.1); }
+  .b-volcano .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 50% 100%, rgba(255,60,0,0.15) 0%, transparent 50%),
+                      radial-gradient(circle at 30% 70%, rgba(255,100,0,0.08) 0%, transparent 30%);
+  }
+
+  /* 5. Jungle / Tropical Coast */
+  .b-jungle .card-bg {
+    background: radial-gradient(ellipse at 20% 60%, #0d3d3a 0%, #061e1c 40%, #020c0b 100%);
+  }
+  .b-jungle .card-fog {
+    background: linear-gradient(to top, rgba(4,14,12,0.95) 0%, transparent 100%);
+  }
+  .b-jungle .card-title { color: #2dd4bf; }
+  .b-jungle .card-num { color: #14a89a; }
+  .b-jungle .tag { color: #2dd4bf; border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.1); }
+  .b-jungle .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 80% 30%, rgba(0,200,180,0.08) 0%, transparent 40%);
+  }
+
+  /* 6. Farmland */
+  .b-farmland .card-bg {
+    background: radial-gradient(ellipse at 50% 30%, #2d4a1a 0%, #16260c 40%, #080f05 100%);
+  }
+  .b-farmland .card-fog {
+    background: linear-gradient(to top, rgba(10,18,5,0.95) 0%, transparent 100%);
+  }
+  .b-farmland .card-title { color: #a3d96f; }
+  .b-farmland .card-num { color: #7ab04a; }
+  .b-farmland .tag { color: #a3d96f; border-color: rgba(163,217,111,0.35); background: rgba(163,217,111,0.1); }
+  .b-farmland .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(95deg, transparent, transparent 30px, rgba(100,160,50,0.03) 30px, rgba(100,160,50,0.03) 31px);
+  }
+
+  /* 7. Highway / Urban */
+  .b-urban .card-bg {
+    background: radial-gradient(ellipse at 70% 40%, #1a1a2e 0%, #0d0d1e 40%, #050508 100%);
+  }
+  .b-urban .card-fog {
+    background: linear-gradient(to top, rgba(6,6,14,0.95) 0%, transparent 100%);
+  }
+  .b-urban .card-title { color: #818cf8; }
+  .b-urban .card-num { color: #5c66d4; }
+  .b-urban .tag { color: #818cf8; border-color: rgba(129,140,248,0.35); background: rgba(129,140,248,0.1); }
+  .b-urban .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(129,140,248,0.03) 40px, rgba(129,140,248,0.03) 41px),
+      repeating-linear-gradient(180deg, transparent, transparent 40px, rgba(129,140,248,0.02) 40px, rgba(129,140,248,0.02) 41px);
+  }
+
+  /* 8. Swamp / Wetlands */
+  .b-swamp .card-bg {
+    background: radial-gradient(ellipse at 40% 70%, #1a2d1a 0%, #0c1a0c 40%, #040a04 100%);
+  }
+  .b-swamp .card-fog {
+    background: linear-gradient(to top, rgba(6,12,6,0.95) 0%, transparent 100%);
+  }
+  .b-swamp .card-title { color: #86efac; }
+  .b-swamp .card-num { color: #4ade80; }
+  .b-swamp .tag { color: #86efac; border-color: rgba(134,239,172,0.35); background: rgba(134,239,172,0.08); }
+  .b-swamp .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 20% 80%, rgba(50,150,80,0.08) 0%, transparent 40%),
+                      radial-gradient(ellipse at 70% 50%, rgba(30,100,60,0.06) 0%, transparent 30%);
+  }
+
+  /* 9. Beach / Coast */
+  .b-beach .card-bg {
+    background: radial-gradient(ellipse at 60% 20%, #1a3d5c 0%, #0a1e30 40%, #04080f 100%);
+  }
+  .b-beach .card-fog {
+    background: linear-gradient(to top, rgba(4,8,16,0.95) 0%, transparent 100%);
+  }
+  .b-beach .card-title { color: #38bdf8; }
+  .b-beach .card-num { color: #0ea5e9; }
+  .b-beach .tag { color: #38bdf8; border-color: rgba(56,189,248,0.35); background: rgba(56,189,248,0.1); }
+  .b-beach .card-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.1) 0%, transparent 50%);
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    margin-top: 2px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border);
+    border-top: 2px solid #f5a623;
+    animation: riseUp 0.8s ease 0.5s both;
+  }
+
+  .strip-item {
+    padding: 18px 20px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .strip-item:last-child { border-right: none; }
+
+  .strip-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: #f5a623;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .strip-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .strip-sub {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    margin-top: 2px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    animation: riseUp 0.8s ease 0.65s both;
+  }
+
+  .legend-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 760px) {
+    .biome-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .strip-item:nth-child(2) { border-right: none; }
+    .strip-item:nth-child(3) { border-top: 1px solid var(--border); }
+    .strip-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+    .biome-count { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .biome-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="badge-row">
+          <span class="badge badge-fh5">FH5</span>
+          <span class="badge badge-mx">Mexico</span>
+        </div>
+        <h1>
+          <span class="line1">Forza Horizon 5</span>
+          <span class="line2">Biomes</span>
+          <span class="line3">of Mexico</span>
+        </h1>
+        <p class="subtitle">Every distinct environment across the open world — each with unique terrain, weather patterns, race types & driving character</p>
+      </div>
+      <div class="biome-count">
+        <div class="count-num">9</div>
+        <div class="count-label">Biomes</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BIOME GRID -->
+  <div class="biome-grid">
+
+    <!-- 1. Rainforest -->
+    <div class="biome-card b-rainforest">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🌿</div>
+        <div class="card-num">Biome 01</div>
+        <div class="card-title">Rainforest</div>
+        <div class="card-region">Sierra Nueva · Northern Highlands</div>
+        <div class="card-tags">
+          <span class="tag">Dense Canopy</span>
+          <span class="tag">Wet Roads</span>
+          <span class="tag">Fog</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Cross-Country</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Rain / Storm</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Low</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Desert -->
+    <div class="biome-card b-desert">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🏜️</div>
+        <div class="card-num">Biome 02</div>
+        <div class="card-title">Guanajuato Desert</div>
+        <div class="card-region">Central Mexico · Arid Plateau</div>
+        <div class="card-tags">
+          <span class="tag">Sand Dunes</span>
+          <span class="tag">Dust Storms</span>
+          <span class="tag">Open Flats</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Baja Racing</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Sandstorm</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Loose</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Canyon -->
+    <div class="biome-card b-canyon">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🏔️</div>
+        <div class="card-num">Biome 03</div>
+        <div class="card-title">Canyon Barrancas</div>
+        <div class="card-region">Western Highlands · Rocky Gorges</div>
+        <div class="card-tags">
+          <span class="tag">Cliffside Roads</span>
+          <span class="tag">Switchbacks</span>
+          <span class="tag">Gravel</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Dirt Road Race</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Clear / Overcast</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Medium</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Volcano -->
+    <div class="biome-card b-volcano">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🌋</div>
+        <div class="card-num">Biome 04</div>
+        <div class="card-title">Volcano La Gran</div>
+        <div class="card-region">Caldera Peak · Volcanic Fields</div>
+        <div class="card-tags">
+          <span class="tag">Lava Fields</span>
+          <span class="tag">Ash Roads</span>
+          <span class="tag">Elevation</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">PR Stunts</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Overcast / Ash</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Variable</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Jungle / Tropical Coast -->
+    <div class="biome-card b-jungle">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🌴</div>
+        <div class="card-num">Biome 05</div>
+        <div class="card-title">Tropical Coast</div>
+        <div class="card-region">Pacific Coast · Jungle Fringe</div>
+        <div class="card-tags">
+          <span class="tag">Coastal Roads</span>
+          <span class="tag">Humidity</span>
+          <span class="tag">Scenic</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Road Racing</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Humid / Rain</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Medium</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Farmland -->
+    <div class="biome-card b-farmland">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🌾</div>
+        <div class="card-num">Biome 06</div>
+        <div class="card-title">Fertile Farmlands</div>
+        <div class="card-region">Valle de México · Agricultural Plains</div>
+        <div class="card-tags">
+          <span class="tag">Open Fields</span>
+          <span class="tag">Dirt Tracks</span>
+          <span class="tag">Rolling Hills</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Cross-Country</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Sunny / Cloudy</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Good</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Urban -->
+    <div class="biome-card b-urban">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🏙️</div>
+        <div class="card-num">Biome 07</div>
+        <div class="card-title">Guanajuato City</div>
+        <div class="card-region">Historic City Centre · Highway Ring</div>
+        <div class="card-tags">
+          <span class="tag">Street Racing</span>
+          <span class="tag">Night Lights</span>
+          <span class="tag">Highway</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Street Race</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Clear / Night</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">High</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Swamp -->
+    <div class="biome-card b-swamp">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🐊</div>
+        <div class="card-num">Biome 08</div>
+        <div class="card-title">Wetlands & Marsh</div>
+        <div class="card-region">Baja Gulf · Coastal Wetlands</div>
+        <div class="card-tags">
+          <span class="tag">Mud</span>
+          <span class="tag">Low Visibility</span>
+          <span class="tag">Shallow Water</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Mud / Off-Road</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Foggy / Overcast</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Very Low</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Beach -->
+    <div class="biome-card b-beach">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-fog"></div>
+      <div class="card-content">
+        <div class="card-icon">🌊</div>
+        <div class="card-num">Biome 09</div>
+        <div class="card-title">Baja Coastline</div>
+        <div class="card-region">Gulf of California · Sandy Shores</div>
+        <div class="card-tags">
+          <span class="tag">Beach Racing</span>
+          <span class="tag">Seaside Cliffs</span>
+          <span class="tag">Sand</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <div class="detail-item"><div class="detail-label">Best For</div><div class="detail-val">Beach Sprint</div></div>
+            <div class="detail-item"><div class="detail-label">Weather</div><div class="detail-val">Sunny / Windy</div></div>
+            <div class="detail-item"><div class="detail-label">Traction</div><div class="detail-val">Soft / Sand</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="strip-item">
+      <div class="strip-val">9</div>
+      <div class="strip-label">Distinct Biomes</div>
+      <div class="strip-sub">Most diverse open world in the Horizon series</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-val">~86</div>
+      <div class="strip-label">Square Miles</div>
+      <div class="strip-sub">Largest Forza Horizon map ever built</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-val">11</div>
+      <div class="strip-label">Weather States</div>
+      <div class="strip-sub">Dynamic storms, dust, rain, fog & clear skies</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-val">570+</div>
+      <div class="strip-label">Cars Available</div>
+      <div class="strip-sub">Each biome rewards different car classes</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span class="legend-title">Hover cards for details</span>
+    <div class="legend-item"><div class="legend-dot" style="background:#6fcf6f"></div> Rainforest</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div> Desert</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e8754a"></div> Canyon</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ff4444"></div> Volcano</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2dd4bf"></div> Coast</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a3d96f"></div> Farmland</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#818cf8"></div> Urban</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#86efac"></div> Wetlands</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div> Coastline</div>
+  </div>
+
+</div>
+</body>
+</html>
