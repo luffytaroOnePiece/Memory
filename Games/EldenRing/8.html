@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best STR Armor Sets — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080402;
+    --surface: #100804;
+    --border: #1e1208;
+    --str-color: #e05a2b;
+    --str-bright: #f07840;
+    --str-glow: rgba(224,90,43,0.18);
+    --str-dark: #2e1008;
+    --gold: #c8a84b;
+    --text: #f0ddd0;
+    --muted: #5a3820;
+    --physical: #fb923c;
+    --magic: #60a5fa;
+    --fire: #f87171;
+    --lightning: #fbbf24;
+    --holy: #d4a44a;
+    --focus: #a78bfa;
+    --immunity: #4ade80;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Forge / ember texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 5% 50%, rgba(224,90,43,0.07) 0%, transparent 40%),
+      radial-gradient(ellipse at 95% 20%, rgba(180,50,10,0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 100%, rgba(224,90,43,0.05) 0%, transparent 35%),
+      repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 40px,
+        rgba(224,90,43,0.012) 40px,
+        rgba(224,90,43,0.012) 41px
+      );
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Ember glow top */
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -10%; right: -5%;
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(224,90,43,0.07) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1060px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: smashDown 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .str-emblem {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px; height: 72px;
+    margin: 0 auto 22px;
+    transform: rotate(-3deg);
+  }
+
+  .str-emblem::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 4px;
+    background: radial-gradient(circle at 40% 35%, rgba(224,90,43,0.35) 0%, rgba(46,16,8,0.2) 65%);
+    border: 1px solid rgba(224,90,43,0.55);
+    box-shadow: 0 0 40px rgba(224,90,43,0.25), inset 0 0 24px rgba(180,50,10,0.18);
+    animation: forgePulse 3s ease-in-out infinite;
+  }
+
+  .str-emblem-text {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 900;
+    color: var(--str-bright);
+    letter-spacing: 0.04em;
+    position: relative; z-index: 1;
+  }
+
+  @keyframes forgePulse {
+    0%,100% { box-shadow: 0 0 28px rgba(224,90,43,0.2), inset 0 0 18px rgba(180,50,10,0.12); }
+    50%      { box-shadow: 0 0 55px rgba(224,90,43,0.4), inset 0 0 32px rgba(180,50,10,0.25); }
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(30px, 5vw, 60px);
+    font-weight: 900; letter-spacing: 0.03em; line-height: 1; margin-bottom: 8px;
+  }
+
+  h1 .str {
+    color: var(--str-bright);
+    text-shadow: 0 0 35px rgba(240,120,64,0.55), 0 0 70px rgba(224,90,43,0.28);
+  }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 2vw, 20px);
+    font-weight: 400; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, rgba(224,90,43,0.55)); }
+  .divider::after  { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, rgba(224,90,43,0.55), transparent); }
+  .divider-icon { color: var(--str-color); font-size: 16px; letter-spacing: 8px; opacity: 0.75; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 540px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── LEGEND ── */
+  .legend-row {
+    display: flex; align-items: center; gap: 18px;
+    flex-wrap: wrap; padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--str-color);
+    background: rgba(10,8,4,0.7);
+    margin-bottom: 3px;
+    animation: riseUp 0.7s ease 0.15s both;
+  }
+
+  .legend-title {
+    font-family: 'Cinzel', serif; font-size: 9px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* ── ARMOR CARDS ── */
+  .armor-grid {
+    display: flex; flex-direction: column; gap: 3px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .armor-card {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--str-dark);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .armor-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(224,90,43,0.08) 0%, transparent 40%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  /* Iron crack line on hover */
+  .armor-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 2px; height: 0;
+    background: linear-gradient(180deg, var(--str-color), transparent);
+    transition: height 0.35s ease;
+    opacity: 0.5;
+  }
+
+  .armor-card:hover {
+    border-left-color: var(--str-color);
+    background: rgba(14,8,4,0.98);
+    box-shadow: 0 0 32px rgba(224,90,43,0.07), -4px 0 20px rgba(224,90,43,0.14);
+  }
+  .armor-card:hover::before { opacity: 1; }
+  .armor-card:hover::after  { height: 100%; }
+
+  .armor-card.top { border-left-color: var(--gold); }
+  .armor-card.top::before { background: linear-gradient(90deg, rgba(200,168,75,0.1) 0%, transparent 40%); opacity: 1; }
+  .armor-card.top:hover { border-left-color: var(--gold); box-shadow: 0 0 32px rgba(200,168,75,0.09), -4px 0 20px rgba(200,168,75,0.16); }
+
+  /* Rank */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.3);
+  }
+  .rank-num { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; line-height: 1; }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.55); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Body */
+  .card-body { padding: 18px 22px; position: relative; z-index: 1; }
+
+  .armor-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+
+  .armor-name {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .armor-card.top .armor-name { color: var(--gold); }
+
+  .armor-set-label {
+    font-size: 12px; color: var(--muted); font-style: italic;
+    font-weight: 300; margin-bottom: 8px; letter-spacing: 0.04em;
+  }
+
+  .armor-type {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .type-ultra  { color: #f87171; border-color: rgba(248,113,113,0.45); background: rgba(248,113,113,0.08); }
+  .type-heavy  { color: #e05a2b; border-color: rgba(224,90,43,0.45);   background: rgba(224,90,43,0.08); }
+  .type-medium { color: #fbbf24; border-color: rgba(251,191,36,0.4);   background: rgba(251,191,36,0.07); }
+  .type-light  { color: #4ade80; border-color: rgba(74,222,128,0.4);   background: rgba(74,222,128,0.07); }
+  .type-mix    { color: #a78bfa; border-color: rgba(167,139,250,0.4);  background: rgba(167,139,250,0.07); }
+
+  .armor-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 12px;
+  }
+
+  /* Defense bars */
+  .def-grid {
+    display: flex; flex-wrap: wrap; gap: 10px 20px;
+    margin-bottom: 12px;
+  }
+
+  .def-item { display: flex; flex-direction: column; gap: 4px; min-width: 90px; }
+
+  .def-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .def-label.phys    { color: var(--physical); }
+  .def-label.magic   { color: var(--magic); }
+  .def-label.fire    { color: var(--fire); }
+  .def-label.light   { color: var(--lightning); }
+  .def-label.focus   { color: var(--focus); }
+  .def-label.immunity { color: var(--immunity); }
+
+  .def-bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .def-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; max-width: 80px; }
+  .def-fill { height: 100%; border-radius: 2px; }
+  .fill-phys    { background: var(--physical); }
+  .fill-magic   { background: var(--magic); }
+  .fill-fire    { background: var(--fire); }
+  .fill-light   { background: var(--lightning); }
+  .fill-focus   { background: var(--focus); }
+  .fill-immunity { background: var(--immunity); }
+
+  .def-val {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; color: var(--text); line-height: 1;
+    min-width: 28px; text-align: right;
+  }
+
+  /* Pieces */
+  .pieces-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .piece-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 9px; border: 1px solid;
+    border-color: rgba(224,90,43,0.22);
+    background: rgba(224,90,43,0.05);
+    color: rgba(240,120,64,0.75);
+    border-radius: 1px;
+  }
+
+  /* Perks */
+  .why-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .why-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(240,221,208,0.5);
+    padding: 2px 7px;
+    border: 1px solid rgba(224,90,43,0.1);
+    background: rgba(224,90,43,0.03); border-radius: 1px;
+  }
+
+  /* Side */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 18px 18px; gap: 8px;
+    min-width: 110px; position: relative; z-index: 1;
+  }
+
+  .weight-wrap { text-align: center; }
+  .weight-num {
+    font-family: 'Cinzel', serif;
+    font-size: 26px; font-weight: 900; line-height: 1;
+    color: var(--str-bright);
+    text-shadow: 0 0 12px rgba(240,120,64,0.35);
+  }
+  .weight-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); margin-top: 2px;
+  }
+
+  .poise-wrap { text-align: center; }
+  .poise-num {
+    font-family: 'Cinzel', serif;
+    font-size: 22px; font-weight: 800; line-height: 1;
+  }
+  .poise-high { color: #f87171; text-shadow: 0 0 10px rgba(248,113,113,0.35); }
+  .poise-mid  { color: var(--str-color); }
+  .poise-low  { color: var(--muted); }
+
+  .poise-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(90,56,32,0.8); margin-top: 1px;
+  }
+
+  .roll-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid; border-radius: 1px;
+  }
+  .roll-fast   { color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.06); }
+  .roll-medium { color: #fbbf24; border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.06); }
+  .roll-fat    { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.06); }
+
+  /* ── BOTTOM ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3px; margin-top: 3px;
+    animation: riseUp 0.8s ease 0.6s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--str-color);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--str-bright); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,90,43,0.4), transparent); }
+
+  .slot-table { width: 100%; }
+  .slot-table tr { border-bottom: 1px solid rgba(30,18,8,0.9); }
+  .slot-table tr:last-child { border-bottom: none; }
+  .slot-table td { padding: 9px 0; font-size: 13px; vertical-align: top; }
+  .slot-table .s-slot { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--str-color); white-space: nowrap; padding-right: 14px; padding-top: 2px; }
+  .slot-table .s-pick { color: var(--text); font-style: italic; }
+  .slot-table .s-note { color: var(--muted); font-size: 12px; font-weight: 300; display: block; margin-top: 2px; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--str-color); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.8; }
+
+  @keyframes smashDown {
+    from { opacity: 0; transform: translateY(-24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    .armor-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .def-grid { gap: 8px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="str-emblem"><span class="str-emblem-text">STR</span></div>
+    <div class="eyebrow">Colossus Wardrobe · Elden Ring</div>
+    <h1>
+      <span class="str">Strength</span><br>
+      <span class="rest">Armor Sets</span>
+    </h1>
+    <div class="h1-sub">Best Gear for Colossal Warriors · Ranked</div>
+    <div class="divider"><span class="divider-icon">⚔ ⚔ ⚔</span></div>
+    <p class="subtitle">Ranked by physical defense, poise, equip load value, absorption efficiency & overall synergy with colossal weapon builds. Tank hits. Swing hard. Never flinch.</p>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend-row">
+    <span class="legend-title">Defense Bars</span>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--physical)"></div>Physical</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--magic)"></div>Magic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--fire)"></div>Fire</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--lightning)"></div>Lightning</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--focus)"></div>Focus</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--immunity)"></div>Immunity</div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="armor-grid">
+
+    <!-- #1 Bull-Goat Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Bull-Goat Set</div>
+            <div class="armor-set-label">Obtained from: Patches questline — trade Magma Wyrm Scaleshard</div>
+          </div>
+          <span class="armor-type type-ultra">Ultra Heavy · Max Poise</span>
+        </div>
+        <div class="armor-desc">The absolute pinnacle of STR armor. Bull-Goat Set has the highest poise (100) and highest physical defense of any complete set in the game. At 63.3 weight it demands investment in Erdtree's Favor and high Endurance, but the reward is a build that tanks straight through every boss combo without flinching — a true colossus.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:95%"></div></div><div class="def-val">43.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:55%"></div></div><div class="def-val">25.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:62%"></div></div><div class="def-val">28.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:50%"></div></div><div class="def-val">23.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:88%"></div></div><div class="def-val">192</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Bull-Goat Helm</span>
+          <span class="piece-tag">Bull-Goat Armor</span>
+          <span class="piece-tag">Bull-Goat Gauntlets</span>
+          <span class="piece-tag">Bull-Goat Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Highest poise in game (100)</span>
+          <span class="why-tag">Best physical defense</span>
+          <span class="why-tag">Never gets staggered</span>
+          <span class="why-tag">Hyperarmor every swing</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">63.3</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">100</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fat">Fat Roll</span>
+      </div>
+    </div>
+
+    <!-- #2 Lionel's Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Lionel's Set</div>
+            <div class="armor-set-label">Obtained from: Leyndell, Royal Capital — Audience Pathway corridor</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Best Value</span>
+        </div>
+        <div class="armor-desc">Lionel's Set is widely considered the single best weight-to-defense ratio in the entire game. It provides near-Bull-Goat physical defense at nearly half the weight — 51 poise, excellent across all damage types, and enough room for medium roll with proper endurance investment. The absolute meta pick for every serious STR build.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:86%"></div></div><div class="def-val">39.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:52%"></div></div><div class="def-val">24.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:65%"></div></div><div class="def-val">30.0</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:48%"></div></div><div class="def-val">22.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:74%"></div></div><div class="def-val">161</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Lionel's Helm</span>
+          <span class="piece-tag">Lionel's Armor</span>
+          <span class="piece-tag">Lionel's Gauntlets</span>
+          <span class="piece-tag">Lionel's Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best defense-to-weight ratio</span>
+          <span class="why-tag">51 poise — absorbs most hits</span>
+          <span class="why-tag">Medium roll achievable</span>
+          <span class="why-tag">Community meta pick</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">34.0</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">51</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #3 Veteran's Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Veteran's Set</div>
+            <div class="armor-set-label">Obtained from: Commander Niall boss drop — Castle Sol</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Commander's Iron</span>
+        </div>
+        <div class="armor-desc">The Veteran's Set is the most visually imposing battle-worn knight set in Elden Ring — cracked dark iron with a cape. Outstanding physical defense and 53 poise at a manageable weight. One of the best endgame STR sets for builds that want high defense without going full fat-roll Bull-Goat. The cape is iconic.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:83%"></div></div><div class="def-val">38.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:49%"></div></div><div class="def-val">22.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:60%"></div></div><div class="def-val">27.7</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:46%"></div></div><div class="def-val">21.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:68%"></div></div><div class="def-val">148</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Veteran's Helm</span>
+          <span class="piece-tag">Veteran's Armor</span>
+          <span class="piece-tag">Veteran's Gauntlets</span>
+          <span class="piece-tag">Veteran's Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">53 poise — excellent STR threshold</span>
+          <span class="why-tag">Battle-worn visual identity</span>
+          <span class="why-tag">High physical defense</span>
+          <span class="why-tag">Cape aesthetic — most iconic STR look</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">35.7</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">53</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #4 Tree Sentinel Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Tree Sentinel Set</div>
+            <div class="armor-set-label">Obtained from: Altus Plateau — Twin Tree Sentinel boss drop</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Golden Knight</span>
+        </div>
+        <div class="armor-desc">The golden knight set of the Erdtree's divine guardians. Tree Sentinel armor has exceptional holy defense on top of very high physical defense — making it the best STR set when fighting holy-damage enemies. 51 poise at a reasonable weight with one of the most regal visual presentations in the game.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:80%"></div></div><div class="def-val">36.9</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:44%"></div></div><div class="def-val">20.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:56%"></div></div><div class="def-val">25.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:52%"></div></div><div class="def-val">24.0</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:60%"></div></div><div class="def-val">131</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Tree Sentinel Helm</span>
+          <span class="piece-tag">Tree Sentinel Armor</span>
+          <span class="piece-tag">Tree Sentinel Gauntlets</span>
+          <span class="piece-tag">Tree Sentinel Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best holy resistance</span>
+          <span class="why-tag">51 poise threshold</span>
+          <span class="why-tag">Regal Erdtree golden look</span>
+          <span class="why-tag">High physical defense</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">37.6</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">51</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #5 General Radahn's Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Radahn's Lion Armor</div>
+            <div class="armor-set-label">Obtained from: Finger Reader Enia — after defeating Radahn</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Starscourge</span>
+        </div>
+        <div class="armor-desc">Radahn's own armor — the legendary Starscourge general who held back the stars. Phenomenal physical defense and 59 poise at a mid-heavy weight. Wearing Radahn's set while wielding his twin Starscourge Greatswords is the ultimate STR fantasy roleplay. One of the most unique silhouettes in the game with his tiny lion crown.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:84%"></div></div><div class="def-val">38.7</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:46%"></div></div><div class="def-val">21.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:58%"></div></div><div class="def-val">26.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:44%"></div></div><div class="def-val">20.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:70%"></div></div><div class="def-val">153</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Radahn's Redmane Helm</span>
+          <span class="piece-tag">Radahn's Lion Armor</span>
+          <span class="piece-tag">Radahn's Gauntlets</span>
+          <span class="piece-tag">Radahn's Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">59 poise — highest mid-heavy</span>
+          <span class="why-tag">Starscourge roleplay set</span>
+          <span class="why-tag">Exceptional physical defense</span>
+          <span class="why-tag">Iconic Redmane lion crown</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">39.8</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">59</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fat">Fat Roll</span>
+      </div>
+    </div>
+
+    <!-- #6 Knight Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Knight Set</div>
+            <div class="armor-set-label">Obtained from: Roundtable Hold — Finger Reader Enia shop</div>
+          </div>
+          <span class="armor-type type-medium">Medium · Balanced Knight</span>
+        </div>
+        <div class="armor-desc">The Knight Set is one of the cleanest medium-weight choices for STR builds who want solid physical defense and 41 poise without sacrificing medium roll potential. Available early from Roundtable Hold and scales well into the endgame. The sleek silver knight plate is visually timeless and mechanically excellent throughout.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:70%"></div></div><div class="def-val">32.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:42%"></div></div><div class="def-val">19.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:50%"></div></div><div class="def-val">23.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:42%"></div></div><div class="def-val">19.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:55%"></div></div><div class="def-val">120</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Knight Helm</span>
+          <span class="piece-tag">Knight Armor</span>
+          <span class="piece-tag">Knight Gauntlets</span>
+          <span class="piece-tag">Knight Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">41 poise — mid-weight sweet spot</span>
+          <span class="why-tag">Available from Roundtable Hold</span>
+          <span class="why-tag">Medium roll friendly</span>
+          <span class="why-tag">Clean silver knight aesthetic</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">27.3</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-mid">41</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #7 Crucible Knight Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Crucible Knight Set</div>
+            <div class="armor-set-label">Obtained from: Crucible Knight Siluria drop — Deeproot Depths</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Ancient Knight</span>
+        </div>
+        <div class="armor-desc">The Crucible Knight Set is an ancient, partially organic golden armor that provides excellent physical defense and solid all-round stats. The distinctive look — golden plate with tail and wing vestigial growths — is unlike anything else in the game. 51 poise at a manageable weight makes it one of the best-looking heavy STR sets.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:76%"></div></div><div class="def-val">35.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:40%"></div></div><div class="def-val">18.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:55%"></div></div><div class="def-val">25.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:48%"></div></div><div class="def-val">22.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:58%"></div></div><div class="def-val">127</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Crucible Axe Helm</span>
+          <span class="piece-tag">Crucible Armor</span>
+          <span class="piece-tag">Crucible Gauntlets</span>
+          <span class="piece-tag">Crucible Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">51 poise threshold</span>
+          <span class="why-tag">Ancient golden armor look</span>
+          <span class="why-tag">Solid physical defense</span>
+          <span class="why-tag">Pairs with Crucible incantations</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">34.5</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-high">51</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #8 Omen Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Omen Set</div>
+            <div class="armor-set-label">Obtained from: Sewers beneath Leyndell — looted from Omen enemies</div>
+          </div>
+          <span class="armor-type type-heavy">Heavy · Cursed Warrior</span>
+        </div>
+        <div class="armor-desc">The Omen Set — worn by the cursed horn-bearing giants of Leyndell — is one of the most imposing and unique STR armor sets in the game. The Omen Helm with massive horns is an iconic visual statement. Solid physical defense and 40 poise at a weight class that still allows medium roll with endurance investment.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:72%"></div></div><div class="def-val">33.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:38%"></div></div><div class="def-val">17.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:46%"></div></div><div class="def-val">21.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:40%"></div></div><div class="def-val">18.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:52%"></div></div><div class="def-val">114</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Omen Helm</span>
+          <span class="piece-tag">Omen Armor</span>
+          <span class="piece-tag">Omen Gauntlets</span>
+          <span class="piece-tag">Omen Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">40 poise — usable threshold</span>
+          <span class="why-tag">Iconic giant horn helm</span>
+          <span class="why-tag">Cursed warrior look</span>
+          <span class="why-tag">Pairs with Omen Cleaver build</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">30.2</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-mid">40</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #9 Scaled Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Scaled Set</div>
+            <div class="armor-set-label">Obtained from: Volcano Manor — Tanith's covenant reward</div>
+          </div>
+          <span class="armor-type type-medium">Medium · Dragon Scale</span>
+        </div>
+        <div class="armor-desc">The Scaled Set offers dragon-scale plating that provides exceptional fire resistance on top of solid physical defense — perfect for any STR build entering fire-heavy areas like Volcano Manor or fighting fire-using bosses. 37 poise at a relatively manageable weight with an angular, reptilian aesthetic unlike any other set.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:68%"></div></div><div class="def-val">31.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:36%"></div></div><div class="def-val">16.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:82%"></div></div><div class="def-val">37.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:38%"></div></div><div class="def-val">17.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:50%"></div></div><div class="def-val">110</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Scaled Helm</span>
+          <span class="piece-tag">Scaled Armor</span>
+          <span class="piece-tag">Scaled Gauntlets</span>
+          <span class="piece-tag">Scaled Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Highest fire defense in class</span>
+          <span class="why-tag">37 poise — workable</span>
+          <span class="why-tag">Dragon scale aesthetic</span>
+          <span class="why-tag">Volcano Manor reward</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">28.5</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-mid">37</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #10 Banished Knight Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Banished Knight Set</div>
+            <div class="armor-set-label">Obtained from: Stormveil Castle / Farum Azula — Banished Knight drops</div>
+          </div>
+          <span class="armor-type type-medium">Medium · Early STR</span>
+        </div>
+        <div class="armor-desc">The Banished Knight Set is one of the best medium-weight early and mid-game STR armors available. Accessible from Stormveil Castle onwards, it offers well-rounded defense across all categories and 31 poise — enough to tank most early and mid-game hits. The dark plated knight look with flowing cloth pieces is clean and functional.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:62%"></div></div><div class="def-val">28.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:36%"></div></div><div class="def-val">16.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:44%"></div></div><div class="def-val">20.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:38%"></div></div><div class="def-val">17.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label immunity">Immunity</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-immunity" style="width:44%"></div></div><div class="def-val">96</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Banished Knight Helm</span>
+          <span class="piece-tag">Banished Knight Armor</span>
+          <span class="piece-tag">Banished Knight Gauntlets</span>
+          <span class="piece-tag">Banished Knight Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best early-game STR set</span>
+          <span class="why-tag">31 poise — solid early</span>
+          <span class="why-tag">Available Stormveil onwards</span>
+          <span class="why-tag">Balanced all-round defense</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">26.8</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num poise-low">31</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Best Slot-by-Slot Choices</div>
+      <table class="slot-table">
+        <tr>
+          <td class="s-slot">Head</td>
+          <td class="s-pick">Bull-Goat Helm
+            <span class="s-note">Most poise per slot in game. Essential if going max-poise build.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Head alt</td>
+          <td class="s-pick">Radahn's Redmane Helm
+            <span class="s-note">Iconic STR look. Great poise + physical defense for a helm.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Chest</td>
+          <td class="s-pick">Lionel's Armor
+            <span class="s-note">Best defense-to-weight ratio of any chest in game. The meta pick.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Chest alt</td>
+          <td class="s-pick">Veteran's Armor
+            <span class="s-note">Best visual — battle-worn iron cape. Slightly less efficient than Lionel's.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Hands</td>
+          <td class="s-pick">Bull-Goat Gauntlets
+            <span class="s-note">Highest poise gauntlets. Take the weight hit if running Giant-Crusher.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Legs</td>
+          <td class="s-pick">Lionel's Greaves
+            <span class="s-note">Best defense-to-weight legs. Pair with Lionel's chest for peak efficiency.</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">STR Armor Pro Tips</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Poise thresholds matter</strong> — 51 poise lets you tank a single colossal weapon hit. 79 poise tanks two. 100 (Bull-Goat full) absorbs virtually everything. Plan around these numbers.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Erdtree's Favor +2 is mandatory</strong> — adds 19% max equip load. This single talisman is what makes wearing Lionel's or Veteran's with medium roll actually possible.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Great-Jar's Arsenal</strong> talisman adds another 19% equip load on top. Running both with 51 END lets you wear Lionel's full set and medium roll comfortably.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Fat roll is viable</strong> — don't fear the fat roll on a pure STR build. Bull-Goat at 100 poise means you never get staggered, so your positioning matters far more than your dodge iframe timing.</span></div>
+        <div class="tip-item"><span class="tip-bullet">⚔</span><span><strong style="color:var(--text)">Endure ash of war</strong> supplements poise perfectly — activating it briefly before a boss swing gives a window of near-infinite hyper armor, even at lower poise values.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

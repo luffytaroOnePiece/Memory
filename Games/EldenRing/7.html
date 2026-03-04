@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best INT Armor Sets — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03050d;
+    --surface: #060914;
+    --border: #0d1225;
+    --int-color: #4a9fd4;
+    --int-bright: #7dc4f0;
+    --int-glow: rgba(74,159,212,0.18);
+    --int-dark: #081528;
+    --gold: #c8a84b;
+    --text: #ccd6f0;
+    --muted: #344060;
+    --physical: #fb923c;
+    --magic: #60a5fa;
+    --fire: #f87171;
+    --lightning: #fbbf24;
+    --holy: #d4a44a;
+    --focus: #a78bfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    padding: 50px 22px 70px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Arcane constellation bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(74,159,212,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 60%, rgba(74,159,212,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 15%, rgba(74,159,212,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 45%, rgba(74,159,212,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 75%, rgba(74,159,212,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 85%, rgba(74,159,212,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 90%, rgba(74,159,212,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 75%, rgba(74,159,212,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 55% 35%, rgba(125,196,240,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 25% 50%, rgba(125,196,240,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(74,159,212,0.08) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1060px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: fadeDown 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .int-emblem {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px; height: 72px;
+    margin: 0 auto 22px;
+  }
+
+  .int-emblem::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,159,212,0.28) 0%, rgba(8,21,40,0.15) 65%);
+    border: 1px solid rgba(74,159,212,0.5);
+    box-shadow: 0 0 40px rgba(74,159,212,0.22), inset 0 0 24px rgba(50,120,180,0.15);
+    animation: crystalPulse 3.5s ease-in-out infinite;
+  }
+
+  .int-emblem-text {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 900;
+    color: var(--int-bright);
+    letter-spacing: 0.04em;
+    position: relative; z-index: 1;
+  }
+
+  @keyframes crystalPulse {
+    0%,100% { box-shadow: 0 0 28px rgba(74,159,212,0.18), inset 0 0 18px rgba(50,120,180,0.1); }
+    50%      { box-shadow: 0 0 52px rgba(74,159,212,0.35), inset 0 0 30px rgba(50,120,180,0.22); }
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(30px, 5vw, 60px);
+    font-weight: 900; letter-spacing: 0.03em; line-height: 1; margin-bottom: 8px;
+  }
+
+  h1 .int { color: var(--int-bright); text-shadow: 0 0 30px rgba(125,196,240,0.5), 0 0 60px rgba(74,159,212,0.25); }
+  h1 .rest { color: var(--text); }
+
+  .h1-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 2vw, 20px);
+    font-weight: 400; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 18px;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .divider::before { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, rgba(74,159,212,0.5)); }
+  .divider::after  { content: ''; width: 80px; height: 1px; background: linear-gradient(90deg, rgba(74,159,212,0.5), transparent); }
+  .divider-icon { color: var(--int-color); font-size: 14px; letter-spacing: 8px; opacity: 0.7; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    max-width: 540px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ── ARMOR CARDS ── */
+  .armor-grid {
+    display: flex; flex-direction: column; gap: 3px;
+    animation: riseUp 0.9s ease 0.2s both;
+  }
+
+  .armor-card {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--int-dark);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .armor-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(74,159,212,0.07) 0%, transparent 40%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .armor-card:hover {
+    border-left-color: var(--int-color);
+    background: rgba(6,9,20,0.98);
+    box-shadow: 0 0 32px rgba(74,159,212,0.07), -4px 0 20px rgba(74,159,212,0.12);
+  }
+  .armor-card:hover::before { opacity: 1; }
+
+  .armor-card.top { border-left-color: var(--gold); }
+  .armor-card.top::before { background: linear-gradient(90deg, rgba(200,168,75,0.09) 0%, transparent 38%); opacity: 1; }
+  .armor-card.top:hover { border-left-color: var(--gold); box-shadow: 0 0 32px rgba(200,168,75,0.08), -4px 0 20px rgba(200,168,75,0.14); }
+
+  /* Rank */
+  .rank-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px 0;
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.28);
+  }
+  .rank-num { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; line-height: 1; }
+  .rn-1 { color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.55); }
+  .rn-2 { color: #c0c0c0; }
+  .rn-3 { color: #cd7f32; }
+  .rn-n { color: var(--muted); }
+
+  /* Body */
+  .card-body { padding: 18px 22px; position: relative; z-index: 1; }
+
+  .armor-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+
+  .armor-name {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .armor-card.top .armor-name { color: var(--gold); }
+
+  .armor-set-label {
+    font-size: 12px; color: var(--muted); font-style: italic;
+    font-weight: 300; margin-bottom: 8px; letter-spacing: 0.04em;
+  }
+
+  .armor-type {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid; border-radius: 1px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .type-light  { color: #7dd3fc; border-color: rgba(125,211,252,0.4); background: rgba(125,211,252,0.07); }
+  .type-medium { color: #4a9fd4; border-color: rgba(74,159,212,0.4);  background: rgba(74,159,212,0.07); }
+  .type-naked  { color: #f472b6; border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.07); }
+  .type-hybrid { color: #a78bfa; border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.07); }
+  .type-heavy  { color: #fb923c; border-color: rgba(251,146,60,0.4);  background: rgba(251,146,60,0.07); }
+
+  .armor-desc {
+    font-size: 14px; color: var(--muted);
+    font-style: italic; font-weight: 300;
+    line-height: 1.55; margin-bottom: 12px;
+  }
+
+  /* Pieces row */
+  .pieces-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .piece-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 9px; border: 1px solid;
+    border-color: rgba(74,159,212,0.2);
+    background: rgba(74,159,212,0.04);
+    color: rgba(125,196,240,0.7);
+    border-radius: 1px;
+  }
+
+  /* Defense bar grid */
+  .def-grid {
+    display: flex; flex-wrap: wrap; gap: 10px 20px;
+    margin-bottom: 12px;
+  }
+
+  .def-item { display: flex; flex-direction: column; gap: 4px; min-width: 90px; }
+
+  .def-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .def-label.phys  { color: var(--physical); }
+  .def-label.magic { color: var(--magic); }
+  .def-label.fire  { color: var(--fire); }
+  .def-label.light { color: var(--lightning); }
+  .def-label.focus { color: var(--focus); }
+
+  .def-bar-wrap {
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .def-bar {
+    flex: 1; height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px; overflow: hidden;
+    max-width: 80px;
+  }
+
+  .def-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 0.8s ease;
+  }
+
+  .fill-phys  { background: var(--physical); }
+  .fill-magic { background: var(--magic); }
+  .fill-fire  { background: var(--fire); }
+  .fill-light { background: var(--lightning); }
+  .fill-focus { background: var(--focus); }
+
+  .def-val {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; color: var(--text); line-height: 1;
+    min-width: 28px; text-align: right;
+  }
+
+  /* Why it works */
+  .why-row {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+
+  .why-tag {
+    font-size: 11px; font-weight: 300; font-style: italic;
+    color: rgba(204,214,240,0.5);
+    padding: 2px 7px;
+    border: 1px solid rgba(74,159,212,0.1);
+    background: rgba(74,159,212,0.03); border-radius: 1px;
+  }
+
+  /* Side panel */
+  .card-side {
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 18px 18px; gap: 8px;
+    min-width: 110px; position: relative; z-index: 1;
+  }
+
+  .weight-wrap { text-align: center; }
+  .weight-num {
+    font-family: 'Cinzel', serif;
+    font-size: 26px; font-weight: 900; line-height: 1;
+    color: var(--int-bright);
+    text-shadow: 0 0 12px rgba(125,196,240,0.35);
+  }
+  .weight-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .poise-wrap { text-align: center; }
+  .poise-num {
+    font-family: 'Cinzel', serif;
+    font-size: 20px; font-weight: 700; line-height: 1;
+    color: var(--muted);
+  }
+  .poise-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(52,64,96,0.8);
+    margin-top: 1px;
+  }
+
+  .roll-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid; border-radius: 1px;
+  }
+  .roll-fast   { color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.06); }
+  .roll-medium { color: #fbbf24; border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.06); }
+  .roll-heavy  { color: #fb923c; border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.06); }
+
+  /* Legend */
+  .legend-row {
+    display: flex; align-items: center; gap: 18px;
+    flex-wrap: wrap; padding: 14px 18px;
+    border: 1px solid var(--border);
+    background: rgba(6,9,20,0.6);
+    margin-bottom: 3px;
+    animation: riseUp 0.7s ease 0.15s both;
+  }
+
+  .legend-title {
+    font-family: 'Cinzel', serif; font-size: 9px;
+    font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+  }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3px; margin-top: 3px;
+    animation: riseUp 0.8s ease 0.6s both;
+  }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--int-color);
+    padding: 20px 22px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--int-bright); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(74,159,212,0.35), transparent); }
+
+  .slot-table { width: 100%; }
+  .slot-table tr { border-bottom: 1px solid rgba(13,18,37,0.9); }
+  .slot-table tr:last-child { border-bottom: none; }
+  .slot-table td { padding: 9px 0; font-size: 13px; vertical-align: top; }
+  .slot-table .s-slot { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--int-color); white-space: nowrap; padding-right: 14px; padding-top: 2px; }
+  .slot-table .s-pick { color: var(--text); font-style: italic; }
+  .slot-table .s-note { color: var(--muted); font-size: 12px; font-weight: 300; display: block; margin-top: 2px; }
+
+  .tip-list { display: flex; flex-direction: column; gap: 9px; }
+  .tip-item { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .tip-bullet { color: var(--int-color); font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; opacity: 0.75; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    .armor-card { grid-template-columns: 44px 1fr; }
+    .card-side { display: none; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .def-grid { gap: 8px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="int-emblem"><span class="int-emblem-text">INT</span></div>
+    <div class="eyebrow">Sorcerer's Wardrobe · Elden Ring</div>
+    <h1>
+      <span class="int">Intelligence</span><br>
+      <span class="rest">Armor Sets</span>
+    </h1>
+    <div class="h1-sub">Best Gear for Casters · Ranked</div>
+    <div class="divider"><span class="divider-icon">✦ ◆ ✦</span></div>
+    <p class="subtitle">Ranked by magic defense, focus, equip load efficiency, roll speed preservation & overall sorcerer synergy. Stay light. Cast fast. Kill everything.</p>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend-row">
+    <span class="legend-title">Defense Bars</span>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--physical)"></div>Physical</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--magic)"></div>Magic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--fire)"></div>Fire</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--lightning)"></div>Lightning</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--focus)"></div>Focus</div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="armor-grid">
+
+    <!-- #1 Lusat's Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-1">1</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Lusat's Set</div>
+            <div class="armor-set-label">Obtained from: Sellia Hideaway — Master Lusat's body</div>
+          </div>
+          <span class="armor-type type-light">Light · Fast Roll</span>
+        </div>
+        <div class="armor-desc">The iconic INT caster set — wide-brimmed stargazer hat and flowing robes. Exceptional magic defense and the highest Focus in any light armor set in the game. Pairs perfectly with Lusat's Glintstone Staff, which uses the most FP per cast and benefits enormously from the Focus stat recovery rate.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:40%"></div></div><div class="def-val">18.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:82%"></div></div><div class="def-val">38.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:50%"></div></div><div class="def-val">23.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:45%"></div></div><div class="def-val">20.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:90%"></div></div><div class="def-val">125</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Lusat's Glintstone Crown</span>
+          <span class="piece-tag">Lusat's Robe</span>
+          <span class="piece-tag">Lusat's Manchettes</span>
+          <span class="piece-tag">Lusat's Trousers</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Highest Focus in light armor</span>
+          <span class="why-tag">Exceptional magic defense</span>
+          <span class="why-tag">FP sustain synergy</span>
+          <span class="why-tag">Thematic INT identity</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">14.9</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">9</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #2 Carian Knight Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-2">2</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Carian Knight Set</div>
+            <div class="armor-set-label">Obtained from: Academy of Raya Lucaria — found in chest</div>
+          </div>
+          <span class="armor-type type-medium">Medium · Solid Defense</span>
+        </div>
+        <div class="armor-desc">The Carian Knight Set is the best medium-weight armor for INT builds — blue and silver plating with excellent physical AND magic defense. Provides meaningful poise (35) while maintaining a manageable equip load that still allows fast roll with proper Erdtree's Favor investment.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:62%"></div></div><div class="def-val">28.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:75%"></div></div><div class="def-val">34.7</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:58%"></div></div><div class="def-val">26.9</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:55%"></div></div><div class="def-val">25.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:65%"></div></div><div class="def-val">90</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Carian Knight Helm</span>
+          <span class="piece-tag">Carian Knight Armor</span>
+          <span class="piece-tag">Carian Knight Gauntlets</span>
+          <span class="piece-tag">Carian Knight Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best medium armor for INT</span>
+          <span class="why-tag">35 poise — tankable hits</span>
+          <span class="why-tag">Balanced phys + magic resist</span>
+          <span class="why-tag">Academy aesthetic</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">26.3</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">35</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-medium">Med Roll</span>
+      </div>
+    </div>
+
+    <!-- #3 Raya Lucarian Sorcerer Set -->
+    <div class="armor-card top">
+      <div class="rank-col"><span class="rank-num rn-3">3</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Raya Lucarian Sorcerer Set</div>
+            <div class="armor-set-label">Obtained from: Academy of Raya Lucaria — looted from enemies</div>
+          </div>
+          <span class="armor-type type-light">Light · Caster Robe</span>
+        </div>
+        <div class="armor-desc">The quintessential academy sorcerer look. Very light robes with above-average magic defense for their weight class. The distinctive pointy hat is one of the best helms for INT builds — it provides the Focus and magic resist you need without any equip load commitment.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:32%"></div></div><div class="def-val">14.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:72%"></div></div><div class="def-val">33.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:42%"></div></div><div class="def-val">19.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:40%"></div></div><div class="def-val">18.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:78%"></div></div><div class="def-val">108</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Olivinus Glintstone Crown</span>
+          <span class="piece-tag">Sorcerer Robe</span>
+          <span class="piece-tag">Sorcerer Manchettes</span>
+          <span class="piece-tag">Sorcerer Leggings</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Ultra light — max fast roll room</span>
+          <span class="why-tag">Great magic resistance</span>
+          <span class="why-tag">High Focus</span>
+          <span class="why-tag">Iconic caster look</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">9.5</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">4</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #4 Azur's Glintstone Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">4</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Azur's Glintstone Set</div>
+            <div class="armor-set-label">Obtained from: Mt. Gelmir — Master Azur's body (after Comet Azur quest)</div>
+          </div>
+          <span class="armor-type type-light">Light · Archmage</span>
+        </div>
+        <div class="armor-desc">Azur's Glintstone Crown reduces sorcery cast time by 15% — a truly unique enchantment no other helm provides. This alone makes it one of the most powerful INT helms in the game. The tradeoff is a constant -10 FP drain per second while worn, making flask management critical but casting speed unmatched.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:28%"></div></div><div class="def-val">12.9</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:68%"></div></div><div class="def-val">31.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:38%"></div></div><div class="def-val">17.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:36%"></div></div><div class="def-val">16.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:72%"></div></div><div class="def-val">100</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Azur's Glintstone Crown ⚡</span>
+          <span class="piece-tag">Sorcerer Robe</span>
+          <span class="piece-tag">Sorcerer Manchettes</span>
+          <span class="piece-tag">Sorcerer Leggings</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">−15% cast time (crown only)</span>
+          <span class="why-tag">Great for Comet Azur burst builds</span>
+          <span class="why-tag">−10 FP/sec drawback</span>
+          <span class="why-tag">Archmage aesthetic</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">10.4</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">4</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #5 Snow Witch Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">5</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Snow Witch Set</div>
+            <div class="armor-set-label">Obtained from: Renna's Rise — chest at top of the tower</div>
+          </div>
+          <span class="armor-type type-light">Light · Ranni's Set</span>
+        </div>
+        <div class="armor-desc">Ranni the Witch's iconic set — the Snow Witch Hat boosts cold sorcery damage by 10%, making it the best-in-slot helm for any Frost or Cold-infused INT build. Combining this with the Moonveil or Cold weapon sorcery is devastatingly effective, and it's one of the most visually striking sets in the game.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:30%"></div></div><div class="def-val">13.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:70%"></div></div><div class="def-val">32.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:35%"></div></div><div class="def-val">16.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:38%"></div></div><div class="def-val">17.5</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:74%"></div></div><div class="def-val">103</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Snow Witch Hat ❄ (+10% Cold)</span>
+          <span class="piece-tag">Snow Witch Robe</span>
+          <span class="piece-tag">Snow Witch Skirt</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">+10% Cold sorcery damage (hat)</span>
+          <span class="why-tag">Best for Frost INT builds</span>
+          <span class="why-tag">Ranni quest reward</span>
+          <span class="why-tag">Iconic visual identity</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">8.2</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">3</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #6 White Reed Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">6</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">White Reed Set</div>
+            <div class="armor-set-label">Obtained from: Spiritspring area near Haligtree — Millicent's questline</div>
+          </div>
+          <span class="armor-type type-light">Light · Samurai Caster</span>
+        </div>
+        <div class="armor-desc">The White Reed Set is a sleek, eastern-inspired light armor that many INT/DEX hybrid builds prefer for its aesthetic and balanced stats. Surprisingly good magic defense for its weight. Popular choice for the Moonveil spellblade build — fluid samurai look with enough resistance to survive boss combos.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:42%"></div></div><div class="def-val">19.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:64%"></div></div><div class="def-val">29.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:45%"></div></div><div class="def-val">20.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:44%"></div></div><div class="def-val">20.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:60%"></div></div><div class="def-val">84</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">White Reed Helm</span>
+          <span class="piece-tag">White Reed Armor</span>
+          <span class="piece-tag">White Reed Gauntlets</span>
+          <span class="piece-tag">White Reed Greaves</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best for INT/DEX hybrids</span>
+          <span class="why-tag">Moonveil spellblade aesthetic</span>
+          <span class="why-tag">Balanced all-round resist</span>
+          <span class="why-tag">Great fast-roll weight</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">16.2</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">14</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #7 Preceptor's Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">7</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Preceptor's Set</div>
+            <div class="armor-set-label">Obtained from: Raya Lucaria Academy — Preceptor Miriam boss drop</div>
+          </div>
+          <span class="armor-type type-light">Light · Scholar Robes</span>
+        </div>
+        <div class="armor-desc">The Preceptor's Long Gown is one of the finest-looking robes in Elden Ring and offers solid magic resistance for a flowing cloth set. The high Focus rating and magical aesthetics make it popular for pure sorcerer roleplay builds. The long coat silhouette paired with a glintstone crown is peak Lands Between wizard.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:25%"></div></div><div class="def-val">11.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:65%"></div></div><div class="def-val">30.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:38%"></div></div><div class="def-val">17.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:36%"></div></div><div class="def-val">16.7</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:76%"></div></div><div class="def-val">105</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Preceptor's Big Hat</span>
+          <span class="piece-tag">Preceptor's Long Gown</span>
+          <span class="piece-tag">Preceptor's Gloves</span>
+          <span class="piece-tag">Preceptor's Trousers</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">High Focus stat</span>
+          <span class="why-tag">Great roleplay aesthetic</span>
+          <span class="why-tag">Solid magic defense</span>
+          <span class="why-tag">Very low weight</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">11.8</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">5</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #8 Prisoner Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">8</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Prisoner Set</div>
+            <div class="armor-set-label">Obtained from: Starting gear for the Prisoner class</div>
+          </div>
+          <span class="armor-type type-hybrid">Hybrid · INT+DEX</span>
+        </div>
+        <div class="armor-desc">The Prisoner Iron Mask is one of the most iconic helms in the game — and the full set offers the best balance of physical AND magic defense for any medium-weight INT/DEX hybrid. The cage-iron visual with flowing robe underneath is instantly recognisable and mechanically solid throughout the entire game.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:52%"></div></div><div class="def-val">24.0</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:62%"></div></div><div class="def-val">28.7</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:50%"></div></div><div class="def-val">23.1</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:48%"></div></div><div class="def-val">22.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:55%"></div></div><div class="def-val">76</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Prisoner Iron Mask</span>
+          <span class="piece-tag">Prisoner Clothing</span>
+          <span class="piece-tag">Prisoner Trousers</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Best for INT/DEX (Moonveil)</span>
+          <span class="why-tag">Balanced phys + magic defense</span>
+          <span class="why-tag">Iconic starting class set</span>
+          <span class="why-tag">Available from game start</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">18.5</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">18</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #9 Astrologer Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">9</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Astrologer Set</div>
+            <div class="armor-set-label">Obtained from: Starting gear for the Astrologer class</div>
+          </div>
+          <span class="armor-type type-light">Light · Starter Robes</span>
+        </div>
+        <div class="armor-desc">The Astrologer's starting set remains completely viable across the entire game. Ultra-light, solid magic defense, and the Astrologer Hood offers great Focus. Many experienced players never bother replacing it because the weight advantage enables carrying heavier weapons or rings while maintaining perfect fast roll dodge speed throughout.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:22%"></div></div><div class="def-val">10.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:60%"></div></div><div class="def-val">27.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:32%"></div></div><div class="def-val">14.8</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:30%"></div></div><div class="def-val">13.9</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:68%"></div></div><div class="def-val">94</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Astrologer Hood</span>
+          <span class="piece-tag">Astrologer Robe</span>
+          <span class="piece-tag">Astrologer Gloves</span>
+          <span class="piece-tag">Astrologer Trousers</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Available from game start</span>
+          <span class="why-tag">Ultra low weight</span>
+          <span class="why-tag">Good magic defense</span>
+          <span class="why-tag">Viable entire playthrough</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">7.4</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">2</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+    <!-- #10 Eccentric's Set -->
+    <div class="armor-card">
+      <div class="rank-col"><span class="rank-num rn-n">10</span></div>
+      <div class="card-body">
+        <div class="armor-header">
+          <div>
+            <div class="armor-name">Eccentric's Set</div>
+            <div class="armor-set-label">Obtained from: Hermit Merchant's Shack — purchased from Seluvis</div>
+          </div>
+          <span class="armor-type type-light">Light · Eccentric Mage</span>
+        </div>
+        <div class="armor-desc">Seluvis's flamboyant robes offer a surprisingly strong magic defense for their weight class. The vivid violet and gold colour scheme makes it one of the most visually distinctive INT sets. The Focus rating is exceptional — making it ideal for builds that spam high-FP sorceries and need every point of mental fortitude they can get.</div>
+        <div class="def-grid">
+          <div class="def-item">
+            <div class="def-label phys">Physical</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-phys" style="width:20%"></div></div><div class="def-val">9.4</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label magic">Magic</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-magic" style="width:66%"></div></div><div class="def-val">30.6</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label fire">Fire</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-fire" style="width:35%"></div></div><div class="def-val">16.2</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label light">Lightning</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-light" style="width:33%"></div></div><div class="def-val">15.3</div></div>
+          </div>
+          <div class="def-item">
+            <div class="def-label focus">Focus</div>
+            <div class="def-bar-wrap"><div class="def-bar"><div class="def-fill fill-focus" style="width:80%"></div></div><div class="def-val">110</div></div>
+          </div>
+        </div>
+        <div class="pieces-row">
+          <span class="piece-tag">Eccentric's Hood</span>
+          <span class="piece-tag">Eccentric's Armor</span>
+          <span class="piece-tag">Eccentric's Manchettes</span>
+          <span class="piece-tag">Eccentric's Breeches</span>
+        </div>
+        <div class="why-row">
+          <span class="why-tag">Exceptional Focus stat</span>
+          <span class="why-tag">Great magic defense per weight</span>
+          <span class="why-tag">Seluvis quest reward</span>
+          <span class="why-tag">Unique eccentric mage look</span>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="weight-wrap">
+          <div class="weight-num">10.6</div>
+          <div class="weight-label">Weight</div>
+        </div>
+        <div class="poise-wrap">
+          <div class="poise-num">3</div>
+          <div class="poise-label">Poise</div>
+        </div>
+        <span class="roll-badge roll-fast">Fast Roll</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+
+    <div class="info-panel">
+      <div class="panel-title">Best Slot-by-Slot Choices</div>
+      <table class="slot-table">
+        <tr>
+          <td class="s-slot">Head</td>
+          <td class="s-pick">Azur's Glintstone Crown
+            <span class="s-note">−15% cast speed. Best helm in game if FP drain is managed.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Head alt</td>
+          <td class="s-pick">Snow Witch Hat
+            <span class="s-note">+10% Cold sorcery dmg. Mandatory for frost INT builds.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Chest</td>
+          <td class="s-pick">Lusat's Robe
+            <span class="s-note">Best magic defense + Focus of any light chest piece.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Chest alt</td>
+          <td class="s-pick">Carian Knight Armor
+            <span class="s-note">Best medium chest — 35 poise, excellent phys + magic resist.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Hands</td>
+          <td class="s-pick">Lusat's Manchettes
+            <span class="s-note">Best magic defense hands in light class.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="s-slot">Legs</td>
+          <td class="s-pick">Lusat's Trousers
+            <span class="s-note">Solid magic defense. Keep light for fast roll maintenance.</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-title">INT Armor Pro Tips</div>
+      <div class="tip-list">
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Prioritise fast roll above all</strong> — staying under 30% equip load is non-negotiable. Sorcerers die from getting hit, not from low armor values.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Focus stat matters</strong> — higher Focus reduces status buildup from sleep and madness, and improves FP recovery slightly. Prioritise sets with 80+ Focus.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Mix and match slots</strong> — Azur's Crown + Lusat's Robe + any legs is a common min-max combo. You don't need full matching sets.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Erdtree's Favor +2</strong> — increases max equip load by 19%. This single talisman lets many INT builds wear Carian Knight chest while staying fast roll.</span></div>
+        <div class="tip-item"><span class="tip-bullet">◆</span><span><strong style="color:var(--text)">Going naked is viable</strong> — at endgame many glass cannon casters run no armor at all, using the saved equip load budget entirely on weapon and talisman choices.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
