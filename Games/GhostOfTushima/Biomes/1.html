@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost of Tsushima — Biome Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:       #0a0905;
+    --parchment: #f5ede0;
+    --ash:       #1c1a16;
+    --fog:       #2e2b25;
+    --gold:      #c8922a;
+    --gold-pale: #e8c96a;
+    --crimson:   #8b1a1a;
+    --jade:      #2d6b4a;
+    --slate:     #4a6473;
+    --sakura:    #c45c7a;
+    --ghost:     #a8b8c8;
+    --text:      #e8dcc8;
+    --text-dim:  #8a7e6e;
+    --glow-gold: 0 0 18px rgba(200,146,42,0.55), 0 0 40px rgba(200,146,42,0.2);
+    --glow-red:  0 0 14px rgba(139,26,26,0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── LAYERED BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(200,146,42,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 80% at 85% 75%, rgba(139,26,26,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(45,107,74,0.04) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Paper grain overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35; pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── BRUSH STROKE DIVIDER ── */
+  .brush {
+    width: 100%; height: 3px; margin: 8px auto;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-pale) 50%, var(--gold) 70%, transparent 100%);
+    opacity: 0.6;
+  }
+  .brush.thin { height: 1px; opacity: 0.25; }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  header {
+    text-align: center;
+    padding: 72px 24px 48px;
+    position: relative;
+    animation: fadeDown 1s ease both;
+  }
+
+  .eyebrow {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0.85;
+    animation: fadeIn 0.8s ease both 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+    color: var(--parchment);
+    text-shadow: 0 2px 40px rgba(200,146,42,0.2), 0 0 80px rgba(200,146,42,0.08);
+    margin-bottom: 16px;
+    animation: fadeDown 1s ease both 0.1s;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 32px;
+    animation: fadeIn 1s ease both 0.4s;
+  }
+
+  /* Decorative mon emblem */
+  .mon-wrap {
+    position: relative;
+    display: inline-block;
+    margin: 24px auto 8px;
+    animation: riseUp 1.2s ease both 0.5s;
+  }
+
+  .mon-number {
+    font-family: 'Cinzel', serif;
+    font-size: 7rem;
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+    text-shadow: var(--glow-gold);
+    opacity: 0.18;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+  }
+
+  .mon-svg {
+    width: 100px; height: 100px;
+    opacity: 0.85;
+  }
+
+  /* ══════════════════════════════
+     SECTION LABELS
+  ══════════════════════════════ */
+  .section-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before, .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  /* ══════════════════════════════
+     BIOME TABLE
+  ══════════════════════════════ */
+  .table-section {
+    padding: 16px 0 48px;
+    animation: fadeIn 1s ease both 0.6s;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 52px 1fr 160px 120px 90px 80px;
+    gap: 0;
+    padding: 10px 20px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(200,146,42,0.2);
+    margin-bottom: 6px;
+  }
+
+  .biome-row {
+    display: grid;
+    grid-template-columns: 52px 1fr 160px 120px 90px 80px;
+    gap: 0;
+    padding: 0;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    animation: slideRight 0.6s ease both;
+    transition: transform 0.25s ease;
+  }
+
+  .biome-row:nth-child(1) { animation-delay: 0.7s; }
+  .biome-row:nth-child(2) { animation-delay: 0.8s; }
+  .biome-row:nth-child(3) { animation-delay: 0.9s; }
+  .biome-row:nth-child(4) { animation-delay: 1.0s; }
+  .biome-row:nth-child(5) { animation-delay: 1.1s; }
+  .biome-row:nth-child(6) { animation-delay: 1.2s; }
+  .biome-row:nth-child(7) { animation-delay: 1.3s; }
+  .biome-row:nth-child(8) { animation-delay: 1.4s; }
+
+  .biome-row:hover { transform: translateX(4px); }
+
+  .row-inner {
+    display: contents;
+  }
+
+  .biome-row > * {
+    background: rgba(28,26,22,0.7);
+    padding: 16px 14px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    transition: background 0.3s ease;
+  }
+
+  .biome-row:hover > * { background: rgba(40,36,30,0.9); }
+
+  /* top-3 gold tint */
+  .biome-row.top3 > * { background: rgba(200,146,42,0.06); }
+  .biome-row.top3:hover > * { background: rgba(200,146,42,0.11); }
+
+  /* rank col */
+  .col-rank {
+    justify-content: center;
+    border-left: 3px solid transparent;
+    border-radius: 4px 0 0 4px;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .biome-row.top3 .col-rank {
+    border-left-color: var(--gold);
+  }
+  .biome-row:not(.top3):hover .col-rank {
+    border-left-color: var(--slate);
+  }
+
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .biome-row:nth-child(1) .rank-num { color: var(--gold-pale); text-shadow: var(--glow-gold); }
+  .biome-row:nth-child(2) .rank-num { color: #c0c0c0; text-shadow: 0 0 12px rgba(192,192,192,0.5); }
+  .biome-row:nth-child(3) .rank-num { color: #cd7f32; text-shadow: 0 0 12px rgba(205,127,50,0.5); }
+  .biome-row:not(.top3) .rank-num   { color: var(--text-dim); }
+
+  .rank-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* name col */
+  .col-name { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+  .biome-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.05em;
+  }
+
+  .biome-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+
+  .tag {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .tag-terrain  { color: #8fbc8f; border-color: #8fbc8f; background: rgba(143,188,143,0.08); }
+  .tag-weather  { color: #87ceeb; border-color: #87ceeb; background: rgba(135,206,235,0.08); }
+  .tag-flora    { color: #daa520; border-color: #daa520; background: rgba(218,165,32,0.08); }
+  .tag-enemy    { color: #cd5c5c; border-color: #cd5c5c; background: rgba(205,92,92,0.08); }
+  .tag-region   { color: #9370db; border-color: #9370db; background: rgba(147,112,219,0.08); }
+  .tag-special  { color: #20b2aa; border-color: #20b2aa; background: rgba(32,178,170,0.08); }
+
+  /* attributes col */
+  .col-attrs { flex-direction: column; align-items: flex-start; gap: 5px; }
+
+  .attr-row {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 0.75rem;
+  }
+  .attr-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    width: 46px;
+    text-transform: uppercase;
+  }
+  .attr-val { color: var(--text); font-size: 0.8rem; }
+
+  /* difficulty col */
+  .col-diff { flex-direction: column; gap: 6px; }
+
+  .diff-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .pips { display: flex; gap: 4px; }
+  .pip {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--text-dim);
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .pip.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(200,146,42,0.6); }
+  .pip.on.red { background: var(--crimson); border-color: var(--crimson); box-shadow: 0 0 6px rgba(139,26,26,0.6); }
+  .pip.on.jade { background: #2d6b4a; border-color: #2d6b4a; box-shadow: 0 0 6px rgba(45,107,74,0.6); }
+
+  /* area col */
+  .col-area { flex-direction: column; gap: 3px; }
+  .area-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ghost);
+  }
+  .area-unit {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* rating col */
+  .col-rating {
+    border-radius: 0 4px 4px 0;
+    justify-content: center;
+  }
+
+  .rating-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1;
+    padding: 8px 12px;
+    border: 1px solid;
+    border-radius: 3px;
+    text-align: center;
+    min-width: 56px;
+    transition: all 0.3s ease;
+  }
+
+  .rating-s-plus { color: var(--gold-pale); border-color: var(--gold); text-shadow: var(--glow-gold); background: rgba(200,146,42,0.08); }
+  .rating-s      { color: #e0c080; border-color: #c8a050; text-shadow: 0 0 12px rgba(200,160,80,0.4); background: rgba(200,160,80,0.06); }
+  .rating-a-plus { color: #80b8d0; border-color: #608898; text-shadow: 0 0 10px rgba(128,184,208,0.3); background: rgba(128,184,208,0.05); }
+  .rating-a      { color: var(--ghost); border-color: #607080; background: rgba(168,184,200,0.05); }
+  .rating-b-plus { color: #a0a890; border-color: #707860; background: rgba(160,168,144,0.05); }
+
+  /* HOVER REVEAL PANEL */
+  .reveal-panel {
+    grid-column: 1 / -1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    background: rgba(200,146,42,0.04);
+    border-left: 3px solid var(--gold);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .biome-row.open .reveal-panel {
+    max-height: 120px;
+    padding: 14px 20px;
+  }
+
+  .reveal-item { display: flex; flex-direction: column; gap: 3px; min-width: 120px; }
+  .reveal-item strong {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  /* ══════════════════════════════
+     BOTTOM PANELS
+  ══════════════════════════════ */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 8px 0 56px;
+    animation: riseUp 1s ease both 1.5s;
+  }
+
+  .panel {
+    background: rgba(28,26,22,0.8);
+    border: 1px solid rgba(200,146,42,0.15);
+    border-top: 2px solid var(--gold);
+    border-radius: 4px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(200,146,42,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(200,146,42,0.2);
+  }
+
+  /* Reference table */
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .ref-table td {
+    font-size: 0.82rem;
+    padding: 8px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: rgba(200,146,42,0.05); }
+
+  .item-name { color: var(--parchment); font-weight: 600; }
+  .item-type {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .item-loc { color: var(--text-dim); font-style: italic; font-size: 0.78rem; }
+
+  /* Tips list */
+  .tips-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .tips-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+    transition: color 0.2s;
+  }
+  .tips-list li:hover { color: var(--text); }
+
+  .tip-icon {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    margin-top: 1px;
+  }
+
+  .tip-head {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--parchment);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    border-top: 1px solid rgba(200,146,42,0.15);
+    padding: 28px 24px;
+    text-align: center;
+    animation: fadeIn 1s ease both 1.8s;
+  }
+
+  .footer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin: 0 auto 10px;
+    line-height: 1.7;
+  }
+
+  .footer-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    opacity: 0.4;
+    letter-spacing: 0.3em;
+  }
+
+  /* ══════════════════════════════
+     ANIMATIONS
+  ══════════════════════════════ */
+  @keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeDown  { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes riseUp    { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideRight{ from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes shimmer   {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+
+  /* Gold shimmer on S+ ratings */
+  .rating-s-plus {
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .table-header,
+    .biome-row { grid-template-columns: 44px 1fr 80px 70px; }
+    .col-area, .col-diff { display: none !important; }
+    .biome-row > *:nth-child(4) { display: none !important; }
+    .biome-row > *:nth-child(5) { display: none !important; }
+  }
+
+  @media (max-width: 640px) {
+    .bottom-panels { grid-template-columns: 1fr; }
+    .table-header,
+    .biome-row { grid-template-columns: 44px 1fr 70px; }
+    .col-attrs { display: none !important; }
+    .biome-row > *:nth-child(3) { display: none !important; }
+    .hero-title { font-size: 2.4rem; }
+  }
+
+  /* vertical divider between main cols */
+  .col-name    { border-right: 1px solid rgba(255,255,255,0.04); }
+  .col-attrs   { border-right: 1px solid rgba(255,255,255,0.04); }
+  .col-diff    { border-right: 1px solid rgba(255,255,255,0.04); }
+  .col-area    { border-right: 1px solid rgba(255,255,255,0.04); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     HEADER
+════════════════════════════════════ -->
+<header>
+  <div class="wrap">
+    <p class="eyebrow">対馬の自然 — Tsushima no Shizen</p>
+
+    <h1 class="hero-title">GHOST OF <span>TSUSHIMA</span></h1>
+    <p class="hero-sub">Complete Biome Atlas &amp; Terrain Field Guide</p>
+
+    <div class="brush"></div>
+
+    <!-- Decorative mon / kamon -->
+    <div class="mon-wrap">
+      <svg class="mon-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer ring -->
+        <circle cx="50" cy="50" r="46" stroke="#c8922a" stroke-width="1.2" opacity="0.6"/>
+        <circle cx="50" cy="50" r="40" stroke="#c8922a" stroke-width="0.5" opacity="0.3"/>
+        <!-- Sakura-inspired 5-petal mon -->
+        <g transform="translate(50,50)" opacity="0.9">
+          <ellipse cx="0" cy="-20" rx="7" ry="11" fill="none" stroke="#c8922a" stroke-width="1.2" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-20" rx="7" ry="11" fill="none" stroke="#c8922a" stroke-width="1.2" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-20" rx="7" ry="11" fill="none" stroke="#c8922a" stroke-width="1.2" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-20" rx="7" ry="11" fill="none" stroke="#c8922a" stroke-width="1.2" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-20" rx="7" ry="11" fill="none" stroke="#c8922a" stroke-width="1.2" transform="rotate(288)"/>
+          <circle cx="0" cy="0" r="5" fill="none" stroke="#c8922a" stroke-width="1"/>
+          <circle cx="0" cy="0" r="2" fill="#c8922a" opacity="0.5"/>
+        </g>
+        <!-- Cardinal tick marks -->
+        <line x1="50" y1="2" x2="50" y2="9" stroke="#c8922a" stroke-width="1" opacity="0.4"/>
+        <line x1="50" y1="91" x2="50" y2="98" stroke="#c8922a" stroke-width="1" opacity="0.4"/>
+        <line x1="2" y1="50" x2="9" y2="50" stroke="#c8922a" stroke-width="1" opacity="0.4"/>
+        <line x1="91" y1="50" x2="98" y2="50" stroke="#c8922a" stroke-width="1" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <div class="brush thin" style="margin-top:20px;"></div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════
+     BIOME TABLE
+════════════════════════════════════ -->
+<section class="table-section">
+  <div class="wrap">
+    <p class="section-label">地形分類 — Terrain Classification</p>
+
+    <div class="table-header">
+      <div>#</div>
+      <div>Biome &amp; Description</div>
+      <div>Attributes</div>
+      <div>Hostility</div>
+      <div>Coverage</div>
+      <div>Tier</div>
+    </div>
+
+    <!-- ROW 1 — Bamboo Forest -->
+    <div class="biome-row top3" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">1</span>
+        <span class="rank-kanji">竹林</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Bamboo Forest</span>
+        <span class="biome-desc">Tall, whispering groves draped in mist — the soul of Tsushima's identity</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Forest</span>
+          <span class="tag tag-weather">Mist</span>
+          <span class="tag tag-special">Iconic</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Wind</span><span class="attr-val">Constant</span></div>
+        <div class="attr-row"><span class="attr-label">Light</span><span class="attr-val">Dappled</span></div>
+        <div class="attr-row"><span class="attr-label">Sound</span><span class="attr-val">Rustling</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on jade"></div><div class="pip on jade"></div><div class="pip on jade"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~18%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-s-plus">S+</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Key Shrines</strong>Archery Ranges, Haiku Spots, Fox Dens</div>
+        <div class="reveal-item"><strong>Wind Mechanic</strong>The guiding wind parts bamboo visually, leading Jin to objectives</div>
+        <div class="reveal-item"><strong>Enemy Patrols</strong>Mongol scouts use narrow sightlines for ambush tactics</div>
+        <div class="reveal-item"><strong>Unique Flora</strong>Ghost mushrooms, seasonal moss, hollow stalks for hiding</div>
+      </div>
+    </div>
+
+    <!-- ROW 2 — Golden Meadows -->
+    <div class="biome-row top3" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">2</span>
+        <span class="rank-kanji">金野</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Golden Meadows</span>
+        <span class="biome-desc">Sun-drenched pampas fields billowing in warm amber waves across open plains</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Grassland</span>
+          <span class="tag tag-flora">Pampas</span>
+          <span class="tag tag-region">Toyotama</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Wind</span><span class="attr-val">Sweeping</span></div>
+        <div class="attr-row"><span class="attr-label">Light</span><span class="attr-val">Golden Hr.</span></div>
+        <div class="attr-row"><span class="attr-label">Fauna</span><span class="attr-val">Deer, Foxes</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on jade"></div><div class="pip on jade"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~25%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-s">S</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Photography</strong>Highest concentration of Photo Mode opportunities on the island</div>
+        <div class="reveal-item"><strong>Stealth</strong>Crouching in pampas grants concealment — crawl silently through enemy camps</div>
+        <div class="reveal-item"><strong>Weather Events</strong>Thunder / lightning storms dramatically shift color palette mid-mission</div>
+        <div class="reveal-item"><strong>Notable Quest</strong>"The Heavenly Strike" duel takes place in meadow clearing at dusk</div>
+      </div>
+    </div>
+
+    <!-- ROW 3 — Coastal Cliffs -->
+    <div class="biome-row top3" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">3</span>
+        <span class="rank-kanji">断崖</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Coastal Cliffs</span>
+        <span class="biome-desc">Sheer sea-battered precipices where ocean spray meets the warrior's path</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Coastal</span>
+          <span class="tag tag-weather">Stormy</span>
+          <span class="tag tag-enemy">Mongol</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Wind</span><span class="attr-val">Gale</span></div>
+        <div class="attr-row"><span class="attr-label">Hazard</span><span class="attr-val">Fall Death</span></div>
+        <div class="attr-row"><span class="attr-label">Camps</span><span class="attr-val">Fortified</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~12%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-s">S</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Grappling Hook</strong>Essential — cliff traversal requires full hook upgrade for shortcuts</div>
+        <div class="reveal-item"><strong>Enemy Archers</strong>High vantage archers with 360° sightlines; approach from water route</div>
+        <div class="reveal-item"><strong>Shipwreck Loot</strong>Eastern cliffs hide shipwreck caches only accessible at low-tide windows</div>
+        <div class="reveal-item"><strong>Shrine Type</strong>Wind Shrine vista points reward exploration with Charm upgrades</div>
+      </div>
+    </div>
+
+    <!-- ROW 4 — Cedar Forest -->
+    <div class="biome-row" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">4</span>
+        <span class="rank-kanji">杉林</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Cedar &amp; Pine Forest</span>
+        <span class="biome-desc">Dense, darkened canopy dripping with rain — ancient trees older than the conflict</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Forest</span>
+          <span class="tag tag-weather">Rain</span>
+          <span class="tag tag-region">Izuhara</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Light</span><span class="attr-val">Near Dark</span></div>
+        <div class="attr-row"><span class="attr-label">Cover</span><span class="attr-val">Excellent</span></div>
+        <div class="attr-row"><span class="attr-label">Fungi</span><span class="attr-val">Abundant</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~20%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-a-plus">A+</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Mythic Tales</strong>"The Undying Flame" and "The Curse of Uchitsune" both begin here</div>
+        <div class="reveal-item"><strong>Stealth Rating</strong>Best biome for Ghost Stealth — near-zero visibility for enemies at night</div>
+        <div class="reveal-item"><strong>Resource Node</strong>Highest Black Arrow and Predator Hide farming density</div>
+        <div class="reveal-item"><strong>Weather Type</strong>Persistent rain muffles footsteps, negating noise detection entirely</div>
+      </div>
+    </div>
+
+    <!-- ROW 5 — Sakura Grove -->
+    <div class="biome-row" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">5</span>
+        <span class="rank-kanji">桜谷</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Sakura Grove</span>
+        <span class="biome-desc">Transient pink bloom corridors — sacred spaces where petals drift like fallen warriors</span>
+        <div class="tags">
+          <span class="tag tag-flora">Sakura</span>
+          <span class="tag tag-special">Sacred</span>
+          <span class="tag tag-region">All Regions</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Bloom</span><span class="attr-val">Seasonal</span></div>
+        <div class="attr-row"><span class="attr-label">Shrines</span><span class="attr-val">Inari Fox</span></div>
+        <div class="attr-row"><span class="attr-label">Danger</span><span class="attr-val">Low</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on jade"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~6%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-a-plus">A+</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Fox Shrines</strong>Follow white foxes through sakura to Inari shrines for Charm slots</div>
+        <div class="reveal-item"><strong>Haiku Spots</strong>7 of 18 Haiku meditation points placed inside or adjacent to sakura zones</div>
+        <div class="reveal-item"><strong>Petal Wind</strong>Pink petals substitute the guiding wind in grove interior areas</div>
+        <div class="reveal-item"><strong>Dye Unlock</strong>Sakura Blossom dye for armor unlocked by visiting 5 grove locations</div>
+      </div>
+    </div>
+
+    <!-- ROW 6 — Mountain Peaks -->
+    <div class="biome-row" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">6</span>
+        <span class="rank-kanji">山岳</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Mountain Peaks</span>
+        <span class="biome-desc">Snow-kissed ridgelines in Kamiagata — where the air thins and gods are said to dwell</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Alpine</span>
+          <span class="tag tag-weather">Snow</span>
+          <span class="tag tag-region">Kamiagata</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Temp</span><span class="attr-val">Freezing</span></div>
+        <div class="attr-row"><span class="attr-label">Path</span><span class="attr-val">Narrow</span></div>
+        <div class="attr-row"><span class="attr-label">Enemy</span><span class="attr-val">Shaman</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~9%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-a">A</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Act III</strong>Unlocked fully in Act III — hardest enemy density on the entire island</div>
+        <div class="reveal-item"><strong>Shaman Priority</strong>Kill shamans first or enemy buffs become overwhelming</div>
+        <div class="reveal-item"><strong>Horse Limit</strong>Most mountain ridge paths are too steep for Nobu — dismount required</div>
+        <div class="reveal-item"><strong>View Shrines</strong>Highest concentration of panoramic Shinto shrines with full island vistas</div>
+      </div>
+    </div>
+
+    <!-- ROW 7 — Rice Paddy Valleys -->
+    <div class="biome-row" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">7</span>
+        <span class="rank-kanji">田園</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Rice Paddy Valleys</span>
+        <span class="biome-desc">Terraced cultivation carved into hillsides — scorched fields mark the Mongol advance</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Agricultural</span>
+          <span class="tag tag-enemy">Occupied</span>
+          <span class="tag tag-region">Izuhara</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Layout</span><span class="attr-val">Terraced</span></div>
+        <div class="attr-row"><span class="attr-label">Refugees</span><span class="attr-val">Civilian</span></div>
+        <div class="attr-row"><span class="attr-label">Alert</span><span class="attr-val">High</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~11%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-b-plus">B+</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Liberation Arc</strong>Freeing occupied villages triggers "Torch the Fields" bonus fire mechanics</div>
+        <div class="reveal-item"><strong>Civilian Quests</strong>Farmer NPC questlines begin in rice valley settlements — high reward</div>
+        <div class="reveal-item"><strong>Hay Barrels</strong>Hay barrels unique to this biome provide explosive diversion options</div>
+        <div class="reveal-item"><strong>Fire Spread</strong>Dry paddy grass has unique fire propagation physics vs other biomes</div>
+      </div>
+    </div>
+
+    <!-- ROW 8 — Cove & Inlet -->
+    <div class="biome-row" onclick="toggle(this)">
+      <div class="col-rank">
+        <span class="rank-num">8</span>
+        <span class="rank-kanji">入江</span>
+      </div>
+      <div class="col-name">
+        <span class="biome-name">Coastal Coves &amp; Inlets</span>
+        <span class="biome-desc">Sheltered fishing bays with hidden sea-caves — ancient smuggler routes now Mongol harbors</span>
+        <div class="tags">
+          <span class="tag tag-terrain">Coastal</span>
+          <span class="tag tag-special">Hidden</span>
+          <span class="tag tag-enemy">Naval</span>
+        </div>
+      </div>
+      <div class="col-attrs">
+        <div class="attr-row"><span class="attr-label">Access</span><span class="attr-val">Swim/Cave</span></div>
+        <div class="attr-row"><span class="attr-label">Tide</span><span class="attr-val">Variable</span></div>
+        <div class="attr-row"><span class="attr-label">Loot</span><span class="attr-val">Rare</span></div>
+      </div>
+      <div class="col-diff">
+        <span class="diff-label">Hostility</span>
+        <div class="pips">
+          <div class="pip on jade"></div><div class="pip on jade"></div><div class="pip on jade"></div><div class="pip on jade"></div><div class="pip"></div>
+        </div>
+        <span class="diff-label" style="margin-top:5px;">Visibility</span>
+        <div class="pips">
+          <div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div><div class="pip on red"></div>
+        </div>
+      </div>
+      <div class="col-area">
+        <span class="area-num">~7%</span>
+        <span class="area-unit">Island Area</span>
+      </div>
+      <div class="col-rating">
+        <div class="rating-badge rating-b-plus">B+</div>
+      </div>
+      <div class="reveal-panel">
+        <div class="reveal-item"><strong>Sea Caves</strong>5 undocumented sea caves contain Mythic armor and unique Tales</div>
+        <div class="reveal-item"><strong>Swimming</strong>Only biome requiring swim stamina — upgrade before Act II coastal content</div>
+        <div class="reveal-item"><strong>Supply Chests</strong>Washed-up Mongol supply crates respawn every in-game day cycle</div>
+        <div class="reveal-item"><strong>Iki Island</strong>Coastal coves expand dramatically in the Iki Island DLC expansion</div>
+      </div>
+    </div>
+
+  </div><!-- /wrap -->
+</section>
+
+<!-- ════════════════════════════════════
+     BOTTOM PANELS
+════════════════════════════════════ -->
+<section style="padding: 0 0 32px;">
+  <div class="wrap">
+    <p class="section-label" style="margin-bottom:18px;">武具と知識 — Arms &amp; Knowledge</p>
+
+    <div class="bottom-panels">
+
+      <!-- LEFT: Reference table -->
+      <div class="panel">
+        <div class="panel-title">⛩ Biome-Specific Gear &amp; Resources</div>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Type</th>
+              <th>Best Found In</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="item-name">Black Arrow</span></td>
+              <td><span class="item-type tag-enemy" style="color:#cd5c5c;border-color:#cd5c5c;background:rgba(205,92,92,0.08);">Ammo</span></td>
+              <td class="item-loc">Cedar Forest, Mountain Peaks</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Ghost Mushroom</span></td>
+              <td><span class="item-type tag-flora" style="color:#daa520;border-color:#daa520;background:rgba(218,165,32,0.08);">Craft</span></td>
+              <td class="item-loc">Bamboo Forest, Damp Hollows</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Predator Hide</span></td>
+              <td><span class="item-type tag-terrain" style="color:#8fbc8f;border-color:#8fbc8f;background:rgba(143,188,143,0.08);">Material</span></td>
+              <td class="item-loc">Dense Forests, Mountain Trails</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Wax Wood</span></td>
+              <td><span class="item-type tag-terrain" style="color:#8fbc8f;border-color:#8fbc8f;background:rgba(143,188,143,0.08);">Material</span></td>
+              <td class="item-loc">Bamboo Grove perimeters</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Iron</span></td>
+              <td><span class="item-type" style="color:#9370db;border-color:#9370db;background:rgba(147,112,219,0.08);">Forge</span></td>
+              <td class="item-loc">Mountain Cliff faces, Mine ruins</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Supplies (Blue)</span></td>
+              <td><span class="item-type tag-special" style="color:#20b2aa;border-color:#20b2aa;background:rgba(32,178,170,0.08);">Currency</span></td>
+              <td class="item-loc">Coastal Coves, Occupied Camps</td>
+            </tr>
+            <tr>
+              <td><span class="item-name">Charm of Inari</span></td>
+              <td><span class="item-type" style="color:#c45c7a;border-color:#c45c7a;background:rgba(196,92,122,0.08);">Sacred</span></td>
+              <td class="item-loc">Sakura Fox Shrine networks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RIGHT: Tips -->
+      <div class="panel">
+        <div class="panel-title">✦ Traversal &amp; Survival Essentials</div>
+        <ul class="tips-list">
+          <li>
+            <span class="tip-icon">風</span>
+            <span><span class="tip-head">Follow the Wind Always</span>The guiding wind changes color and speed in each biome — gold in meadows, pale in mountains, near-invisible in deep forest.</span>
+          </li>
+          <li>
+            <span class="tip-icon">🦊</span>
+            <span><span class="tip-head">Chase Every White Fox</span>Fox dens are hidden inside sakura groves and bamboo thickets. They only appear once — never respawn.</span>
+          </li>
+          <li>
+            <span class="tip-icon">🌿</span>
+            <span><span class="tip-head">Pampas = Free Stealth</span>Crouching in tall grass renders Jin invisible to all but Point-Blank enemies. Essential in open meadow camps.</span>
+          </li>
+          <li>
+            <span class="tip-icon">⛰</span>
+            <span><span class="tip-head">Upgrade Hook Before Kamiagata</span>The mountain region requires full grappling hook range for cliff shortcuts — upgrade at a Trapper beforehand.</span>
+          </li>
+          <li>
+            <span class="tip-icon">🌧</span>
+            <span><span class="tip-head">Rain Muffles Footsteps</span>Cedar forest rain events negate enemy audio detection. Time infiltrations during downpours for zero-alarm runs.</span>
+          </li>
+          <li>
+            <span class="tip-icon">🌸</span>
+            <span><span class="tip-head">Haiku Spots Need Specific Weather</span>Several Haiku meditation spots are time- or weather-gated — if a prompt doesn't appear, rest until conditions change.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- /bottom-panels -->
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="brush thin" style="margin-bottom:20px;"></div>
+    <p class="footer-text">
+      Biome rankings are assessed across four weighted criteria: <em>visual distinctiveness &amp; artistic impact</em> (40%), 
+      <em>gameplay utility &amp; stealth potential</em> (30%), <em>exploration density &amp; hidden content</em> (20%), 
+      and <em>narrative &amp; lore significance</em> (10%). Tier scores reflect immersive contribution to the island identity of Tsushima.
+    </p>
+    <p class="footer-kanji" style="margin-top:16px;">對馬国 &nbsp;·&nbsp; 一三世紀 &nbsp;·&nbsp; 幽霊の道</p>
+  </div>
+</footer>
+
+<script>
+  function toggle(row) {
+    const panel = row.querySelector('.reveal-panel');
+    if (!panel) return;
+    const isOpen = row.classList.contains('open');
+    // Close all open rows
+    document.querySelectorAll('.biome-row.open').forEach(r => r.classList.remove('open'));
+    // Open clicked if it wasn't already open
+    if (!isOpen) row.classList.add('open');
+  }
+</script>
+</body>
+</html>
