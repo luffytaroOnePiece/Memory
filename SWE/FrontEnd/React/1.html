@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React Hooks Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #050810;
+    --bg-card: rgba(10, 15, 30, 0.75);
+    --bg-card-hover: rgba(14, 21, 42, 0.85);
+    --border: rgba(80, 120, 255, 0.18);
+    --border-bright: rgba(100, 150, 255, 0.4);
+    --neon-blue: #4f8cff;
+    --neon-cyan: #00e5ff;
+    --neon-purple: #b36bff;
+    --neon-green: #39ff8f;
+    --neon-orange: #ff7a30;
+    --neon-pink: #ff4fd8;
+    --text-primary: #e8eeff;
+    --text-secondary: #8899cc;
+    --text-muted: #4a5580;
+    --code-bg: rgba(5, 8, 20, 0.95);
+    --hook-useState: #4f8cff;
+    --hook-useMemo: #39ff8f;
+    --hook-useRef: #ff7a30;
+    --hook-useCallback: #b36bff;
+    --hook-useAsync: #00e5ff;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-code: 'Space Mono', monospace;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow-glow-blue: 0 0 40px rgba(79, 140, 255, 0.15), 0 0 80px rgba(79, 140, 255, 0.05);
+    --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── ANIMATED BACKGROUND ─── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(79, 140, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79, 140, 255, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  /* ─── LAYOUT ─── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: var(--neon-blue);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-links a:hover {
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+    background: rgba(79, 140, 255, 0.08);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 160px 0 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--neon-cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    background: rgba(0, 229, 255, 0.06);
+    animation: fadeInUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+
+  .hero-title .grad-1 {
+    background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+
+  .hook-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    animation: fadeInUp 0.6s 0.3s ease both;
+  }
+
+  .pill {
+    font-family: var(--font-code);
+    font-size: 12px;
+    padding: 7px 14px;
+    border-radius: 100px;
+    border: 1px solid;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    letter-spacing: 0.03em;
+  }
+
+  .pill:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+  .pill-useState   { color: var(--hook-useState);   border-color: var(--hook-useState);   background: rgba(79,140,255,0.08); }
+  .pill-useMemo    { color: var(--hook-useMemo);    border-color: var(--hook-useMemo);    background: rgba(57,255,143,0.08); }
+  .pill-useRef     { color: var(--hook-useRef);     border-color: var(--hook-useRef);     background: rgba(255,122,48,0.08); }
+  .pill-useCallback{ color: var(--hook-useCallback);border-color: var(--hook-useCallback);background: rgba(179,107,255,0.08);}
+  .pill-useAsync   { color: var(--hook-useAsync);   border-color: var(--hook-useAsync);   background: rgba(0,229,255,0.08);  }
+
+  /* ─── INTRO CARD ─── */
+  .intro-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    margin-bottom: 60px;
+    backdrop-filter: blur(20px);
+    animation: fadeInUp 0.6s 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    opacity: 0.6;
+  }
+
+  .intro-card h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .intro-item {
+    background: rgba(79, 140, 255, 0.05);
+    border: 1px solid rgba(79, 140, 255, 0.12);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  }
+
+  .intro-item .ii-icon { font-size: 22px; margin-bottom: 8px; }
+  .intro-item .ii-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .intro-item .ii-text  { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* ─── HOOK SECTION ─── */
+  .hook-section {
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .hook-section.visible { opacity: 1; transform: none; }
+
+  .hook-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    transition: var(--transition);
+  }
+
+  .hook-card:hover {
+    border-color: var(--border-bright);
+    box-shadow: var(--shadow-glow-blue);
+    background: var(--bg-card-hover);
+  }
+
+  .hook-header {
+    padding: 28px 32px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hook-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--hook-accent);
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .hook-num {
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .hook-title-block { flex: 1; }
+
+  .hook-name {
+    font-family: var(--font-code);
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: var(--hook-color);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    text-shadow: 0 0 30px var(--hook-color-glow);
+  }
+
+  .hook-tagline {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  .hook-badge {
+    font-family: var(--font-code);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--hook-color-bg);
+    color: var(--hook-color);
+    border: 1px solid var(--hook-color-border);
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .hook-body { padding: 0 32px 32px; }
+
+  /* ─── LEVEL TOGGLE ─── */
+  .level-toggle {
+    display: flex;
+    gap: 0;
+    margin: 24px 0 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .level-btn {
+    font-family: var(--font-code);
+    font-size: 11px;
+    padding: 7px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.06em;
+  }
+
+  .level-btn.active {
+    background: rgba(79, 140, 255, 0.15);
+    color: var(--text-primary);
+  }
+
+  .level-btn:first-child { border-right: 1px solid var(--border); }
+
+  .level-content { display: none; margin-top: 16px; }
+  .level-content.active { display: block; }
+
+  /* ─── SECTIONS within card ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 680px) { .card-grid { grid-template-columns: 1fr; } }
+
+  .info-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+  }
+
+  .info-block .ib-label {
+    font-family: var(--font-code);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .info-block p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .info-block.full { grid-column: 1 / -1; }
+
+  /* ─── DIAGRAM ─── */
+  .diagram {
+    margin-top: 24px;
+    background: rgba(5,8,20,0.6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    overflow-x: auto;
+  }
+
+  .diagram-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+  }
+
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .flow-box {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .flow-arrow { color: var(--text-muted); font-size: 16px; flex-shrink: 0; }
+
+  .flow-box.blue   { background: rgba(79,140,255,0.15);  border: 1px solid rgba(79,140,255,0.3);  color: var(--neon-blue); }
+  .flow-box.green  { background: rgba(57,255,143,0.12);  border: 1px solid rgba(57,255,143,0.25); color: var(--neon-green); }
+  .flow-box.orange { background: rgba(255,122,48,0.12);  border: 1px solid rgba(255,122,48,0.25); color: var(--neon-orange); }
+  .flow-box.purple { background: rgba(179,107,255,0.12); border: 1px solid rgba(179,107,255,0.25);color: var(--neon-purple); }
+  .flow-box.cyan   { background: rgba(0,229,255,0.1);    border: 1px solid rgba(0,229,255,0.25);  color: var(--neon-cyan); }
+  .flow-box.gray   { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-section { margin-top: 24px; }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5,8,20,0.9);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    padding: 10px 16px;
+  }
+
+  .code-label {
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .code-actions { display: flex; gap: 8px; align-items: center; }
+
+  .code-toggle-btn, .copy-btn {
+    font-family: var(--font-code);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.04em;
+  }
+
+  .code-toggle-btn:hover, .copy-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+  }
+
+  .copy-btn.copied { color: var(--neon-green); border-color: rgba(57,255,143,0.4); }
+
+  .code-body {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    overflow: hidden;
+    max-height: 600px;
+    transition: max-height 0.35s ease;
+  }
+
+  .code-body.collapsed { max-height: 0; }
+
+  pre {
+    padding: 20px 20px;
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  code {
+    font-family: var(--font-code);
+    font-size: 12.5px;
+    line-height: 1.8;
+    tab-size: 2;
+  }
+
+  /* Syntax highlighting */
+  .kw   { color: #b36bff; }
+  .fn   { color: #4f8cff; }
+  .str  { color: #39ff8f; }
+  .num  { color: #ff7a30; }
+  .cmt  { color: #3a4a6a; font-style: italic; }
+  .tag  { color: #00e5ff; }
+  .attr { color: #ff4fd8; }
+  .op   { color: #8899cc; }
+  .const{ color: #e8eeff; font-weight: bold; }
+  .type { color: #ffd000; }
+
+  /* ─── WARNINGS / TIPS ─── */
+  .warn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+  @media (max-width: 680px) { .warn-grid { grid-template-columns: 1fr; } }
+
+  .warn-box {
+    padding: 16px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    line-height: 1.6;
+    border: 1px solid;
+  }
+
+  .warn-box .wb-title {
+    font-family: var(--font-code);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .warn-box ul { padding-left: 16px; color: var(--text-secondary); }
+  .warn-box ul li { margin-bottom: 4px; font-size: 13px; }
+
+  .warn-box.perf   { background: rgba(57,255,143,0.05);  border-color: rgba(57,255,143,0.2);  color: var(--neon-green); }
+  .warn-box.danger { background: rgba(255,77,77,0.05);   border-color: rgba(255,77,77,0.2);   color: #ff6060; }
+  .warn-box.tip    { background: rgba(79,140,255,0.05);  border-color: rgba(79,140,255,0.2);  color: var(--neon-blue); }
+  .warn-box.skip   { background: rgba(255,122,48,0.05);  border-color: rgba(255,122,48,0.2);  color: var(--neon-orange); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+  }
+
+  footer span { color: var(--neon-blue); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; }
+    50%       { opacity: 0.7; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    nav { padding: 12px 16px; }
+    .nav-links { display: none; }
+    .hook-header { padding: 20px; }
+    .hook-body { padding: 0 20px 20px; }
+    .intro-card { padding: 24px 20px; }
+    .wrapper { padding: 0 16px 80px; }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-deep); }
+  ::-webkit-scrollbar-thumb { background: rgba(79,140,255,0.3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(79,140,255,0.5); }
+
+  /* glow orb */
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: float 8s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="grid-overlay"></div>
+
+<!-- Glow orbs -->
+<div class="glow-orb" style="width:400px;height:400px;background:rgba(79,140,255,0.06);top:10%;left:-100px;animation-delay:0s;"></div>
+<div class="glow-orb" style="width:300px;height:300px;background:rgba(179,107,255,0.06);top:50%;right:-80px;animation-delay:2s;"></div>
+<div class="glow-orb" style="width:350px;height:350px;background:rgba(0,229,255,0.04);bottom:20%;left:30%;animation-delay:4s;"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⚛ hooks.dev</div>
+  <ul class="nav-links">
+    <li><a href="#useState">useState</a></li>
+    <li><a href="#useMemo">useMemo</a></li>
+    <li><a href="#useRef">useRef</a></li>
+    <li><a href="#useCallback">useCallback</a></li>
+    <li><a href="#useAsync">useAsync</a></li>
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Complete Reference Guide</div>
+    <h1 class="hero-title">
+      <span class="grad-1">React Hooks<br>Deep Dive</span>
+    </h1>
+    <p class="hero-sub">Master the five hooks that will transform how you think about state, performance, and side effects in modern React.</p>
+    <div class="hook-pills">
+      <a href="#useState"    class="pill pill-useState">useState</a>
+      <a href="#useMemo"     class="pill pill-useMemo">useMemo</a>
+      <a href="#useRef"      class="pill pill-useRef">useRef</a>
+      <a href="#useCallback" class="pill pill-useCallback">useCallback</a>
+      <a href="#useAsync"    class="pill pill-useAsync">useAsync</a>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <h2>Why Hooks Exist</h2>
+    <p style="color:var(--text-secondary);font-size:15px;">Before Hooks (React 16.8, Feb 2019), sharing stateful logic between components required awkward patterns — higher-order components, render props — that created "wrapper hell". Hooks let you extract and reuse stateful logic without changing component hierarchy. They make code more readable, testable, and composable.</p>
+    <div class="intro-grid">
+      <div class="intro-item">
+        <div class="ii-icon">🔁</div>
+        <div class="ii-title">Reuse Logic</div>
+        <div class="ii-text">Extract stateful logic into custom hooks, share across components without HOC nesting.</div>
+      </div>
+      <div class="intro-item">
+        <div class="ii-icon">🧩</div>
+        <div class="ii-title">Collocate Code</div>
+        <div class="ii-text">Group related code by concern, not by lifecycle method. <code style="font-size:11px;color:var(--neon-blue)">useEffect</code> replaced 3 lifecycle methods.</div>
+      </div>
+      <div class="intro-item">
+        <div class="ii-icon">⚡</div>
+        <div class="ii-title">Performance</div>
+        <div class="ii-text">useMemo and useCallback give you surgical control over re-computation and reference stability.</div>
+      </div>
+      <div class="intro-item">
+        <div class="ii-icon">📐</div>
+        <div class="ii-title">Only in Function Components</div>
+        <div class="ii-text">All rules apply: call at top level, only in React functions — never in loops, conditions, or nested functions.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ useState ════════════════════════ -->
+  <section class="hook-section" id="useState">
+    <div class="hook-card" style="--hook-accent:var(--neon-blue)">
+      <div class="hook-header">
+        <div class="hook-num">01 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-blue);--hook-color-glow:rgba(79,140,255,0.4)">useState</div>
+          <div class="hook-tagline">Local component state — the most fundamental hook</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-blue);--hook-color-bg:rgba(79,140,255,0.1);--hook-color-border:rgba(79,140,255,0.3)">BUILT-IN</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useState lets a function component "remember" a value between renders. It returns the current value and a setter function. Calling the setter triggers a re-render with the new value.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>Any time your UI needs to change in response to user interaction or data — form inputs, toggles, counters, modals — useState is the answer. Without it, function components are stateless.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>A shopping cart: <code style="color:var(--neon-blue);font-size:13px">const [cartItems, setCartItems] = useState([])</code> — you display cartItems and call setCartItems whenever a user adds or removes a product. Each change re-renders the cart component with fresh data.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">Under the hood</div>
+              <p>React stores state in an internal "fiber" linked list. Each useState call corresponds to a hook slot by call order — hence the Rules of Hooks (never call conditionally). The setter function is referentially stable across renders.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Functional updates & batching</div>
+              <p>Pass a function <code style="color:var(--neon-blue);font-size:12px">setState(prev => prev + 1)</code> when new state depends on previous — avoids stale closures. React 18 batches all setState calls automatically, even in async callbacks.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagram -->
+        <div class="diagram">
+          <div class="diagram-title">Flow — State Update Cycle</div>
+          <div class="flow">
+            <div class="flow-box blue">User Event</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box blue">setState(newVal)</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">React schedules re-render</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box blue">Component re-runs</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box blue">useState returns new val</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">DOM updated</div>
+          </div>
+          <div class="flow" style="margin-top:12px;">
+            <div class="flow-box gray">Lazy init:</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box blue">useState(() => expensiveCalc())</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">Fn runs only once (mount)</div>
+          </div>
+        </div>
+
+        <!-- Syntax -->
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">SYNTAX</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="cmt">// Basic</span>
+<span class="kw">const</span> [state, setState] = <span class="fn">useState</span>(initialValue);
+
+<span class="cmt">// With type annotation (TypeScript)</span>
+<span class="kw">const</span> [count, setCount] = <span class="fn">useState</span><span class="op">&lt;</span><span class="type">number</span><span class="op">&gt;</span>(<span class="num">0</span>);
+
+<span class="cmt">// Lazy initializer — function runs once</span>
+<span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(() =&gt; <span class="fn">JSON.parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'data'</span>)));
+
+<span class="cmt">// Functional update (safe when reading prev state)</span>
+<span class="fn">setCount</span>(prev =&gt; prev + <span class="num">1</span>);</code></pre>
+          </div>
+        </div>
+
+        <!-- Example -->
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — Controlled Form + Toggle</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">LoginForm</span>() {
+  <span class="kw">const</span> [email, setEmail]       = <span class="fn">useState</span>(<span class="str">''</span>);
+  <span class="kw">const</span> [showPass, setShowPass] = <span class="fn">useState</span>(<span class="kw">false</span>);
+  <span class="kw">const</span> [errors, setErrors]     = <span class="fn">useState</span>({});
+
+  <span class="kw">const</span> <span class="fn">handleSubmit</span> = (e) =&gt; {
+    e.<span class="fn">preventDefault</span>();
+    <span class="kw">if</span> (!email.<span class="fn">includes</span>(<span class="str">'@'</span>)) {
+      <span class="cmt">// Functional update for object state</span>
+      <span class="fn">setErrors</span>(prev =&gt; ({ ...prev, email: <span class="str">'Invalid email'</span> }));
+    }
+  };
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;form</span> <span class="attr">onSubmit</span>=<span class="op">{</span>handleSubmit<span class="op">}</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;input</span>
+        <span class="attr">value</span>=<span class="op">{</span>email<span class="op">}</span>
+        <span class="attr">onChange</span>=<span class="op">{</span>e =&gt; <span class="fn">setEmail</span>(e.target.value)<span class="op">}</span>
+      <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="str">"button"</span> <span class="attr">onClick</span>=<span class="op">{</span>() =&gt; <span class="fn">setShowPass</span>(p =&gt; !p)<span class="op">}</span><span class="tag">&gt;</span>
+        <span class="op">{</span>showPass ? <span class="str">'Hide'</span> : <span class="str">'Show'</span><span class="op">}</span>
+      <span class="tag">&lt;/button&gt;</span>
+      <span class="op">{</span>errors.email <span class="op">&amp;&amp;</span> <span class="tag">&lt;span&gt;</span><span class="op">{</span>errors.email<span class="op">}</span><span class="tag">&lt;/span&gt;</span><span class="op">}</span>
+    <span class="tag">&lt;/form&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Warnings -->
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>Every setState call schedules a re-render — batch related updates</li>
+              <li>Use lazy initializer for expensive initial computation</li>
+              <li>Split unrelated state into separate useState calls</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Mutating state directly: <code style="font-size:11px">state.items.push(x)</code> — won't re-render</li>
+              <li>Stale closure: reading state in async without functional update</li>
+              <li>Setting state during render causes infinite loops</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>Cross-component shared state → use Context / Zustand / Redux</li>
+              <li>Server-side derived data that never changes locally</li>
+              <li>Non-UI values that don't cause re-renders → use useRef</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>Co-locate state as close to where it's used as possible</li>
+              <li>Consider useReducer when state logic grows complex</li>
+              <li>Objects &amp; arrays need new references: spread to update</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ useMemo ════════════════════════ -->
+  <section class="hook-section" id="useMemo">
+    <div class="hook-card">
+      <div class="hook-header">
+        <div class="hook-num">02 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-green);--hook-color-glow:rgba(57,255,143,0.4)">useMemo</div>
+          <div class="hook-tagline">Memoize expensive computations — skip redundant work</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-green);--hook-color-bg:rgba(57,255,143,0.1);--hook-color-border:rgba(57,255,143,0.3)">BUILT-IN</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useMemo caches the result of a calculation. You provide a function and dependency array; React re-runs the function only when a dependency changes. Between renders, it returns the cached value.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>If a component re-renders often but a computation is expensive (sorting 10,000 items, building a complex tree), useMemo ensures you only do that work when the input data actually changes.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>A data table with client-side filtering: <code style="color:var(--neon-green);font-size:13px">const filtered = useMemo(() => data.filter(row => row.name.includes(query)), [data, query])</code>. The filter only re-runs when data or query changes, not on every parent re-render.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">Referential stability</div>
+              <p>useMemo also prevents child components from re-rendering when you pass an object/array as props — the memoized value keeps the same reference. This complements React.memo on child components.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">React Compiler (v19+)</div>
+              <p>The React Compiler (Forget) auto-memoizes components and values at compile time, potentially making manual useMemo obsolete. For now, profile before optimizing — premature memoization adds overhead.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram">
+          <div class="diagram-title">Memoization Decision Tree</div>
+          <div class="flow">
+            <div class="flow-box gray">Component re-renders</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box green">Deps changed?</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">YES →</div>
+            <div class="flow-box green">Re-run computation</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">Cache new result</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box green">Return new value</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">NO  →</div>
+            <div class="flow-box gray">Return cached result</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box green">⚡ Zero computation cost</div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">SYNTAX</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">const</span> memoizedValue = <span class="fn">useMemo</span>(
+  () =&gt; <span class="fn">expensiveComputation</span>(a, b),
+  [a, b] <span class="cmt">// dependency array — recompute when a or b changes</span>
+);
+
+<span class="cmt">// Stable object reference (prevents child re-renders)</span>
+<span class="kw">const</span> options = <span class="fn">useMemo</span>(() =&gt; ({ sort: <span class="str">'asc'</span>, limit: <span class="num">50</span> }), []);
+<span class="cmt">// Empty deps → computed once, same reference forever</span></code></pre>
+          </div>
+        </div>
+
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — Filtered & Sorted List</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState, useMemo } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">ProductList</span>({ products }) {
+  <span class="kw">const</span> [query, setQuery]   = <span class="fn">useState</span>(<span class="str">''</span>);
+  <span class="kw">const</span> [sortBy, setSortBy] = <span class="fn">useState</span>(<span class="str">'price'</span>);
+
+  <span class="cmt">// Only recalculates when products, query, or sortBy change</span>
+  <span class="kw">const</span> displayProducts = <span class="fn">useMemo</span>(() =&gt; {
+    <span class="kw">const</span> filtered = products.<span class="fn">filter</span>(p =&gt;
+      p.name.<span class="fn">toLowerCase</span>().<span class="fn">includes</span>(query.<span class="fn">toLowerCase</span>())
+    );
+    <span class="kw">return</span> [...filtered].<span class="fn">sort</span>((a, b) =&gt;
+      a[sortBy] &gt; b[sortBy] ? <span class="num">1</span> : <span class="op">-</span><span class="num">1</span>
+    );
+  }, [products, query, sortBy]);
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;input</span> <span class="attr">value</span>=<span class="op">{</span>query<span class="op">}</span> <span class="attr">onChange</span>=<span class="op">{</span>e =&gt; <span class="fn">setQuery</span>(e.target.value)<span class="op">}</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Showing <span class="op">{</span>displayProducts.length<span class="op">}</span> of <span class="op">{</span>products.length<span class="op">}</span><span class="tag">&lt;/p&gt;</span>
+      <span class="op">{</span>displayProducts.<span class="fn">map</span>(p =&gt; <span class="tag">&lt;ProductCard</span> <span class="attr">key</span>=<span class="op">{</span>p.id<span class="op">}</span> <span class="attr">product</span>=<span class="op">{</span>p<span class="op">}</span> <span class="tag">/&gt;</span>)<span class="op">}</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>useMemo itself has overhead — only use for genuinely expensive ops</li>
+              <li>Profile with React DevTools Profiler before adding useMemo</li>
+              <li>Pairs best with React.memo on child components</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Missing deps: stale values silently bug your UI</li>
+              <li>Wrapping everything "just in case" — adds code noise</li>
+              <li>Using it for side effects — that's useEffect's job</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>Cheap computations: addition, string concat — overhead &gt; benefit</li>
+              <li>When the component rarely re-renders anyway</li>
+              <li>To memo a value for side-effect purposes</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>Measure first — React is fast; most components don't need memo</li>
+              <li>useMemo returns a value; useCallback returns a function</li>
+              <li>React may discard the cache in the future — treat as an optimization hint</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ useRef ════════════════════════ -->
+  <section class="hook-section" id="useRef">
+    <div class="hook-card">
+      <div class="hook-header">
+        <div class="hook-num">03 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-orange);--hook-color-glow:rgba(255,122,48,0.4)">useRef</div>
+          <div class="hook-tagline">Mutable container that persists without triggering re-renders</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-orange);--hook-color-bg:rgba(255,122,48,0.1);--hook-color-border:rgba(255,122,48,0.3)">BUILT-IN</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useRef returns a plain object <code style="color:var(--neon-orange);font-size:13px">{ current: value }</code>. Unlike useState, mutating <code style="font-size:12px;color:var(--neon-orange)">.current</code> does NOT cause a re-render. The ref object persists for the full lifetime of the component.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>Two main uses: (1) Direct DOM access — focus an input, measure element size, integrate 3rd-party libraries. (2) Store mutable values that shouldn't trigger renders — timers, previous state snapshots, instance variables.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>Auto-focus a search input on mount, store an interval ID to clear it later, or access a canvas element for WebGL rendering. Libraries like react-hook-form use refs internally to avoid re-renders on every keystroke.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">Callback refs</div>
+              <p>Pass a function as the ref prop: <code style="font-size:12px;color:var(--neon-orange)">ref={node => { ... }}</code>. Called with the DOM node when mounted, null when unmounted. Useful for measuring elements after paint (ResizeObserver pattern).</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">forwardRef & useImperativeHandle</div>
+              <p>Refs don't forward through components by default. Use forwardRef to expose a child's DOM node to a parent. useImperativeHandle lets you customize what the parent can access — expose only focus() instead of the entire input element.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram">
+          <div class="diagram-title">useRef: Two Distinct Use Cases</div>
+          <div class="flow">
+            <div class="flow-box orange">useRef(null)</div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-box gray">ref={myRef} on JSX</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box orange">myRef.current = DOM node</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box orange">Direct DOM manipulation</div>
+          </div>
+          <div class="flow" style="margin-top:10px;">
+            <div class="flow-box orange">useRef(0)</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">intervalRef.current = id</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">No re-render triggered</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box orange">clearInterval(ref.current)</div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">SYNTAX</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="cmt">// DOM ref</span>
+<span class="kw">const</span> inputRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+<span class="tag">&lt;input</span> <span class="attr">ref</span>=<span class="op">{</span>inputRef<span class="op">}</span> <span class="tag">/&gt;</span>
+inputRef.current.<span class="fn">focus</span>();  <span class="cmt">// direct DOM access</span>
+
+<span class="cmt">// Mutable instance variable (no re-render)</span>
+<span class="kw">const</span> timerRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+timerRef.current = <span class="fn">setInterval</span>(tick, <span class="num">1000</span>);
+<span class="fn">clearInterval</span>(timerRef.current);
+
+<span class="cmt">// Track previous value</span>
+<span class="kw">const</span> prevCount = <span class="fn">useRef</span>(count);
+<span class="fn">useEffect</span>(() =&gt; { prevCount.current = count; }, [count]);</code></pre>
+          </div>
+        </div>
+
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — Stopwatch with Interval Ref</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState, useRef } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">Stopwatch</span>() {
+  <span class="kw">const</span> [elapsed, setElapsed] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">const</span> intervalRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> startTime   = <span class="fn">useRef</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> <span class="fn">start</span> = () =&gt; {
+    startTime.current = Date.<span class="fn">now</span>() - elapsed;
+    intervalRef.current = <span class="fn">setInterval</span>(() =&gt; {
+      <span class="fn">setElapsed</span>(Date.<span class="fn">now</span>() - startTime.current);
+    }, <span class="num">16</span>); <span class="cmt">// ~60fps</span>
+  };
+
+  <span class="kw">const</span> <span class="fn">stop</span> = () =&gt; <span class="fn">clearInterval</span>(intervalRef.current);
+
+  <span class="kw">const</span> <span class="fn">reset</span> = () =&gt; {
+    <span class="fn">stop</span>();
+    <span class="fn">setElapsed</span>(<span class="num">0</span>);
+  };
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h2&gt;</span><span class="op">{</span>(elapsed / <span class="num">1000</span>).<span class="fn">toFixed</span>(<span class="num">2</span>)<span class="op">}</span>s<span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>=<span class="op">{</span>start<span class="op">}</span><span class="tag">&gt;</span>Start<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>=<span class="op">{</span>stop<span class="op">}</span><span class="tag">&gt;</span>Stop<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>=<span class="op">{</span>reset<span class="op">}</span><span class="tag">&gt;</span>Reset<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>Zero re-render cost for mutations — ideal for high-frequency updates</li>
+              <li>DOM refs let libraries like GSAP animate without React overhead</li>
+              <li>Use for animation state, scroll position, previous values</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Reading ref.current during render — it may be null (DOM not yet attached)</li>
+              <li>Using ref when you need the UI to update — use useState instead</li>
+              <li>Forgetting refs don't trigger effects when they change</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>When you need the UI to reflect the value — use useState</li>
+              <li>For simple derived values — useMemo is cleaner</li>
+              <li>As an escape hatch to avoid proper state architecture</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>The ref object itself is stable — safe to include in dep arrays</li>
+              <li>Useful for storing latest callback: <code style="font-size:11px">callbackRef.current = fn</code></li>
+              <li>Null-check before accessing: <code style="font-size:11px">if (ref.current) ref.current.focus()</code></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ useCallback ════════════════════════ -->
+  <section class="hook-section" id="useCallback">
+    <div class="hook-card">
+      <div class="hook-header">
+        <div class="hook-num">04 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-purple);--hook-color-glow:rgba(179,107,255,0.4)">useCallback</div>
+          <div class="hook-tagline">Memoize function references — prevent unnecessary child re-renders</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-purple);--hook-color-bg:rgba(179,107,255,0.1);--hook-color-border:rgba(179,107,255,0.3)">BUILT-IN</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useCallback caches a function definition. On every render, JavaScript creates a new function object — even if the logic is identical. useCallback returns the same function reference as long as its dependencies haven't changed.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>When you pass a callback to a child component wrapped in React.memo, a new function reference on every render bypasses the memo. useCallback ensures the child only re-renders when the function's logic actually needs to change.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>A virtualized list with thousands of rows. Each row receives an onDelete callback. Without useCallback, every parent render creates a new function, forcing all rows to re-render. With it, rows only update when the deletion logic itself changes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">useCallback vs useMemo</div>
+              <p><code style="font-size:12px;color:var(--neon-purple)">useCallback(fn, deps)</code> is syntactic sugar for <code style="font-size:12px;color:var(--neon-purple)">useMemo(() => fn, deps)</code>. Use useCallback when your memoized value is a function — same caching mechanism, different intent signal.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">The stale closure problem</div>
+              <p>A common pitfall: using a stale callback that closes over old state. Solution: use the functional updater form <code style="font-size:12px;color:var(--neon-purple)">setState(prev => ...)</code> inside callbacks, or include the state in the dependency array (accepting more re-memos).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram">
+          <div class="diagram-title">useCallback + React.memo: The Combo</div>
+          <div class="flow">
+            <div class="flow-box gray">Parent re-renders</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box purple">useCallback</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">deps same →</div>
+            <div class="flow-box gray">Same fn reference</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box purple">React.memo child</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box purple">✓ Skips re-render</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">deps changed →</div>
+            <div class="flow-box gray">New fn reference</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box purple">React.memo child</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">Re-renders (correct)</div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">SYNTAX</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">const</span> memoizedFn = <span class="fn">useCallback</span>(
+  () =&gt; { <span class="fn">doSomething</span>(a, b); },
+  [a, b] <span class="cmt">// only recreate when a or b changes</span>
+);
+
+<span class="cmt">// Equivalent (useMemo returning a function)</span>
+<span class="kw">const</span> sameThing = <span class="fn">useMemo</span>(
+  () =&gt; () =&gt; { <span class="fn">doSomething</span>(a, b); },
+  [a, b]
+);</code></pre>
+          </div>
+        </div>
+
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — Optimized Virtualized List</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState, useCallback, memo } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="cmt">// Memoized child — only re-renders if props change</span>
+<span class="kw">const</span> <span class="fn">TodoItem</span> = <span class="fn">memo</span>(({ todo, onDelete }) =&gt; (
+  <span class="tag">&lt;li&gt;</span>
+    {todo.text}
+    <span class="tag">&lt;button</span> <span class="attr">onClick</span>=<span class="op">{</span>() =&gt; <span class="fn">onDelete</span>(todo.id)<span class="op">}</span><span class="tag">&gt;</span>✕<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/li&gt;</span>
+));
+
+<span class="kw">function</span> <span class="fn">TodoList</span>() {
+  <span class="kw">const</span> [todos, setTodos] = <span class="fn">useState</span>([...]);
+  <span class="kw">const</span> [filter, setFilter] = <span class="fn">useState</span>(<span class="str">''</span>);
+
+  <span class="cmt">// Stable reference — TodoItem won't re-render on filter change</span>
+  <span class="kw">const</span> handleDelete = <span class="fn">useCallback</span>((id) =&gt; {
+    <span class="fn">setTodos</span>(prev =&gt; prev.<span class="fn">filter</span>(t =&gt; t.id !== id));
+  }, []); <span class="cmt">// no deps — uses functional setState</span>
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;ul&gt;</span>
+      <span class="op">{</span>todos
+        .<span class="fn">filter</span>(t =&gt; t.text.<span class="fn">includes</span>(filter))
+        .<span class="fn">map</span>(todo =&gt; (
+          <span class="tag">&lt;TodoItem</span> <span class="attr">key</span>=<span class="op">{</span>todo.id<span class="op">}</span> <span class="attr">todo</span>=<span class="op">{</span>todo<span class="op">}</span> <span class="attr">onDelete</span>=<span class="op">{</span>handleDelete<span class="op">}</span> <span class="tag">/&gt;</span>
+        ))<span class="op">}</span>
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>Only useful with React.memo — otherwise reference stability is meaningless</li>
+              <li>Each useCallback call has overhead; measure before adding</li>
+              <li>Works best on callbacks passed to many memoized children</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Using stale state in callbacks — prefer functional updaters</li>
+              <li>Adding useCallback without React.memo on the child = wasted effort</li>
+              <li>Incorrect dependency array causes stale or re-created functions</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>Callbacks only used inside the component itself</li>
+              <li>When the child isn't wrapped in React.memo</li>
+              <li>Simple, lightweight components — overhead exceeds benefit</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>Always pair with React.memo — one without the other is wasteful</li>
+              <li>The eslint-plugin-react-hooks exhaustive-deps rule is your friend</li>
+              <li>useReducer's dispatch is already stable — no useCallback needed</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ useAsync ════════════════════════ -->
+  <section class="hook-section" id="useAsync">
+    <div class="hook-card">
+      <div class="hook-header">
+        <div class="hook-num">05 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-cyan);--hook-color-glow:rgba(0,229,255,0.4)">useAsync</div>
+          <div class="hook-tagline">Custom hook — orchestrate async operations with full lifecycle state</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-cyan);--hook-color-bg:rgba(0,229,255,0.1);--hook-color-border:rgba(0,229,255,0.3)">CUSTOM HOOK</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useAsync is a custom hook you build yourself (or install via libraries like react-use or ahooks). It wraps an async function and tracks its full lifecycle: idle → pending → success/error, exposing these as state values.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>Every API call in React needs the same boilerplate: loading state, error handling, data storage, cleanup on unmount, stale response prevention. useAsync centralizes this pattern so you write it once and reuse it everywhere.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>A user profile page: <code style="color:var(--neon-cyan);font-size:13px">const { data, loading, error, execute } = useAsync(fetchUser)</code>. You get a consistent API for every data fetching scenario — search, forms, pagination — with race condition prevention built in.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">Race condition prevention</div>
+              <p>When a user triggers multiple requests rapidly (search as you type), earlier responses may arrive after later ones. The pattern uses an <code style="font-size:12px;color:var(--neon-cyan)">isCancelled</code> flag (or AbortController) — if the component unmounted or a new call started, the stale response is discarded.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Beyond this pattern</div>
+              <p>For production, consider TanStack Query (React Query) or SWR — they add caching, background refetching, deduplication, and optimistic updates. useAsync is the educational foundation; these libraries are the production evolution.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram">
+          <div class="diagram-title">Async State Machine</div>
+          <div class="flow">
+            <div class="flow-box cyan">IDLE</div>
+            <div class="flow-arrow">→ execute()</div>
+            <div class="flow-box cyan">LOADING</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">success →</div>
+            <div class="flow-box cyan">SUCCESS</div>
+            <div class="flow-arrow">data =</div>
+            <div class="flow-box gray">response</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box cyan">render data</div>
+          </div>
+          <div class="flow" style="margin-left:20px;margin-top:6px;">
+            <div class="flow-arrow">catch   →</div>
+            <div class="flow-box gray">ERROR</div>
+            <div class="flow-arrow">error =</div>
+            <div class="flow-box gray">Error object</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box cyan">render error UI</div>
+          </div>
+          <div class="flow" style="margin-top:8px;">
+            <div class="flow-box gray">component unmounts</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box cyan">isCancelled = true</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">setState ignored</div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">IMPLEMENTATION — Full useAsync Hook</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState, useCallback, useRef, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">useAsync</span>(asyncFn, immediate = <span class="kw">false</span>) {
+  <span class="kw">const</span> [status, setStatus] = <span class="fn">useState</span>(<span class="str">'idle'</span>); <span class="cmt">// idle|pending|success|error</span>
+  <span class="kw">const</span> [data,   setData]   = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [error,  setError]  = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> cancelledRef = <span class="fn">useRef</span>(<span class="kw">false</span>);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    cancelledRef.current = <span class="kw">false</span>;
+    <span class="kw">return</span> () =&gt; { cancelledRef.current = <span class="kw">true</span>; }; <span class="cmt">// cleanup</span>
+  }, []);
+
+  <span class="kw">const</span> execute = <span class="fn">useCallback</span>(async (...args) =&gt; {
+    <span class="fn">setStatus</span>(<span class="str">'pending'</span>);
+    <span class="fn">setData</span>(<span class="kw">null</span>);
+    <span class="fn">setError</span>(<span class="kw">null</span>);
+
+    <span class="kw">try</span> {
+      <span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">asyncFn</span>(...args);
+      <span class="kw">if</span> (!cancelledRef.current) {
+        <span class="fn">setData</span>(result);
+        <span class="fn">setStatus</span>(<span class="str">'success'</span>);
+      }
+    } <span class="kw">catch</span> (err) {
+      <span class="kw">if</span> (!cancelledRef.current) {
+        <span class="fn">setError</span>(err);
+        <span class="fn">setStatus</span>(<span class="str">'error'</span>);
+      }
+    }
+  }, [asyncFn]);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (immediate) <span class="fn">execute</span>();
+  }, [immediate, execute]);
+
+  <span class="kw">return</span> {
+    execute,
+    data,
+    error,
+    status,
+    isIdle:    status === <span class="str">'idle'</span>,
+    isPending: status === <span class="str">'pending'</span>,
+    isSuccess: status === <span class="str">'success'</span>,
+    isError:   status === <span class="str">'error'</span>,
+  };
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — User Search with useAsync</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">const</span> <span class="fn">fetchUser</span> = (id) =&gt;
+  <span class="fn">fetch</span>(<span class="str">`/api/users/</span><span class="op">${</span>id<span class="op">}</span><span class="str">`</span>).<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>());
+
+<span class="kw">function</span> <span class="fn">UserProfile</span>({ userId }) {
+  <span class="kw">const</span> { execute, data: user, isPending, isError, error }
+    = <span class="fn">useAsync</span>(fetchUser);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="fn">execute</span>(userId);
+  }, [userId, execute]);
+
+  <span class="kw">if</span> (isPending) <span class="kw">return</span> <span class="tag">&lt;Skeleton /&gt;</span>;
+  <span class="kw">if</span> (isError)   <span class="kw">return</span> <span class="tag">&lt;ErrorBanner</span> <span class="attr">message</span>=<span class="op">{</span>error.message<span class="op">}</span> <span class="tag">/&gt;</span>;
+  <span class="kw">if</span> (!user)     <span class="kw">return</span> <span class="kw">null</span>;
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h1&gt;</span><span class="op">{</span>user.name<span class="op">}</span><span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span><span class="op">{</span>user.email<span class="op">}</span><span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>AbortController provides cleaner cleanup than boolean flags</li>
+              <li>Add caching logic to avoid redundant network requests</li>
+              <li>Consider React Suspense + use() for server-aligned data fetching</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Not handling cleanup → setState after unmount (memory leak warning)</li>
+              <li>Race conditions: rapid calls overwriting each other's results</li>
+              <li>Not wrapping asyncFn in useCallback → execute re-created every render</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>Complex caching needs → use TanStack Query or SWR</li>
+              <li>Server components (Next.js App Router) — fetch directly in async components</li>
+              <li>One-off operations — inline useEffect + useState may be simpler</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>Add a <code style="font-size:11px">reset()</code> method to return to idle state</li>
+              <li>Extend with retry logic and exponential backoff for resilience</li>
+              <li>Combine with useCallback so execute is stable across renders</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>React Hooks Deep Dive &nbsp;·&nbsp; Built with <span>♥</span> and vanilla HTML &nbsp;·&nbsp; <span>React 18+</span></p>
+    <p style="margin-top:8px;font-size:10px;color:var(--text-muted)">useState · useMemo · useRef · useCallback · useAsync</p>
+  </footer>
+
+</div>
+
+<script>
+  // ─── CANVAS PARTICLE BACKGROUND ───
+  (function() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function mkParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        a: Math.random() * 0.5 + 0.1,
+        hue: [200, 260, 180][Math.floor(Math.random()*3)]
+      };
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({ length: 80 }, mkParticle);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W;
+        if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H;
+        if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 65%, ${p.a})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    init();
+    draw();
+  })();
+
+  // ─── SCROLL REVEAL ───
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.hook-section').forEach(s => observer.observe(s));
+
+  // ─── LEVEL TOGGLE ───
+  function setLevel(btn, level) {
+    const card = btn.closest('.hook-body');
+    card.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    card.querySelectorAll('.level-content').forEach(c => {
+      c.classList.toggle('active', c.dataset.level === level);
+    });
+  }
+
+  // ─── CODE TOGGLE ───
+  function toggleCode(btn) {
+    const body = btn.closest('.code-header').nextElementSibling;
+    const collapsed = body.classList.toggle('collapsed');
+    btn.textContent = collapsed ? '▸ Expand' : '▾ Collapse';
+  }
+
+  // ─── COPY TO CLIPBOARD ───
+  function copyCode(btn) {
+    const pre = btn.closest('.code-section').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

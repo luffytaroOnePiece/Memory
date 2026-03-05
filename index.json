@@ -45,5 +45,12 @@
         "1": "Ghost of Tsushima Biomes"
       }
     }
+  },
+  "SWE": {
+    "Frontend": {
+      "React": {
+        "1": "React Hooks Guide"
+      }
+    }
   }
 }
