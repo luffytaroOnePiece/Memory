@@ -345,9 +345,7 @@
         }
 
         .file>.file-name .icon::before {
-            content: '📄';
-            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
-            font-size: 1.1rem;
+            content: '';
         }
 
         .file>.file-name:hover .text {
@@ -682,6 +680,365 @@
             width: 100%;
             background: #fff;
         }
+
+        /* ── Light Theme ── */
+        [data-theme="light"] {
+            --bg-base: #f0f2f5;
+            --bg-surface: rgba(255, 255, 255, 0.85);
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --bg-hover: rgba(0, 0, 0, 0.04);
+            --text-main: #1a1a2e;
+            --text-muted: #6b7280;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --border-focus: rgba(59, 130, 246, 0.5);
+            --folder-color: #d97706;
+            --file-color: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --ring-glow: rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="light"] .ambient-bg {
+            background: #e8eaed;
+        }
+
+        [data-theme="light"] .blob {
+            opacity: 0.15;
+        }
+
+        [data-theme="light"] .viewer-frame {
+            background: #fff;
+        }
+
+        [data-theme="light"] .viewer-topbar {
+            background: linear-gradient(180deg, rgba(240, 242, 245, 0.97) 0%, rgba(240, 242, 245, 0.9) 100%);
+            border-bottom-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .back-btn {
+            color: var(--text-main);
+            border-right-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .back-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .esc-key {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: rgba(0, 0, 0, 0.35);
+        }
+
+        [data-theme="light"] .viewer-esc-hint {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] h1 {
+            background: linear-gradient(135deg, #1a1a2e 20%, #6b7280 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .highlight {
+            background-color: rgba(59, 130, 246, 0.25);
+            color: #1a1a2e;
+        }
+
+        [data-theme="light"] .children {
+            border-left-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .folder>.folder-name .text {
+            color: #334155;
+        }
+
+        [data-theme="light"] .folder-name::after,
+        [data-theme="light"] .file-name::after {
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.03), transparent);
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 1.1rem;
+            padding: 0.35rem 0.7rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+            background: var(--bg-hover);
+        }
+
+        /* ── Bookmarks Section ── */
+        .bookmarks-section {
+            animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .bookmarks-header {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bookmarks-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-color), transparent);
+        }
+
+        .bookmarks-list {
+            display: flex;
+            gap: 0.6rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+        }
+
+        .bookmark-card {
+            flex-shrink: 0;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            max-width: 220px;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            position: relative;
+        }
+
+        .bookmark-card:hover {
+            background: var(--bg-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .bookmark-card-title {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 1.5rem;
+        }
+
+        .bookmark-card-path {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0.7;
+        }
+
+        .bookmark-remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            padding: 2px;
+            line-height: 1;
+        }
+
+        .bookmark-card:hover .bookmark-remove {
+            opacity: 1;
+        }
+
+        .bookmark-remove:hover {
+            color: #f87171;
+        }
+
+        /* Star bookmark button on file items */
+        .star-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 0.3rem;
+            margin-left: auto;
+            opacity: 0;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            z-index: 2;
+            line-height: 1;
+            filter: grayscale(1);
+        }
+
+        .file-name:hover .star-btn,
+        .star-btn.active {
+            opacity: 1;
+        }
+
+        .star-btn.active {
+            filter: grayscale(0);
+        }
+
+        .star-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* ── Keyboard Shortcuts Overlay ── */
+        .shortcuts-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: viewerFadeIn 0.2s ease;
+        }
+
+        .shortcuts-overlay.active {
+            display: flex;
+        }
+
+        .shortcuts-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .shortcuts-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .shortcut-row:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .shortcut-keys {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .key-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            min-width: 28px;
+            text-align: center;
+        }
+
+        /* ── Scroll-to-Top Button ── */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 1.3rem;
+            cursor: pointer;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .scroll-top-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--text-muted);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ── Help hint in header ── */
+        .help-hint {
+            position: absolute;
+            top: 0.5rem;
+            right: 0;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .help-hint .key-badge {
+            font-size: 0.65rem;
+            padding: 1px 6px;
+            min-width: auto;
+        }
     </style>
 </head>
 
@@ -696,10 +1053,17 @@
         <header>
             <h1>Memory Bank</h1>
             <p class="subtitle">Systematic Knowledge Repository</p>
+            <div class="help-hint">Press <span class="key-badge">?</span> for shortcuts</div>
         </header>
 
         <main>
             <!-- Recently Viewed -->
+            <!-- Bookmarks -->
+            <div class="bookmarks-section" id="bookmarksSection" style="display:none;">
+                <div class="bookmarks-header">⭐ Bookmarks</div>
+                <div class="bookmarks-list" id="bookmarksList"></div>
+            </div>
+
             <div class="recent-section" id="recentSection" style="display:none;">
                 <div class="recent-header">Recently Viewed</div>
                 <div class="recent-list" id="recentList"></div>
@@ -717,7 +1081,10 @@
                         <span id="folderCount">0 folders</span>
                         <span id="fileCount">0 files</span>
                     </div>
-                    <button id="toggleAllBtn" class="toggle-btn">Expand All</button>
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                        <button id="themeToggle" class="theme-toggle" title="Toggle light/dark theme">🌙</button>
+                        <button id="toggleAllBtn" class="toggle-btn">Expand All</button>
+                    </div>
                 </div>
             </div>
 
@@ -744,6 +1111,32 @@
         <iframe class="viewer-frame" id="viewerFrame"></iframe>
     </div>
 
+    <!-- Keyboard Shortcuts Overlay -->
+    <div class="shortcuts-overlay" id="shortcutsOverlay">
+        <div class="shortcuts-panel">
+            <div class="shortcuts-title">⌨️ Keyboard Shortcuts</div>
+            <div class="shortcut-row">
+                <span class="shortcut-label">Focus search</span>
+                <div class="shortcut-keys"><span class="key-badge">/</span></div>
+            </div>
+            <div class="shortcut-row">
+                <span class="shortcut-label">Close viewer</span>
+                <div class="shortcut-keys"><span class="key-badge">Esc</span></div>
+            </div>
+            <div class="shortcut-row">
+                <span class="shortcut-label">Toggle shortcuts help</span>
+                <div class="shortcut-keys"><span class="key-badge">?</span></div>
+            </div>
+            <div class="shortcut-row">
+                <span class="shortcut-label">Expand / Collapse all</span>
+                <div class="shortcut-keys"><span class="key-badge">E</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Scroll to top">↑</button>
+
     <script>
         let globalData = null;
         let totalStats = { folders: 0, files: 0 };
@@ -754,7 +1147,11 @@
         document.addEventListener("DOMContentLoaded", () => {
             initSearch();
             initToggleAll();
+            initThemeToggle();
+            initScrollToTop();
+            initKeyboardShortcuts();
             renderRecentlyViewed();
+            renderBookmarks();
 
             fetch('index.json')
                 .then(response => {
@@ -832,10 +1229,28 @@
                             openViewer(fileHref, value);
                         });
 
+                        // Contextual file-type icon
+                        const fileIcon = getFileIcon(value, path);
+
+                        // Star bookmark button
+                        const isBookmarked = getBookmarks().some(b => b.url === fileHref);
+                        const starClass = isBookmarked ? 'star-btn active' : 'star-btn';
+
                         a.innerHTML = `
-                            <span class="icon"></span>
+                            <span class="icon" style="font-size:1.1rem;">${fileIcon}</span>
                             <span class="text" data-original-text="${value}">${value}</span>
+                            <button class="${starClass}" data-url="${fileHref}" data-title="${value}" title="Bookmark this file">⭐</button>
                         `;
+
+                        // Star click handler
+                        const starBtn = a.querySelector('.star-btn');
+                        starBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleBookmark(this.dataset.url, this.dataset.title);
+                            this.classList.toggle('active');
+                        });
+
                         li.appendChild(a);
                     } else {
                         // Folder Node
@@ -1087,15 +1502,150 @@
 
         document.getElementById('backBtn').addEventListener('click', closeViewer);
 
-        // Escape key to close viewer
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const overlay = document.getElementById('viewerOverlay');
-                if (overlay.classList.contains('active')) {
-                    closeViewer();
-                }
+        // ── File icon ──
+        function getFileIcon(title, path) {
+            return '📄';
+        }
+
+        // ── Theme Toggle (localStorage) ──
+        const THEME_KEY = 'memorybank_theme';
+
+        function initThemeToggle() {
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+            applyTheme(savedTheme);
+
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                applyTheme(next);
+                localStorage.setItem(THEME_KEY, next);
+            });
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            const btn = document.getElementById('themeToggle');
+            btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            btn.title = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+        }
+
+        // ── Bookmarks (localStorage) ──
+        const BOOKMARKS_KEY = 'memorybank_bookmarks';
+
+        function getBookmarks() {
+            try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY)) || []; }
+            catch { return []; }
+        }
+
+        function toggleBookmark(url, title) {
+            let bookmarks = getBookmarks();
+            const exists = bookmarks.findIndex(b => b.url === url);
+            if (exists >= 0) {
+                bookmarks.splice(exists, 1);
+            } else {
+                bookmarks.unshift({ url, title, time: Date.now() });
             }
-        });
+            localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+            renderBookmarks();
+        }
+
+        function renderBookmarks() {
+            const bookmarks = getBookmarks();
+            const section = document.getElementById('bookmarksSection');
+            const list = document.getElementById('bookmarksList');
+
+            if (bookmarks.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = '';
+            list.innerHTML = '';
+
+            bookmarks.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bookmark-card';
+                const pathParts = item.url.replace('.html', '').split('/');
+                const pathDisplay = pathParts.slice(0, -1).join(' › ');
+                card.innerHTML = `
+                    <span class="bookmark-card-title">${item.title}</span>
+                    <span class="bookmark-card-path">${pathDisplay || 'Root'}</span>
+                    <button class="bookmark-remove" title="Remove bookmark">&times;</button>
+                `;
+                card.querySelector('.bookmark-card-title').addEventListener('click', () => openViewer(item.url, item.title));
+                card.querySelector('.bookmark-card-path').addEventListener('click', () => openViewer(item.url, item.title));
+                card.querySelector('.bookmark-remove').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleBookmark(item.url, item.title);
+                    // Also update star button in tree
+                    const starBtn = document.querySelector(`.star-btn[data-url="${item.url}"]`);
+                    if (starBtn) starBtn.classList.remove('active');
+                });
+                list.appendChild(card);
+            });
+        }
+
+        // ── Scroll to Top ──
+        function initScrollToTop() {
+            const btn = document.getElementById('scrollTopBtn');
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('visible', window.scrollY > 300);
+            }, { passive: true });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // ── Keyboard Shortcuts ──
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                const activeTag = document.activeElement?.tagName;
+                const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA';
+                const viewerActive = document.getElementById('viewerOverlay').classList.contains('active');
+                const shortcutsActive = document.getElementById('shortcutsOverlay').classList.contains('active');
+
+                // Escape: close shortcuts overlay first, then viewer
+                if (e.key === 'Escape') {
+                    if (shortcutsActive) {
+                        document.getElementById('shortcutsOverlay').classList.remove('active');
+                        return;
+                    }
+                    if (viewerActive) {
+                        closeViewer();
+                        return;
+                    }
+                    // If search is focused, blur it
+                    if (document.activeElement === document.getElementById('searchInput')) {
+                        document.getElementById('searchInput').blur();
+                        return;
+                    }
+                }
+
+                // Don't process other shortcuts while typing in inputs
+                if (isTyping) return;
+
+                // ? — Toggle shortcuts help
+                if (e.key === '?') {
+                    e.preventDefault();
+                    document.getElementById('shortcutsOverlay').classList.toggle('active');
+                    return;
+                }
+
+                // / — Focus search
+                if (e.key === '/' && !viewerActive) {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                    return;
+                }
+
+                // E — Toggle expand/collapse all
+                if ((e.key === 'e' || e.key === 'E') && !viewerActive) {
+                    e.preventDefault();
+                    document.getElementById('toggleAllBtn').click();
+                    return;
+                }
+            });
+        }
     </script>
 </body>
 
