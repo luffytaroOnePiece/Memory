@@ -40,14 +40,14 @@
     "FH5": {
       "1": "Forza Horizon 5 Biomes of Mexico"
     },
-    "GhostOfTsushima": {
+    "GhostOfTushima": {
       "Biomes": {
         "1": "Ghost of Tsushima Biomes"
       }
     }
   },
   "SWE": {
-    "Frontend": {
+    "FrontEnd": {
       "React": {
         "1": "React Hooks Guide"
       }
