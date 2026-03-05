@@ -12,7 +12,7 @@ A comprehensive list of all features available in the Memory Bank application.
 - **Folder item counts** — Each folder shows a badge with the total number of files it contains (recursively).
 - **Sorted entries** — Folders and files are sorted alphabetically for easy scanning.
 
----
+-----
 
 ## 🔍 Search
 
@@ -63,12 +63,12 @@ A comprehensive list of all features available in the Memory Bank application.
 
 Press **`?`** at any time to open the keyboard shortcuts help overlay.
 
-| Key | Action |
-|-----|--------|
-| `/` | Focus search input |
+| Key   | Action                                 |
+| ----- | -------------------------------------- |
+| `/`   | Focus search input                     |
 | `Esc` | Close viewer / shortcuts / blur search |
-| `?` | Toggle keyboard shortcuts help |
-| `E` | Expand / Collapse all folders |
+| `?`   | Toggle keyboard shortcuts help         |
+| `E`   | Expand / Collapse all folders          |
 
 ---
 
