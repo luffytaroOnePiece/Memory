@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Must-Do Things in Limgrave — Elden Ring Completion Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080808;
+    --obsidian-2: #0e0e0e;
+    --obsidian-3: #141414;
+    --obsidian-4: #1a1a1a;
+    --obsidian-5: #222222;
+    --gold: #c9a84c;
+    --gold-bright: #f0c040;
+    --gold-dim: #7a5e28;
+    --gold-glow: rgba(201,168,76,0.25);
+    --gold-glow-strong: rgba(240,192,64,0.5);
+    --spectral: #3a7ca5;
+    --spectral-bright: #5ba3d0;
+    --spectral-glow: rgba(58,124,165,0.3);
+    --crimson: #8b1a1a;
+    --crimson-bright: #c0392b;
+    --crimson-glow: rgba(139,26,26,0.3);
+    --text-primary: #e8dcc8;
+    --text-secondary: #a89878;
+    --text-muted: #6a5a40;
+    --border-dim: rgba(201,168,76,0.15);
+    --border-mid: rgba(201,168,76,0.3);
+    --border-bright: rgba(201,168,76,0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── BACKGROUND LAYERS ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 85% 80%, rgba(58,124,165,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 60%, rgba(139,26,26,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Grain texture overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* Rune pattern background */
+  .rune-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='10' y='40' font-size='28' fill='rgba(201,168,76,0.025)' font-family='serif'%3E✦%3C/text%3E%3Ctext x='60' y='80' font-size='20' fill='rgba(201,168,76,0.02)' font-family='serif'%3E⚔%3C/text%3E%3Ctext x='85' y='25' font-size='16' fill='rgba(201,168,76,0.018)' font-family='serif'%3E☽%3C/text%3E%3Ctext x='5' y='105' font-size='18' fill='rgba(58,124,165,0.02)' font-family='serif'%3E✧%3C/text%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .page-wrap {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes riseUp { from { opacity: 0; transform: translateY(80px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes goldPulse { 0%,100% { text-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 60px rgba(201,168,76,0.15); } 50% { text-shadow: 0 0 40px rgba(201,168,76,0.7), 0 0 100px rgba(201,168,76,0.3); } }
+  @keyframes borderGlow { 0%,100% { box-shadow: 0 0 8px rgba(201,168,76,0.2); } 50% { box-shadow: 0 0 24px rgba(201,168,76,0.5), inset 0 0 12px rgba(201,168,76,0.05); } }
+  @keyframes runeRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes emblemFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+  @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+  @keyframes detailReveal { from { opacity: 0; max-height: 0; transform: translateY(-10px); } to { opacity: 1; max-height: 600px; transform: translateY(0); } }
+
+  /* ── HEADER ── */
+  .site-header {
+    text-align: center;
+    padding: 80px 20px 60px;
+    position: relative;
+    animation: fadeIn 1.2s ease both;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: min(600px, 90%); height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 20px;
+    animation: slideUp 0.8s 0.2s ease both;
+  }
+
+  .eyebrow span {
+    display: inline-block;
+    padding: 4px 18px;
+    border: 1px solid var(--gold-dim);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .biome-emblem {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(5rem, 15vw, 10rem);
+    font-weight: 900;
+    color: transparent;
+    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 40%, var(--gold-bright) 55%, var(--gold) 70%, var(--gold-dim) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: emblemFloat 4s ease-in-out infinite, shimmer 4s linear infinite, riseUp 1s 0.4s ease both;
+    line-height: 1;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.3));
+  }
+
+  .display-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    animation: slideUp 0.9s 0.5s ease both;
+    text-shadow: 0 0 40px rgba(201,168,76,0.15);
+  }
+
+  .display-title .accent { color: var(--gold); }
+
+  .header-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 720px;
+    margin: 20px auto 0;
+    line-height: 1.7;
+    animation: slideUp 0.9s 0.7s ease both;
+  }
+
+  .header-ornament {
+    margin: 28px auto 0;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    animation: fadeIn 1s 1s ease both;
+  }
+  .header-ornament::before, .header-ornament::after {
+    content: '';
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .header-ornament::after { background: linear-gradient(270deg, transparent, var(--gold-dim)); }
+  .ornament-symbol { color: var(--gold); font-size: 1.2rem; }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .section-title .g { color: var(--gold); }
+
+  /* ── INTRO BAR ── */
+  .intro-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border-dim);
+    margin: 48px 0 64px;
+    border: 1px solid var(--border-dim);
+    animation: riseUp 0.8s 0.9s ease both;
+  }
+
+  .intro-stat {
+    background: var(--obsidian-2);
+    padding: 24px 20px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+  .intro-stat:hover { background: var(--obsidian-3); }
+
+  .stat-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    animation: goldPulse 3s ease-in-out infinite;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── CHECKLIST TABLE ── */
+  .checklist-section {
+    margin-bottom: 72px;
+    animation: riseUp 0.8s 1.1s ease both;
+  }
+
+  .section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-dim);
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  .table-legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .legend-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .legend-dot.gold { background: var(--gold); }
+  .legend-dot.spectral { background: var(--spectral); }
+  .legend-dot.crimson { background: var(--crimson-bright); }
+
+  /* Column headers */
+  .checklist-header {
+    display: grid;
+    grid-template-columns: 60px 1fr 2fr 180px 90px 70px;
+    gap: 12px;
+    padding: 10px 20px;
+    background: var(--obsidian-4);
+    border: 1px solid var(--border-dim);
+    border-bottom: none;
+  }
+  .col-head {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Checklist rows */
+  .checklist-row {
+    position: relative;
+    border: 1px solid var(--border-dim);
+    border-top: none;
+    background: var(--obsidian-2);
+    transition: background 0.25s, border-color 0.25s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .checklist-row:nth-child(-n+4) { /* top 3 actual rows (skip header) */
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,0.04) 0%, var(--obsidian-2) 30%);
+  }
+
+  .checklist-row:hover {
+    background: var(--obsidian-3);
+    border-color: var(--border-mid);
+    box-shadow: 0 0 20px rgba(201,168,76,0.08), inset 0 0 30px rgba(201,168,76,0.03);
+  }
+
+  .row-main {
+    display: grid;
+    grid-template-columns: 60px 1fr 2fr 180px 90px 70px;
+    gap: 12px;
+    padding: 18px 20px;
+    align-items: center;
+  }
+
+  .row-rank {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold-dim);
+    text-align: center;
+  }
+  .checklist-row:nth-child(-n+4) .row-rank { color: var(--gold); }
+
+  .row-activity {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .row-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .row-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .tag-boss { color: #e05555; border: 1px solid rgba(224,85,85,0.5); background: rgba(224,85,85,0.08); }
+  .tag-dungeon { color: var(--spectral-bright); border: 1px solid rgba(91,163,208,0.5); background: rgba(91,163,208,0.08); }
+  .tag-loot { color: var(--gold); border: 1px solid rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+  .tag-quest { color: #88c077; border: 1px solid rgba(136,192,119,0.5); background: rgba(136,192,119,0.08); }
+  .tag-secret { color: #c077c0; border: 1px solid rgba(192,119,192,0.5); background: rgba(192,119,192,0.08); }
+  .tag-runes { color: #e0a040; border: 1px solid rgba(224,160,64,0.5); background: rgba(224,160,64,0.08); }
+  .tag-key { color: #d4a0e0; border: 1px solid rgba(212,160,224,0.5); background: rgba(212,160,224,0.08); }
+
+  /* Difficulty pips */
+  .pip-row { display: flex; gap: 4px; align-items: center; }
+  .pip {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--obsidian-5);
+    border: 1px solid var(--gold-dim);
+    transition: all 0.2s;
+  }
+  .pip.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.6); }
+  .pip.filled.hard { background: var(--crimson-bright); border-color: var(--crimson-bright); box-shadow: 0 0 6px rgba(192,57,43,0.6); }
+
+  /* Tier badge */
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-align: center;
+    animation: goldPulse 3s ease-in-out infinite;
+  }
+  .tier-s-plus { color: var(--gold-bright); text-shadow: 0 0 15px rgba(240,192,64,0.6); }
+  .tier-s { color: var(--gold); text-shadow: 0 0 12px rgba(201,168,76,0.5); }
+  .tier-a-plus { color: #c0a060; text-shadow: 0 0 10px rgba(192,160,96,0.4); }
+  .tier-a { color: #a09050; }
+  .tier-b-plus { color: var(--spectral-bright); text-shadow: 0 0 10px rgba(91,163,208,0.4); }
+
+  /* ── DETAIL PANEL ── */
+  .detail-panel {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border-dim);
+    background: linear-gradient(180deg, rgba(201,168,76,0.03) 0%, transparent 100%);
+    animation: detailReveal 0.4s ease both;
+  }
+
+  .detail-panel.open { display: block; }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .detail-block {
+    background: var(--obsidian-3);
+    border: 1px solid var(--border-dim);
+    padding: 14px 16px;
+  }
+
+  .detail-block-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .detail-block ul { list-style: none; padding: 0; }
+  .detail-block li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .detail-block li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--gold-dim);
+  }
+
+  .expand-hint {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: right;
+    padding: 10px 20px 0;
+    transition: color 0.2s;
+  }
+  .checklist-row:hover .expand-hint { color: var(--gold-dim); }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 64px;
+    animation: riseUp 0.8s 1.3s ease both;
+  }
+
+  .panel {
+    background: var(--obsidian-2);
+    border: 1px solid var(--border-dim);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .panel-title .g { color: var(--gold); }
+
+  .panel-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  /* Rewards table */
+  .rewards-table { width: 100%; border-collapse: collapse; }
+  .rewards-table thead tr {
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 8px 10px;
+    text-align: left;
+  }
+  .rewards-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  .rewards-table tr:hover td { color: var(--text-primary); background: rgba(201,168,76,0.03); }
+  .reward-name { color: var(--text-primary); font-weight: 600; }
+  .reward-type { font-size: 0.78rem; color: var(--gold-dim); font-style: italic; }
+  .importance-high { color: var(--gold); font-weight: 600; }
+  .importance-mid { color: var(--text-secondary); }
+  .importance-low { color: var(--text-muted); }
+
+  /* Tips panel */
+  .tip-list { list-style: none; padding: 0; }
+  .tip-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+  }
+  .tip-item:last-child { border-bottom: none; }
+
+  .tip-icon {
+    width: 32px; height: 32px; flex-shrink: 0;
+    background: var(--obsidian-4);
+    border: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .tip-content { flex: 1; }
+  .tip-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 3px;
+  }
+  .tip-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 48px 20px 32px;
+    border-top: 1px solid var(--border-dim);
+    margin-top: 80px;
+  }
+  .footer-crest {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+    animation: goldPulse 4s ease-in-out infinite;
+  }
+  .footer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  .footer-text span { color: var(--gold-dim); }
+
+  /* ── DECORATIVE DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 56px 0 40px;
+  }
+  .divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-mid), transparent);
+  }
+  .divider-symbol {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    white-space: nowrap;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .checklist-header, .row-main {
+      grid-template-columns: 44px 1fr 1fr;
+      grid-template-rows: auto auto;
+    }
+    .col-head:nth-child(n+4), .row-desc, .row-tags, .pip-row, .tier-badge { display: none; }
+    .bottom-panels { grid-template-columns: 1fr; }
+    .intro-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .page-wrap { padding: 0 14px 60px; }
+    .checklist-header, .row-main {
+      grid-template-columns: 36px 1fr;
+    }
+    .col-head:nth-child(n+3), .row-activity + * { display: none; }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+<div class="rune-bg"></div>
+
+<div class="page-wrap">
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="eyebrow"><span>Elden Ring Completion Guide</span></div>
+    <div class="biome-emblem">I</div>
+    <h1 class="display-title">Must-Do Things in <span class="accent">Limgrave</span></h1>
+    <p class="header-subtitle">The first Land Between — a sun-drenched yet haunted coastal realm where shattered grace leads the Tarnished into destiny. Limgrave is vast, deceptive, and full of secrets that shape the entire journey ahead.</p>
+    <div class="header-ornament">
+      <span class="ornament-symbol">✦</span>
+      <span class="ornament-symbol" style="font-size:0.8rem; letter-spacing:0.3em; font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; text-transform:uppercase; color:var(--text-muted);">Biome I of the Lands Between</span>
+      <span class="ornament-symbol">✦</span>
+    </div>
+  </header>
+
+  <!-- ── INTRO STATS ── -->
+  <div class="intro-bar reveal">
+    <div class="intro-stat">
+      <span class="stat-value">23</span>
+      <span class="stat-label">Dungeons & Sites</span>
+    </div>
+    <div class="intro-stat">
+      <span class="stat-value">8</span>
+      <span class="stat-label">Main Bosses</span>
+    </div>
+    <div class="intro-stat">
+      <span class="stat-value">Lv 1–35</span>
+      <span class="stat-label">Recommended Level</span>
+    </div>
+    <div class="intro-stat">
+      <span class="stat-value">4</span>
+      <span class="stat-label">NPC Questlines</span>
+    </div>
+    <div class="intro-stat">
+      <span class="stat-value">2</span>
+      <span class="stat-label">Legendary Weapons</span>
+    </div>
+  </div>
+
+  <!-- ── CHECKLIST ── -->
+  <section class="checklist-section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Priority Activities</div>
+        <h2 class="section-title">Limgrave <span class="g">Completion</span> Checklist</h2>
+      </div>
+      <div class="table-legend">
+        <div class="legend-item"><div class="legend-dot gold"></div>S-Tier Priority</div>
+        <div class="legend-item"><div class="legend-dot spectral"></div>Missable Quest</div>
+        <div class="legend-item"><div class="legend-dot crimson"></div>Deadly Boss</div>
+      </div>
+    </div>
+
+    <div class="checklist-header">
+      <div class="col-head">#</div>
+      <div class="col-head">Activity / Location</div>
+      <div class="col-head">Description</div>
+      <div class="col-head">Tags</div>
+      <div class="col-head">Difficulty</div>
+      <div class="col-head">Tier</div>
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">01</div>
+        <div class="row-activity">Margit, the Fell Omen</div>
+        <div class="row-desc">The guardian of Stormveil Castle and Limgrave's true gatekeeper. Defeat him to unlock the castle and prove your worth as Tarnished.</div>
+        <div class="row-tags">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-key">Key Item</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-s-plus">S+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss Encounters</div>
+            <ul>
+              <li>Margit, the Fell Omen — at Stormhill Shack road</li>
+              <li>Rematch as Morgott in Leyndell later</li>
+              <li>Use Margit's Shackle (bought from Patches) for massive advantage</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Talisman Pouch — equip 2 talismans simultaneously</li>
+              <li>Margit's Shackle usable in Morgott fight too</li>
+              <li>2,400 Runes upon first defeat</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">⚠ Missable Secrets</div>
+            <ul>
+              <li>Buy Margit's Shackle from Patches BEFORE this fight</li>
+              <li>White Mask Varré questline begins at First Step — don't skip</li>
+              <li>Melina appears after resting at 3 Sites of Grace</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">02</div>
+        <div class="row-activity">Stormveil Castle</div>
+        <div class="row-desc">The first Legacy Dungeon — a crumbling fortress teeming with knights, grafted creatures, and hidden passages. Contains Godrick the Grafted.</div>
+        <div class="row-tags">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div>
+        </div>
+        <div class="tier-badge tier-s-plus">S+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss Encounters</div>
+            <ul>
+              <li>Godrick the Grafted — Great Rune + Remembrance</li>
+              <li>Grafted Scion (optional, near entrance)</li>
+              <li>Stormhawk King (optional bird boss)</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">🗝 NPC Questlines</div>
+            <ul>
+              <li>Nepheli Loux — found inside castle, quest spans multiple regions</li>
+              <li>Gostoc — gatekeeper with hidden betrayal mechanic</li>
+              <li>Kenneth Haight — leads to Nepheli's questline resolution</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Legendary Weapons</div>
+            <ul>
+              <li>Ornamental Straight Sword (dual wield set) in chest</li>
+              <li>Godrick's Great Rune — activate at Limgrave Divine Tower</li>
+              <li>Axe of Godrick from Remembrance (buy from Enia)</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">⚠ Missable Secrets</div>
+            <ul>
+              <li>Secret path via broken wall shortcut (avoid main gate cannon)</li>
+              <li>Liftside Chamber Grace — essential shortcut to inner castle</li>
+              <li>Gostoc sells Bell Bearings and maps after his quest</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">03</div>
+        <div class="row-activity">Agheel Lake & Dragon</div>
+        <div class="row-desc">A brilliant orange dragon patrols this lake. Defeating Agheel grants a powerful dragon incantation and opens a Teardrop Scarab route.</div>
+        <div class="row-tags">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+          <span class="tag tag-quest">Questline</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-s">S</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss</div>
+            <ul>
+              <li>Flying Dragon Agheel — open world field boss</li>
+              <li>Uses fire breath, dive bomb, claw swipe combos</li>
+              <li>Weak to slash and lightning damage</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Dragon Heart — trade at Cathedral of Dragon Communion</li>
+              <li>Agheel's Flame incantation — buy with Dragon Heart</li>
+              <li>5,000 Runes on defeat</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">🗝 NPC: Yura</div>
+            <ul>
+              <li>Yura, Hunter of Bloody Fingers appears near the lake</li>
+              <li>Warns about Agheel — triggers his long questline</li>
+              <li>Find him again under Murkwater Bridge against Bloody Finger</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 4 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">04</div>
+        <div class="row-activity">Tree Sentinel</div>
+        <div class="row-desc">A mounted golden knight that patrols the main road from the start. Defeating him early rewards a coveted talisman and tests your combat mastery.</div>
+        <div class="row-tags">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip filled hard"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a-plus">A+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss Details</div>
+            <ul>
+              <li>Tree Sentinel — open world, encountered immediately</li>
+              <li>Mounted combat with golden halberd and holy shield</li>
+              <li>Return at level 20–30 for fair fight</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Golden Halberd — powerful early Faith/Strength weapon</li>
+              <li>Haligtree Secret Medallion clue chain begins here thematically</li>
+              <li>1,200 Runes on defeat</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 5 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">05</div>
+        <div class="row-activity">Murkwater Cave & Patches</div>
+        <div class="row-desc">A smuggler's cave hiding Patches — the recurring merchant trickster. Trigger his quest for a unique questline, shop, and late-game rewards.</div>
+        <div class="row-tags">
+          <span class="tag tag-quest">Questline</span>
+          <span class="tag tag-secret">Secret Area</span>
+          <span class="tag tag-key">Key Item</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a-plus">A+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">🗝 NPC: Patches</div>
+            <ul>
+              <li>Spare Patches after the ambush for his shop to open</li>
+              <li>He sells Margit's Shackle — vital for Margit fight</li>
+              <li>His questline spans Volcano Manor and Shaded Castle</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Patches' Bell Bearing (if killed) or ongoing shop access</li>
+              <li>Numen's Rune ×6 (from his chest ambush)</li>
+              <li>Stonesword Key from his shop — opens imp statue doors</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">⚠ Missable</div>
+            <ul>
+              <li>DO NOT kill Patches — his questline is one of the longest</li>
+              <li>He must be found before defeating certain late-game bosses</li>
+              <li>He moves to Liurnia if you miss him here</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 6 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">06</div>
+        <div class="row-activity">Limgrave Tunnels</div>
+        <div class="row-desc">A smithstone mine beneath the hills. Rich with smithing stone [1] and [2] and the Rodan the boss that drops a key Smithscript for weapon upgrades.</div>
+        <div class="row-tags">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-runes">Rune Farming</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss</div>
+            <ul>
+              <li>Stonedigger Troll — large troll boss in final chamber</li>
+              <li>Drops Roar Medallion talisman</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Roar Medallion — boosts roar and breath attacks</li>
+              <li>Abundant Smithing Stone [1] and [2] deposits throughout</li>
+              <li>Easy early upgrade materials for +3/+4 weapons</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 7 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">07</div>
+        <div class="row-activity">Deathtouched Catacombs</div>
+        <div class="row-desc">An eerie underground dungeon in Stormhill filled with imps, skeletons, and a Deathbird boss. Rewards a powerful talisman for physical damage.</div>
+        <div class="row-tags">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">⚔ Boss</div>
+            <ul>
+              <li>Black Knife Assassin (optional) — Silent Assassin variant</li>
+              <li>Drops Black Knifeprint — key Ranni questline item</li>
+              <li>Two lever puzzle to unlock the Assassin's route</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Rewards</div>
+            <ul>
+              <li>Uchigatana — top-tier samurai katana found in first room</li>
+              <li>Deathroot — trade to D or Gurranq Beast Clergyman</li>
+              <li>Assassin's Crimson Dagger talisman</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 8 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">08</div>
+        <div class="row-activity">Coastal Cave & Moonveil Path</div>
+        <div class="row-desc">A sea cave on the west cliffs. Contains the Dragon Communion Church route — essential for incantation builds and accessing the Isles of Dragonbarrow early.</div>
+        <div class="row-tags">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-secret">Secret Area</span>
+          <span class="tag tag-quest">Questline</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-b-plus">B+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">🗺 Location Notes</div>
+            <ul>
+              <li>Coastal Cave leads to Church of Dragon Communion on island</li>
+              <li>Church sells dragon incantations for Dragon Hearts</li>
+              <li>Crucible Knight Siluria connection begins here</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Key Items</div>
+            <ul>
+              <li>Numen's Runes ×2 from hidden chest in cave</li>
+              <li>Dragon Communion Seal — scales faith + arcane</li>
+              <li>Access to Dragonscale Blade incantation purchase</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 9 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">09</div>
+        <div class="row-activity">Warmaster's Shack — Knight Bernahl</div>
+        <div class="row-desc">Hewg's counterpart for Ashes of War — the Warmaster sells nearly every Ash of War available in the early game. Also begins Knight Bernahl's questline.</div>
+        <div class="row-tags">
+          <span class="tag tag-quest">Questline</span>
+          <span class="tag tag-key">Key Item</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">🗝 NPC Questlines</div>
+            <ul>
+              <li>Knight Bernahl — Volcano Manor assassination quest</li>
+              <li>Must be spoken to HERE before he appears at Volcano Manor</li>
+              <li>Final confrontation at Farum Azula if questline completed</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Key Rewards</div>
+            <ul>
+              <li>Ash of War: Bloody Slash (purchased) — top PvP Ash</li>
+              <li>All early Ashes including Storms, Thrusts, Spinning attacks</li>
+              <li>Rotten Battle Hammer from Bernahl if killed (not recommended)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 10 -->
+    <div class="checklist-row" onclick="toggleDetail(this)">
+      <div class="expand-hint">▾ Click to reveal details</div>
+      <div class="row-main">
+        <div class="row-rank">10</div>
+        <div class="row-activity">Highroad Cave — Blue Dancer Charm</div>
+        <div class="row-desc">A hidden cave off the Saintsbridge road containing a challenging boss and the Blue Dancer Charm — one of the best early-game talismans for light equip load builds.</div>
+        <div class="row-tags">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+          <span class="tag tag-secret">Secret Area</span>
+        </div>
+        <div class="pip-row">
+          <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-block-title">💎 Reward</div>
+            <ul>
+              <li>Blue Dancer Charm — raises physical attack at low equip load</li>
+              <li>Essential for light-roll dexterity and arcane builds</li>
+              <li>Guardian Golem boss inside — tall with sweeping attacks</li>
+            </ul>
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-title">⚠ Tips</div>
+            <ul>
+              <li>Enter from a hidden cave entrance west of the main road</li>
+              <li>Need a torch — very dark winding cave passages</li>
+              <li>Bats and crabs are the main hazards before the boss</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── DIVIDER ── -->
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <div class="divider-symbol">✦ Key Rewards & Exploration ✦</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ── BOTTOM PANELS ── -->
+  <div class="bottom-panels">
+
+    <!-- LEFT: Key Rewards -->
+    <div class="panel reveal">
+      <div class="panel-title">Key Rewards in <span class="g">Limgrave</span></div>
+      <div class="panel-subtitle">Notable items, weapons, and talismans found across the region.</div>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Importance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Stormveil Castle</td>
+            <td><span class="reward-name">Godrick's Great Rune</span></td>
+            <td><span class="reward-type">Great Rune</span></td>
+            <td><span class="importance-high">Critical</span></td>
+          </tr>
+          <tr>
+            <td>Tree Sentinel</td>
+            <td><span class="reward-name">Golden Halberd</span></td>
+            <td><span class="reward-type">Weapon</span></td>
+            <td><span class="importance-high">High</span></td>
+          </tr>
+          <tr>
+            <td>Dragon Agheel</td>
+            <td><span class="reward-name">Agheel's Flame</span></td>
+            <td><span class="reward-type">Incantation</span></td>
+            <td><span class="importance-high">High</span></td>
+          </tr>
+          <tr>
+            <td>Deathtouched Catacombs</td>
+            <td><span class="reward-name">Uchigatana</span></td>
+            <td><span class="reward-type">Katana</span></td>
+            <td><span class="importance-high">High</span></td>
+          </tr>
+          <tr>
+            <td>Margit (Boss Drop)</td>
+            <td><span class="reward-name">Talisman Pouch</span></td>
+            <td><span class="reward-type">Key Item</span></td>
+            <td><span class="importance-high">Critical</span></td>
+          </tr>
+          <tr>
+            <td>Highroad Cave</td>
+            <td><span class="reward-name">Blue Dancer Charm</span></td>
+            <td><span class="reward-type">Talisman</span></td>
+            <td><span class="importance-mid">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Limgrave Tunnels</td>
+            <td><span class="reward-name">Roar Medallion</span></td>
+            <td><span class="reward-type">Talisman</span></td>
+            <td><span class="importance-mid">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Church of Dragon Comm.</td>
+            <td><span class="reward-name">Dragon Communion Seal</span></td>
+            <td><span class="reward-type">Sacred Seal</span></td>
+            <td><span class="importance-mid">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Forlorn Hound Evergaol</td>
+            <td><span class="reward-name">Bloodhound's Fang</span></td>
+            <td><span class="reward-type">Curved Greatsword</span></td>
+            <td><span class="importance-high">High</span></td>
+          </tr>
+          <tr>
+            <td>Warmaster's Shack</td>
+            <td><span class="reward-name">Ash of War: Bloody Slash</span></td>
+            <td><span class="reward-type">Ash of War</span></td>
+            <td><span class="importance-mid">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Exploration Tips -->
+    <div class="panel reveal">
+      <div class="panel-title">Exploration Tips for <span class="g">Limgrave</span></div>
+      <div class="panel-subtitle">Essential guidance for first-time and returning Tarnished.</div>
+      <ul class="tip-list">
+        <li class="tip-item">
+          <div class="tip-icon">⚔</div>
+          <div class="tip-content">
+            <div class="tip-title">Recommended Level Range</div>
+            <div class="tip-text">Arrive between Level 1–10. Clear Stormveil Castle around Level 20–25. Level 35 is comfortable for all Limgrave content including Dragonbarrow edges.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">☠</div>
+          <div class="tip-content">
+            <div class="tip-title">Dangerous Enemy Types</div>
+            <div class="tip-text">Night's Cavalry (appears only at night) is extremely powerful early. Crucible Knights in evergaols punish aggression. Avoid Draconic Tree Sentinel at south Limgrave until Level 50+.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">💰</div>
+          <div class="tip-content">
+            <div class="tip-title">Best Rune Farming Spot</div>
+            <div class="tip-text">The Gatefront Ruins area has soldiers worth 1,000 runes per run. The Church of Elleh nearby offers fast bonfire resets. Later, the Greyoll's Dragonbarrow cliff path offers 50k+ runes per clear.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🗺</div>
+          <div class="tip-content">
+            <div class="tip-title">Map Fragment Location</div>
+            <div class="tip-text">The Limgrave West map fragment is found at a stone stele near Gatefront Ruins. East Limgrave map is near the Mistwood. Both are easily missed if rushing straight to Stormveil.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">⚠</div>
+          <div class="tip-content">
+            <div class="tip-title">Quest-Locking Pitfalls</div>
+            <div class="tip-text">Killing Patches locks his shop permanently. Killing White Mask Varré before completing his quest blocks the Mohgwyn Palace early access route. Speak to Ranni at her tower before progressing too far in the main story.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🌙</div>
+          <div class="tip-content">
+            <div class="tip-title">Night vs Day Differences</div>
+            <div class="tip-text">Night's Cavalry patrols Stormhill Road and Agheel Lake North at night — defeat them for powerful Ashes of War. Deathbirds also only appear at night in specific locations across Limgrave.</div>
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🏛</div>
+          <div class="tip-content">
+            <div class="tip-title">Activate Godrick's Great Rune</div>
+            <div class="tip-text">After defeating Godrick, travel to the Divine Tower of Limgrave east of Stormveil via a hidden lift. Activating the rune grants +5 to all attributes when a Rune Arc is used.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-crest">✦</div>
+    <p class="footer-text">
+      <span>Elden Ring Completion Guide</span> — Limgrave, Biome I of the Lands Between<br>
+      May your runes be plentiful and your grace ever golden, Tarnished.
+    </p>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+  // Toggle detail panels
+  function toggleDetail(row) {
+    const panel = row.querySelector('.detail-panel');
+    const hint = row.querySelector('.expand-hint');
+    if (!panel) return;
+    const isOpen = panel.classList.contains('open');
+    // Close all others
+    document.querySelectorAll('.detail-panel.open').forEach(p => {
+      p.classList.remove('open');
+      const h = p.parentElement.querySelector('.expand-hint');
+      if (h) h.textContent = '▾ Click to reveal details';
+    });
+    if (!isOpen) {
+      panel.classList.add('open');
+      if (hint) hint.textContent = '▴ Hide details';
+    }
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Staggered row animations
+  document.querySelectorAll('.checklist-row').forEach((row, i) => {
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(-20px)';
+    row.style.transition = `opacity 0.5s ease ${0.1 + i * 0.07}s, transform 0.5s ease ${0.1 + i * 0.07}s, background 0.25s, border-color 0.25s`;
+    setTimeout(() => {
+      row.style.opacity = '1';
+      row.style.transform = 'translateX(0)';
+    }, 1400 + i * 70);
+  });
+</script>
+</body>
+</html>

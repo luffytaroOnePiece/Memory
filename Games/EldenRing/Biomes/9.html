@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nokron, Eternal City — Elden Ring Completion Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080808;
+    --obsidian-mid: #0e0e0e;
+    --obsidian-light: #161616;
+    --obsidian-border: #1e1e1e;
+    --gold: #c8a847;
+    --gold-bright: #e8c86a;
+    --gold-dim: #7a6228;
+    --gold-glow: rgba(200, 168, 71, 0.25);
+    --spectral-blue: #4a8bbd;
+    --spectral-blue-dim: #1a3a55;
+    --spectral-blue-glow: rgba(74, 139, 189, 0.2);
+    --crimson: #8b2020;
+    --crimson-bright: #c43030;
+    --crimson-glow: rgba(139, 32, 32, 0.25);
+    --silver: #8a8a9a;
+    --silver-dim: #3a3a4a;
+    --text-primary: #d4c9a8;
+    --text-secondary: #7a7060;
+    --text-dim: #3a3530;
+    --grain-opacity: 0.04;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── GRAIN TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: var(--grain-opacity);
+    pointer-events: none;
+  }
+
+  /* ── RADIAL BACKGROUND ── */
+  .bg-radial {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(200,168,71,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 10% 60%, rgba(74,139,189,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 90% 80%, rgba(139,32,32,0.04) 0%, transparent 50%),
+      var(--obsidian);
+    pointer-events: none;
+  }
+
+  /* ── RUNE PATTERN SVG ── */
+  .bg-runes {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23c8a847' stroke-width='0.3' opacity='0.06'%3E%3Ccircle cx='60' cy='60' r='40'/%3E%3Ccircle cx='60' cy='60' r='28'/%3E%3Cline x1='60' y1='20' x2='60' y2='100'/%3E%3Cline x1='20' y1='60' x2='100' y2='60'/%3E%3Cline x1='31.7' y1='31.7' x2='88.3' y2='88.3'/%3E%3Cline x1='88.3' y1='31.7' x2='31.7' y2='88.3'/%3E%3Cpolygon points='60,24 69,52 98,52 75,69 83,97 60,80 37,97 45,69 22,52 51,52' stroke-width='0.4' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .page-wrap {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  /* ══════════════ ANIMATIONS ══════════════ */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes riseUp { from { opacity: 0; transform: translateY(80px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(200,168,71,0.4), 0 0 40px rgba(200,168,71,0.2); } 50% { text-shadow: 0 0 30px rgba(200,168,71,0.7), 0 0 60px rgba(200,168,71,0.35); } }
+  @keyframes borderGlow { 0%,100% { box-shadow: 0 0 8px rgba(200,168,71,0.15); } 50% { box-shadow: 0 0 18px rgba(200,168,71,0.35); } }
+  @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes emblemAppear { 0% { opacity:0; transform: scale(0.6) rotate(-15deg); } 60% { opacity:1; transform: scale(1.05) rotate(3deg); } 100% { transform: scale(1) rotate(0deg); } }
+  @keyframes runeFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+
+  .anim-fade { animation: fadeIn 1.2s ease both; }
+  .anim-slide-1 { animation: slideUp 0.9s ease both 0.1s; }
+  .anim-slide-2 { animation: slideUp 0.9s ease both 0.25s; }
+  .anim-slide-3 { animation: slideUp 0.9s ease both 0.4s; }
+  .anim-rise { animation: riseUp 1.1s cubic-bezier(0.22,1,0.36,1) both 0.3s; }
+  .anim-emblem { animation: emblemAppear 1.4s cubic-bezier(0.22,1,0.36,1) both 0.5s; }
+
+  /* ══════════════ DIVIDERS ══════════════ */
+  .rune-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 3rem 0 2rem;
+  }
+  .rune-divider::before, .rune-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .rune-divider-icon {
+    color: var(--gold); font-size: 1.1rem; opacity: 0.6;
+    animation: runeFloat 4s ease-in-out infinite;
+  }
+
+  /* ══════════════ HEADER ══════════════ */
+  .site-header {
+    padding: 4rem 0 3rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .header-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    border: 1px solid var(--gold-dim);
+    display: inline-block;
+    padding: 0.35rem 1.2rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease both;
+  }
+
+  .emblem-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+  }
+  .emblem-ring {
+    position: absolute; inset: -12px;
+    border: 1px solid rgba(200,168,71,0.2);
+    border-radius: 50%;
+    animation: spinSlow 30s linear infinite;
+  }
+  .emblem-ring::before {
+    content: '✦ ✦ ✦ ✦ ✦ ✦';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 0.35rem;
+    color: var(--gold-dim);
+    letter-spacing: 1.2rem;
+    white-space: nowrap;
+  }
+  .emblem-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold-dim);
+    line-height: 1;
+    width: 180px; height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle, rgba(200,168,71,0.08) 0%, transparent 70%);
+    border: 1px solid rgba(200,168,71,0.12);
+    border-radius: 50%;
+    animation: emblemAppear 1.4s cubic-bezier(0.22,1,0.36,1) both 0.5s, glowPulse 4s ease-in-out infinite 2s;
+  }
+
+  .header-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.8rem);
+    line-height: 1.05;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    animation: glowPulse 5s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+  }
+  .header-title span { color: var(--text-primary); }
+
+  .header-biome {
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    font-size: clamp(1.1rem, 3vw, 2rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--spectral-blue);
+    margin-bottom: 1.5rem;
+  }
+
+  .header-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .header-tags {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .htag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+    border: 1px solid;
+    border-radius: 2px;
+  }
+  .htag.blue { color: var(--spectral-blue); border-color: var(--spectral-blue-dim); background: rgba(74,139,189,0.06); }
+  .htag.gold { color: var(--gold); border-color: var(--gold-dim); background: rgba(200,168,71,0.06); }
+  .htag.red { color: var(--crimson-bright); border-color: var(--crimson); background: rgba(139,32,32,0.1); }
+
+  /* ══════════════ CHECKLIST SECTION ══════════════ */
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+  }
+  .section-count {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── CHECKLIST CARDS ── */
+  .checklist { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .card {
+    position: relative;
+    background: var(--obsidian-light);
+    border: 1px solid var(--obsidian-border);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+
+  .card:nth-child(1), .card:nth-child(2), .card:nth-child(3) {
+    border-left-color: var(--gold);
+    background: linear-gradient(to right, rgba(200,168,71,0.04) 0%, transparent 40%);
+    animation: borderGlow 4s ease-in-out infinite;
+  }
+  .card:nth-child(1) { animation-delay: 0s; }
+  .card:nth-child(2) { animation-delay: 0.8s; }
+  .card:nth-child(3) { animation-delay: 1.6s; }
+
+  .card:hover {
+    border-color: var(--gold-dim);
+    background: rgba(200,168,71,0.05);
+    box-shadow: 0 0 20px rgba(200,168,71,0.1), inset 0 0 40px rgba(200,168,71,0.02);
+  }
+
+  .card-main {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto auto auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    transition: opacity 0.2s;
+  }
+
+  @media (max-width: 768px) {
+    .card-main {
+      grid-template-columns: 2.5rem 1fr auto;
+      gap: 0.6rem;
+    }
+    .card-difficulty, .card-tier { display: none; }
+  }
+
+  .card-rank {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--gold-dim);
+    text-align: center;
+    line-height: 1;
+  }
+  .card:nth-child(1) .card-rank,
+  .card:nth-child(2) .card-rank,
+  .card:nth-child(3) .card-rank { color: var(--gold); }
+
+  .card-body {}
+  .card-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+    margin-bottom: 0.3rem;
+  }
+  .card-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.85rem, 1.5vw, 0.97rem);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.45rem;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .tag-boss { color: var(--crimson-bright); border-color: var(--crimson); background: rgba(139,32,32,0.15); }
+  .tag-dungeon { color: #7a9fb5; border-color: #2a4f65; background: rgba(74,139,189,0.1); }
+  .tag-loot { color: var(--gold); border-color: var(--gold-dim); background: rgba(200,168,71,0.08); }
+  .tag-quest { color: #9a8bbd; border-color: #4a3b7d; background: rgba(100,80,180,0.1); }
+  .tag-secret { color: #8abd9a; border-color: #2a6a3a; background: rgba(80,160,100,0.1); }
+  .tag-rune { color: #bdab7a; border-color: #6a5a2a; background: rgba(180,160,80,0.1); }
+  .tag-key { color: #e0c080; border-color: #9a7a20; background: rgba(200,168,50,0.12); }
+
+  .card-difficulty {
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    min-width: 60px;
+  }
+  .diff-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .diff-pips { display: flex; gap: 3px; }
+  .pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--text-dim);
+    background: transparent;
+  }
+  .pip.on { background: var(--crimson-bright); border-color: var(--crimson-bright); box-shadow: 0 0 4px rgba(196,48,48,0.5); }
+  .pip.on.gold { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 4px rgba(200,168,71,0.5); }
+
+  .card-tier {
+    min-width: 50px;
+    text-align: center;
+  }
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    display: block;
+    text-shadow: 0 0 12px currentColor;
+  }
+  .tier-s-plus { color: var(--gold); }
+  .tier-s { color: #d4d0c8; }
+  .tier-a-plus { color: var(--spectral-blue); }
+  .tier-a { color: #6fa0c8; }
+  .tier-b-plus { color: #8a9a7a; }
+
+  .card-expand-icon {
+    position: absolute; right: 1rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+    pointer-events: none;
+  }
+  .card.open .card-expand-icon { transform: translateY(-50%) rotate(180deg); color: var(--gold); }
+
+  /* ── DETAIL PANEL ── */
+  .card-detail {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+    opacity: 0;
+  }
+  .card.open .card-detail { max-height: 600px; opacity: 1; }
+
+  .detail-inner {
+    border-top: 1px solid var(--obsidian-border);
+    padding: 1.2rem 1.2rem 1.2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 640px) {
+    .detail-inner { grid-template-columns: 1fr; padding-left: 1.2rem; }
+  }
+
+  .detail-col {}
+  .detail-col-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .detail-col-title::before {
+    content: '';
+    display: inline-block; width: 16px; height: 1px;
+    background: var(--gold-dim);
+  }
+  .detail-list { list-style: none; }
+  .detail-list li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 0.15rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .detail-list li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--gold-dim);
+    font-weight: 600;
+  }
+  .detail-list li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* ══════════════ BOTTOM PANELS ══════════════ */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  @media (max-width: 768px) {
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--obsidian-light);
+    border: 1px solid var(--obsidian-border);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  /* Rewards Table */
+  .rewards-table { width: 100%; border-collapse: collapse; }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--obsidian-border);
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+  }
+  .rewards-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: top;
+  }
+  .rewards-table tr:hover td { background: rgba(200,168,71,0.03); }
+  .reward-name { color: var(--text-primary); font-weight: 600; }
+  .importance-high { color: var(--gold); font-weight: 600; }
+  .importance-mid { color: var(--spectral-blue); }
+  .importance-low { color: var(--text-secondary); }
+  .item-type-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .it-weapon { color: var(--crimson-bright); background: rgba(139,32,32,0.15); border: 1px solid var(--crimson); }
+  .it-talisman { color: var(--gold); background: rgba(200,168,71,0.08); border: 1px solid var(--gold-dim); }
+  .it-ash { color: #9a8bbd; background: rgba(100,80,180,0.1); border: 1px solid #4a3b7d; }
+  .it-spell { color: var(--spectral-blue); background: rgba(74,139,189,0.1); border: 1px solid var(--spectral-blue-dim); }
+  .it-item { color: #8abd9a; background: rgba(80,160,100,0.1); border: 1px solid #2a6a3a; }
+  .it-gesture { color: #bdab7a; background: rgba(180,160,80,0.1); border: 1px solid #6a5a2a; }
+
+  /* Tips List */
+  .tips-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .tip-item {
+    display: flex; gap: 0.8rem; align-items: flex-start;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .tip-icon {
+    font-size: 1rem; min-width: 1.4rem;
+    text-align: center; margin-top: 0.1rem;
+  }
+  .tip-item strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ══════════════ FOOTER ══════════════ */
+  .site-footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    border-top: 1px solid var(--obsidian-border);
+    margin-top: 4rem;
+  }
+  .footer-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .footer-gold { color: var(--gold-dim); }
+
+  /* ══════════════ SCROLL ANIMATION ══════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-radial"></div>
+<div class="bg-runes"></div>
+
+<div class="page-wrap">
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="anim-fade">
+      <span class="header-eyebrow">Elden Ring Completion Guide</span>
+    </div>
+    <div class="anim-emblem">
+      <div class="emblem-wrap">
+        <div class="emblem-ring"></div>
+        <div class="emblem-number">IX</div>
+      </div>
+    </div>
+    <p class="header-biome anim-slide-1">Nokron, Eternal City</p>
+    <h1 class="header-title anim-slide-2">Must-Do Things in<br><span>Nokron Eternal City</span></h1>
+    <p class="header-subtitle anim-slide-3">
+      A sunken metropolis frozen beneath Limgrave, accessible only after felling the Starscourge.
+      Here the Numen dead still wander, ancestral spirits haunt its silver-lit streets,
+      and the bones of a shattered star rest at its core.
+    </p>
+    <div class="header-tags anim-slide-3">
+      <span class="htag blue">Underground Biome</span>
+      <span class="htag gold">Post-Radahn Access</span>
+      <span class="htag red">Ranni's Questline</span>
+      <span class="htag blue">Mimic Tear Source</span>
+      <span class="htag gold">Lvl 60–80 Recommended</span>
+    </div>
+  </header>
+
+  <div class="rune-divider"><span class="rune-divider-icon">✦</span></div>
+
+  <!-- ══ CHECKLIST ══ -->
+  <section>
+    <div class="section-header reveal">
+      <h2 class="section-title">⚔ Completion Checklist</h2>
+      <span class="section-count">10 Essential Activities</span>
+    </div>
+
+    <div class="checklist">
+
+      <!-- CARD 1 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">01</div>
+          <div class="card-body">
+            <div class="card-name">Defeat Mimic Tear — The Truest Enemy</div>
+            <div class="card-desc">The most personal fight in all of Elden Ring: a perfect reflection of yourself, wielding your own weapons and spells. Unequip your gear before the fog wall for a trivially easy victory.</div>
+            <div class="card-tags">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-quest">Questline</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-s-plus">S+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Boss Details</div>
+              <ul class="detail-list">
+                <li><strong>Mimic Tear</strong> — Main boss, copies your loadout exactly</li>
+                <li>Pro tip: Enter with nothing equipped; it spawns naked and helpless</li>
+                <li>Located deep inside the Nokron fog gate, past the silver tears</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Rewards & Missable Notes</div>
+              <ul class="detail-list">
+                <li><strong>Mimic Tear Ashes</strong> — Strongest spirit summon for raw power</li>
+                <li><strong>Larval Tear</strong> — Required for respeccing at Rennala</li>
+                <li>Unlocks the path to the Ancestral Woods and Siofra Aqueduct</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">02</div>
+          <div class="card-body">
+            <div class="card-name">Obtain the Fingerslayer Blade — Ranni's Oath</div>
+            <div class="card-desc">The central objective of Nokron. Hidden in a chest within the Night's Sacred Ground, this blade is the cornerstone of Ranni the Witch's entire questline and the Age of Stars ending.</div>
+            <div class="card-tags">
+              <span class="tag tag-key">Key Item</span>
+              <span class="tag tag-quest">Questline</span>
+              <span class="tag tag-secret">Secret Area</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on gold"></div><div class="pip on gold"></div><div class="pip on gold"></div><div class="pip on gold"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-s-plus">S+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Questline Critical Path</div>
+              <ul class="detail-list">
+                <li>Required: speak with <strong>Ranni</strong> at her Rise in Liurnia first</li>
+                <li>Located in a chest at the <strong>Night's Sacred Ground</strong> sub-area</li>
+                <li>Delivers to Ranni; she gives you the Carian Inverted Statue</li>
+                <li>Eventually leads to Nokstella, Astel, and the Moonlight Altar</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Area Navigation Tips</div>
+              <ul class="detail-list">
+                <li>From Mimic Tear grace, cross the rooftops eastward</li>
+                <li>Watch for Silver Tear ambushes — they mimic objects and urns</li>
+                <li>Avoid the giant rolling Ancestral Follower in the open plaza</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">03</div>
+          <div class="card-body">
+            <div class="card-name">Night's Cavalry — Crucible Knight Duo</div>
+            <div class="card-desc">An optional but thrilling gauntlet: two Crucible Knights patrol the Night's Sacred Ground plaza. Defeating them yields one of the rarest ashes of war in the entire game.</div>
+            <div class="card-tags">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-s">S</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Combat Strategy</div>
+              <ul class="detail-list">
+                <li>Fight in a narrow corridor to prevent both attacking simultaneously</li>
+                <li><strong>Holy damage</strong> is their weakness; use Sacred Flame or Litany</li>
+                <li>Kill the spear knight first — its grab attack is the deadliest</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Reward</div>
+              <ul class="detail-list">
+                <li><strong>Crucible Hornshield Talisman</strong></li>
+                <li>Significant rune payout for mid-game leveling</li>
+                <li>One of the most satisfying fights in the underground biomes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">04</div>
+          <div class="card-body">
+            <div class="card-name">Collect All Larval Tears — Respec Currency</div>
+            <div class="card-desc">Nokron contains the highest concentration of Larval Tears in the game. Multiple enemies drop them, and chests contain them. Essential for experimenting with different builds.</div>
+            <div class="card-tags">
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-rune">Rune Farming</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a-plus">A+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Larval Tear Locations</div>
+              <ul class="detail-list">
+                <li>Dropped by <strong>Slumbering Wolf</strong> (mimics stone wolf)</li>
+                <li>Dropped by <strong>Giant Slumbering Wolf</strong> near Aqueduct</li>
+                <li>Dropped by <strong>Silver Tear Crab</strong> disguised as items</li>
+                <li>Chest in the Night's Sacred Ground treasure room</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Usage Note</div>
+              <ul class="detail-list">
+                <li>Only Rennala (Raya Lucaria) can respec — costs 1 Larval Tear</li>
+                <li>Total in game is limited; do not waste on trivial respecs</li>
+                <li>Nokron yields roughly 5–7 per full clear of the area</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">05</div>
+          <div class="card-body">
+            <div class="card-name">Find the Hallowhorn Grounds — Ancestral Spirit</div>
+            <div class="card-desc">Lighting all bone piles in the underground brings back the Ancestral Spirit boss — a hauntingly beautiful fight against a deer spirit that rewards one of the most unique summons in the game.</div>
+            <div class="card-tags">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-secret">Secret Area</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a-plus">A+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Puzzle Mechanic</div>
+              <ul class="detail-list">
+                <li>Locate and light <strong>all 7 spectral deer bone piles</strong> scattered around Nokron</li>
+                <li>Once all lit, a summon sign appears at the Hallowhorn Grounds</li>
+                <li>This triggers the <strong>Regal Ancestral Spirit</strong> boss encounter</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Reward & Lore</div>
+              <ul class="detail-list">
+                <li><strong>Regal Ancestral Spirit Ashes</strong> — majestic summon for exploration builds</li>
+                <li>Significant runes; connects lore to Siofra's Ancestral Followers</li>
+                <li>Beautiful arena — one of the game's most atmospheric fights</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">06</div>
+          <div class="card-body">
+            <div class="card-name">Reach the Siofra Aqueduct & Enter Deeproot Depths</div>
+            <div class="card-desc">The path through Nokron connects to the massive Siofra Aqueduct, which in turn gives access to Deeproot Depths — home to the Fia questline, the Lichdragon, and an alternate ending.</div>
+            <div class="card-tags">
+              <span class="tag tag-dungeon">Dungeon</span>
+              <span class="tag tag-quest">Questline</span>
+              <span class="tag tag-key">Key Item</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a-plus">A+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Boss: Valiant Gargoyles</div>
+              <ul class="detail-list">
+                <li>Aqueduct dual boss: <strong>Valiant Gargoyle</strong> and <strong>Gargoyle's Black Blade</strong></li>
+                <li>Second spawns at ~60% HP of first — stagger them with bleed or frost</li>
+                <li>Kill grants access to the coffin that takes you to Deeproot Depths</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">What Awaits in Deeproot</div>
+              <ul class="detail-list">
+                <li><strong>Fia's questline</strong> — the Deathbed Companion and Age of Duskborn ending</li>
+                <li><strong>Lichdragon Fortissax</strong> — Legendary boss for Dragon Communion Faith builds</li>
+                <li><strong>Godwyn the Golden</strong> lore and the Mending Rune of the Death-Prince</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 7 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">07</div>
+          <div class="card-body">
+            <div class="card-name">Secrets of the Ghostly Architecture</div>
+            <div class="card-desc">Nokron's tilted buildings and broken towers hide illusory walls and hidden passages. Entire sections of the rooftop district are missable if players don't explore every dead-end ledge.</div>
+            <div class="card-tags">
+              <span class="tag tag-secret">Secret Area</span>
+              <span class="tag tag-dungeon">Dungeon</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a">A</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Missable Secrets</div>
+              <ul class="detail-list">
+                <li>Illusory wall near the rooftop graveyard hides a <strong>Smithing Stone [6]</strong> cache</li>
+                <li>The tilted building east of the first grace has a hidden room with a <strong>Ghost Glovewort [5]</strong></li>
+                <li>Jumping onto the broken bridge arch reveals a shortcut to the aqueduct</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Explorer Tips</div>
+              <ul class="detail-list">
+                <li>Roll into suspicious blank walls — Nokron has 3 confirmed illusory walls</li>
+                <li>Silver Tears that appear as items on the ground carry surprise Larval Tears</li>
+                <li>The "inverted tower" perspective is the key to reading the map here</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">08</div>
+          <div class="card-body">
+            <div class="card-name">Collect the Remembrance of the Dragonkin Soldier</div>
+            <div class="card-desc">The optional Dragonkin Soldier lurks in the Lake of Rot's adjacent hall, technically connected to this sub-zone. Its Remembrance yields two unique dragon-themed rewards.</div>
+            <div class="card-tags">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a">A</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Boss: Dragonkin Soldier</div>
+              <ul class="detail-list">
+                <li>Found in a flooded chamber accessible from Nokron's eastern edge</li>
+                <li>Extremely vulnerable to <strong>Scarlet Rot</strong> and <strong>Bleed</strong></li>
+                <li>Lightning attacks deal massive damage to this draconic construct</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Remembrance Choices</div>
+              <ul class="detail-list">
+                <li><strong>Dragon Halberd</strong> — Excellent STR/DEX lightning weapon</li>
+                <li><strong>Dragonscale Blade</strong> — Lightning + Cold infusion katana</li>
+                <li>Duplicate at a Walking Mausoleum for both rewards in one playthrough</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">09</div>
+          <div class="card-body">
+            <div class="card-name">Golden Scarab Talisman — Best Rune Farm Setup</div>
+            <div class="card-desc">Hidden in a chest requiring defeating two Cleanrot Knights simultaneously, the Golden Scarab boosts rune acquisition by 20% — an essential early investment for any build.</div>
+            <div class="card-tags">
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-rune">Rune Farming</span>
+              <span class="tag tag-dungeon">Dungeon</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-a">A</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Location</div>
+              <ul class="detail-list">
+                <li>The <strong>Abandoned Cave</strong> on the Caelid canyon cliffs (nearby region)</li>
+                <li>Boss: dual <strong>Cleanrot Knights</strong> — use bleed or frost to stagger</li>
+                <li>Cave has Scarlet Rot floor — bring Preserving Boluses</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Why It Matters</div>
+              <ul class="detail-list">
+                <li><strong>+20% rune gain</strong> on every kill for the entire game</li>
+                <li>Stacks with Golden Fowl Foot consumable for massive rune bursts</li>
+                <li>Equip before any rune arc or boss run for maximum efficiency</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 10 -->
+      <div class="card reveal" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-rank">10</div>
+          <div class="card-body">
+            <div class="card-name">Map Fragment & Grace Network — Full Illumination</div>
+            <div class="card-desc">The Nokron map is split into multiple zones. Collect every Site of Grace and the map fragment to ensure no secrets are overlooked — this region has no second visit opportunity per questline.</div>
+            <div class="card-tags">
+              <span class="tag tag-key">Key Item</span>
+              <span class="tag tag-secret">Secret Area</span>
+            </div>
+          </div>
+          <div class="card-difficulty">
+            <span class="diff-label">Threat</span>
+            <div class="diff-pips">
+              <div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            </div>
+          </div>
+          <div class="card-tier"><span class="tier-badge tier-b-plus">B+</span></div>
+        </div>
+        <div class="card-expand-icon">▼</div>
+        <div class="card-detail">
+          <div class="detail-inner">
+            <div class="detail-col">
+              <div class="detail-col-title">Sites of Grace — All 6</div>
+              <ul class="detail-list">
+                <li>Nokron, Eternal City (entrance)</li>
+                <li>Nokron, Eternal City (second — near the silver pools)</li>
+                <li>Ancestral Woods</li>
+                <li>Night's Sacred Ground</li>
+                <li>Siofra Aqueduct</li>
+                <li>Great Waterfall Crest (exit to Deeproot)</li>
+              </ul>
+            </div>
+            <div class="detail-col">
+              <div class="detail-col-title">Map Fragment Location</div>
+              <ul class="detail-list">
+                <li>On a stone stele near the main plaza, easily missable from above</li>
+                <li>Required to see the full underground layout on the world map</li>
+                <li>Reveals secret ledge paths only visible once map is obtained</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end checklist -->
+  </section>
+
+  <div class="rune-divider reveal"><span class="rune-divider-icon">✦</span></div>
+
+  <!-- ══ BOTTOM PANELS ══ -->
+  <div class="bottom-grid">
+
+    <!-- LEFT: REWARDS TABLE -->
+    <div class="panel reveal">
+      <h3 class="panel-title">⚜ Key Rewards in Nokron</h3>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mimic Tear boss</td>
+            <td><span class="reward-name">Mimic Tear Ashes</span></td>
+            <td><span class="item-type-badge it-ash">Spirit Ash</span></td>
+            <td><span class="importance-high">■ Critical</span></td>
+          </tr>
+          <tr>
+            <td>Mimic Tear chest</td>
+            <td><span class="reward-name">Larval Tear ×2</span></td>
+            <td><span class="item-type-badge it-item">Respec Item</span></td>
+            <td><span class="importance-high">■ Critical</span></td>
+          </tr>
+          <tr>
+            <td>Night's Sacred Ground</td>
+            <td><span class="reward-name">Fingerslayer Blade</span></td>
+            <td><span class="item-type-badge it-item">Quest Item</span></td>
+            <td><span class="importance-high">■ Critical</span></td>
+          </tr>
+          <tr>
+            <td>Crucible Knight Duo</td>
+            <td><span class="reward-name">Crucible Hornshield</span></td>
+            <td><span class="item-type-badge it-talisman">Talisman</span></td>
+            <td><span class="importance-mid">◆ High</span></td>
+          </tr>
+          <tr>
+            <td>Hallowhorn Grounds</td>
+            <td><span class="reward-name">Regal Ancestral Spirit</span></td>
+            <td><span class="item-type-badge it-ash">Spirit Ash</span></td>
+            <td><span class="importance-mid">◆ High</span></td>
+          </tr>
+          <tr>
+            <td>Dragonkin Soldier</td>
+            <td><span class="reward-name">Dragon Halberd / Dragonscale Blade</span></td>
+            <td><span class="item-type-badge it-weapon">Weapon</span></td>
+            <td><span class="importance-mid">◆ High</span></td>
+          </tr>
+          <tr>
+            <td>Silver Tear enemies</td>
+            <td><span class="reward-name">Larval Tears (×4–7)</span></td>
+            <td><span class="item-type-badge it-item">Respec Item</span></td>
+            <td><span class="importance-mid">◆ High</span></td>
+          </tr>
+          <tr>
+            <td>Gargoyle Duo (Aqueduct)</td>
+            <td><span class="reward-name">Gargoyle's Black Axe / Blade</span></td>
+            <td><span class="item-type-badge it-weapon">Weapon</span></td>
+            <td><span class="importance-low">▸ Medium</span></td>
+          </tr>
+          <tr>
+            <td>Map stele (plaza)</td>
+            <td><span class="reward-name">Nokron Map Fragment</span></td>
+            <td><span class="item-type-badge it-item">Map Item</span></td>
+            <td><span class="importance-low">▸ Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: TIPS -->
+    <div class="panel reveal">
+      <h3 class="panel-title">🕯 Exploration Tips for Nokron</h3>
+      <ul class="tips-list">
+        <li class="tip-item">
+          <span class="tip-icon">⚔</span>
+          <span><strong>Recommended Level:</strong> 60–80. Arrive after defeating Starscourge Radahn in Caelid. The falling star event triggers Nokron's entrance hole in southern Limgrave.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">☠</span>
+          <span><strong>Deadly Enemies:</strong> Silver Tears disguise as items and urns. Ancestral Followers have rapid melee combos. Crucible Knights resist most damage types — use Holy or Scarlet Rot.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">💰</span>
+          <span><strong>Best Rune Farm:</strong> The open plaza near the Ancestral Woods grace has rapid Silver Tear respawns. With Golden Scarab + Bird Foot, this zone yields 40,000+ runes per run.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">🗺</span>
+          <span><strong>Map Fragment Location:</strong> On a raised stone monument near the central open plaza, slightly northeast of the second Site of Grace. Easy to miss due to the overhead camera angle.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">⚠</span>
+          <span><strong>Quest-Locking Warning:</strong> Do NOT give the Fingerslayer Blade to anyone other than Ranni. Also: speak to Rogier before entering Nokron — his questline closes if you miss the Stormveil black mark.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">🕯</span>
+          <span><strong>Lighting the Deer Bones:</strong> All 7 spectral bone piles must be lit for the Regal Ancestral Spirit. They glow faintly in blue. Check the northeastern ruins cluster — 3 are hidden behind fallen arches.</span>
+        </li>
+        <li class="tip-item">
+          <span class="tip-icon">🌊</span>
+          <span><strong>Proceed to Deeproot:</strong> After defeating the Valiant Gargoyles in the Siofra Aqueduct, a coffin at the waterfall's base transports you to Deeproot Depths. Fia must be at her questline step before this.</span>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- end bottom-grid -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <p class="footer-text">
+      <span class="footer-gold">✦</span> &nbsp; Elden Ring Completion Guide — Nokron, Eternal City &nbsp; <span class="footer-gold">✦</span>
+    </p>
+    <p class="footer-text" style="margin-top:0.5rem; font-size:0.6rem; opacity:0.4;">
+      BANDAI NAMCO / FromSoftware — Fan-made reference guide
+    </p>
+  </footer>
+
+</div><!-- end page-wrap -->
+
+<script>
+  // ── Toggle card detail panels
+  function toggleCard(card) {
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.card.open').forEach(c => {
+      if (c !== card) c.classList.remove('open');
+    });
+    card.classList.toggle('open', !isOpen);
+  }
+
+  // ── Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Staggered checklist entrance
+  document.querySelectorAll('.card').forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = `opacity 0.6s ease ${0.05 * i}s, transform 0.6s ease ${0.05 * i}s, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease`;
+    setTimeout(() => {
+      card.style.opacity = '';
+      card.style.transform = '';
+    }, 600 + i * 80);
+  });
+</script>
+</body>
+</html>

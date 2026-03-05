@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caelid — Elden Ring Completion Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080608;
+    --obsidian-mid: #100d12;
+    --obsidian-light: #1a1420;
+    --gold: #c9a84c;
+    --gold-bright: #f0c96a;
+    --gold-dim: #7a6229;
+    --gold-glow: rgba(201,168,76,0.18);
+    --crimson: #8b1a1a;
+    --crimson-bright: #c0392b;
+    --crimson-glow: rgba(139,26,26,0.25);
+    --spectral: #2a4a7a;
+    --spectral-bright: #4a7abf;
+    --spectral-glow: rgba(74,122,191,0.2);
+    --rot-orange: #b8530a;
+    --rot-glow: rgba(184,83,10,0.25);
+    --text-primary: #e8dcc8;
+    --text-secondary: #a89878;
+    --text-dim: #6a5a48;
+    --border-gold: rgba(201,168,76,0.3);
+    --border-dim: rgba(201,168,76,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* === BACKGROUND LAYERS === */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,26,26,0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(184,83,10,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 60% at 10% 60%, rgba(42,74,122,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, #0d0810 0%, #060408 100%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* Rune pattern overlay */
+  .rune-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.03)' stroke-width='0.5'%3E%3Ccircle cx='60' cy='60' r='45'/%3E%3Ccircle cx='60' cy='60' r='30'/%3E%3Ccircle cx='60' cy='60' r='15'/%3E%3Cline x1='15' y1='60' x2='105' y2='60'/%3E%3Cline x1='60' y1='15' x2='60' y2='105'/%3E%3Cline x1='28' y1='28' x2='92' y2='92'/%3E%3Cline x1='92' y1='28' x2='28' y2='92'/%3E%3Cpolygon points='60,20 80,50 95,45 75,75 85,95 60,80 35,95 45,75 25,45 40,50'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes riseUp { from { opacity: 0; transform: translateY(80px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(201,168,76,0.5), 0 0 40px rgba(201,168,76,0.2); } 50% { text-shadow: 0 0 30px rgba(201,168,76,0.8), 0 0 60px rgba(201,168,76,0.4), 0 0 100px rgba(201,168,76,0.2); } }
+  @keyframes borderGlow { 0%,100% { box-shadow: 0 0 10px rgba(201,168,76,0.2); } 50% { box-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 40px rgba(201,168,76,0.1); } }
+  @keyframes rotFlicker { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+  @keyframes emblемSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+  @keyframes dotPulse { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+  /* === WRAPPER === */
+  .page-wrap {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* === HEADER === */
+  .site-header {
+    text-align: center;
+    padding: 60px 20px 50px;
+    position: relative;
+    animation: fadeIn 1.2s ease both;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold-dim));
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rot-orange);
+    margin-bottom: 24px;
+    animation: fadeIn 1s 0.2s ease both;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--rot-orange));
+  }
+  .eyebrow::after { background: linear-gradient(to left, transparent, var(--rot-orange)); }
+
+  .biome-emblem {
+    width: 140px; height: 140px;
+    margin: 0 auto 32px;
+    position: relative;
+    animation: riseUp 1.2s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .emblem-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.2);
+    animation: emblемSpin 40s linear infinite;
+  }
+  .emblem-ring:nth-child(2) { inset: 10px; border-color: rgba(139,26,26,0.3); animation-duration: 25s; animation-direction: reverse; }
+  .emblem-ring:nth-child(3) { inset: 20px; border-color: rgba(184,83,10,0.4); animation-duration: 15s; }
+
+  .emblem-num {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--gold);
+    animation: glowPulse 3s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(201,168,76,0.6), 0 0 60px rgba(184,83,10,0.4);
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--gold-bright);
+    letter-spacing: 0.02em;
+    animation: glowPulse 3s ease-in-out infinite, slideUp 1s 0.3s ease both;
+    margin-bottom: 8px;
+  }
+
+  .main-title span { color: var(--crimson-bright); }
+
+  .title-divider {
+    width: 300px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), var(--rot-orange), var(--gold), transparent);
+    margin: 20px auto;
+    animation: fadeIn 1s 0.6s ease both;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(15px, 2vw, 19px);
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+    animation: slideUp 1s 0.5s ease both;
+  }
+
+  .header-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-top: 36px;
+    animation: fadeIn 1s 0.8s ease both;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    text-shadow: 0 0 15px rgba(201,168,76,0.4);
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 4px;
+    display: block;
+  }
+  .stat-sep { width: 1px; background: var(--border-dim); align-self: stretch; }
+
+  /* === SECTION HEADINGS === */
+  .section-heading {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+    animation: slideUp 0.8s ease both;
+  }
+  .section-heading::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--gold-dim), transparent);
+  }
+
+  /* === CHECKLIST GRID === */
+  .checklist-grid {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 60px;
+  }
+
+  .entry-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(16,13,18,0.95) 0%, rgba(20,15,22,0.9) 100%);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    animation: slideUp 0.6s ease both;
+  }
+
+  .entry-card:nth-child(1) { animation-delay: 0.1s; border-left: 3px solid var(--gold); background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, rgba(16,13,18,0.95) 100%); }
+  .entry-card:nth-child(2) { animation-delay: 0.15s; border-left: 3px solid var(--gold); background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, rgba(16,13,18,0.95) 100%); }
+  .entry-card:nth-child(3) { animation-delay: 0.2s; border-left: 3px solid var(--gold); background: linear-gradient(135deg, rgba(201,168,76,0.03) 0%, rgba(16,13,18,0.95) 100%); }
+  .entry-card:nth-child(4) { animation-delay: 0.25s; }
+  .entry-card:nth-child(5) { animation-delay: 0.3s; }
+  .entry-card:nth-child(6) { animation-delay: 0.35s; }
+  .entry-card:nth-child(7) { animation-delay: 0.4s; }
+  .entry-card:nth-child(8) { animation-delay: 0.45s; }
+  .entry-card:nth-child(9) { animation-delay: 0.5s; }
+  .entry-card:nth-child(10) { animation-delay: 0.55s; }
+
+  .entry-card:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 20px rgba(201,168,76,0.12), 0 4px 30px rgba(0,0,0,0.5);
+    transform: translateX(3px);
+    z-index: 2;
+  }
+  .entry-card:nth-child(1):hover, .entry-card:nth-child(2):hover, .entry-card:nth-child(3):hover {
+    box-shadow: 0 0 30px rgba(201,168,76,0.2), 0 4px 30px rgba(0,0,0,0.5);
+    animation: borderGlow 2s ease-in-out infinite;
+  }
+
+  .entry-main {
+    display: grid;
+    grid-template-columns: 50px 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .entry-rank {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .entry-card:nth-child(1) .entry-rank,
+  .entry-card:nth-child(2) .entry-rank,
+  .entry-card:nth-child(3) .entry-rank { color: var(--gold); text-shadow: 0 0 10px rgba(201,168,76,0.4); }
+
+  .entry-info { min-width: 0; }
+  .entry-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 2vw, 16px);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .entry-card:nth-child(1) .entry-name,
+  .entry-card:nth-child(2) .entry-name,
+  .entry-card:nth-child(3) .entry-name { color: var(--gold-bright); }
+
+  .entry-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .entry-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .tag-boss { color: var(--crimson-bright); border-color: rgba(192,57,43,0.4); background: rgba(139,26,26,0.15); }
+  .tag-dungeon { color: #8ba0c0; border-color: rgba(74,122,191,0.4); background: rgba(42,74,122,0.15); }
+  .tag-loot { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+  .tag-quest { color: #7fbf7f; border-color: rgba(80,160,80,0.4); background: rgba(40,100,40,0.15); }
+  .tag-secret { color: #bf7fbf; border-color: rgba(160,80,160,0.4); background: rgba(100,40,100,0.15); }
+  .tag-rune { color: #bfa050; border-color: rgba(191,160,80,0.4); background: rgba(120,90,20,0.2); }
+  .tag-key { color: var(--rot-orange); border-color: rgba(184,83,10,0.4); background: rgba(184,83,10,0.12); }
+
+  .entry-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; min-width: 80px; }
+
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .tier-sp { color: var(--gold-bright); text-shadow: 0 0 15px rgba(240,201,106,0.7), 0 0 30px rgba(201,168,76,0.4); }
+  .tier-s { color: var(--gold); text-shadow: 0 0 12px rgba(201,168,76,0.5); }
+  .tier-ap { color: var(--rot-orange); text-shadow: 0 0 10px rgba(184,83,10,0.5); }
+  .tier-a { color: var(--crimson-bright); text-shadow: 0 0 10px rgba(192,57,43,0.4); }
+  .tier-bp { color: var(--spectral-bright); text-shadow: 0 0 10px rgba(74,122,191,0.4); }
+
+  .difficulty-pips { display: flex; gap: 3px; }
+  .pip {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .pip.filled { background: var(--crimson-bright); border-color: var(--crimson-bright); box-shadow: 0 0 6px rgba(192,57,43,0.6); }
+  .pip.filled.extreme { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.6); }
+
+  /* expand arrow */
+  .entry-arrow {
+    font-size: 12px; color: var(--text-dim);
+    transition: transform 0.3s, color 0.3s;
+    padding: 4px;
+  }
+  .entry-card.open .entry-arrow { transform: rotate(180deg); color: var(--gold); }
+
+  /* === DETAIL PANEL === */
+  .entry-detail {
+    display: none;
+    border-top: 1px solid var(--border-dim);
+    background: rgba(8,6,8,0.6);
+    padding: 24px 20px 24px 70px;
+    animation: fadeIn 0.3s ease;
+  }
+  .entry-card.open .entry-detail { display: block; }
+
+  .detail-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .detail-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rot-orange);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .detail-col ul { list-style: none; }
+  .detail-col ul li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .detail-col ul li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--gold-dim);
+  }
+  .detail-col ul li strong { color: var(--text-primary); font-weight: 600; }
+
+  /* === BOTTOM PANELS === */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .panel {
+    background: linear-gradient(135deg, rgba(16,13,18,0.95) 0%, rgba(12,9,14,0.98) 100%);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    animation: riseUp 0.8s ease both;
+  }
+  .panel:nth-child(1) { animation-delay: 0.2s; }
+  .panel:nth-child(2) { animation-delay: 0.35s; }
+
+  .panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 2vw, 16px);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-dim);
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  /* Rewards Table */
+  .rewards-table { width: 100%; border-collapse: collapse; }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .rewards-table td {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 9px 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .rewards-table tr:hover td { background: rgba(201,168,76,0.03); }
+  .rewards-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .reward-important { color: var(--gold) !important; font-weight: 600 !important; }
+  .imp-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .imp-critical { background: var(--gold); box-shadow: 0 0 5px rgba(201,168,76,0.6); }
+  .imp-high { background: var(--rot-orange); box-shadow: 0 0 5px rgba(184,83,10,0.6); }
+  .imp-med { background: var(--spectral-bright); box-shadow: 0 0 5px rgba(74,122,191,0.4); }
+
+  /* Tips list */
+  .tips-list { list-style: none; }
+  .tips-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .tips-list li:last-child { border-bottom: none; }
+  .tip-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    width: 20px;
+    text-align: center;
+  }
+  .tips-list li strong { color: var(--text-primary); }
+  .tips-list li em { color: var(--gold); font-style: normal; font-weight: 600; }
+
+  /* === FOOTER === */
+  .site-footer {
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    animation: fadeIn 1s 1s ease both;
+  }
+  .site-footer::before {
+    content: '';
+    position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .footer-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .footer-rune {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 24px;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  /* === WARNING BANNER === */
+  .rot-warning {
+    background: linear-gradient(135deg, rgba(184,83,10,0.1) 0%, rgba(139,26,26,0.08) 100%);
+    border: 1px solid rgba(184,83,10,0.25);
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin-bottom: 36px;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: rgba(184,83,10,0.9);
+    animation: rotFlicker 4s ease-in-out infinite, slideUp 0.8s ease both;
+  }
+  .warning-icon { font-size: 18px; flex-shrink: 0; }
+  .warning-text strong { color: var(--rot-orange); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .entry-main { grid-template-columns: 40px 1fr; gap: 10px; }
+    .entry-meta { display: none; }
+    .bottom-panels { grid-template-columns: 1fr; }
+    .detail-cols { grid-template-columns: 1fr; }
+    .entry-detail { padding-left: 20px; }
+    .header-stats { gap: 20px; }
+    .stat-sep { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .main-title { font-size: 28px; }
+    .biome-emblem { width: 100px; height: 100px; }
+    .emblem-num { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="rune-bg"></div>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="eyebrow">Elden Ring Completion Guide</div>
+
+    <div class="biome-emblem">
+      <div class="emblem-ring"></div>
+      <div class="emblem-ring"></div>
+      <div class="emblem-ring"></div>
+      <div class="emblem-num">V</div>
+    </div>
+
+    <h1 class="main-title">Must-Do Things in<br><span>Caelid</span></h1>
+
+    <div class="title-divider"></div>
+
+    <p class="subtitle">A blighted, rot-ravaged hellscape born from Radahn's celestial war — home to some of the most punishing encounters and most coveted rewards in the Lands Between. None who enter unprepared survive.</p>
+
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-val">60–80</span>
+        <span class="stat-label">Rec. Level</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-val">18</span>
+        <span class="stat-label">Key Locations</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-val">7</span>
+        <span class="stat-label">Major Bosses</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-val">Scarlet Rot</span>
+        <span class="stat-label">Primary Hazard</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ROT WARNING -->
+  <div class="rot-warning">
+    <span class="warning-icon">⚠</span>
+    <div class="warning-text"><strong>Scarlet Rot Warning:</strong> Stock Preserving Boluses and Immunizing Cured Meat before entering. The rot swamps of southern Caelid will drain your health bar in seconds without resistance.</div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section-heading">Completion Checklist</div>
+
+  <div class="checklist-grid">
+
+    <!-- 1 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#01</div>
+        <div class="entry-info">
+          <div class="entry-name">Starscourge Radahn — Festival of Radahn</div>
+          <div class="entry-desc">The defining encounter of Caelid. Battle the gravity-wielding demigod Radahn across the Wailing Dunes in one of Elden Ring's most epic boss fights.</div>
+          <div class="entry-tags">
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+            <span class="tag tag-quest">Questline</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-sp">S+</div>
+          <div class="difficulty-pips">
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Boss Details</h4>
+            <ul>
+              <li><strong>Starscourge Radahn</strong> — Shardbarer demigod at Wailing Dunes</li>
+              <li>Accessed via Redmane Castle Festival</li>
+              <li>Phase 2: he crashes down from the sky</li>
+              <li>Can summon multiple NPCs including Blaidd, Finger Maiden Therolina</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Rewards</h4>
+            <ul>
+              <li><strong>Remembrance of the Starscourge</strong> — trade for weapons</li>
+              <li><strong>Radahn's Great Rune</strong> — increases all attribute caps</li>
+              <li>Unlocks <strong>Nokron, Eternal City</strong> meteor impact zone</li>
+              <li>Progression for Ranni, Fia, Dung Eater questlines</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Missable Secrets</h4>
+            <ul>
+              <li>Talk to Jerren at Redmane before and after — triggers Witch-Hunter quest</li>
+              <li>Exhaust <strong>Blaidd's</strong> dialogue post-festival at Forlorn Hound Evergaol</li>
+              <li>Return to Radahn's arena to find <strong>Nokron entrance</strong> (shooting star zone)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#02</div>
+        <div class="entry-info">
+          <div class="entry-name">Sellia, Town of Sorcery — All Seals & Tower</div>
+          <div class="entry-desc">Light all three braziers to open the magical seals blocking Sellia's towers, gaining access to rare sorceries and a critical questline location for Millicent.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-secret">Secret Area</span>
+            <span class="tag tag-quest">Questline</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-s">S</div>
+          <div class="difficulty-pips">
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>How to Unlock</h4>
+            <ul>
+              <li>Climb rooftops and treetops to reach 3 unlit braziers</li>
+              <li>Each brazier opens one of the sealed archways</li>
+              <li>Hidden Sellia Crystal Tunnel entrance in town</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Key Rewards Inside</h4>
+            <ul>
+              <li><strong>Nox Mirrorhelm</strong> helmet</li>
+              <li><strong>Lusat's Glintstone Staff</strong> — best Int scaling staff</li>
+              <li><strong>Sorcery: Stars of Ruin</strong> Legendary spell</li>
+              <li>Flask Talisman (Physick ingredients)</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Quest Hooks</h4>
+            <ul>
+              <li>Church of the Plague — find <strong>Millicent</strong> for her questline</li>
+              <li>Sellia Hideaway cave entrance (hidden behind illusory wall)</li>
+              <li>Defeat <strong>Commander O'Neil</strong> in Swamp for Millicent's needle</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#03</div>
+        <div class="entry-info">
+          <div class="entry-name">Farum Greathorn & Greyoll's Dragon Communion</div>
+          <div class="entry-desc">Fell the Elder Dragon Greyoll to gain massive runes and unlock Dragon Communion powers. A legendary farming exploit and essential for dragon-based builds.</div>
+          <div class="entry-tags">
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-rune">Rune Farming</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-s">S</div>
+          <div class="difficulty-pips">
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip filled extreme"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Boss & Farming</h4>
+            <ul>
+              <li><strong>Elder Dragon Greyoll</strong> — passive, attack the tail repeatedly</li>
+              <li>Yields ~74,000 runes (massively boosted by Golden Scarab Talisman)</li>
+              <li>5 smaller dragons also die, giving bonus Dragon Hearts</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Dragon Communion Altar</h4>
+            <ul>
+              <li>Located at Cathedral of Dragon Communion in Caelid</li>
+              <li><strong>Rotten Breath</strong> — essential rot incantation for bosses</li>
+              <li><strong>Ekzykes's Decay</strong> — AoE rot flame</li>
+              <li><strong>Dragonmaw / Dragonclaw</strong> — physical dragon attacks</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Tips</h4>
+            <ul>
+              <li>Use Hemorrhage (bleed) build to kill Greyoll quickly</li>
+              <li>Greyoll can be respawned each run if using rebirth</li>
+              <li>Cathedral has separate boss: <strong>Decaying Ekzykes</strong> optional drake</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#04</div>
+        <div class="entry-info">
+          <div class="entry-name">Redmane Castle — Full Exploration</div>
+          <div class="entry-desc">Fortified stronghold at Caelid's southern tip. Packed with tough enemies, hidden items, and the gateway to the Radahn Festival.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-key">Key Item</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-ap">A+</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Notable Enemies & Bosses</h4>
+            <ul>
+              <li><strong>Misbegotten Warrior + Crucible Knight</strong> duo boss</li>
+              <li>Large Lion Guardian before castle entrance</li>
+              <li>Multiple Vulgar Militia and flaming gargoyles</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Items Found</h4>
+            <ul>
+              <li><strong>Radahn's Lion Armor Set</strong> scattered through castle</li>
+              <li>Multiple Smithing Stones [5] and [6]</li>
+              <li>Crucible Feather Talisman (rare)</li>
+              <li>Multiple Golden Runes</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>NPC Interactions</h4>
+            <ul>
+              <li>Speak to <strong>Jerren (Witch-Hunter)</strong> pre and post-Radahn</li>
+              <li>Access to Festival teleporter only available pre-Radahn</li>
+              <li>Post-Radahn: festival NPCs disappear</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#05</div>
+        <div class="entry-info">
+          <div class="entry-name">War-Dead Catacombs & War-Dead Phantoms</div>
+          <div class="entry-desc">Harrowing catacomb filled with the skeletal remnants of Radahn's past battles. Contains a powerful boss and rare crafting ashes.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-ap">A+</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Boss</h4>
+            <ul>
+              <li><strong>Putrid Tree Spirit</strong> — rot-infused guardian</li>
+              <li>Radahn Soldier spirits flood the arena — use them as summons</li>
+              <li>Accessible only post-Radahn death</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Rewards</h4>
+            <ul>
+              <li><strong>Redmane Knight Ogha</strong> Spirit Ashes — legendary summon</li>
+              <li>Various Grave Gloveworts for ash upgrades</li>
+              <li>Ghost Glovewort [5] and [6]</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Secrets</h4>
+            <ul>
+              <li>Several illusory walls hide Glovewort clusters</li>
+              <li>Jump across crumbled stone pillar above main hall</li>
+              <li>Spirits in arena are targetable — heal off them</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#06</div>
+        <div class="entry-info">
+          <div class="entry-name">Sellia Crystal Tunnel</div>
+          <div class="entry-desc">One of the first dangerous dungeons many players stumble upon — the tutorial chest teleports here. Contains key upgrade stones and a brutal miniboss.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+            <span class="tag tag-secret">Secret Area</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-a">A</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Boss</h4>
+            <ul>
+              <li><strong>Fallingstar Beast</strong> — rock projectiles, celestial creature</li>
+              <li>Vulnerable to lightning and pierce damage</li>
+              <li>Can be lured to tunnel entrance for easier fight</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Rewards</h4>
+            <ul>
+              <li><strong>Somberstone Miner's Bell Bearing [1]</strong> — lets you buy Somber Stones</li>
+              <li>Multiple Somber Smithing Stones [4] and [5]</li>
+              <li><strong>Gravity Stone Chunk</strong> — crafting material</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Notes</h4>
+            <ul>
+              <li>Tutorial Limgrave Chest is a Trap that teleports here early</li>
+              <li>Enemies use drill-mining attacks — bait and punish</li>
+              <li>Second crystal tunnel in Caelid: <strong>Gael Tunnel</strong> near border</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#07</div>
+        <div class="entry-info">
+          <div class="entry-name">Commander O'Neil — Aeonia Swamp</div>
+          <div class="entry-desc">Rot-rotted commander guarding the heart of the Aeonia Swamp. Defeating him yields a key item for Millicent's questline and a powerful War Cry ash.</div>
+          <div class="entry-tags">
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-quest">Questline</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-a">A</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Boss Details</h4>
+            <ul>
+              <li>Located in center of Aeonia Swamp — constant Scarlet Rot buildup</li>
+              <li>Summons phantom soldiers at health thresholds</li>
+              <li>Uses rot spore clouds as AoE</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Rewards</h4>
+            <ul>
+              <li><strong>Unalloyed Gold Needle</strong> — required for Millicent questline</li>
+              <li><strong>Commander's Standard</strong> halberd weapon</li>
+              <li><strong>Ash of War: War Cry</strong></li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Quest Impact</h4>
+            <ul>
+              <li>Take the Gold Needle to <strong>Millicent at Church of the Plague</strong></li>
+              <li>This begins a long quest chain through Altus Plateau and beyond</li>
+              <li>DO NOT progress Millicent's quest before getting needle</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#08</div>
+        <div class="entry-info">
+          <div class="entry-name">Caelid Waypoint Ruins & Rotview Balcony</div>
+          <div class="entry-desc">Key waypoint ruins containing map fragment, important merchant, and scenic rot-overlook. The first major rest point for Caelid explorers.</div>
+          <div class="entry-tags">
+            <span class="tag tag-key">Key Item</span>
+            <span class="tag tag-secret">Secret Area</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-bp">B+</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Key Items</h4>
+            <ul>
+              <li><strong>Caelid Map Fragment</strong> — purchase from nomadic merchant here</li>
+              <li>Nomadic Merchant sells Preserving Boluses recipe</li>
+              <li>Scarlet Rot Cookbook [1] available</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Hidden Below</h4>
+            <ul>
+              <li>Underground cellar beneath ruins contains Dragon Heart</li>
+              <li>Madwoman hostile NPC guarding Armorer's Cookbook</li>
+              <li>Illusory floor drop leads to extra items</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Tips</h4>
+            <ul>
+              <li>Rotview Balcony Site of Grace is fastest access west-Caelid</li>
+              <li>Great vantage point for spotting Greyoll dragon location</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#09</div>
+        <div class="entry-info">
+          <div class="entry-name">Gaol Cave — Scarlet Rot Dungeon</div>
+          <div class="entry-desc">A two-bossed cave dripping with rot and secrets. Requires two Stonesword Keys but rewards with one of the best talismans in the entire game.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-ap">A+</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Bosses</h4>
+            <ul>
+              <li><strong>Frenzied Duelist</strong> — chained prisoner with flail, Phase 2 frenzied</li>
+              <li>Second locked area boss: <strong>Putrid Crystallian</strong> trio</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Rewards</h4>
+            <ul>
+              <li><strong>Regalia of Eochaid</strong> — Dancing Blade weapon skill</li>
+              <li><strong>Rotten Crystal Sword</strong> — rot-infused blade</li>
+              <li><strong>Kindred of Rot's Exultation</strong> talisman — +20% attack near rot/poison</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Entry Requirements</h4>
+            <ul>
+              <li>Two Stonesword Keys required at fog wall imp statues</li>
+              <li>Bring immunity items — rot pools everywhere</li>
+              <li>Second area can only be opened with one key inside the cave</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="entry-card" onclick="toggleCard(this)">
+      <div class="entry-main">
+        <div class="entry-rank">#10</div>
+        <div class="entry-info">
+          <div class="entry-name">Fort Faroth — Draconic Secrets</div>
+          <div class="entry-desc">A deceptively quiet fort hiding one of Caelid's most important items behind a gauntlet of sleeping and roosting bats. Home of Radahn's Great Rune altar.</div>
+          <div class="entry-tags">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-key">Key Item</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <div class="tier-badge tier-a">A</div>
+          <div class="difficulty-pips">
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip filled"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+        </div>
+        <div class="entry-arrow">▼</div>
+      </div>
+      <div class="entry-detail">
+        <div class="detail-cols">
+          <div class="detail-col">
+            <h4>Key Objectives</h4>
+            <ul>
+              <li>Activate the <strong>Divine Tower of Caelid</strong> with Radahn's Great Rune here</li>
+              <li>Dectus Medallion (Right Half) is found on a corpse inside</li>
+              <li>Required to access the Grand Lift of Dectus to Altus Plateau</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Combat Tips</h4>
+            <ul>
+              <li>Bat swarms deal rapid HP damage — sprint through</li>
+              <li>Sleeping Lesser Dragonkin on roof — do not wake them</li>
+              <li>Single Lesser Runebear outside — avoid or bait</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <h4>Nearby Points</h4>
+            <ul>
+              <li><strong>Divine Tower of Caelid</strong> — accessible via Fort Faroth region</li>
+              <li>Caelid Catacombs nearby for Grave Gloveworts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end checklist -->
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-panels">
+
+    <div class="panel">
+      <div class="panel-title">⚔ Key Rewards in Caelid</div>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Importance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wailing Dunes</td>
+            <td class="reward-important">Remembrance of the Starscourge</td>
+            <td>Remembrance</td>
+            <td><span class="imp-dot imp-critical"></span>Critical</td>
+          </tr>
+          <tr>
+            <td>Sellia Towers</td>
+            <td class="reward-important">Lusat's Glintstone Staff</td>
+            <td>Weapon (Staff)</td>
+            <td><span class="imp-dot imp-critical"></span>Critical</td>
+          </tr>
+          <tr>
+            <td>Sellia Towers</td>
+            <td class="reward-important">Stars of Ruin</td>
+            <td>Legendary Sorcery</td>
+            <td><span class="imp-dot imp-critical"></span>Critical</td>
+          </tr>
+          <tr>
+            <td>Fort Faroth</td>
+            <td class="reward-important">Dectus Medallion (Right)</td>
+            <td>Key Item</td>
+            <td><span class="imp-dot imp-critical"></span>Critical</td>
+          </tr>
+          <tr>
+            <td>Dragon Altar</td>
+            <td>Rotten Breath</td>
+            <td>Incantation</td>
+            <td><span class="imp-dot imp-high"></span>High</td>
+          </tr>
+          <tr>
+            <td>Aeonia Swamp</td>
+            <td>Unalloyed Gold Needle</td>
+            <td>Quest Item</td>
+            <td><span class="imp-dot imp-high"></span>High</td>
+          </tr>
+          <tr>
+            <td>Gaol Cave</td>
+            <td>Kindred of Rot's Exultation</td>
+            <td>Talisman</td>
+            <td><span class="imp-dot imp-high"></span>High</td>
+          </tr>
+          <tr>
+            <td>War-Dead Catacombs</td>
+            <td>Redmane Knight Ogha</td>
+            <td>Spirit Ash</td>
+            <td><span class="imp-dot imp-med"></span>Medium</td>
+          </tr>
+          <tr>
+            <td>Sellia Tunnel</td>
+            <td>Somberstone Bell Bearing [1]</td>
+            <td>Bell Bearing</td>
+            <td><span class="imp-dot imp-high"></span>High</td>
+          </tr>
+          <tr>
+            <td>Caelid Wilds</td>
+            <td>Radahn's Lion Armor Set</td>
+            <td>Armor</td>
+            <td><span class="imp-dot imp-med"></span>Medium</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">🗺 Exploration Tips for Caelid</div>
+      <ul class="tips-list">
+        <li>
+          <span class="tip-icon">⚔</span>
+          <span><strong>Recommended Level:</strong> Enter at <em>Rune Level 60–70</em> for survivability. Radahn himself is best fought at 70–80+. Early exploration (sneak in from Limgrave) is possible at level 30-40 but extremely dangerous.</span>
+        </li>
+        <li>
+          <span class="tip-icon">☠</span>
+          <span><strong>Deadliest Enemy Types:</strong> Miranda Flowers (rot cloud), Grafted Scions, Kindred of Rot swarms, and the <em>Lesser Runebear</em> near Fort Faroth — one of the deadliest overworld enemies.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🌿</span>
+          <span><strong>Stock Up First:</strong> Carry <em>Preserving Boluses</em> (crafted or bought) and Immunizing Cured Meat before the swamp. The Aeonia Swamp center will Scarlet Rot-kill you in under 8 seconds unprotected.</span>
+        </li>
+        <li>
+          <span class="tip-icon">📍</span>
+          <span><strong>Map Fragment:</strong> Found at the <em>Caelid Waypoint Ruins</em> merchant on the western road. Get this first — Caelid is too large to navigate blind.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🔑</span>
+          <span><strong>Quest-Locking Warnings:</strong> Do <em>not</em> progress Commander O'Neil and skip Millicent. Talk to her at Church of Plague before progressing north. Missing this locks out one of the game's most complex and rewarding questlines.</span>
+        </li>
+        <li>
+          <span class="tip-icon">💰</span>
+          <span><strong>Best Rune Farm:</strong> <em>Greyoll bleeding method</em> — equip Golden Scarab Talisman, use Gold-Pickled Fowl Foot, attack Elder Dragon tail with bleed weapon. Nets 250,000+ runes per run with buffs.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🐉</span>
+          <span><strong>Dragonbarrow Sub-Region:</strong> Northern Caelid (Dragonbarrow) has even tougher enemies. The <em>Deathbird</em> and <em>Flying Dragon Greyll</em> bridge boss are notoriously punishing. Reserve for level 80+.</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-rune">⚔</div>
+    <div class="footer-text">Elden Ring Completion Guide &nbsp;•&nbsp; Caelid Biome &nbsp;•&nbsp; Region V &nbsp;•&nbsp; May your Erdtree guide thee</div>
+  </footer>
+
+</div>
+
+<script>
+  function toggleCard(card) {
+    const wasOpen = card.classList.contains('open');
+    // close all
+    document.querySelectorAll('.entry-card.open').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) {
+      card.classList.add('open');
+      // smooth scroll card into view
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+  }
+
+  // Intersection Observer for section heading animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.panel, .section-heading').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Animate pip dots on hover
+  document.querySelectorAll('.entry-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.querySelectorAll('.pip.filled').forEach((pip, i) => {
+        pip.style.animationDelay = (i * 0.08) + 's';
+        pip.style.animation = `dotPulse 0.6s ease ${i * 0.08}s`;
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      card.querySelectorAll('.pip.filled').forEach(pip => {
+        pip.style.animation = '';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

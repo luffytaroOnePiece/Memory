@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weeping Peninsula — Elden Ring Completion Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --obsidian: #080808;
+    --deep: #0d0b09;
+    --surface: #111008;
+    --surface2: #16130a;
+    --gold: #c9a84c;
+    --gold-bright: #e8c96a;
+    --gold-dim: #7a6230;
+    --gold-glow: rgba(201,168,76,0.18);
+    --gold-glow-strong: rgba(232,201,106,0.35);
+    --blue: #3a6b8a;
+    --blue-bright: #5fa0c8;
+    --crimson: #8a2030;
+    --crimson-bright: #c43050;
+    --text-primary: #d4c4a0;
+    --text-secondary: #8a7d60;
+    --text-muted: #4a4030;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --rune-color: rgba(201,168,76,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Atmospheric Background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(58,107,138,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 30% at 80% 60%, rgba(138,32,48,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Rune Pattern Overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.04)' stroke-width='0.5'%3E%3Ccircle cx='60' cy='60' r='40'/%3E%3Ccircle cx='60' cy='60' r='25'/%3E%3Cline x1='60' y1='20' x2='60' y2='100'/%3E%3Cline x1='20' y1='60' x2='100' y2='60'/%3E%3Cline x1='31' y1='31' x2='89' y2='89'/%3E%3Cline x1='89' y1='31' x2='31' y2='89'/%3E%3Ccircle cx='60' cy='60' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Grain Texture ── */
+  .grain {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Keyframes ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes riseUp { from { opacity: 0; transform: translateY(80px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 40px rgba(201,168,76,0.2); } 50% { text-shadow: 0 0 30px rgba(201,168,76,0.7), 0 0 60px rgba(201,168,76,0.4), 0 0 100px rgba(201,168,76,0.2); } }
+  @keyframes borderGlow { 0%,100% { box-shadow: 0 0 10px rgba(201,168,76,0.1); } 50% { box-shadow: 0 0 25px rgba(201,168,76,0.25); } }
+  @keyframes emblemRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes emblemInner { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+  @keyframes revealPanel { from { opacity: 0; transform: translateY(-8px); max-height: 0; } to { opacity: 1; transform: translateY(0); max-height: 600px; } }
+  @keyframes scanLine { from { transform: translateY(-100%); } to { transform: translateY(100vh); } }
+
+  /* ── Scan Line ── */
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(201,168,76,0.07), transparent);
+    animation: scanLine 8s linear infinite;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* ══════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════ */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 1.2s ease both;
+  }
+
+  .hero-inner {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Top decorative line */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 24px;
+    animation: slideUp 0.8s ease 0.2s both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '✦';
+    color: var(--gold-dim);
+    font-size: 8px;
+  }
+
+  /* Central emblem */
+  .emblem-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    width: 160px;
+    height: 160px;
+    animation: riseUp 1s ease 0.3s both;
+  }
+
+  .emblem-ring-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.25);
+    animation: emblemRotate 30s linear infinite;
+  }
+  .emblem-ring-outer::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    transform: translateX(-50%);
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  .emblem-ring-mid {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+    animation: emblemInner 20s linear infinite;
+  }
+
+  .emblem-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 62px;
+    font-weight: 900;
+    color: var(--gold);
+    animation: glowPulse 4s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    line-height: 1;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(32px, 6vw, 72px);
+    font-weight: 900;
+    color: var(--gold-bright);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 40px rgba(201,168,76,0.3), 0 2px 0 rgba(0,0,0,0.8);
+    animation: slideUp 0.8s ease 0.4s both;
+    margin-bottom: 8px;
+  }
+
+  .hero-subtitle-biome {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2.5vw, 22px);
+    font-weight: 600;
+    color: var(--blue-bright);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: slideUp 0.8s ease 0.5s both;
+    margin-bottom: 24px;
+  }
+
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(15px, 2vw, 19px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: slideUp 0.8s ease 0.6s both;
+  }
+
+  /* Gold divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0;
+    animation: fadeIn 1s ease 0.8s both;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .divider-icon {
+    color: var(--gold);
+    font-size: 18px;
+    text-shadow: 0 0 12px rgba(201,168,76,0.5);
+  }
+
+  /* ══════════════════════════════════════
+     SECTION HEADINGS
+  ══════════════════════════════════════ */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 3vw, 30px);
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(201,168,76,0.2);
+    margin-bottom: 4px;
+  }
+
+  /* ══════════════════════════════════════
+     CHECKLIST TABLE / CARDS
+  ══════════════════════════════════════ */
+  .checklist-section {
+    margin-bottom: 60px;
+    animation: riseUp 0.9s ease 0.7s both;
+  }
+
+  .checklist-header {
+    margin-bottom: 24px;
+  }
+
+  /* Column header row */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 48px 1fr 2fr 160px 90px 70px;
+    gap: 0 16px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .col-header {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* ── Individual Checklist Card ── */
+  .checklist-item {
+    position: relative;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .checklist-item:nth-child(-n+3) {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,0.06) 0%, var(--surface) 30%);
+  }
+  .checklist-item:nth-child(-n+3) .rank-num {
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px rgba(201,168,76,0.5);
+  }
+
+  .checklist-item:hover {
+    border-color: rgba(201,168,76,0.45);
+    box-shadow: 0 0 20px rgba(201,168,76,0.12), 0 4px 24px rgba(0,0,0,0.4);
+    background: var(--surface2);
+  }
+  .checklist-item:nth-child(n+4):hover {
+    border-left: 3px solid var(--gold-dim);
+  }
+
+  .item-main {
+    display: grid;
+    grid-template-columns: 48px 1fr 2fr 160px 90px 70px;
+    gap: 0 16px;
+    padding: 16px 20px;
+    align-items: center;
+  }
+
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .item-name {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+  .item-name small {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .item-desc {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .tag-boss { color: var(--crimson-bright); border-color: rgba(196,48,80,0.4); background: rgba(138,32,48,0.2); }
+  .tag-dungeon { color: #7890c8; border-color: rgba(120,144,200,0.35); background: rgba(58,80,138,0.18); }
+  .tag-loot { color: var(--gold); border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.1); }
+  .tag-quest { color: #78c878; border-color: rgba(120,200,120,0.35); background: rgba(48,138,48,0.15); }
+  .tag-secret { color: #c878c8; border-color: rgba(200,120,200,0.35); background: rgba(138,48,138,0.15); }
+  .tag-rune { color: #c8a878; border-color: rgba(200,168,120,0.35); background: rgba(138,108,48,0.15); }
+  .tag-key { color: #c8d078; border-color: rgba(200,208,120,0.35); background: rgba(138,148,48,0.15); }
+
+  .difficulty-pips {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+  .pip.filled { background: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.5); border-color: var(--gold); }
+
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    transition: text-shadow 0.3s;
+  }
+  .tier-s-plus { color: var(--gold-bright); text-shadow: 0 0 15px rgba(232,201,106,0.5); }
+  .tier-s { color: var(--gold); text-shadow: 0 0 10px rgba(201,168,76,0.4); }
+  .tier-a-plus { color: #c8a878; }
+  .tier-a { color: #a08860; }
+  .tier-b-plus { color: var(--blue-bright); }
+
+  .checklist-item:hover .tier-badge { text-shadow: 0 0 20px currentColor; }
+
+  /* ── Hidden Detail Panel ── */
+  .detail-panel {
+    display: none;
+    padding: 0 20px 20px 68px;
+    border-top: 1px solid var(--border);
+    animation: revealPanel 0.35s ease both;
+  }
+
+  .checklist-item.active .detail-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .detail-col-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-list {
+    list-style: none;
+  }
+  .detail-list li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .detail-list li::before {
+    content: '›';
+    color: var(--gold-dim);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .detail-highlight {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .expand-hint {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: color 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  .checklist-item.active .expand-hint {
+    transform: translateY(-50%) rotate(180deg);
+    color: var(--gold);
+  }
+
+  /* ══════════════════════════════════════
+     BOTTOM PANELS
+  ══════════════════════════════════════ */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 80px;
+    animation: riseUp 0.9s ease 1s both;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    animation: borderGlow 6s ease-in-out infinite;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-title::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  /* Rewards table */
+  .rewards-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .rewards-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    color: var(--text-secondary);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .rewards-table tr:hover td {
+    background: rgba(201,168,76,0.04);
+    color: var(--text-primary);
+  }
+  .rewards-table td:first-child { color: var(--text-primary); font-style: italic; }
+  .reward-name { color: var(--gold) !important; font-style: normal !important; font-weight: 400; }
+
+  .importance-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 6px rgba(201,168,76,0.6);
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+
+  /* Tips panel */
+  .tips-list {
+    list-style: none;
+  }
+  .tip-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+  }
+  .tip-item:hover { color: var(--text-primary); }
+  .tip-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-top: 1px;
+    background: rgba(201,168,76,0.05);
+  }
+  .tip-text strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 3px;
+  }
+
+  /* ══════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════ */
+  .footer {
+    text-align: center;
+    padding: 40px 0 60px;
+    position: relative;
+    z-index: 2;
+  }
+  .footer-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    margin-bottom: 30px;
+  }
+  .footer-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .footer-rune {
+    font-size: 24px;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(201,168,76,0.3);
+  }
+
+  /* ══════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .col-headers,
+    .item-main {
+      grid-template-columns: 40px 1fr 1fr 130px 70px 55px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .col-headers { display: none; }
+    .item-main {
+      grid-template-columns: 36px 1fr;
+      grid-template-rows: auto auto auto auto;
+      gap: 6px 12px;
+    }
+    .rank-num { grid-row: 1 / 3; font-size: 16px; }
+    .item-name { grid-column: 2; }
+    .item-desc { grid-column: 1 / -1; font-size: 13px; }
+    .tags-wrap { grid-column: 1 / -1; }
+    .difficulty-pips, .tier-badge { display: none; }
+    .expand-hint { top: 16px; transform: none; }
+    .checklist-item.active .expand-hint { transform: rotate(180deg); }
+    .detail-panel { padding-left: 20px; }
+    .bottom-panels { grid-template-columns: 1fr; }
+    .rewards-table { font-size: 12px; }
+    .emblem-number { font-size: 44px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 60px 0 40px; }
+    .container { padding: 0 16px; }
+  }
+
+  /* ── Stagger for checklist items ── */
+  .checklist-item:nth-child(1) { animation: slideUp 0.5s ease 0.75s both; }
+  .checklist-item:nth-child(2) { animation: slideUp 0.5s ease 0.82s both; }
+  .checklist-item:nth-child(3) { animation: slideUp 0.5s ease 0.89s both; }
+  .checklist-item:nth-child(4) { animation: slideUp 0.5s ease 0.96s both; }
+  .checklist-item:nth-child(5) { animation: slideUp 0.5s ease 1.03s both; }
+  .checklist-item:nth-child(6) { animation: slideUp 0.5s ease 1.10s both; }
+  .checklist-item:nth-child(7) { animation: slideUp 0.5s ease 1.17s both; }
+  .checklist-item:nth-child(8) { animation: slideUp 0.5s ease 1.24s both; }
+  .checklist-item:nth-child(9) { animation: slideUp 0.5s ease 1.31s both; }
+  .checklist-item:nth-child(10){ animation: slideUp 0.5s ease 1.38s both; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="scanline"></div>
+
+<!-- ══ HERO HEADER ══ -->
+<div class="container">
+  <header class="hero">
+    <div class="eyebrow">Elden Ring Completion Guide</div>
+
+    <div class="emblem-wrap">
+      <div class="emblem-ring-outer"></div>
+      <div class="emblem-ring-mid"></div>
+      <div class="emblem-number">II</div>
+    </div>
+
+    <h2 class="hero-subtitle-biome">Weeping Peninsula</h2>
+    <h1 class="hero-title">Must-Do Things in<br>the Weeping Peninsula</h1>
+
+    <p class="hero-desc">
+      A mist-shrouded land of sorrow south of Limgrave, haunted by undead crusaders and ancient castle ruins.
+      Rich in early-game loot, vital questlines, and secrets that reward thorough exploration before pressing onward.
+    </p>
+
+    <div class="divider">
+      <span class="divider-icon">⚜</span>
+    </div>
+  </header>
+
+  <!-- ══ CHECKLIST SECTION ══ -->
+  <section class="checklist-section">
+    <div class="checklist-header">
+      <div class="section-label">Primary Objectives</div>
+      <h2 class="section-title">Complete Activity Checklist</h2>
+      <p style="font-size:13px;color:var(--text-muted);font-style:italic;margin-top:4px;">Click any row to reveal detailed secrets &amp; hidden information.</p>
+    </div>
+
+    <div class="col-headers">
+      <div class="col-header">Rank</div>
+      <div class="col-header">Activity / Location</div>
+      <div class="col-header">Description</div>
+      <div class="col-header">Tags</div>
+      <div class="col-header">Difficulty</div>
+      <div class="col-header">Tier</div>
+    </div>
+
+    <div id="checklist">
+
+      <!-- ① -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">1</div>
+          <div class="item-name">Castle Morne<small>Major Legacy Site</small></div>
+          <div class="item-desc">Storm the besieged castle held by the Misbegotten rebellion and confront its final guardian atop the ramparts.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-boss">Boss</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+            <span class="tag tag-quest">Questline</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-s-plus">S+</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Boss Fights</div>
+            <ul class="detail-list">
+              <li><span>Leonine Misbegotten — <span class="detail-highlight">drops Grafted Blade Greatsword</span> (Legendary Armament)</span></li>
+              <li>Multiple Misbegotten Warriors throughout the castle interior</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">NPC Questline</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Irina of Morne</span> — Met at the bridge, tasks you with delivering a letter to her father Edgar</li>
+              <li>Edgar the Revenger is found inside the castle; completing this initiates a multi-stage quest with an invasion event</li>
+              <li>Missable: If you skip Irina and clear the castle, the questline locks</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Key Loot &amp; Secrets</div>
+            <ul class="detail-list">
+              <li>Grafted Blade Greatsword — one of only 9 Legendary Armaments needed for the trophy</li>
+              <li>Whip weapon found in lower rampart storeroom</li>
+              <li>Spiked Palisade Shield early in courtyard area</li>
+              <li><span class="detail-highlight">Missable:</span> Graft Blade is unobtainable if you miss the boss</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ② -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">2</div>
+          <div class="item-name">Ailing Village &amp; Raya Lucaria Seal<small>Essential Progression</small></div>
+          <div class="item-desc">A plague-stricken village hiding a crucial talisman and a survivor whose story unravels the peninsula's dark history.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-quest">Questline</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+            <span class="tag tag-secret">Secret Area</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-s">S</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Key Characters</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Hyetta</span> — Starts her questline here if she sees a Shabriri Grape; leads to a late-game ending</li>
+              <li>Jar Bairn's story alludes to this village indirectly</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Hidden Rewards</div>
+            <ul class="detail-list">
+              <li>Raya Lucaria Seal — boosts Glintstone sorceries (found in Raya Lucaria Crystal Tunnel nearby)</li>
+              <li>Shabriri Grapes — critical for Hyetta's questline, found in the inn</li>
+              <li>Nomadic Merchant in the area sells important early-game spells</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Missable Secrets</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Hyetta questline:</span> Must give her a Shabriri Grape at your first meeting or she does not appear again</li>
+              <li>Hidden cellar beneath the village inn contains a Flame, Protect Me incantation</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ③ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">3</div>
+          <div class="item-name">Isolated Merchant &amp; Map Fragment<small>Critical Exploration</small></div>
+          <div class="item-desc">Obtain the Weeping Peninsula map fragment and purchase Bell Bearings unavailable elsewhere for permanent shop access.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-key">Key Item</span>
+            <span class="tag tag-rune">Rune Farming</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-s">S</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Location Details</div>
+            <ul class="detail-list">
+              <li>Map Stele is found on the main road heading south from the Bridge of Sacrifice</li>
+              <li>Isolated Merchant is southwest near the cliff ruins; sells Stonesword Key and Sacrificial Twig</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Must-Buy Items</div>
+            <ul class="detail-list">
+              <li>Stonesword Keys — extremely valuable throughout the entire game</li>
+              <li>Bubble Shower sorcery — only sold here early game</li>
+              <li><span class="detail-highlight">Nomadic Warrior's Cookbook [4]</span> — unlocks important crafting recipes</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Missable Notes</div>
+            <ul class="detail-list">
+              <li>Map fragment is required for efficient navigation; collect immediately upon entering the region</li>
+              <li>Merchant Bell Bearing is missable — obtained by defeating the merchant (opens his shop permanently at Roundtable)</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ④ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">4</div>
+          <div class="item-name">Tombsward Catacombs<small>Underground Dungeon</small></div>
+          <div class="item-desc">A flame-trap-laden catacomb haunted by imps, concealing a powerful incantation and rare crafting materials.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-boss">Boss</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-a-plus">A+</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Boss</div>
+            <ul class="detail-list">
+              <li>Cemetery Shade — Drops <span class="detail-highlight">Lhutel the Headless</span> Spirit Ashes (one of the best early tanks)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Loot Inside</div>
+            <ul class="detail-list">
+              <li>Nomadic Warrior's Cookbook [9]</li>
+              <li>Grave Glovewort [1], [2] — used to upgrade Spirit Ashes</li>
+              <li>Multiple flame pillar triggers that respawn — useful for learning dodge timing</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Tips</div>
+            <ul class="detail-list">
+              <li>Lhutel is arguably the best Spirit Ash for progression through to mid-game</li>
+              <li><span class="detail-highlight">Hidden illusory wall</span> near the boss room conceals an extra chest</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑤ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">5</div>
+          <div class="item-name">Impaler's Catacombs<small>Underground Dungeon</small></div>
+          <div class="item-desc">A narrow dungeon packed with imps and stake traps guarding a spirit summon and crucial grave glovewort clusters.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-a">A</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Boss</div>
+            <ul class="detail-list">
+              <li>Erdtree Burial Watchdog — drops <span class="detail-highlight">Demi-Human Ashes</span></li>
+              <li>Medium difficulty; weak to fire and lightning</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Key Loot</div>
+            <ul class="detail-list">
+              <li>Grave Glovewort [1] &amp; [2] — critical for Spirit Ash upgrades</li>
+              <li>Twinsage Glintstone Crown helmet hidden in a side room</li>
+              <li>Mushroom Crown (raises power when near a poisoned/rotted foe) — one of only a few such helms</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Secrets</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Mushroom Crown</span> synergizes with poison builds and is easily missed</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑥ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">6</div>
+          <div class="item-name">Earthbore Cave<small>Optional Cave</small></div>
+          <div class="item-desc">A rodent-infested cave system ending with a cunning boss that rewards exploration-focused players with a remarkable talisman.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-a">A</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Boss</div>
+            <ul class="detail-list">
+              <li>Runebear — drops <span class="detail-highlight">Spelldrake Talisman</span> (boosts magic negation)</li>
+              <li>One of the hardest optional enemies proportional to the zone level — approach carefully</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Loot</div>
+            <ul class="detail-list">
+              <li>Spelldrake Talisman — essential for Magic damage resistance builds</li>
+              <li>Various cave moss and crafting materials</li>
+              <li>Golden Rune [3] clusters throughout</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Danger</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Runebear is massively overtuned</span> for early players — use Torrent to retreat if needed</li>
+              <li>Cave entrance can be missed as it blends into the cliff face</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑦ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">7</div>
+          <div class="item-name">Morne Tunnel<small>Crystal Mine</small></div>
+          <div class="item-desc">A Smithstone-rich mine managed by the Misbegotten. Provides essential upgrade materials for early weapon enhancement.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-dungeon">Dungeon</span>
+            <span class="tag tag-rune">Rune Farming</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-a">A</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Boss</div>
+            <ul class="detail-list">
+              <li>Scaly Misbegotten — drops <span class="detail-highlight">Rusted Anchor</span> (great early Strength weapon)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Farm &amp; Loot</div>
+            <ul class="detail-list">
+              <li>Smithing Stone [1] &amp; [2] — abundant; use for +3 to +5 weapon upgrades</li>
+              <li>Smithing Stone [3] occasionally found deeper in the mine</li>
+              <li>One of the best early smithstone farming locations in the entire game</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Tips</div>
+            <ul class="detail-list">
+              <li>Clear the mine before upgrading weapons — saves Smithing Stones from merchant prices</li>
+              <li><span class="detail-highlight">Rusted Anchor</span> has S Strength scaling at high upgrades; excellent bleed potential</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑧ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">8</div>
+          <div class="item-name">Church of Pilgrimage<small>Sacred Site</small></div>
+          <div class="item-desc">A derelict church offering a Sacred Tear for Flask upgrades, a safe beacon in the mist-drenched south.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-key">Key Item</span>
+            <span class="tag tag-loot">Legendary Loot</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-b-plus">B+</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Key Rewards</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Sacred Tear</span> — increases the potency of healing from Sacred Flasks permanently</li>
+              <li>Golden Seed nearby in a glowing Erdtree sapling on the road south</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Notes</div>
+            <ul class="detail-list">
+              <li>The church serves as a rest point and Sites of Grace is here</li>
+              <li>A Jellyfish Spirit Ashes optional summon can be found near the cliff east of the church</li>
+              <li><span class="detail-highlight">Jellyfish Ashes</span> are one of only two summons capable of casting ranged healing — extremely useful</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑨ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">9</div>
+          <div class="item-name">Fourth Church of Marika<small>Sacred Site</small></div>
+          <div class="item-desc">A remote church west of the peninsula bearing a Sacred Tear and leading to a secret coastal passage.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-key">Key Item</span>
+            <span class="tag tag-secret">Secret Area</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-b-plus">B+</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Rewards &amp; Items</div>
+            <ul class="detail-list">
+              <li><span class="detail-highlight">Sacred Tear</span> — second one available in the peninsula, boosting Flask potency further</li>
+              <li>Wandering Nobles outside drop Runes reliably; good minor farming loop</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Hidden Secret</div>
+            <ul class="detail-list">
+              <li>A hidden path leads down the western cliffs to <span class="detail-highlight">Witchbane Ruins</span> where Sellen's true body is imprisoned</li>
+              <li>Critical for the Sellen questline — must visit to progress her story to its conclusion</li>
+              <li><span class="detail-highlight">Missable:</span> Players who never check the coastal cliffs frequently miss the entire Sellen sub-quest branch</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+      <!-- ⑩ -->
+      <div class="checklist-item" onclick="toggle(this)">
+        <div class="item-main">
+          <div class="rank-num">10</div>
+          <div class="item-name">Beside the Crater-Pocked Glade<small>Rune Farming Spot</small></div>
+          <div class="item-desc">An open field with densely packed sleeping giants and undead crusaders offering the best early rune-per-minute ratio.</div>
+          <div class="tags-wrap">
+            <span class="tag tag-rune">Rune Farming</span>
+          </div>
+          <div class="difficulty-pips">
+            <span class="pip filled"></span><span class="pip filled"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          </div>
+          <div class="tier-badge tier-a-plus">A+</div>
+        </div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">Farming Details</div>
+            <ul class="detail-list">
+              <li>Site of Grace nearby allows rapid looping through the sleeping giant cluster</li>
+              <li>~1,500–2,500 runes per run depending on items used (Silver-Pickled Fowl Foot + Gold Scarab)</li>
+              <li>Sleeping giants award the highest rune value per enemy in the zone</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">Optimization Tips</div>
+            <ul class="detail-list">
+              <li>Use <span class="detail-highlight">Gold Scarab Talisman</span> (from Abandoned Cave in Caelid) for +20% runes</li>
+              <li>Combine with Silver-Pickled Fowl Foot consumable for brief stacking bonus</li>
+              <li>Most efficient for Levels 20–35 players before moving to Limgrave's later zones</li>
+            </ul>
+          </div>
+        </div>
+        <span class="expand-hint">▼</span>
+      </div>
+
+    </div><!-- /checklist -->
+  </section>
+
+  <!-- ══ DIVIDER ══ -->
+  <div class="divider" style="margin-bottom:40px;">
+    <span class="divider-icon">⚔</span>
+  </div>
+
+  <!-- ══ BOTTOM PANELS ══ -->
+  <div class="bottom-panels">
+
+    <!-- LEFT: Key Rewards -->
+    <div class="panel">
+      <div class="panel-title">Key Rewards in Weeping Peninsula</div>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Castle Morne</td>
+            <td class="reward-name">Grafted Blade Greatsword</td>
+            <td>Legendary Armament</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Tombsward Catacombs</td>
+            <td class="reward-name">Lhutel the Headless</td>
+            <td>Spirit Ashes</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Church of Pilgrimage</td>
+            <td class="reward-name">Sacred Tear ×1</td>
+            <td>Flask Upgrade</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Fourth Church of Marika</td>
+            <td class="reward-name">Sacred Tear ×1</td>
+            <td>Flask Upgrade</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Earthbore Cave</td>
+            <td class="reward-name">Spelldrake Talisman</td>
+            <td>Talisman</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Morne Tunnel</td>
+            <td class="reward-name">Rusted Anchor</td>
+            <td>Strength Weapon</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Impaler's Catacombs</td>
+            <td class="reward-name">Mushroom Crown</td>
+            <td>Armor / Build Piece</td>
+            <td><span class="importance-dot"></span></td>
+          </tr>
+          <tr>
+            <td>Witchbane Ruins</td>
+            <td class="reward-name">Sellen Questline Access</td>
+            <td>Questline Trigger</td>
+            <td><span class="importance-dot"></span><span class="importance-dot"></span><span class="importance-dot"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Exploration Tips -->
+    <div class="panel">
+      <div class="panel-title">Exploration Tips for Weeping Peninsula</div>
+      <ul class="tips-list">
+        <li class="tip-item">
+          <div class="tip-icon">⚡</div>
+          <div class="tip-text">
+            <strong>Recommended Level</strong>
+            Enter at Level 20–35 for comfortable exploration; Castle Morne is best tackled at 30+.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">☠</div>
+          <div class="tip-text">
+            <strong>Dangerous Enemies</strong>
+            Runebears in Earthbore Cave are massively overtuned — consider skipping until Level 35+. Demi-humans swarm in packs; use AoE attacks.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">◈</div>
+          <div class="tip-text">
+            <strong>Map Fragment First</strong>
+            Grab the map stele immediately upon crossing the Bridge of Sacrifice — it reveals all dungeon icons for the region.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">★</div>
+          <div class="tip-text">
+            <strong>Best Rune Farming Spot</strong>
+            Beside the Crater-Pocked Glade: sleeping giants yield ~2,000 runes per loop. Optimal pre-Limgrave endgame levelling.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">⚠</div>
+          <div class="tip-text">
+            <strong>Questline Warning</strong>
+            Talk to Irina at the bridge BEFORE entering Castle Morne. Skipping her locks out the entire Edgar / Irina storyline permanently.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🔮</div>
+          <div class="tip-text">
+            <strong>Sorcery Path</strong>
+            Magic-build players must visit Witchbane Ruins west of the Fourth Church to find Sellen's imprisoned body — mandatory for her ending.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">⚒</div>
+          <div class="tip-text">
+            <strong>Upgrade Materials</strong>
+            Clear Morne Tunnel completely before buying Smithing Stones — it provides enough Stone [1]–[2] to reach +4 on any weapon for free.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /bottom-panels -->
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-line"></div>
+    <div class="footer-rune">ᛟ</div>
+    <div class="footer-text">Elden Ring — Weeping Peninsula &nbsp;✦&nbsp; Region II of the Lands Between &nbsp;✦&nbsp; All Secrets Revealed</div>
+  </div>
+</footer>
+
+<script>
+  function toggle(el) {
+    const isActive = el.classList.contains('active');
+    // Close all
+    document.querySelectorAll('.checklist-item.active').forEach(function(item) {
+      item.classList.remove('active');
+    });
+    // Open clicked if it was closed
+    if (!isActive) {
+      el.classList.add('active');
+      // Smooth scroll to ensure panel is visible
+      setTimeout(function() {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom > window.innerHeight) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 50);
+    }
+  }
+
+  // Staggered entrance observer for bottom panels
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.panel').forEach(function(panel) {
+    observer.observe(panel);
+  });
+</script>
+</body>
+</html>

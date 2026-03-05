@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leyndell Royal Capital — Elden Ring Completion Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080808;
+    --obsidian-2: #0d0d0d;
+    --obsidian-3: #111111;
+    --obsidian-4: #161616;
+    --obsidian-5: #1a1a1a;
+    --gold: #c9a84c;
+    --gold-bright: #f0c040;
+    --gold-dim: #7a6230;
+    --gold-glow: rgba(201,168,76,0.25);
+    --gold-glow-strong: rgba(240,192,64,0.5);
+    --spectral: #3a7ca5;
+    --spectral-bright: #5ab4e8;
+    --spectral-dim: #1e4560;
+    --crimson: #8b1a1a;
+    --crimson-bright: #c0392b;
+    --white-mist: #d4c9a8;
+    --white-dim: #8a8070;
+    --rune-opacity: 0.035;
+    --border-subtle: rgba(201,168,76,0.15);
+    --border-mid: rgba(201,168,76,0.35);
+    --border-bright: rgba(201,168,76,0.7);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--white-mist);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.45;
+  }
+
+  /* ── RUNE PATTERN BACKGROUND ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,168,76,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(58,124,165,0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(139,26,26,0.04) 0%, transparent 50%);
+  }
+
+  /* ── RUNE WATERMARK ── */
+  .rune-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .rune-bg svg {
+    width: min(90vw, 800px);
+    opacity: var(--rune-opacity);
+    transform: rotate(-5deg);
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 48px);
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(80px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 20px rgba(201,168,76,0.6), 0 0 60px rgba(201,168,76,0.2); }
+    50% { text-shadow: 0 0 40px rgba(240,192,64,0.9), 0 0 100px rgba(201,168,76,0.4); }
+  }
+  @keyframes lineExpand {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @keyframes borderGlow {
+    0%, 100% { box-shadow: 0 0 8px rgba(201,168,76,0.2); }
+    50% { box-shadow: 0 0 24px rgba(201,168,76,0.5); }
+  }
+  @keyframes emblemFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes emblemGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(201,168,76,0.4)); }
+    50% { filter: drop-shadow(0 0 50px rgba(240,192,64,0.8)); }
+  }
+  @keyframes rowReveal {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: relative;
+    padding: clamp(60px, 10vh, 120px) 0 clamp(40px, 6vh, 80px);
+    text-align: center;
+    animation: fadeIn 1s ease both;
+    overflow: hidden;
+  }
+
+  .header-emblem {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 24px;
+    animation: emblemFloat 6s ease-in-out infinite, emblemGlow 4s ease-in-out infinite;
+  }
+  .header-emblem svg {
+    width: clamp(80px, 12vw, 140px);
+    height: auto;
+  }
+  .emblem-index {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    color: var(--obsidian);
+    line-height: 1;
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(11px, 1.5vw, 14px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    animation: slideUp 0.8s ease 0.2s both;
+    margin-bottom: 16px;
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 5.5vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--gold-bright);
+    animation: glowPulse 5s ease-in-out infinite, slideUp 1s ease 0.3s both;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .title-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2.5vw, 24px);
+    font-weight: 400;
+    color: var(--white-dim);
+    letter-spacing: 0.15em;
+    animation: slideUp 1s ease 0.4s both;
+    margin-bottom: 24px;
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 28px auto;
+    max-width: 600px;
+    animation: slideUp 1s ease 0.5s both;
+  }
+  .header-divider::before,
+  .header-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), var(--gold));
+  }
+  .header-divider::after {
+    background: linear-gradient(to left, transparent, var(--gold-dim), var(--gold));
+  }
+  .divider-glyph {
+    color: var(--gold);
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .header-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--white-dim);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: slideUp 1s ease 0.6s both;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(11px, 1.4vw, 13px);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 32px;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    animation: lineExpand 1.2s ease 0.8s both;
+    width: 0;
+  }
+
+  /* ── CHECKLIST TABLE ── */
+  .checklist-section {
+    margin: clamp(40px, 6vh, 80px) 0;
+    animation: riseUp 1s ease 0.7s both;
+  }
+
+  .checklist-header {
+    display: grid;
+    grid-template-columns: 48px 1fr 200px 120px 110px 70px;
+    gap: 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+    border: 1px solid var(--border-mid);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+  }
+  .checklist-header span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .checklist-body {
+    border: 1px solid var(--border-subtle);
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+  }
+
+  .checklist-row {
+    display: grid;
+    grid-template-columns: 48px 1fr 200px 120px 110px 70px;
+    gap: 0;
+    padding: 0 20px;
+    min-height: 70px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--obsidian-2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    animation: rowReveal 0.6s ease both;
+  }
+  .checklist-row:last-child { border-bottom: none; }
+
+  .checklist-row:nth-child(1),
+  .checklist-row:nth-child(2),
+  .checklist-row:nth-child(3) {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(to right, rgba(201,168,76,0.06), var(--obsidian-2));
+  }
+  .checklist-row:nth-child(4),
+  .checklist-row:nth-child(5),
+  .checklist-row:nth-child(6) { animation-delay: 0.1s; }
+  .checklist-row:nth-child(7) { animation-delay: 0.15s; }
+  .checklist-row:nth-child(8) { animation-delay: 0.2s; }
+  .checklist-row:nth-child(9) { animation-delay: 0.25s; }
+
+  .checklist-row:hover {
+    background: linear-gradient(to right, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+    box-shadow: 0 0 30px rgba(201,168,76,0.1) inset;
+  }
+  .checklist-row:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):hover {
+    border-left: 3px solid var(--spectral-bright);
+    box-shadow: 0 0 20px rgba(90,180,232,0.1) inset, -3px 0 20px rgba(90,180,232,0.05);
+  }
+
+  .rank-cell {
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--gold-dim);
+  }
+  .checklist-row:nth-child(1) .rank-cell,
+  .checklist-row:nth-child(2) .rank-cell,
+  .checklist-row:nth-child(3) .rank-cell {
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px rgba(240,192,64,0.5);
+  }
+
+  .activity-cell {}
+  .activity-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 1.5vw, 15px);
+    font-weight: 600;
+    color: var(--white-mist);
+    margin-bottom: 2px;
+  }
+  .activity-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(11px, 1.2vw, 13px);
+    color: var(--white-dim);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .tags-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .tag-boss { color: #e07070; background: rgba(139,26,26,0.25); border: 1px solid rgba(192,57,43,0.4); }
+  .tag-dungeon { color: #8ab4d4; background: rgba(58,124,165,0.2); border: 1px solid rgba(58,124,165,0.4); }
+  .tag-loot { color: var(--gold); background: rgba(201,168,76,0.12); border: 1px solid var(--gold-dim); }
+  .tag-quest { color: #a67cc9; background: rgba(120,60,160,0.2); border: 1px solid rgba(120,60,160,0.5); }
+  .tag-secret { color: #7aba8a; background: rgba(40,120,60,0.2); border: 1px solid rgba(60,140,80,0.4); }
+  .tag-rune { color: #e0c060; background: rgba(180,140,20,0.2); border: 1px solid rgba(180,140,20,0.4); }
+  .tag-key { color: #d4a870; background: rgba(160,100,30,0.2); border: 1px solid rgba(160,100,30,0.4); }
+
+  .diff-cell {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+  .pip.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.4); }
+  .pip.filled.crimson { background: var(--crimson-bright); border-color: var(--crimson-bright); box-shadow: 0 0 6px rgba(192,57,43,0.5); }
+
+  .tier-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tier-badge {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(18px, 2.5vw, 24px);
+    letter-spacing: 0.05em;
+    padding: 2px 10px;
+    border-radius: 3px;
+    line-height: 1;
+  }
+  .tier-splus { color: var(--gold-bright); text-shadow: 0 0 16px var(--gold-bright), 0 0 40px rgba(240,192,64,0.4); }
+  .tier-s { color: var(--gold); text-shadow: 0 0 12px rgba(201,168,76,0.6); }
+  .tier-aplus { color: #a0c8e8; text-shadow: 0 0 10px rgba(90,180,232,0.5); }
+  .tier-a { color: var(--spectral-bright); text-shadow: 0 0 8px rgba(90,180,232,0.3); }
+  .tier-b { color: var(--white-dim); }
+
+  /* ── DETAIL PANEL ── */
+  .detail-panel {
+    display: none;
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(13,13,13,0.98), rgba(20,16,10,0.98));
+    border: 1px solid var(--border-mid);
+    border-top: 2px solid var(--gold-dim);
+    border-radius: 0 0 4px 4px;
+    padding: 24px;
+    margin: 0 -20px;
+    margin-top: 12px;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .detail-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.04), transparent);
+    pointer-events: none;
+  }
+  .detail-panel.open { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .detail-col-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .detail-list { list-style: none; }
+  .detail-list li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(12px, 1.3vw, 14px);
+    color: var(--white-dim);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .detail-list li::before {
+    content: '⟡';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+    font-size: 9px;
+    top: 6px;
+  }
+  .detail-list li strong {
+    color: var(--white-mist);
+    font-weight: 600;
+  }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(16px, 3vw, 32px);
+    margin: clamp(40px, 6vh, 80px) 0;
+    animation: riseUp 1s ease 1s both;
+  }
+  @media (max-width: 768px) { .bottom-panels { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: linear-gradient(135deg, var(--obsidian-3), var(--obsidian-2));
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: clamp(20px, 3vw, 32px);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold-dim), var(--gold), var(--gold-dim));
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(15px, 2vw, 20px);
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Rewards table */
+  .rewards-table { width: 100%; border-collapse: collapse; }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .rewards-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(11px, 1.3vw, 13px);
+    color: var(--white-dim);
+    padding: 8px 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .rewards-table tr:hover td { background: rgba(201,168,76,0.04); }
+  .rewards-table td:first-child { color: var(--white-mist); font-weight: 600; }
+  .importance-star { color: var(--gold); font-size: 11px; }
+  .item-type-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--spectral-bright);
+    background: rgba(58,124,165,0.15);
+    border: 1px solid rgba(58,124,165,0.3);
+    padding: 1px 5px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* Tips list */
+  .tips-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tips-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    background: var(--obsidian-4);
+    border-radius: 3px;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+  .tips-list li:hover {
+    border-left-color: var(--gold-dim);
+    background: rgba(201,168,76,0.05);
+  }
+  .tip-icon {
+    font-size: 16px;
+    line-height: 1.4;
+    flex-shrink: 0;
+    min-width: 20px;
+  }
+  .tip-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(12px, 1.4vw, 14px);
+    color: var(--white-dim);
+    line-height: 1.5;
+  }
+  .tip-text strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 0 60px;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 40px;
+    animation: fadeIn 1.5s ease 1.2s both;
+  }
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    opacity: 0.5;
+  }
+
+  /* ── RESPONSIVE CHECKLIST ── */
+  @media (max-width: 900px) {
+    .checklist-header { display: none; }
+    .checklist-row {
+      grid-template-columns: 40px 1fr;
+      grid-template-rows: auto auto auto;
+      padding: 14px 16px;
+      gap: 4px;
+    }
+    .rank-cell { grid-row: 1; font-size: 14px; }
+    .activity-cell { grid-column: 2; grid-row: 1; }
+    .tags-cell { grid-column: 2; grid-row: 2; }
+    .diff-cell { grid-column: 1; grid-row: 2; flex-direction: column; gap: 2px; }
+    .tier-cell { display: none; }
+  }
+
+  /* ── TOOLTIP CURSOR ── */
+  .expand-hint {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    opacity: 0;
+    transition: opacity 0.3s;
+    grid-column: 2;
+    margin-top: 2px;
+  }
+  .checklist-row:hover .expand-hint { opacity: 0.7; }
+
+  /* ── OPEN STATE ── */
+  .checklist-row.is-open {
+    border-left: 3px solid var(--gold) !important;
+    background: linear-gradient(to right, rgba(201,168,76,0.09), var(--obsidian-2)) !important;
+    animation: borderGlow 2s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- Rune watermark -->
+<div class="rune-bg">
+  <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="180" stroke="white" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="140" stroke="white" stroke-width="0.8"/>
+    <circle cx="200" cy="200" r="60" stroke="white" stroke-width="1"/>
+    <line x1="200" y1="20" x2="200" y2="380" stroke="white" stroke-width="0.8"/>
+    <line x1="20" y1="200" x2="380" y2="200" stroke="white" stroke-width="0.8"/>
+    <line x1="73" y1="73" x2="327" y2="327" stroke="white" stroke-width="0.6"/>
+    <line x1="327" y1="73" x2="73" y2="327" stroke="white" stroke-width="0.6"/>
+    <polygon points="200,30 230,110 310,110 248,158 270,240 200,192 130,240 152,158 90,110 170,110" stroke="white" stroke-width="1.2" fill="none"/>
+    <polygon points="200,60 215,105 262,105 224,130 238,178 200,153 162,178 176,130 138,105 185,105" stroke="white" stroke-width="0.5" fill="none"/>
+    <circle cx="200" cy="200" r="20" stroke="white" stroke-width="2"/>
+    <path d="M 200 180 L 200 20 M 200 220 L 200 380 M 180 200 L 20 200 M 220 200 L 380 200" stroke="white" stroke-width="0.5" stroke-dasharray="4 8"/>
+    <text x="200" y="210" text-anchor="middle" font-size="28" fill="white" font-family="serif">Ꙩ</text>
+  </svg>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ══════════════════════════════════════ HEADER ══════════════════════════════════════ -->
+  <header class="site-header">
+
+    <div class="header-emblem">
+      <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="70" cy="70" r="68" fill="url(#emblemBg)" stroke="url(#emblemStroke)" stroke-width="2"/>
+        <circle cx="70" cy="70" r="55" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+        <polygon points="70,12 82,45 117,45 90,66 100,99 70,78 40,99 50,66 23,45 58,45" fill="none" stroke="url(#starStroke)" stroke-width="1.5"/>
+        <circle cx="70" cy="70" r="18" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="1.5"/>
+        <defs>
+          <radialGradient id="emblemBg" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#1a1408"/>
+            <stop offset="100%" stop-color="#050503"/>
+          </radialGradient>
+          <linearGradient id="emblemStroke" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f0c040"/>
+            <stop offset="50%" stop-color="#7a6230"/>
+            <stop offset="100%" stop-color="#c9a84c"/>
+          </linearGradient>
+          <linearGradient id="starStroke" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#c9a84c"/>
+            <stop offset="100%" stop-color="#f0c040"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="emblem-index">VI</span>
+    </div>
+
+    <div class="eyebrow">⟡ Elden Ring Completion Guide ⟡</div>
+    <h1 class="main-title">Leyndell<br>Royal Capital</h1>
+    <div class="title-sub">The Seat of the Erdtree's Grace</div>
+
+    <div class="header-divider">
+      <span class="divider-glyph">✦</span>
+    </div>
+
+    <p class="header-desc">
+      Once the seat of the Elden Lord, Leyndell stands as the most consequential region in all the Lands Between.
+      Gilded spires pierce ashen skies where the colossal arm of a fallen god rests among palatial ruins.
+      No Tarnished may ascend to the Erdtree without first passing through this sacred — and deadly — domain.
+    </p>
+  </header>
+
+  <!-- ══════════════════════════════════ CHECKLIST ══════════════════════════════════ -->
+  <section class="checklist-section">
+    <div class="section-label">Completion Checklist</div>
+    <h2 class="section-title">Must-Do Activities in Leyndell Royal Capital</h2>
+
+    <div class="checklist-header">
+      <span>#</span>
+      <span>Activity / Location</span>
+      <span>Tags</span>
+      <span>Difficulty</span>
+      <span style="text-align:center">Tier</span>
+    </div>
+
+    <div class="checklist-body" id="checklistBody">
+
+      <!-- Row 1 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">01</div>
+        <div class="activity-cell">
+          <div class="activity-name">Defeat Morgott, the Omen King</div>
+          <div class="activity-desc">The true form of Margit awaits at the throne of Leyndell — the mandatory gate to the Erdtree.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-key">Key Item</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-splus">S+</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">⚔ Boss Fight</div>
+            <ul class="detail-list">
+              <li><strong>Morgott, the Omen King</strong> — Mandatory. Extremely aggressive; uses spectral weapons and a spear slam AOE. Summon Melina's shade via the gold summon sign.</li>
+              <li>Equip <strong>holy resistance</strong> talismans; his later phase adds bleed-style burst combos.</li>
+              <li>The Erdtree will be sealed after this fight — proceed to the Mountaintops of the Giants.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🗝 Key Items Received</div>
+            <ul class="detail-list">
+              <li><strong>Morgott's Great Rune</strong> — Restores HP with every kill; one of the most powerful runes.</li>
+              <li><strong>Remembrance of the Omen King</strong> — Trade for Morgott's Cursed Sword or Regal Omen Bairn.</li>
+              <li><strong>Elden Remembrance</strong> — Later tied to the game's final boss; save it.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">⚠ Missable Secrets</div>
+            <ul class="detail-list">
+              <li>Morgott drops lore dialogue hinting at the Omen's tragic lineage — read item descriptions carefully.</li>
+              <li>If you skip his <strong>Margit fight in Stormveil</strong>, you miss early foreshadowing and Margit's Shackle (still usable here).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">02</div>
+        <div class="activity-cell">
+          <div class="activity-name">Reach the Erdtree Sanctuary & Obtain the Golden Needle</div>
+          <div class="activity-desc">A critical quest item tucked away inside the capital's inner sanctum before Morgott.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-quest">Questline</span>
+          <span class="tag tag-key">Key Item</span>
+          <span class="tag tag-secret">Secret Area</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-splus">S+</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">🗺 Location</div>
+            <ul class="detail-list">
+              <li>Erdtree Sanctuary Site of Grace — accessible via the giant tree roots and elevator from the Queen's Bedchamber area.</li>
+              <li>The <strong>Mending Rune of Perfect Order</strong> requires collecting this item and completing Goldmask's questline.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">📜 Questline Connections</div>
+            <ul class="detail-list">
+              <li><strong>Goldmask & Brother Corhyn</strong> — find them on the bridge north of Leyndell. Without the Needle, their quest is locked.</li>
+              <li><strong>Millicent's Questline</strong> — the Unalloyed Gold Needle is later refined at Malenia's Scarlet Rot flower. Start the chain here.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">⚠ Missable</div>
+            <ul class="detail-list">
+              <li>If you trigger the Volcano Manor / Fire Giant route before getting the Needle, Leyndell transforms into Ashen Capital and this chest becomes permanently inaccessible.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">03</div>
+        <div class="activity-cell">
+          <div class="activity-name">Defeat Godfrey / Hoarah Loux — First Elden Lord</div>
+          <div class="activity-desc">The golden spectral warrior in the Erdtree Sanctuary is an unmissable — and legendary — optional spirit.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-s">S</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">⚔ Boss Notes</div>
+            <ul class="detail-list">
+              <li><strong>Godfrey (Golden Shade)</strong> — a spectral echo fought here in Leyndell. The real Godfrey / Hoarah Loux appears at the Erdtree later.</li>
+              <li>Phase 1: axe combos + Crucible-like stomp. Phase 2: goes feral with wrestling throws — dodge into attacks.</li>
+              <li>Drops <strong>Talisman Pouch</strong> — one of the most important items in the game for late build optimization.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🏆 Rewards</div>
+            <ul class="detail-list">
+              <li><strong>Talisman Pouch</strong> — grants an extra talisman slot (you now have 3).</li>
+              <li>Massive rune reward for the fight — great for leveling before Mountaintops.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">💡 Strategy Tips</div>
+            <ul class="detail-list">
+              <li>Fight is near mandatory progression — the Erdtree Sanctuary Site of Grace leads you here naturally.</li>
+              <li>Use a Spirit Ash that staggers; Godfrey is susceptible to stagger-locking between phases.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">04</div>
+        <div class="activity-cell">
+          <div class="activity-name">Explore the Underground Leyndell Sewers (Subterranean Shunning-Grounds)</div>
+          <div class="activity-desc">The nightmarish labyrinth beneath the capital holds a legendary weapon and a secret boss.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-secret">Secret Area</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-s">S</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">🗺 What's Down There</div>
+            <ul class="detail-list">
+              <li><strong>Mohg, the Omen</strong> — Blood Lord's lesser counterpart. Not to be confused with Mohg, Lord of Blood in the Siofra area.</li>
+              <li><strong>Dung Eater's cell</strong> — key for his questline and the Mending Rune of the Fell Curse ending.</li>
+              <li><strong>Erdtree's Favor +2 Talisman</strong> — hidden in the final chamber, requires a hidden wall (hit it twice!).</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">⚠ Missable Details</div>
+            <ul class="detail-list">
+              <li>This entire area is <strong>permanently accessible even after Leyndell transforms</strong> to Ashen Capital — but navigating it fresh is harder.</li>
+              <li>The Dung Eater's Seedbed Curse items are scattered across the sewers — collect them before leaving the area.</li>
+              <li>The Lift of Dectus is NOT required to enter the sewers — use the well near the Avenue Balcony grace.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🏆 Key Rewards</div>
+            <ul class="detail-list">
+              <li><strong>Erdtree's Favor +2</strong> — best all-around talisman in the game (behind hidden wall).</li>
+              <li><strong>Mohg Remembrance</strong> — trade for Bloodboon Ritual incantation or Mohgwyn's Sacred Spear.</li>
+              <li><strong>Seedbed Curse ×5</strong> — needed to progress Dung Eater's quest to the Fell Curse ending.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">05</div>
+        <div class="activity-cell">
+          <div class="activity-name">Collect the Map Fragment & All Site of Graces</div>
+          <div class="activity-desc">Leyndell is enormous — the map fragment and 12+ Sites of Grace are critical for navigation.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-key">Key Item</span>
+          <span class="tag tag-dungeon">Dungeon</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-aplus">A+</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">🗺 Graces to Prioritize</div>
+            <ul class="detail-list">
+              <li><strong>Altus Plateau (Monument)</strong> — first grace when entering the outer capital walls.</li>
+              <li><strong>West Capital Rampart</strong> — important hub for the upper city traversal.</li>
+              <li><strong>Queen's Bedchamber</strong> — mandatory, leads to Morgott's arena.</li>
+              <li><strong>Erdtree Sanctuary</strong> — pivotal hub for inner-city progression.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">💡 Navigation Tips</div>
+            <ul class="detail-list">
+              <li>The capital has a <strong>vertical layout</strong> — use the giant tree root bridges to reach upper tiers.</li>
+              <li>The outer walls, lower city, inner palatial district, and sewers are 4 distinct sub-zones.</li>
+              <li>Map pillar is located near the Avenue Balcony Site of Grace — easy to miss if rushing.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 6 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">06</div>
+        <div class="activity-cell">
+          <div class="activity-name">Progress Melina & Goldmask / Corhyn Questlines</div>
+          <div class="activity-desc">Multiple NPC storylines converge in and around Leyndell — advance them before the city burns.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-quest">Questline</span>
+          <span class="tag tag-secret">Secret Area</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-a">A</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">📜 Active Questlines Here</div>
+            <ul class="detail-list">
+              <li><strong>Brother Corhyn & Goldmask</strong> — found on the road bridge north of the capital. Requires solving their theological puzzle for the Order ending.</li>
+              <li><strong>Fia's Questline</strong> — speak to Fia in the Roundtable, then return after advancing her quest through Prince of Death's Throne in the Deeproot Depths.</li>
+              <li><strong>Volcano Manor / Rykard quests</strong> — complete before burning the Erdtree or lose access.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">⚠ Time-Sensitive Steps</div>
+            <ul class="detail-list">
+              <li>Once the Erdtree is set ablaze, Leyndell transforms into <strong>Leyndell, Ashen Capital</strong> — most items and NPCs in the outer regions are permanently changed or locked.</li>
+              <li>Collect all <strong>Seedbed Curses</strong> from the sewers before the transition.</li>
+              <li>The <strong>Unalloyed Gold Needle</strong> in Erdtree Sanctuary — grab it NOW.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 7 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">07</div>
+        <div class="activity-cell">
+          <div class="activity-name">Find the Ancient Dragon Apostle's Cookbook & Dragon Smithing Stone</div>
+          <div class="activity-desc">Rare upgrade materials and legendary craft recipes are hidden throughout the upper city's rooftops.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-loot">Legendary Loot</span>
+          <span class="tag tag-secret">Secret Area</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip filled"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-aplus">A+</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">📦 Notable Loot</div>
+            <ul class="detail-list">
+              <li><strong>Ancient Dragon Knight's Cookbook [3]</strong> — enables crafting of Lightning Grease; found on rooftops near the Fortified Manor.</li>
+              <li><strong>Dragon Smithing Stone</strong> — the rare material for upgrading Dragon/Somber Ancient weapons.</li>
+              <li><strong>Golden Order Principia</strong> — sacred scripture enabling special holy incantations.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🗺 Location Notes</div>
+            <ul class="detail-list">
+              <li>The <strong>rooftops of Leyndell</strong> form a hidden traversal path with multiple chests — approach from the West Capital Rampart grace and jump toward the tiled roofs.</li>
+              <li>The Fortified Manor replicates Roundtable Hold's layout and contains the Sorcery of the Perfect Order incantation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 8 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">08</div>
+        <div class="activity-cell">
+          <div class="activity-name">Defeat the Crucible Knight Duo in Auriza Hero's Grave</div>
+          <div class="activity-desc">Two Crucible Knights in the hero's grave near the outer capital walls offer one of the game's best talismans.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-dungeon">Dungeon</span>
+          <span class="tag tag-loot">Legendary Loot</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-a">A</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">⚔ Dungeon Notes</div>
+            <ul class="detail-list">
+              <li>Auriza Hero's Grave — northeast of Leyndell outer walls. The dual Crucible Knight fight is one of the hardest optional challenges.</li>
+              <li>The <strong>chariot trap</strong> in this dungeon can be redirected against enemies using pillars as cover.</li>
+              <li>Fight both knights simultaneously — drawing them apart with ranged attacks makes the fight manageable.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🏆 Rewards</div>
+            <ul class="detail-list">
+              <li><strong>Erdtree's Favor Talisman</strong> — boosts HP, Stamina, and Equip Load simultaneously.</li>
+              <li><strong>Crucible Hornshield</strong> — a useful medium shield for Crucible Knight cosplay builds.</li>
+              <li>Substantial rune yield — worth farming once before Morgott.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 9 -->
+      <div class="checklist-row" onclick="toggleDetail(this)">
+        <div class="rank-cell">09</div>
+        <div class="activity-cell">
+          <div class="activity-name">Locate the Draconic Tree Sentinel (Capital Outer Gate)</div>
+          <div class="activity-desc">This mounted guardian blocks the city's main gate — defeat him to enter the capital proper.</div>
+          <div class="expand-hint">▾ Click to reveal secrets</div>
+        </div>
+        <div class="tags-cell">
+          <span class="tag tag-boss">Boss</span>
+          <span class="tag tag-rune">Rune Farming</span>
+        </div>
+        <div class="diff-cell">
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip filled crimson"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="tier-cell"><span class="tier-badge tier-aplus">A+</span></div>
+        <div class="detail-panel">
+          <div>
+            <div class="detail-col-title">⚔ Boss Fight</div>
+            <ul class="detail-list">
+              <li><strong>Draconic Tree Sentinel</strong> — a Tree Sentinel with dragon-lightning powers and a much larger health pool.</li>
+              <li>Mounted attacks have enormous range. He telegraphs a <strong>chest slam AOE</strong> — roll at the moment of impact.</li>
+              <li>Lightning resist armor is strongly recommended. Cold / Frostbite builds are especially effective here.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-col-title">🏆 Rewards</div>
+            <ul class="detail-list">
+              <li><strong>Dragon Greatclaw</strong> — a powerful colossal weapon with built-in Dragon Roar Ash of War.</li>
+              <li><strong>Dragonclaw Shield</strong> — exceptional 100% physical block with good elemental resistance.</li>
+              <li>Massive rune farm for players who died multiple times entering the capital.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.checklist-body -->
+  </section>
+
+  <!-- ══════════════════════════════════ BOTTOM PANELS ══════════════════════════════════ -->
+  <div class="bottom-panels">
+
+    <!-- LEFT: Rewards -->
+    <div class="panel">
+      <div class="panel-title">⟡ Key Rewards in Leyndell Royal Capital</div>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Importance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Morgott's Arena</td>
+            <td>Morgott's Great Rune + Cursed Sword</td>
+            <td><span class="item-type-badge">Weapon</span></td>
+            <td><span class="importance-star">★★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Erdtree Sanctuary Chest</td>
+            <td>Unalloyed Gold Needle</td>
+            <td><span class="item-type-badge">Quest Item</span></td>
+            <td><span class="importance-star">★★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Godfrey's Golden Shade</td>
+            <td>Talisman Pouch (+1 slot)</td>
+            <td><span class="item-type-badge">Talisman</span></td>
+            <td><span class="importance-star">★★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Sewers — Hidden Wall</td>
+            <td>Erdtree's Favor +2</td>
+            <td><span class="item-type-badge">Talisman</span></td>
+            <td><span class="importance-star">★★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Fortified Manor</td>
+            <td>Golden Order Principia</td>
+            <td><span class="item-type-badge">Incant.</span></td>
+            <td><span class="importance-star">★★★★☆</span></td>
+          </tr>
+          <tr>
+            <td>Rooftop Chest</td>
+            <td>Dragon Smithing Stone</td>
+            <td><span class="item-type-badge">Upgrade</span></td>
+            <td><span class="importance-star">★★★★☆</span></td>
+          </tr>
+          <tr>
+            <td>Draconic Tree Sentinel</td>
+            <td>Dragon Greatclaw</td>
+            <td><span class="item-type-badge">Weapon</span></td>
+            <td><span class="importance-star">★★★☆☆</span></td>
+          </tr>
+          <tr>
+            <td>Subterranean Sewers</td>
+            <td>Seedbed Curse ×5</td>
+            <td><span class="item-type-badge">Quest Item</span></td>
+            <td><span class="importance-star">★★★★☆</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Tips -->
+    <div class="panel">
+      <div class="panel-title">⟡ Exploration Tips for Leyndell Royal Capital</div>
+      <ul class="tips-list">
+        <li>
+          <span class="tip-icon">⚖</span>
+          <span class="tip-text"><strong>Recommended Level: 80–110.</strong> The capital is a late Altus Plateau area. Below 80, Morgott will hit extremely hard and the outer sentinels will two-shot you.</span>
+        </li>
+        <li>
+          <span class="tip-icon">☁</span>
+          <span class="tip-text"><strong>Dangerous Enemies:</strong> Leyndell Knights (aggressive patrol knights with rapid combos), Giant Ants (sewers), Basilisks (Death Blight in the underground), and the mounted knights at the outer gate.</span>
+        </li>
+        <li>
+          <span class="tip-icon">💀</span>
+          <span class="tip-text"><strong>Best Rune Farming Spot:</strong> The Avenue Balcony grace → drop down, kill the two giants for ~10,000 runes per run. Easy loop with the grace nearby.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🗺</span>
+          <span class="tip-text"><strong>Map Fragment Location:</strong> Found near the Avenue Balcony Site of Grace, on a ruined pillar in the central boulevard. Easy to walk past if you're focusing on the main path.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🔥</span>
+          <span class="tip-text"><strong>Point of No Return Warning:</strong> Once you burn the Erdtree (via Fire Giant + Crumbling Farum Azula), Leyndell becomes Ashen Capital — most outer loot and NPCs are permanently changed. Get everything first.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🧱</span>
+          <span class="tip-text"><strong>Hidden Wall in Sewers:</strong> In the Shunning-Grounds' deep section, hit the <strong>altar / back wall twice</strong> to reveal the path leading to Erdtree's Favor +2 and a secret area.</span>
+        </li>
+        <li>
+          <span class="tip-icon">🌿</span>
+          <span class="tip-text"><strong>Things That Lock Quests:</strong> Missing the Gold Needle before the Erdtree burns locks Millicent's and Goldmask's endings. Missing Seedbed Curses locks the Fell Curse ending. Missing Fia's Deeproot quest locks her ending.</span>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /.bottom-panels -->
+
+  <footer>
+    <div class="header-divider" style="max-width:400px; margin: 0 auto 20px;">
+      <span class="divider-glyph">⟡</span>
+    </div>
+    <p>Elden Ring Completion Guide — Leyndell Royal Capital &nbsp;·&nbsp; Chapter VI of the Lands Between</p>
+    <p style="margin-top:6px; opacity:0.35;">May the Golden Order guide thy hand, Tarnished.</p>
+  </footer>
+
+</div><!-- /.page-wrap -->
+
+<script>
+  function toggleDetail(row) {
+    const panel = row.querySelector('.detail-panel');
+    if (!panel) return;
+    const isOpen = panel.classList.contains('open');
+
+    // Close all other panels
+    document.querySelectorAll('.detail-panel.open').forEach(p => {
+      p.classList.remove('open');
+      p.closest('.checklist-row').classList.remove('is-open');
+    });
+
+    if (!isOpen) {
+      panel.classList.add('open');
+      row.classList.add('is-open');
+      // Scroll into view gently
+      setTimeout(() => {
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+  }
+
+  // Stagger row entrance animations
+  document.querySelectorAll('.checklist-row').forEach((row, i) => {
+    row.style.animationDelay = `${0.7 + i * 0.08}s`;
+  });
+
+  // Animate section-title underline on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.section-title').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

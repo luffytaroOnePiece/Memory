@@ -25,7 +25,16 @@
         "6": "Best Spells"
       },
       "Biomes": {
-        "1": "Biomes in Elden Ring"
+        "1": "Biomes in Elden Ring",
+        "2": "Atlas Plateau Guide",
+        "3": "Caelid Guide",
+        "4": "Consecrated Snowfield Guide",
+        "5": "Elden Ring Mountaintops Guide",
+        "6": "Leyndell Guide",
+        "7": "Limgrave Guide",
+        "8": "Liurnia Guide",
+        "9": "Nokron Guide",
+        "10": "Weeping Peninsula Guide"
       }
     },
     "FH5": {

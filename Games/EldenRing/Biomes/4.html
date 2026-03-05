@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consecrated Snowfield — Elden Ring Completion Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080808;
+    --obsidian-mid: #0f0f0f;
+    --obsidian-light: #1a1a1a;
+    --obsidian-panel: #111115;
+    --gold: #c9a84c;
+    --gold-bright: #f0c96a;
+    --gold-dim: #7a6030;
+    --gold-glow: rgba(201,168,76,0.25);
+    --crimson: #8b1a1a;
+    --crimson-bright: #c0392b;
+    --spectral: #2a4a7f;
+    --spectral-bright: #4a7fc0;
+    --spectral-glow: rgba(74,127,192,0.2);
+    --frost: #a8c8e8;
+    --frost-dim: #4a6a8a;
+    --text-primary: #d4c9a8;
+    --text-secondary: #8a7d60;
+    --text-dim: #5a5040;
+    --border-subtle: rgba(201,168,76,0.12);
+    --border-accent: rgba(201,168,76,0.4);
+    --grain-opacity: 0.03;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* GRAIN TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: var(--grain-opacity);
+  }
+
+  /* RUNE PATTERN BACKGROUND */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(168,200,232,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 20% 60%, rgba(42,74,127,0.05) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ══════════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════════ */
+  .site-header {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 24px 120px;
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(168,200,232,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(10,10,20,0.95) 0%, transparent 60%),
+      linear-gradient(180deg, #060610 0%, #080808 40%, #0a0808 100%);
+  }
+
+  /* Rune circle decoration */
+  .rune-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 90vw);
+    height: min(700px, 90vw);
+    border-radius: 50%;
+    border: 1px solid rgba(168,200,232,0.06);
+    animation: runeRotate 60s linear infinite;
+    pointer-events: none;
+  }
+  .rune-circle::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.06);
+    animation: runeRotate 40s linear infinite reverse;
+  }
+  .rune-circle::after {
+    content: '';
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    border: 1px dashed rgba(168,200,232,0.04);
+    animation: runeRotate 25s linear infinite;
+  }
+
+  @keyframes runeRotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* Snowfall particles */
+  .snow-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .snowflake {
+    position: absolute;
+    top: -10px;
+    width: 2px;
+    height: 2px;
+    background: rgba(168,200,232,0.5);
+    border-radius: 50%;
+    animation: snowFall linear infinite;
+  }
+  .snowflake:nth-child(1)  { left: 5%;  animation-duration: 8s;  animation-delay: 0s;   width: 1px; height: 1px; }
+  .snowflake:nth-child(2)  { left: 12%; animation-duration: 12s; animation-delay: 2s;   width: 3px; height: 3px; opacity: 0.3; }
+  .snowflake:nth-child(3)  { left: 20%; animation-duration: 9s;  animation-delay: 4s;   }
+  .snowflake:nth-child(4)  { left: 28%; animation-duration: 14s; animation-delay: 1s;   opacity: 0.4; }
+  .snowflake:nth-child(5)  { left: 36%; animation-duration: 10s; animation-delay: 6s;   width: 1px; height: 1px; }
+  .snowflake:nth-child(6)  { left: 45%; animation-duration: 11s; animation-delay: 3s;   }
+  .snowflake:nth-child(7)  { left: 53%; animation-duration: 7s;  animation-delay: 5s;   width: 3px; height: 3px; opacity: 0.25; }
+  .snowflake:nth-child(8)  { left: 62%; animation-duration: 13s; animation-delay: 0.5s; }
+  .snowflake:nth-child(9)  { left: 70%; animation-duration: 9s;  animation-delay: 7s;   width: 1px; height: 1px; }
+  .snowflake:nth-child(10) { left: 78%; animation-duration: 11s; animation-delay: 2.5s; }
+  .snowflake:nth-child(11) { left: 86%; animation-duration: 8s;  animation-delay: 4.5s; width: 3px; height: 3px; opacity: 0.3; }
+  .snowflake:nth-child(12) { left: 93%; animation-duration: 15s; animation-delay: 1.5s; }
+
+  @keyframes snowFall {
+    0%   { transform: translateY(-10px) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(100vh) translateX(30px); opacity: 0; }
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: heroRise 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  @keyframes heroRise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.6;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168,200,232,0.4), transparent);
+  }
+
+  .biome-index {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(100px, 20vw, 220px);
+    font-weight: 900;
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(168,200,232,0.15);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 120px rgba(168,200,232,0.08);
+  }
+
+  .header-titles {
+    position: relative;
+    z-index: 2;
+  }
+
+  .title-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12px, 2vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    margin-bottom: 12px;
+    display: block;
+    animation: fadeSlide 1.2s 0.3s both;
+  }
+
+  .main-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 7vw, 82px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    text-shadow:
+      0 0 80px rgba(168,200,232,0.3),
+      0 0 160px rgba(168,200,232,0.15),
+      0 2px 0 rgba(0,0,0,0.8);
+    margin-bottom: 20px;
+    animation: fadeSlide 1.2s 0.5s both;
+  }
+  .main-title .biome-name {
+    display: block;
+    color: var(--frost);
+    text-shadow:
+      0 0 40px rgba(168,200,232,0.6),
+      0 0 80px rgba(168,200,232,0.3),
+      0 0 160px rgba(168,200,232,0.15);
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 24px 0;
+    animation: fadeSlide 1.2s 0.7s both;
+  }
+  .header-divider span {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold-glow);
+  }
+  .header-divider::before, .header-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .header-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(15px, 2.5vw, 19px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    animation: fadeSlide 1.2s 0.9s both;
+  }
+
+  .header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    animation: fadeSlide 1.2s 1.1s both;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 16px 24px;
+    border: 1px solid var(--border-subtle);
+    background: rgba(8,8,8,0.6);
+    backdrop-filter: blur(10px);
+    position: relative;
+  }
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .stat-val {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    line-height: 1;
+    text-shadow: 0 0 20px var(--gold-glow);
+  }
+  .stat-lbl {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeSlide 1.2s 1.4s both;
+    cursor: pointer;
+  }
+  .scroll-indicator span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .scroll-arrow {
+    width: 16px;
+    height: 16px;
+    border-right: 1px solid var(--gold-dim);
+    border-bottom: 1px solid var(--gold-dim);
+    transform: rotate(45deg);
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.4; }
+    50% { transform: rotate(45deg) translateY(6px); opacity: 1; }
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION COMMON
+  ══════════════════════════════════════════ */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before, .section-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 40px rgba(201,168,76,0.15);
+    margin-bottom: 12px;
+  }
+  .section-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-dim);
+  }
+
+  /* ══════════════════════════════════════════
+     CHECKLIST TABLE
+  ══════════════════════════════════════════ */
+  .checklist-section {
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(42,74,127,0.06) 0%, transparent 60%),
+      var(--obsidian-mid);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .checklist-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .checklist-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+  }
+
+  .checklist-table thead tr {
+    border-bottom: 1px solid var(--border-accent);
+  }
+  .checklist-table thead th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 16px 20px;
+    text-align: left;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+  .checklist-table thead th:first-child { text-align: center; width: 60px; }
+
+  .checklist-row {
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .checklist-row td {
+    padding: 20px;
+    vertical-align: top;
+    transition: all 0.3s ease;
+  }
+  .checklist-row:hover {
+    background: rgba(201,168,76,0.04);
+    border-bottom-color: rgba(201,168,76,0.2);
+    box-shadow: inset 3px 0 0 var(--gold);
+  }
+
+  /* Top 3 golden treatment */
+  .checklist-row.top-tier {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,0.06) 0%, transparent 40%);
+  }
+  .checklist-row.top-tier:hover {
+    background: linear-gradient(90deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.03) 40%);
+    box-shadow: inset 3px 0 0 var(--gold-bright), 0 0 40px rgba(201,168,76,0.08);
+  }
+
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-dim);
+    min-width: 40px;
+  }
+  .top-tier .rank-num {
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold-glow);
+  }
+
+  .activity-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+  }
+  .top-tier .activity-name {
+    color: var(--gold-bright);
+    text-shadow: 0 0 15px rgba(201,168,76,0.3);
+  }
+  .activity-location {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--frost-dim);
+    opacity: 0.7;
+  }
+
+  .desc-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  .tags-cell { min-width: 160px; }
+  .tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+  .tag-boss       { border: 1px solid rgba(192,57,43,0.6);  background: rgba(192,57,43,0.1);  color: #e87060; }
+  .tag-dungeon    { border: 1px solid rgba(74,127,192,0.5); background: rgba(74,127,192,0.1); color: #7aacdc; }
+  .tag-loot       { border: 1px solid rgba(201,168,76,0.5); background: rgba(201,168,76,0.1); color: var(--gold); }
+  .tag-quest      { border: 1px solid rgba(120,100,180,0.5);background: rgba(120,100,180,0.1);color: #a090d0; }
+  .tag-secret     { border: 1px solid rgba(50,150,100,0.5); background: rgba(50,150,100,0.1); color: #70c090; }
+  .tag-farming    { border: 1px solid rgba(150,120,60,0.5); background: rgba(150,120,60,0.1); color: #c09040; }
+  .tag-key        { border: 1px solid rgba(168,200,232,0.4);background: rgba(168,200,232,0.08);color: var(--frost); }
+  .tag-missable   { border: 1px solid rgba(220,80,40,0.6);  background: rgba(220,80,40,0.1);  color: #f0704a; }
+
+  /* Difficulty pips */
+  .pips { display: flex; gap: 4px; align-items: center; }
+  .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--obsidian-light);
+    border: 1px solid var(--text-dim);
+    transition: all 0.3s;
+  }
+  .pip.filled {
+    background: var(--spectral-bright);
+    border-color: var(--spectral-bright);
+    box-shadow: 0 0 8px rgba(74,127,192,0.6);
+  }
+  .pip.filled.danger {
+    background: var(--crimson-bright);
+    border-color: var(--crimson-bright);
+    box-shadow: 0 0 8px rgba(192,57,43,0.6);
+  }
+
+  /* Tier badge */
+  .tier-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-align: center;
+    min-width: 60px;
+  }
+  .tier-splus { color: var(--gold-bright); text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(201,168,76,0.3); }
+  .tier-s     { color: var(--gold);        text-shadow: 0 0 15px var(--gold-glow); }
+  .tier-aplus { color: #c0a0e0;            text-shadow: 0 0 15px rgba(192,160,224,0.4); }
+  .tier-a     { color: #9080c0;            text-shadow: 0 0 10px rgba(144,128,192,0.3); }
+  .tier-b     { color: var(--frost-dim);   text-shadow: 0 0 10px rgba(74,106,138,0.3); }
+
+  /* HOVER DETAIL PANEL */
+  .detail-panel {
+    display: none;
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(8,8,16,0.98), rgba(12,12,20,0.98));
+    border: 1px solid rgba(168,200,232,0.15);
+    border-left: 3px solid var(--spectral-bright);
+    padding: 28px 32px;
+    animation: detailReveal 0.3s ease forwards;
+  }
+  .checklist-row.expanded + .detail-row .detail-panel,
+  .detail-panel.visible {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  .detail-row td { padding: 0; }
+
+  @keyframes detailReveal {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-group h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--spectral-bright);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(74,127,192,0.2);
+  }
+  .detail-group ul {
+    list-style: none;
+  }
+  .detail-group ul li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .detail-group ul li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+    font-size: 7px;
+    top: 7px;
+  }
+  .detail-group ul li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .expand-indicator {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: right;
+    padding: 8px 20px;
+    transition: color 0.3s;
+  }
+  .checklist-row:hover .expand-indicator { color: var(--spectral-bright); }
+
+  /* ══════════════════════════════════════════
+     BOTTOM PANELS
+  ══════════════════════════════════════════ */
+  .bottom-section {
+    padding: 80px 0 100px;
+    position: relative;
+    z-index: 1;
+  }
+  .bottom-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 20% 50%, rgba(42,74,127,0.05), transparent),
+                radial-gradient(ellipse 50% 40% at 80% 50%, rgba(201,168,76,0.04), transparent);
+    pointer-events: none;
+  }
+
+  .panels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 900px) {
+    .panels-grid { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--obsidian-panel);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+    animation: panelRise 0.8s ease both;
+  }
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .panel:last-child::before {
+    background: linear-gradient(90deg, transparent, var(--spectral-bright), transparent);
+  }
+  .panel-inner {
+    padding: 36px;
+  }
+
+  @keyframes panelRise {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .panel-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Rewards Table */
+  .rewards-table { width: 100%; border-collapse: collapse; }
+  .rewards-table tr {
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    transition: background 0.2s;
+  }
+  .rewards-table tr:hover { background: rgba(201,168,76,0.04); }
+  .rewards-table td {
+    padding: 12px 8px;
+    vertical-align: top;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .rewards-table td:first-child {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--frost-dim);
+    white-space: nowrap;
+    padding-right: 16px;
+    min-width: 140px;
+  }
+  .reward-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .reward-type {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .importance-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .imp-critical { background: var(--crimson-bright); box-shadow: 0 0 8px rgba(192,57,43,0.5); }
+  .imp-high     { background: var(--gold);            box-shadow: 0 0 8px var(--gold-glow); }
+  .imp-medium   { background: var(--spectral-bright); box-shadow: 0 0 8px rgba(74,127,192,0.4); }
+  .imp-low      { background: var(--text-dim); }
+
+  /* Tips List */
+  .tips-list { list-style: none; }
+  .tip-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    transition: all 0.2s;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-item:hover { padding-left: 8px; }
+  .tip-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    filter: drop-shadow(0 0 6px rgba(168,200,232,0.3));
+  }
+  .tip-content {}
+  .tip-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--spectral-bright);
+    margin-bottom: 3px;
+  }
+  .tip-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════════ */
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border-subtle);
+    padding: 40px 24px;
+    text-align: center;
+    background: rgba(0,0,0,0.4);
+  }
+  .footer-emblem {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 32px;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.2);
+    letter-spacing: 0.1em;
+  }
+  .footer-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ══════════════════════════════════════════
+     SCROLL ANIMATIONS
+  ══════════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .header-stats { gap: 16px; }
+    .stat-item { padding: 12px 16px; }
+    .section { padding: 60px 0; }
+    .panel-inner { padding: 24px; }
+    .checklist-table { min-width: 700px; }
+  }
+  @media (max-width: 480px) {
+    .header-stats { flex-direction: column; align-items: center; }
+  }
+
+  /* TABLE ROW ANIMATION DELAYS */
+  .checklist-row:nth-child(1) { animation: rowReveal 0.5s 0.1s both; }
+  .checklist-row:nth-child(3) { animation: rowReveal 0.5s 0.2s both; }
+  .checklist-row:nth-child(5) { animation: rowReveal 0.5s 0.3s both; }
+  .checklist-row:nth-child(7) { animation: rowReveal 0.5s 0.4s both; }
+  .checklist-row:nth-child(9) { animation: rowReveal 0.5s 0.5s both; }
+  .checklist-row:nth-child(11){ animation: rowReveal 0.5s 0.6s both; }
+  .checklist-row:nth-child(13){ animation: rowReveal 0.5s 0.7s both; }
+  .checklist-row:nth-child(15){ animation: rowReveal 0.5s 0.8s both; }
+  @keyframes rowReveal {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Glowing section separator */
+  .section-sep {
+    position: relative;
+    height: 1px;
+    margin: 0;
+    background: transparent;
+    overflow: visible;
+    z-index: 1;
+  }
+  .section-sep::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168,200,232,0.15), rgba(201,168,76,0.2), rgba(168,200,232,0.15), transparent);
+  }
+
+  .checklist-row.expanded {
+    background: rgba(74,127,192,0.06) !important;
+    border-bottom: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header class="site-header">
+  <div class="header-bg"></div>
+
+  <!-- Snow particles -->
+  <div class="snow-container" aria-hidden="true">
+    <div class="snowflake"></div><div class="snowflake"></div>
+    <div class="snowflake"></div><div class="snowflake"></div>
+    <div class="snowflake"></div><div class="snowflake"></div>
+    <div class="snowflake"></div><div class="snowflake"></div>
+    <div class="snowflake"></div><div class="snowflake"></div>
+    <div class="snowflake"></div><div class="snowflake"></div>
+  </div>
+
+  <!-- Rotating rune circle -->
+  <div class="rune-circle" aria-hidden="true"></div>
+
+  <!-- Ghost biome index number -->
+  <div class="biome-index" aria-hidden="true">XII</div>
+
+  <div class="header-content">
+    <div class="eyebrow">Elden Ring Completion Guide</div>
+
+    <div class="header-titles">
+      <span class="title-label">Biome Index XII · Secret Area</span>
+      <h1 class="main-title">
+        Must-Do Things in<br>
+        <span class="biome-name">Consecrated<br>Snowfield</span>
+      </h1>
+    </div>
+
+    <div class="header-divider">
+      <span>✦</span>
+    </div>
+
+    <p class="header-subtitle">
+      A hidden realm of eternal blizzard and frozen despair, veiled beyond the Haligtree Medallion's secret passage. 
+      Home to Malenia's domain, dread omen Astel, and the scattered remnants of a shattered age — 
+      this snowfield demands completion before the point of no return.
+    </p>
+
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-val">120–150</span>
+        <span class="stat-lbl">Recommended Level</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">8</span>
+        <span class="stat-lbl">Major Bosses</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">6</span>
+        <span class="stat-lbl">Legacy Dungeons</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">3</span>
+        <span class="stat-lbl">Missable Quests</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" onclick="document.querySelector('.checklist-section').scrollIntoView({behavior:'smooth'})">
+    <span>Explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</header>
+
+<div class="section-sep"></div>
+
+<!-- ══════════════════════ CHECKLIST ══════════════════════ -->
+<section class="checklist-section section" id="checklist">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Completion Checklist</div>
+      <h2 class="section-title">Essential Activities</h2>
+      <p class="section-subtitle">Click any row to reveal hidden boss details, questlines & missable secrets</p>
+    </div>
+
+    <div class="checklist-wrapper reveal reveal-delay-1">
+      <table class="checklist-table" role="grid">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Activity / Location</th>
+            <th>Description</th>
+            <th>Tags</th>
+            <th>Difficulty</th>
+            <th>Tier</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="checklistBody">
+
+          <!-- ROW 1 -->
+          <tr class="checklist-row top-tier" data-index="0">
+            <td class="rank-num">01</td>
+            <td>
+              <div class="activity-name">Elphael, Brace of the Haligtree</div>
+              <div class="activity-location">Via Ordina Liturgical Town</div>
+            </td>
+            <td><div class="desc-text">The rotted heart of the Haligtree — a crumbling legacy dungeon leading to the most challenging duel in the game. Mandatory for true completion.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-dungeon">Dungeon</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-splus">S+</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-0">
+            <div class="detail-group">
+              <h4>Boss Encounters</h4>
+              <ul>
+                <li><strong>Malenia, Blade of Miquella</strong> — Optional but essential; hardest boss in game. Two phases, lifesteal attacks.</li>
+                <li><strong>Erdtree Avatar</strong> — Guards the Minor Erdtree in Elphael. Drops Golden Seed + Sacred Tear.</li>
+                <li><strong>Loretta, Knight of the Haligtree</strong> — Gatekeeps entry to Elphael itself.</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Legendary Rewards</h4>
+              <ul>
+                <li><strong>Hand of Malenia</strong> — Legendary Armament (Malenia's blade)</li>
+                <li><strong>Scarlet Aeonia</strong> — Incantation, Malenia's rot bloom dive</li>
+                <li><strong>Rotten Winged Sword Insignia</strong> — Legendary talisman, attacks boost damage</li>
+                <li><strong>Malenia's Great Rune</strong> — Lifesteal on any successful attack</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Missable Secrets</h4>
+              <ul>
+                <li>Loretta's Mastery sorcery dropped by Loretta — easily missed if rushing</li>
+                <li>Unalloyed Gold Needle must be traded to Gowry BEFORE fighting Malenia</li>
+                <li>Millicent's questline concludes here — summon her or let her die for two distinct rewards</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>NPC Questlines</h4>
+              <ul>
+                <li><strong>Millicent</strong> — Final questline steps; summon sign near Malenia fog gate. Gives Miquella's Needle or Millicent's Prosthesis depending on choice.</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 2 -->
+          <tr class="checklist-row top-tier" data-index="1">
+            <td class="rank-num">02</td>
+            <td>
+              <div class="activity-name">Ordina, Liturgical Town</div>
+              <div class="activity-location">Northern Snowfield Plateau</div>
+            </td>
+            <td><div class="desc-text">A ghostly evergaol town puzzle requiring you to light four flames while spectral assassins hunt you. Required to access the Haligtree.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-key">Key Item</span>
+              <span class="tag tag-secret">Secret Area</span>
+              <span class="tag tag-dungeon">Dungeon</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-s">S</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-1">
+            <div class="detail-group">
+              <h4>Puzzle Details</h4>
+              <ul>
+                <li>Enter the evergaol version of the town via imp statue seal near the entrance</li>
+                <li>Light all four flames on statues across rooftops while Invisible Black Knife Assassins patrol</li>
+                <li>Third flame is hidden on the high rooftop — requires ladder climb near the cliff edge</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Enemies & Hazards</h4>
+              <ul>
+                <li><strong>Invisible Black Knife Assassins</strong> — Will one-shot on NG+ if unprepared</li>
+                <li>Death resets all lit flames — use flask and stealth methodically</li>
+                <li>Torrent cannot be used inside the evergaol instance</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Key Reward</h4>
+              <ul>
+                <li>Completing the puzzle unseals the <strong>teleporter to Miquella's Haligtree</strong> — the only entrance</li>
+                <li>Grab Smithing Stone [8] and various grave consumables from town chests before entering evergaol</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 3 -->
+          <tr class="checklist-row top-tier" data-index="2">
+            <td class="rank-num">03</td>
+            <td>
+              <div class="activity-name">Consecrated Snowfield Catacombs</div>
+              <div class="activity-location">West of the Snowfield, cliff edge</div>
+            </td>
+            <td><div class="desc-text">Frost-filled catacombs culminating in a brutal Putrid Grave Warden Duelist fight. Yields one of the best Great Rune unlock talismans.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-dungeon">Dungeon</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-boss">Boss</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-s">S</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-2">
+            <div class="detail-group">
+              <h4>Boss Encounter</h4>
+              <ul>
+                <li><strong>Putrid Grave Warden Duelist (x2)</strong> — Dual boss fight, both are poisoned. Kill one first using pillars as cover.</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Rewards</h4>
+              <ul>
+                <li><strong>Rune Arc ×2</strong> from mimics in the dungeon</li>
+                <li><strong>Soreseal's Sibling</strong> — Radagon's Soreseal equivalent found in chest</li>
+                <li>Various Grave Violet and Frozen Rune Arcs throughout</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Missable</h4>
+              <ul>
+                <li>Lever behind an imp-sealed door — requires 1 Stonesword Key for access to secret chest</li>
+                <li>Invisible chest near boss fog gate contains <strong>Old Fang ×5</strong></li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 4 -->
+          <tr class="checklist-row" data-index="3">
+            <td class="rank-num">04</td>
+            <td>
+              <div class="activity-name">Astel, Stars of Darkness</div>
+              <div class="activity-location">Yelough Anix Tunnel → Cave</div>
+            </td>
+            <td><div class="desc-text">A second Astel lurks beneath the snowfield — harder than its sibling in Lake of Rot. Grants a unique weapon and sorcery unavailable elsewhere.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-boss">Boss</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-dungeon">Dungeon</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip filled danger"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-aplus">A+</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-3">
+            <div class="detail-group">
+              <h4>Boss Details</h4>
+              <ul>
+                <li><strong>Astel, Stars of Darkness</strong> — Uses gravity and meteor attacks. Teleports frequently. Extremely aggressive in second half.</li>
+                <li>Has the same HP and moveset as Lake of Rot Astel but an additional dive-bomb meteor barrage</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Exclusive Rewards</h4>
+              <ul>
+                <li><strong>Meteorite of Astel</strong> — Legendary sorcery, black hole gravity spell</li>
+                <li><strong>Bastard's Stars</strong> — Flail armament with cosmic skill</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Access Route</h4>
+              <ul>
+                <li>Yelough Anix Tunnel is hidden beneath the central snowfield — look for torch-lit hole near cliff</li>
+                <li>Cave of Forlorn (optional) is nearby — yields <strong>Flowing Curved Sword</strong></li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 5 -->
+          <tr class="checklist-row" data-index="4">
+            <td class="rank-num">05</td>
+            <td>
+              <div class="activity-name">Millicent Questline — Final Steps</div>
+              <div class="activity-location">Near Elphael / Haligtree Sites</div>
+            </td>
+            <td><div class="desc-text">The culmination of Millicent's arc begun in Caelid. One of the game's most emotional questlines with branching endings and unique rewards.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-quest">Questline</span>
+              <span class="tag tag-missable">Missable</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-aplus">A+</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-4">
+            <div class="detail-group">
+              <h4>Quest Prerequisites</h4>
+              <ul>
+                <li>Must have given Unalloyed Gold Needle to Millicent in Altus Plateau (from Gowry)</li>
+                <li>Must have spoken to Millicent at Windmill Village, Mountaintops Grace</li>
+                <li>Speak to her summon sign at the base of Haligtree before entering Elphael</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Branching Choices</h4>
+              <ul>
+                <li><strong>Help Millicent:</strong> Defeat her sisters → Receive Miquella's Needle. Use Needle in Dragonlord Placidusax's arena to reverse Frenzied Flame ending.</li>
+                <li><strong>Betray Millicent:</strong> Invade and kill her → Receive Millicent's Prosthesis (talisman, boosts dex + attack speed)</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Missable Warning</h4>
+              <ul>
+                <li>Defeating Malenia BEFORE summoning Millicent here locks out her quest ending permanently</li>
+                <li>Miquella's Needle is the ONLY way to reverse the Frenzied Flame Lord ending without starting NG+</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 6 -->
+          <tr class="checklist-row" data-index="5">
+            <td class="rank-num">06</td>
+            <td>
+              <div class="activity-name">Apostate Derelict</div>
+              <div class="activity-location">Southeastern Snowfield Ruins</div>
+            </td>
+            <td><div class="desc-text">Crumbling ruins housing a unique NPC vendor and the crucial map fragment. Also marks the start of the snowfield's most important secret path.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-key">Key Item</span>
+              <span class="tag tag-secret">Secret Area</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+                <div class="pip"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-a">A</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-5">
+            <div class="detail-group">
+              <h4>Notable Items</h4>
+              <ul>
+                <li><strong>Consecrated Snowfield Map Fragment</strong> — Pillar just southeast of Apostate Derelict grace. Reveals hidden areas and cave locations.</li>
+                <li><strong>Ancient Dragon Prayerbook</strong> — In ruins chest, gives Ancient Dragon incantations to Corhyn/Miriel</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>NPC: Shabriri</h4>
+              <ul>
+                <li>Shabriri appears at Apostate Derelict if you are progressing Hyetta's questline</li>
+                <li>He offers to guide you to the Three Fingers — triggers down the path toward Frenzied Flame</li>
+                <li>His appearance here means Hyetta can progress to final location at Leyndell</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 7 -->
+          <tr class="checklist-row" data-index="6">
+            <td class="rank-num">07</td>
+            <td>
+              <div class="activity-name">Cave of the Forlorn</div>
+              <div class="activity-location">Hidden cliff face, west plateau</div>
+            </td>
+            <td><div class="desc-text">A faith-locked cave (Stonesword Key ×2) with brutal Misbegotten Crusader boss fight. Yields a weapon crucial for curved sword builds.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-dungeon">Dungeon</span>
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-key">Key Item</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-a">A</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-6">
+            <div class="detail-group">
+              <h4>Boss Encounter</h4>
+              <ul>
+                <li><strong>Misbegotten Crusader</strong> — Uses a greatsword with Holy damage. Buffed version of earlier Misbegotten enemies.</li>
+                <li>Can be parried and is weak to Standard + Fire damage. Avoid Holy weapons here.</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Rewards</h4>
+              <ul>
+                <li><strong>Flowing Curved Sword</strong> — Armament with unique spinning skill, high dex scaling</li>
+                <li>Golden Seed from Minor Erdtree near entrance</li>
+                <li>Various Smithing Stone [6][7] throughout cave</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+          <!-- ROW 8 -->
+          <tr class="checklist-row" data-index="7">
+            <td class="rank-num">08</td>
+            <td>
+              <div class="activity-name">Yelough Anix Ruins</div>
+              <div class="activity-location">Central Snowfield Depression</div>
+            </td>
+            <td><div class="desc-text">Half-buried ruins with a unique armament and the entrance to Yelough Anix Tunnel below. Contains some of the snowfield's best early loot.</div></td>
+            <td class="tags-cell">
+              <span class="tag tag-loot">Legendary Loot</span>
+              <span class="tag tag-farming">Rune Farming</span>
+              <span class="tag tag-secret">Secret Area</span>
+            </td>
+            <td>
+              <div class="pips">
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip filled"></div>
+                <div class="pip"></div>
+                <div class="pip"></div>
+              </div>
+            </td>
+            <td><div class="tier-badge tier-b">B+</div></td>
+            <td><div class="expand-indicator">▸ Expand</div></td>
+          </tr>
+          <tr class="detail-row"><td colspan="7"><div class="detail-panel" id="detail-7">
+            <div class="detail-group">
+              <h4>Items of Note</h4>
+              <ul>
+                <li><strong>Fingerprint Stone Shield</strong> — Heaviest shield in game, near-perfect guard stat, found in underground room</li>
+                <li>Nomadic Merchant nearby sells Larval Tear — useful for respecs</li>
+                <li>Stonesword Key chest behind collapsed wall section</li>
+              </ul>
+            </div>
+            <div class="detail-group">
+              <h4>Rune Farming</h4>
+              <ul>
+                <li>Frozen Albinaurics south of ruins respawn and give ~2,500 runes each</li>
+                <li>With Gold-Pickled Fowl Foot + Sacred Relic Sword AoW = fast 60k runes/run at level 150</li>
+              </ul>
+            </div>
+          </div></td></tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ══════════════════════ BOTTOM PANELS ══════════════════════ -->
+<section class="bottom-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Field Notes</div>
+      <h2 class="section-title">Rewards & Survival Guide</h2>
+    </div>
+
+    <div class="panels-grid">
+
+      <!-- LEFT PANEL: Rewards -->
+      <div class="panel reveal reveal-delay-1">
+        <div class="panel-inner">
+          <div class="panel-title">Key Rewards in the Snowfield</div>
+          <div class="panel-subtitle">Critical items, weapons, and talismans found across this region</div>
+          <table class="rewards-table">
+            <tbody>
+              <tr>
+                <td>Elphael — Malenia</td>
+                <td>
+                  <span class="reward-name">Hand of Malenia</span>
+                  <span class="reward-type">Legendary Armament</span>
+                </td>
+                <td><span class="importance-dot imp-critical" title="Critical"></span></td>
+              </tr>
+              <tr>
+                <td>Elphael — Malenia</td>
+                <td>
+                  <span class="reward-name">Rotten Winged Sword Insignia</span>
+                  <span class="reward-type">Legendary Talisman</span>
+                </td>
+                <td><span class="importance-dot imp-critical" title="Critical"></span></td>
+              </tr>
+              <tr>
+                <td>Millicent — Betray</td>
+                <td>
+                  <span class="reward-name">Miquella's Needle</span>
+                  <span class="reward-type">Key Consumable</span>
+                </td>
+                <td><span class="importance-dot imp-critical" title="Critical"></span></td>
+              </tr>
+              <tr>
+                <td>Astel Boss Fight</td>
+                <td>
+                  <span class="reward-name">Meteorite of Astel</span>
+                  <span class="reward-type">Legendary Sorcery</span>
+                </td>
+                <td><span class="importance-dot imp-high" title="High"></span></td>
+              </tr>
+              <tr>
+                <td>Astel Boss Fight</td>
+                <td>
+                  <span class="reward-name">Bastard's Stars</span>
+                  <span class="reward-type">Legendary Armament</span>
+                </td>
+                <td><span class="importance-dot imp-high" title="High"></span></td>
+              </tr>
+              <tr>
+                <td>Haligtree — Loretta</td>
+                <td>
+                  <span class="reward-name">Loretta's Mastery</span>
+                  <span class="reward-type">Sorcery</span>
+                </td>
+                <td><span class="importance-dot imp-high" title="High"></span></td>
+              </tr>
+              <tr>
+                <td>Yelough Anix Ruins</td>
+                <td>
+                  <span class="reward-name">Fingerprint Stone Shield</span>
+                  <span class="reward-type">Armament — Shield</span>
+                </td>
+                <td><span class="importance-dot imp-medium" title="Medium"></span></td>
+              </tr>
+              <tr>
+                <td>Cave of the Forlorn</td>
+                <td>
+                  <span class="reward-name">Flowing Curved Sword</span>
+                  <span class="reward-type">Armament</span>
+                </td>
+                <td><span class="importance-dot imp-medium" title="Medium"></span></td>
+              </tr>
+              <tr>
+                <td>Apostate Derelict</td>
+                <td>
+                  <span class="reward-name">Ancient Dragon Prayerbook</span>
+                  <span class="reward-type">Key Item</span>
+                </td>
+                <td><span class="importance-dot imp-medium" title="Medium"></span></td>
+              </tr>
+              <tr>
+                <td>Minor Erdtrees</td>
+                <td>
+                  <span class="reward-name">Golden Seed × 2</span>
+                  <span class="reward-type">Upgrade Material</span>
+                </td>
+                <td><span class="importance-dot imp-low" title="Low"></span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top:20px; display:flex; gap:16px; flex-wrap:wrap;">
+            <span style="font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+              <span class="importance-dot imp-critical"></span> Critical
+            </span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+              <span class="importance-dot imp-high"></span> High
+            </span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+              <span class="importance-dot imp-medium"></span> Medium
+            </span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+              <span class="importance-dot imp-low"></span> Standard
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: Tips -->
+      <div class="panel reveal reveal-delay-2">
+        <div class="panel-inner">
+          <div class="panel-title">Exploration Tips</div>
+          <div class="panel-subtitle">Survival knowledge before entering the eternal blizzard</div>
+          <ul class="tips-list">
+            <li class="tip-item">
+              <div class="tip-icon">⚔️</div>
+              <div class="tip-content">
+                <div class="tip-title">Recommended Level</div>
+                <div class="tip-text">Enter at level 120 for the Snowfield. Elphael requires 140+. Malenia is viable at 150 — though even level 200 Tarnished weep.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">🗺️</div>
+              <div class="tip-content">
+                <div class="tip-title">Map Fragment First</div>
+                <div class="tip-text">Grab the Map Fragment from the stone pillar south of Apostate Derelict grace immediately — the blizzard obscures everything and you will get lost.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">❄️</div>
+              <div class="tip-content">
+                <div class="tip-title">Dangerous Enemy Types</div>
+                <div class="tip-text">Frozen Albinaurics, Death Rite Birds (night-only), Giant Miranda Flowers, and Putrid Crystalians all inflict Frostbite. Stock Thawfrost Boluses.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">💀</div>
+              <div class="tip-content">
+                <div class="tip-title">Death Rite Bird Timing</div>
+                <div class="tip-text">Death Rite Birds only appear at night. Rest at Site of Grace and advance to nighttime to trigger them — two are found here, both with excellent drops.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">📿</div>
+              <div class="tip-content">
+                <div class="tip-title">Rune Farming — Best Spot</div>
+                <div class="tip-text">Palace Approach Ledge Road grace in Mohgwyn Palace via a Varre questline teleporter is nearby — best rune farm in the game (40M runes/hr endgame).</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">⚠️</div>
+              <div class="tip-content">
+                <div class="tip-title">Quest Lock Warning</div>
+                <div class="tip-text">Beating Malenia before summoning Millicent permanently fails her quest. Trade the Unalloyed Gold Needle to Gowry before fighting Malenia.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">🔑</div>
+              <div class="tip-content">
+                <div class="tip-title">Access Requirements</div>
+                <div class="tip-text">Requires both halves of the Haligtree Secret Medallion — Left from Albus hidden in Village of the Albinaurics; Right from Latenna's quest reward.</div>
+              </div>
+            </li>
+            <li class="tip-item">
+              <div class="tip-icon">🌒</div>
+              <div class="tip-content">
+                <div class="tip-title">Navigating the Blizzard</div>
+                <div class="tip-text">Follow the blue flame torches — they mark the safe path through the central blizzard toward Ordina. Deviate and you'll circle endlessly.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-emblem">✦ ER ✦</div>
+  <div class="footer-text">Elden Ring Completion Guide · Consecrated Snowfield · Biome XII · All Items & Questlines</div>
+</footer>
+
+<script>
+  // ── ROW EXPAND / COLLAPSE ──────────────────────────────────
+  document.querySelectorAll('.checklist-row').forEach(row => {
+    row.addEventListener('click', function() {
+      const idx = this.dataset.index;
+      const panel = document.getElementById('detail-' + idx);
+      const detailRow = this.nextElementSibling;
+      const isExpanded = this.classList.contains('expanded');
+
+      // Close all
+      document.querySelectorAll('.checklist-row').forEach(r => r.classList.remove('expanded'));
+      document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('visible'));
+      document.querySelectorAll('.expand-indicator').forEach(e => e.textContent = '▸ Expand');
+
+      if (!isExpanded) {
+        this.classList.add('expanded');
+        panel.classList.add('visible');
+        this.querySelector('.expand-indicator').textContent = '▾ Collapse';
+        // smooth scroll to row
+        setTimeout(() => {
+          this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+    });
+  });
+
+  // ── SCROLL REVEAL ──────────────────────────────────────────
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── CHECKLIST ROW REVEAL ON SCROLL ────────────────────────
+  const tableObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const rows = document.querySelectorAll('.checklist-row');
+        rows.forEach((row, idx) => {
+          row.style.opacity = '0';
+          row.style.transform = 'translateX(-20px)';
+          row.style.transition = `opacity 0.5s ${idx * 0.08}s ease, transform 0.5s ${idx * 0.08}s ease`;
+          setTimeout(() => {
+            row.style.opacity = '1';
+            row.style.transform = 'translateX(0)';
+          }, 100);
+        });
+        tableObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const table = document.querySelector('.checklist-table');
+  if (table) tableObserver.observe(table);
+</script>
+</body>
+</html>

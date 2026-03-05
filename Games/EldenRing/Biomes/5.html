@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mountaintops of the Giants — Elden Ring Completion Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #080808;
+    --obsidian-mid: #0f0f10;
+    --obsidian-light: #161618;
+    --obsidian-surface: #1c1c1f;
+    --gold: #c9a84c;
+    --gold-bright: #f0c060;
+    --gold-dim: #7a6030;
+    --gold-glow: rgba(201,168,76,0.18);
+    --blue-spectral: #3a6fa8;
+    --blue-bright: #5b9fd4;
+    --blue-glow: rgba(58,111,168,0.2);
+    --crimson: #8c1a1a;
+    --crimson-bright: #c0392b;
+    --crimson-glow: rgba(140,26,26,0.2);
+    --frost: #a8d8ea;
+    --frost-dim: #5a9bb5;
+    --ash: #888890;
+    --ash-light: #b0b0bc;
+    --text-main: #d8d0c0;
+    --text-dim: #908878;
+    --border-dim: rgba(201,168,76,0.15);
+    --border-mid: rgba(201,168,76,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--text-main);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── BACKGROUND SYSTEM ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(58,111,168,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(140,26,26,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 30% at 10% 50%, rgba(201,168,76,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Rune pattern overlay */
+  .rune-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0.025;
+  }
+  .rune-bg svg { width: 100%; height: 100%; }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  .site-header {
+    position: relative;
+    padding: 60px 0 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .header-bg-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 30%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .divider-top {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.2s forwards;
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    animation: fadeIn 0.8s 0.4s forwards;
+    margin-bottom: 16px;
+  }
+
+  .biome-index {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(120px, 20vw, 220px);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: -1;
+    letter-spacing: -0.02em;
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 5vw, 64px);
+    font-weight: 700;
+    color: var(--gold-bright);
+    line-height: 1.1;
+    text-shadow:
+      0 0 40px rgba(201,168,76,0.4),
+      0 0 80px rgba(201,168,76,0.15),
+      0 2px 4px rgba(0,0,0,0.8);
+    opacity: 0;
+    animation: riseUp 1s 0.6s forwards;
+    margin-bottom: 8px;
+  }
+
+  .main-title span {
+    display: block;
+    font-size: clamp(14px, 2.5vw, 28px);
+    color: var(--frost-dim);
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 20px rgba(91,159,212,0.3);
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-style: italic;
+    color: var(--ash-light);
+    max-width: 680px;
+    margin: 0 auto 48px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+  }
+
+  .emblem {
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 40px;
+    opacity: 0;
+    animation: riseUp 1s 0.8s forwards;
+  }
+
+  .header-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+  .header-ornament::before,
+  .header-ornament::after {
+    content: '';
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .header-ornament::after {
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+  .ornament-icon {
+    color: var(--gold);
+    font-size: 20px;
+  }
+
+  /* ─── SECTION LABELS ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .section-header.visible { opacity: 1; transform: translateY(0); }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ─── CHECKLIST GRID ─── */
+  .checklist-section { margin-bottom: 64px; }
+
+  .checklist-table {
+    width: 100%;
+    border-collapse: collapse;
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .checklist-table { display: table; }
+    .checklist-cards { display: none !important; }
+  }
+
+  .checklist-table thead tr {
+    border-bottom: 1px solid var(--border-mid);
+  }
+  .checklist-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    padding: 10px 16px;
+    text-align: left;
+  }
+
+  .checklist-table tbody tr {
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .checklist-table tbody tr.top-entry {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,0.06), transparent 40%);
+  }
+  .checklist-table tbody tr:not(.top-entry):hover {
+    background: rgba(201,168,76,0.04);
+    box-shadow: inset 2px 0 0 var(--blue-spectral);
+  }
+  .checklist-table tbody tr.top-entry:hover {
+    background: linear-gradient(90deg, rgba(201,168,76,0.12), transparent 40%);
+  }
+
+  .checklist-table td {
+    padding: 14px 16px;
+    vertical-align: top;
+    font-size: 14px;
+  }
+
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .top-entry .rank-num { opacity: 1; text-shadow: 0 0 12px rgba(201,168,76,0.5); }
+
+  .activity-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .top-entry .activity-name { color: var(--gold-bright); }
+
+  .activity-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--ash);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .tags-cell { min-width: 160px; }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+  .tag-boss       { border: 1px solid var(--crimson-bright); background: rgba(140,26,26,0.2); color: #e07070; }
+  .tag-dungeon    { border: 1px solid var(--blue-spectral); background: rgba(58,111,168,0.2); color: var(--blue-bright); }
+  .tag-loot       { border: 1px solid var(--gold); background: rgba(201,168,76,0.15); color: var(--gold-bright); }
+  .tag-questline  { border: 1px solid #7a5fa0; background: rgba(122,95,160,0.2); color: #b090e0; }
+  .tag-secret     { border: 1px solid #4a8a6a; background: rgba(74,138,106,0.2); color: #80c090; }
+  .tag-farming    { border: 1px solid #8a7030; background: rgba(138,112,48,0.2); color: #d0a840; }
+  .tag-keyitem    { border: 1px solid var(--frost-dim); background: rgba(90,155,181,0.2); color: var(--frost); }
+
+  .pips { display: flex; gap: 4px; align-items: center; }
+  .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+  .pip.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.5); }
+  .pip.filled.hard { background: var(--crimson-bright); border-color: var(--crimson-bright); box-shadow: 0 0 6px rgba(192,57,43,0.5); }
+
+  .tier-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+  .tier-s-plus { color: var(--gold-bright); text-shadow: 0 0 16px rgba(240,192,96,0.7); }
+  .tier-s      { color: var(--gold); text-shadow: 0 0 12px rgba(201,168,76,0.5); }
+  .tier-a-plus { color: var(--blue-bright); text-shadow: 0 0 12px rgba(91,159,212,0.5); }
+  .tier-a      { color: var(--blue-spectral); text-shadow: 0 0 8px rgba(58,111,168,0.4); }
+  .tier-b-plus { color: var(--ash-light); text-shadow: none; }
+
+  /* ─── DETAIL PANEL (hover reveal) ─── */
+  .detail-row td {
+    padding: 0 !important;
+    border: none !important;
+  }
+  .detail-panel {
+    display: none;
+    background: linear-gradient(135deg, rgba(12,12,16,0.98) 0%, rgba(20,18,24,0.98) 100%);
+    border: 1px solid var(--border-mid);
+    border-left: 3px solid var(--gold-dim);
+    padding: 24px 28px;
+    margin: 0 0 4px;
+  }
+  .detail-panel.open { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+
+  .detail-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .detail-list {
+    list-style: none;
+    font-size: 12px;
+    color: var(--ash-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .detail-list li { padding: 3px 0; display: flex; gap: 8px; align-items: flex-start; line-height: 1.4; }
+  .detail-list li::before { content: '◆'; color: var(--gold-dim); font-size: 8px; margin-top: 4px; flex-shrink: 0; }
+
+  /* ─── CARD MODE (mobile) ─── */
+  .checklist-cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .check-card {
+    background: var(--obsidian-surface);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .check-card.top-entry {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(135deg, rgba(201,168,76,0.05), var(--obsidian-surface));
+  }
+  .check-card:hover { border-color: var(--border-mid); }
+
+  .card-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+  .card-rank-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .card-name { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; color: var(--text-main); flex: 1; line-height: 1.4; }
+  .card-desc { font-size: 12px; font-style: italic; color: var(--ash); margin-bottom: 10px; }
+  .card-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+  .card-detail-panel {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-dim);
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .card-detail-panel.open { display: grid; }
+
+  /* ─── BOTTOM PANELS ─── */
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  @media (max-width: 768px) { .bottom-panels { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--obsidian-surface);
+    border: 1px solid var(--border-dim);
+    border-top: 2px solid var(--gold-dim);
+    padding: 28px 24px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .panel.visible { opacity: 1; transform: translateY(0); }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  /* Rewards table */
+  .rewards-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rewards-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .rewards-table td {
+    padding: 9px 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    vertical-align: top;
+    color: var(--ash-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+  }
+  .rewards-table td:first-child { color: var(--text-main); font-style: italic; }
+  .rewards-table .reward-name { color: var(--gold); font-weight: 600; font-style: normal; }
+  .importance-high { color: var(--crimson-bright) !important; }
+  .importance-med  { color: var(--blue-bright) !important; }
+  .item-type-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  /* Tips list */
+  .tips-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tip-item { display: flex; gap: 12px; align-items: flex-start; }
+  .tip-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border-dim);
+    border-radius: 2px;
+    font-size: 13px;
+  }
+  .tip-content { font-size: 13px; color: var(--ash-light); font-family: 'Cormorant Garamond', serif; line-height: 1.5; }
+  .tip-content strong { color: var(--gold); font-style: normal; display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1px; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeIn   { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes riseUp   { from { opacity: 0; transform: translateY(30px) } to { opacity: 1; transform: translateY(0) } }
+  @keyframes slideUp  { from { opacity: 0; transform: translateY(50px) } to { opacity: 1; transform: translateY(0) } }
+  @keyframes goldPulse { 0%,100% { text-shadow: 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.15); } 50% { text-shadow: 0 0 60px rgba(201,168,76,0.6), 0 0 100px rgba(201,168,76,0.25); } }
+
+  .main-title { animation: riseUp 1s 0.6s forwards, goldPulse 4s 1.6s infinite; }
+
+  /* Staggered rows */
+  .checklist-table tbody tr, .check-card {
+    opacity: 0;
+    animation: slideUp 0.5s forwards;
+  }
+  .checklist-table tbody tr:nth-child(2), .check-card:nth-child(1) { animation-delay: 1.4s; }
+  .checklist-table tbody tr:nth-child(4), .check-card:nth-child(2) { animation-delay: 1.55s; }
+  .checklist-table tbody tr:nth-child(6), .check-card:nth-child(3) { animation-delay: 1.7s; }
+  .checklist-table tbody tr:nth-child(8), .check-card:nth-child(4) { animation-delay: 1.85s; }
+  .checklist-table tbody tr:nth-child(10), .check-card:nth-child(5) { animation-delay: 2s; }
+  .checklist-table tbody tr:nth-child(12), .check-card:nth-child(6) { animation-delay: 2.15s; }
+  .checklist-table tbody tr:nth-child(14), .check-card:nth-child(7) { animation-delay: 2.3s; }
+  .checklist-table tbody tr:nth-child(16), .check-card:nth-child(8) { animation-delay: 2.45s; }
+
+  /* detail rows don't animate */
+  .detail-row { opacity: 1 !important; animation: none !important; }
+
+  /* ─── FOOTER ORNAMENT ─── */
+  .footer-ornament {
+    text-align: center;
+    padding: 48px 0 16px;
+    color: var(--gold-dim);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  .footer-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 40px 0 24px;
+    opacity: 0.4;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--obsidian); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 899px) {
+    .checklist-table { display: none; }
+    .checklist-cards { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .card-detail-panel { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Rune background pattern -->
+<div class="rune-bg">
+  <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#c9a84c" stroke-width="0.5">
+      <!-- Erdtree rune shapes -->
+      <circle cx="400" cy="300" r="200"/><circle cx="400" cy="300" r="150"/><circle cx="400" cy="300" r="100"/>
+      <line x1="400" y1="100" x2="400" y2="500"/><line x1="200" y1="300" x2="600" y2="300"/>
+      <line x1="258" y1="158" x2="542" y2="442"/><line x1="542" y1="158" x2="258" y2="442"/>
+      <polygon points="400,120 480,260 620,300 480,340 400,480 320,340 180,300 320,260"/>
+      <circle cx="100" cy="100" r="60"/><line x1="100" y1="40" x2="100" y2="160"/><line x1="40" y1="100" x2="160" y2="100"/>
+      <circle cx="700" cy="500" r="60"/><line x1="700" y1="440" x2="700" y2="560"/><line x1="640" y1="500" x2="760" y2="500"/>
+      <path d="M50 550 L80 500 L110 550 L80 520 Z"/>
+      <path d="M720 80 L750 30 L780 80 L750 50 Z"/>
+    </g>
+  </svg>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header">
+    <div class="header-bg-glow"></div>
+    <div class="biome-index">XI</div>
+
+    <div class="divider-top"></div>
+
+    <p class="eyebrow">Elden Ring Completion Guide &nbsp;·&nbsp; Biome XI</p>
+
+    <!-- Emblem SVG -->
+    <div class="emblem">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" stroke="#c9a84c" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="45" cy="45" r="34" stroke="#c9a84c" stroke-width="0.5" opacity="0.25"/>
+        <!-- Mountain silhouette -->
+        <path d="M20 65 L45 22 L70 65 Z" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.9"/>
+        <path d="M30 65 L50 38 L72 65" stroke="#5b9fd4" stroke-width="0.8" fill="none" opacity="0.6"/>
+        <!-- Flame at peak -->
+        <path d="M45 22 C45 16 41 12 45 8 C49 12 45 16 45 22" fill="#f0c060" opacity="0.8"/>
+        <!-- Rune cross -->
+        <line x1="45" y1="5" x2="45" y2="85" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
+        <line x1="5" y1="45" x2="85" y2="45" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
+        <circle cx="45" cy="45" r="4" fill="#c9a84c" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <h1 class="main-title">
+      <span>Mountaintops of the Giants</span>
+      Must-Do Things
+    </h1>
+
+    <div class="header-ornament"><span class="ornament-icon">✦</span></div>
+
+    <p class="subtitle">
+      The frost-scarred heights above the Altus Plateau — a desolate realm of ancient war, sleeping giants, and the flame that sustains the Erdtree. Here, questlines converge, legendary weapons await the worthy, and the path to the Forge of the Giants begins.
+    </p>
+  </header>
+
+
+  <!-- ═══ CHECKLIST ═══ -->
+  <section class="checklist-section">
+    <div class="section-header">
+      <span class="section-label">Complete Checklist</span>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- DESKTOP TABLE -->
+    <table class="checklist-table">
+      <thead>
+        <tr>
+          <th style="width:50px">#</th>
+          <th style="width:220px">Activity / Location</th>
+          <th>Description</th>
+          <th class="tags-cell">Tags</th>
+          <th style="width:90px">Difficulty</th>
+          <th style="width:60px">Tier</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- MOBILE CARDS -->
+    <div class="checklist-cards" id="cardGrid"></div>
+  </section>
+
+
+  <!-- ═══ BOTTOM PANELS ═══ -->
+  <div class="bottom-panels">
+
+    <!-- LEFT: Key Rewards -->
+    <div class="panel" id="rewardsPanel">
+      <h2 class="panel-title">⚔ Key Rewards in Mountaintops</h2>
+      <table class="rewards-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Reward</th>
+            <th>Type</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fire Giant Boss Arena</td>
+            <td class="reward-name">Remembrance of the Fire Giant</td>
+            <td><span class="item-type-badge">Remembrance</span></td>
+            <td class="importance-high">Critical</td>
+          </tr>
+          <tr>
+            <td>Consecrated Snowfield (secret)</td>
+            <td class="reward-name">Haligtree Secret Medallion</td>
+            <td><span class="item-type-badge">Key Item</span></td>
+            <td class="importance-high">Critical</td>
+          </tr>
+          <tr>
+            <td>Giants' Mountaintop Catacombs</td>
+            <td class="reward-name">Glovewort Picker's Bell Bearing [2]</td>
+            <td><span class="item-type-badge">Bell Bearing</span></td>
+            <td class="importance-high">High</td>
+          </tr>
+          <tr>
+            <td>Castle Sol</td>
+            <td class="reward-name">Eclipse Shotel &amp; Commander Niall Soul</td>
+            <td><span class="item-type-badge">Weapon / Soul</span></td>
+            <td class="importance-med">High</td>
+          </tr>
+          <tr>
+            <td>Zamor Ruins</td>
+            <td class="reward-name">Ancient Snow Veil Talisman</td>
+            <td><span class="item-type-badge">Talisman</span></td>
+            <td class="importance-med">Medium</td>
+          </tr>
+          <tr>
+            <td>Giant's Gravepost</td>
+            <td class="reward-name">Larval Tear (x2)</td>
+            <td><span class="item-type-badge">Respec Item</span></td>
+            <td class="importance-med">Medium</td>
+          </tr>
+          <tr>
+            <td>Forge of the Giants</td>
+            <td class="reward-name">Kindling the Erdtree (Story Gate)</td>
+            <td><span class="item-type-badge">Story Event</span></td>
+            <td class="importance-high">Critical</td>
+          </tr>
+          <tr>
+            <td>Spiritcaller's Cave</td>
+            <td class="reward-name">Godskin Duo Remembrance</td>
+            <td><span class="item-type-badge">Remembrance</span></td>
+            <td class="importance-med">High</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Exploration Tips -->
+    <div class="panel" id="tipsPanel">
+      <h2 class="panel-title">🗺 Exploration Tips for Mountaintops</h2>
+      <ul class="tips-list">
+        <li class="tip-item">
+          <div class="tip-icon">⚔</div>
+          <div class="tip-content"><strong>Recommended Level</strong>Level 100–120 before engaging the Fire Giant. Lower levels will struggle with the frost & bleed environment.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">☠</div>
+          <div class="tip-content"><strong>Dangerous Enemies</strong>Borealis the Freezing Fog dragon, Death Rite Birds (night), Giant Skeletons, and Crystallian patrols near Heretical Rise.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">💰</div>
+          <div class="tip-content"><strong>Best Rune Farming</strong>Giants' Gravepost bonfire — the nearby two giants yield ~15,000 runes per run, fast reset with Silver-Pickled Fowl Foot.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🗺</div>
+          <div class="tip-content"><strong>Map Fragment</strong>Located northeast of the Zamor Ruins site of grace, past the frozen river. Grab it early — the region is vast.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">⚠</div>
+          <div class="tip-content"><strong>Quest-Lock Warning</strong>Completing the Forge of Giants event locks out several questlines. Finish Ranni's, Millicent's, and Latenna's quests <em>before</em> kindling.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">❄</div>
+          <div class="tip-content"><strong>Frost Resistance</strong>Equip Immunizing Horn Charm or stock up on Speckled Hardtear in Physick. Frostbite kills fast in blizzard zones.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🌀</div>
+          <div class="tip-content"><strong>Secret Portal</strong>Heretical Rise is accessed via invisible bridge — walk due east from the tower's front gate along the cliff edge.</div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon">🔮</div>
+          <div class="tip-content"><strong>Latenna's Questline</strong>Bring her to the Apostate Derelict church northwest of the region to complete her arc and receive Erdtree's Favor +2.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-line"></div>
+  <div class="footer-ornament">✦ &nbsp; May the Golden Grace guide thy sword &nbsp; ✦</div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const entries = [
+  {
+    rank: 1,
+    name: "Defeat the Fire Giant",
+    desc: "Mandatory boss guarding the Forge of the Giants. One of the most visually epic encounters in the game.",
+    tags: ["boss","loot"],
+    difficulty: 5,
+    hard: true,
+    tier: "S+",
+    detail: {
+      bosses: ["Fire Giant (Main Boss) — Two-phase, severs own leg at 50% HP"],
+      optional: ["Borealis the Freezing Fog (optional field dragon)"],
+      questlines: ["Completing Fire Giant unlocks access to the Forge — required for main story"],
+      loot: ["Remembrance of the Fire Giant (yields Giant's Red Braid or Burn, O Flame!)", "Cragblade Ash of War (from chest nearby)"],
+      locations: ["Fire Giant Boss Arena — northeast of Forge of the Giants"],
+      secrets: ["Use Torrent during phase 1 to close distance quickly. In phase 2, target the exposed eye on the chest."]
+    }
+  },
+  {
+    rank: 2,
+    name: "Kindle the Erdtree at the Forge",
+    desc: "The critical story gate. Perform this ritual to advance to Crumbling Farum Azula. Triggers a major world-state change.",
+    tags: ["keyitem","questline"],
+    difficulty: 1,
+    hard: false,
+    tier: "S+",
+    detail: {
+      bosses: ["No boss — story event only"],
+      optional: ["Speak with Melina or use Frenzied Flame after visiting Mohgwyn to alter the ending"],
+      questlines: ["This action locks out Millicent's questline if not completed", "Ranni's quest must be on track before this event"],
+      loot: ["Unlocks Crumbling Farum Azula (next main area)"],
+      locations: ["Forge of the Giants — extreme northeast of the Mountaintops"],
+      secrets: ["If you have the Frenzied Flame seal on your body, Melina abandons you here and becomes an adversary in an alternate ending."]
+    }
+  },
+  {
+    rank: 3,
+    name: "Clear Castle Sol & Commander Niall",
+    desc: "Fortified castle hiding the second half of the Haligtree Secret Medallion — required to access the game's most secret area.",
+    tags: ["boss","dungeon","keyitem"],
+    difficulty: 4,
+    hard: true,
+    tier: "S",
+    detail: {
+      bosses: ["Commander Niall — summons two spectral knights, then unleashes devastating storm AOE"],
+      optional: ["Putrid Tree Spirit in the courtyard (optional but drops useful crafting materials)"],
+      questlines: ["Obtain Haligtree Medallion (Right) from Commander Niall's room — mandatory for Miquella's Haligtree access"],
+      loot: ["Eclipse Shotel (unique Faith curved sword)", "Commander's Standard (commander's halberd)", "Haligtree Secret Medallion (Right)"],
+      locations: ["Castle Sol — north-central region, accessible after Fire Giant or via Lift of Rold"],
+      secrets: ["Eclipse Shotel's weapon art causes instant Death proc on enemies — extremely powerful for PvE."]
+    }
+  },
+  {
+    rank: 4,
+    name: "Explore Giants' Mountaintop Catacombs",
+    desc: "Elaborate catacomb dungeon filled with Erdtree Burial Watchdogs and a powerful duo boss rewarding critical upgrade materials.",
+    tags: ["dungeon","loot","farming"],
+    difficulty: 3,
+    hard: false,
+    tier: "A+",
+    detail: {
+      bosses: ["Ulcerated Tree Spirit (duo) — area boss rewarding Glovewort [9] and Bell Bearing"],
+      optional: ["Twinsage Glintstone Crown found on a corpse inside"],
+      questlines: ["No direct questlines — but Bell Bearing unlocks Ghost Glovewort purchase from Twin Maiden Husks"],
+      loot: ["Glovewort Picker's Bell Bearing [2]", "Ghost Glovewort [5–7]", "Deathroot (for D / Gurranq quest chain)"],
+      locations: ["South-central Mountaintops — follow the canyon wall south from Zamor Ruins"],
+      secrets: ["The Watchdog miniboss in the upper chamber drops the Ancient Death Rancor spell — rare and missable."]
+    }
+  },
+  {
+    rank: 5,
+    name: "Find Consecrated Snowfield Secret",
+    desc: "A hidden area obscured by an eternal blizzard. Contains the Haligtree Medallion half and access to Mohgwyn Palace.",
+    tags: ["secret","keyitem","loot"],
+    difficulty: 2,
+    hard: false,
+    tier: "S",
+    detail: {
+      bosses: ["Putrid Avatar (field boss at Minor Erdtree)", "Death Rite Bird (night spawn near map fragment)"],
+      optional: ["Astel, Stars of Darkness (cave boss accessible via Consecrated Snowfield)"],
+      questlines: ["Latenna's questline ends here at Apostate Derelict — reward: Erdtree's Favor +2 talisman"],
+      loot: ["Haligtree Secret Medallion (Left) — from Albus the old man in Village of the Albinaurics (Liurnia)", "Mohgwyn Palace Teleporter (behind imp-sealed door)"],
+      locations: ["Inner Consecrated Snowfield — reached via Grand Lift of Rold using Secret Haligtree Medallion gesture"],
+      secrets: ["The blizzard obscures a massive plateau. Head northwest from the Ordina Liturgical Town bonfire to find Astel's cave entrance."]
+    }
+  },
+  {
+    rank: 6,
+    name: "Complete Spiritcaller's Cave",
+    desc: "A deceptive cave that culminates in one of the hardest duo encounters in the game — and drops a critical remembrance.",
+    tags: ["dungeon","boss","loot"],
+    difficulty: 5,
+    hard: true,
+    tier: "A+",
+    detail: {
+      bosses: ["Godskin Duo — Godskin Noble + Godskin Apostle simultaneously; shared HP pool mechanic"],
+      optional: ["None — the cave is self-contained"],
+      questlines: ["Remembrance can be exchanged for Black Flame Tornado or Godslayer's Greatsword"],
+      loot: ["Godskin Duo Remembrance", "Smithing Stone Miner's Bell Bearing [4]"],
+      locations: ["Eastern snowfields — look for the narrow cave entrance northeast of the Ancient Snow Veil area"],
+      secrets: ["Sleep pots or Sleepbone Arrows trivialize this fight — both bosses are susceptible to the Sleep status effect."]
+    }
+  },
+  {
+    rank: 7,
+    name: "Unlock Heretical Rise Tower",
+    desc: "Accessed via invisible bridge — contains Founding Rain of Stars, one of the strongest Intelligence sorceries.",
+    tags: ["secret","loot","dungeon"],
+    difficulty: 2,
+    hard: false,
+    tier: "A",
+    detail: {
+      bosses: ["No boss — exploration puzzle tower"],
+      optional: ["Death Rite Bird patrols the adjacent snowfield at night"],
+      questlines: ["No questline ties, but the sorcery is sought by Intelligence builds"],
+      loot: ["Founding Rain of Stars (S-scaling Intelligence spell)", "Spelldrake Talisman +2 (nearby chest)"],
+      locations: ["Northwest Mountaintops, near cliffside. The invisible bridge extends eastward from the tower entrance."],
+      secrets: ["Stand at the tower entrance and walk exactly east. The bridge is completely invisible — follow the edge until you reach the door."]
+    }
+  },
+  {
+    rank: 8,
+    name: "Millicent's Questline Completion",
+    desc: "The concluding chapter of Millicent's journey ends here. The outcome determines a powerful talisman or incantation.",
+    tags: ["questline","loot"],
+    difficulty: 2,
+    hard: false,
+    tier: "A",
+    detail: {
+      bosses: ["Millicent Summon Sign — optional invasion during questline conclusion"],
+      optional: ["Four Millicent Sisters invasion if you choose to fight her"],
+      questlines: ["Help Millicent: receive Unalloyed Gold Needle → transform into Miquella's Needle (used in Mohg's arena to remove Frenzied Flame)", "Betray Millicent: receive Millicent's Prosthesis talisman"],
+      loot: ["Miquella's Needle (if aided) — saves you from Lord of Frenzied Flame ending", "Millicent's Prosthesis (if betrayed) — boosts Dexterity and attack speed"],
+      locations: ["Gold-covered flower field near the Scarlet Rot side of Mountaintops / Haligtree approach"],
+      secrets: ["You must have given Millicent the Unalloyed Gold Needle in Altus Plateau and tracked her through Dominula and Elphael first."]
+    }
+  },
+];
+
+// ─── TAG RENDERER ────────────────────────────────────────────────────────────
+const tagMap = {
+  boss:      ['tag-boss',      'Boss'],
+  dungeon:   ['tag-dungeon',   'Dungeon'],
+  loot:      ['tag-loot',      'Legendary Loot'],
+  questline: ['tag-questline', 'Questline'],
+  secret:    ['tag-secret',    'Secret Area'],
+  farming:   ['tag-farming',   'Rune Farming'],
+  keyitem:   ['tag-keyitem',   'Key Item'],
+};
+
+function renderTags(tags) {
+  return tags.map(t => {
+    const [cls, label] = tagMap[t] || ['tag-dungeon', t];
+    return `<span class="tag ${cls}">${label}</span>`;
+  }).join('');
+}
+
+function renderPips(n, hard) {
+  return Array.from({length: 5}, (_, i) => {
+    const filled = i < n;
+    const cls = filled ? (hard && n >= 4 ? 'filled hard' : 'filled') : '';
+    return `<span class="pip ${cls}"></span>`;
+  }).join('');
+}
+
+const tierClass = { 'S+': 'tier-s-plus', 'S': 'tier-s', 'A+': 'tier-a-plus', 'A': 'tier-a', 'B+': 'tier-b-plus' };
+
+function renderDetail(d, isMobile) {
+  const sections = [
+    { title: 'Main Bosses',      items: d.bosses },
+    { title: 'Optional Bosses',  items: d.optional },
+    { title: 'Questlines',       items: d.questlines },
+    { title: 'Notable Loot',     items: d.loot },
+    { title: 'Locations',        items: d.locations },
+    { title: 'Hidden Secrets',   items: d.secrets },
+  ];
+  return sections.map(s => `
+    <div>
+      <div class="detail-section-title">${s.title}</div>
+      <ul class="detail-list">
+        ${s.items.map(i => `<li>${i}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+}
+
+// ─── BUILD TABLE ─────────────────────────────────────────────────────────────
+const tbody = document.getElementById('tableBody');
+entries.forEach((e, idx) => {
+  const topCls = idx < 3 ? 'top-entry' : '';
+  const tc = tierClass[e.tier] || 'tier-b-plus';
+
+  // Main row
+  const tr = document.createElement('tr');
+  tr.className = topCls;
+  tr.innerHTML = `
+    <td><span class="rank-num">${String(e.rank).padStart(2,'0')}</span></td>
+    <td>
+      <div class="activity-name">${e.name}</div>
+      <div class="activity-desc">${e.desc.substring(0,60)}…</div>
+    </td>
+    <td><div class="activity-desc" style="font-size:13px;color:var(--ash-light);font-style:normal;">${e.desc}</div></td>
+    <td class="tags-cell">${renderTags(e.tags)}</td>
+    <td><div class="pips">${renderPips(e.difficulty, e.hard)}</div></td>
+    <td><div class="tier-badge ${tc}">${e.tier}</div></td>
+  `;
+
+  // Detail row
+  const dr = document.createElement('tr');
+  dr.className = 'detail-row';
+  const dtd = document.createElement('td');
+  dtd.colSpan = 6;
+  const panel = document.createElement('div');
+  panel.className = 'detail-panel';
+  panel.innerHTML = renderDetail(e.detail, false);
+  dtd.appendChild(panel);
+  dr.appendChild(dtd);
+
+  tr.addEventListener('click', () => {
+    const isOpen = panel.classList.contains('open');
+    // close all
+    document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('open'));
+    if (!isOpen) panel.classList.add('open');
+  });
+
+  tbody.appendChild(tr);
+  tbody.appendChild(dr);
+});
+
+// ─── BUILD CARDS ─────────────────────────────────────────────────────────────
+const cardGrid = document.getElementById('cardGrid');
+entries.forEach((e, idx) => {
+  const topCls = idx < 3 ? 'top-entry' : '';
+  const tc = tierClass[e.tier] || 'tier-b-plus';
+
+  const card = document.createElement('div');
+  card.className = `check-card ${topCls}`;
+  card.innerHTML = `
+    <div class="card-header-row">
+      <div class="card-rank-badge">${String(e.rank).padStart(2,'0')}</div>
+      <div>
+        <div class="card-name">${e.name}</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+          <div class="tier-badge ${tc}" style="font-size:18px;">${e.tier}</div>
+          <div class="pips">${renderPips(e.difficulty, e.hard)}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">${e.desc}</div>
+    <div class="card-meta">${renderTags(e.tags)}</div>
+    <div class="card-detail-panel">
+      ${renderDetail(e.detail, true)}
+    </div>
+  `;
+
+  card.addEventListener('click', () => {
+    const panel = card.querySelector('.card-detail-panel');
+    const isOpen = panel.classList.contains('open');
+    document.querySelectorAll('.card-detail-panel').forEach(p => p.classList.remove('open'));
+    if (!isOpen) panel.classList.add('open');
+  });
+
+  cardGrid.appendChild(card);
+});
+
+// ─── SCROLL OBSERVER ─────────────────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.section-header, .panel').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
