@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Elden Ring Spells — Definitive Tier Rankings</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:       #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim:   #7a5e22;
+    --accent:     #a83232;
+    --accent-glow:#e04444;
+    --rune-blue:  #4a8fc4;
+    --faith-gold: #d4a820;
+    --intel-blue: #3a7ab8;
+    --arc-purple: #8855cc;
+    --dex-green:  #3a9960;
+    --str-red:    #b03020;
+    --bg:         #090608;
+    --bg2:        #100d0e;
+    --bg3:        #160f10;
+    --panel:      #120e0f;
+    --border:     #2a1e18;
+    --text:       #d8c8a8;
+    --text-dim:   #7a6a52;
+    --text-muted: #4a3a2a;
+    --s-tier:     #ffcc00;
+    --a-tier:     #e08020;
+    --b-tier:     #6699cc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── BACKGROUND LAYERS ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(180,80,20,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(74,143,196,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 60%, rgba(136,85,204,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .rune-pattern {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  .rune-pattern svg { width: 100%; height: 100%; opacity: 0.025; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 40px rgba(201,168,76,0.2); }
+    50%       { text-shadow: 0 0 30px rgba(201,168,76,0.7), 0 0 60px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.1); }
+  }
+  @keyframes borderGlow {
+    0%, 100% { box-shadow: inset 0 0 0 1px rgba(201,168,76,0.2); }
+    50%       { box-shadow: inset 0 0 0 1px rgba(201,168,76,0.5), 0 0 20px rgba(201,168,76,0.1); }
+  }
+  @keyframes runeRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes rowRise {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 70px 20px 50px;
+    position: relative;
+    animation: fadeInDown 1s ease both;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 20px;
+    animation: fadeIn 1.2s 0.3s both;
+  }
+
+  .title-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--gold-light);
+    animation: glowPulse 4s ease-in-out infinite, fadeInDown 1s 0.1s both;
+    letter-spacing: 0.02em;
+  }
+
+  .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 12px;
+    animation: fadeIn 1.4s 0.6s both;
+  }
+
+  .deco-line {
+    display: flex; align-items: center; gap: 16px;
+    justify-content: center;
+    margin: 24px 0;
+    animation: fadeIn 1.5s 0.8s both;
+  }
+  .deco-line::before, .deco-line::after {
+    content: '';
+    flex: 1; max-width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .deco-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* ── EMBLEM ── */
+  .emblem-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 40px;
+    animation: fadeIn 1.5s 1s both;
+  }
+  .emblem {
+    position: relative;
+    width: 120px; height: 120px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .emblem-ring {
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    animation: runeRotate 20s linear infinite;
+  }
+  .emblem-ring::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold);
+  }
+  .emblem-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(201,168,76,0.6), 0 0 60px rgba(201,168,76,0.2);
+    line-height: 1;
+  }
+  .emblem-label {
+    position: absolute;
+    bottom: -22px;
+    left: 50%; transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ── TABLE WRAPPER ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--panel);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.04), 0 20px 60px rgba(0,0,0,0.6);
+    animation: borderGlow 5s ease infinite;
+    margin-bottom: 40px;
+  }
+
+  /* ── TABLE HEADER ── */
+  .th-row {
+    display: grid;
+    grid-template-columns: 52px 1fr 130px 90px 100px 70px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    background: rgba(0,0,0,0.4);
+  }
+  .th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 12px 8px;
+  }
+
+  /* ── SPELL ROW ── */
+  .spell-row {
+    display: grid;
+    grid-template-columns: 52px 1fr 130px 90px 100px 70px;
+    gap: 0;
+    border-bottom: 1px solid rgba(42,30,24,0.6);
+    padding: 0 16px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .spell-row:last-child { border-bottom: none; }
+
+  /* Top 3 gold treatment */
+  .spell-row.top-gold {
+    border-left-color: var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+    animation: rowRise 0.6s ease both;
+  }
+  .spell-row.top-gold:hover {
+    background: linear-gradient(90deg, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.04) 100%);
+  }
+
+  /* Other rows */
+  .spell-row:not(.top-gold) {
+    border-left-color: transparent;
+  }
+  .spell-row:not(.top-gold):hover {
+    background: rgba(201,168,76,0.04);
+    border-left-color: var(--accent);
+  }
+
+  .spell-row:nth-child(2)  { animation-delay: 0.05s; }
+  .spell-row:nth-child(3)  { animation-delay: 0.10s; }
+  .spell-row:nth-child(4)  { animation-delay: 0.15s; }
+  .spell-row:nth-child(5)  { animation-delay: 0.20s; }
+  .spell-row:nth-child(6)  { animation-delay: 0.25s; }
+  .spell-row:nth-child(7)  { animation-delay: 0.30s; }
+  .spell-row:nth-child(8)  { animation-delay: 0.35s; }
+  .spell-row:nth-child(9)  { animation-delay: 0.40s; }
+  .spell-row:nth-child(10) { animation-delay: 0.45s; }
+  .spell-row:nth-child(11) { animation-delay: 0.50s; }
+  .spell-row:nth-child(12) { animation-delay: 0.55s; }
+  .spell-row:nth-child(13) { animation-delay: 0.60s; }
+  .spell-row:nth-child(14) { animation-delay: 0.65s; }
+  .spell-row:nth-child(15) { animation-delay: 0.70s; }
+
+  .spell-row:not(.top-gold) { animation: rowRise 0.5s ease both; }
+
+  /* Cells */
+  .cell {
+    padding: 14px 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Rank cell */
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 3px;
+  }
+  .rank-1 {
+    color: #ffd700;
+    background: rgba(255,215,0,0.12);
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 12px rgba(255,215,0,0.2);
+  }
+  .rank-2 {
+    color: #c0c0c0;
+    background: rgba(192,192,192,0.1);
+    border: 1px solid rgba(192,192,192,0.25);
+  }
+  .rank-3 {
+    color: #cd7f32;
+    background: rgba(205,127,50,0.1);
+    border: 1px solid rgba(205,127,50,0.3);
+  }
+  .rank-other {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* Name cell */
+  .spell-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.2;
+  }
+  .spell-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .name-col { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+
+  /* Pills */
+  .pill {
+    font-family: 'Cinzel', serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .pill-sorcery  { color: var(--intel-blue); background: rgba(58,122,184,0.1);  border: 1px solid rgba(58,122,184,0.35); }
+  .pill-incant   { color: var(--faith-gold); background: rgba(212,168,32,0.1);  border: 1px solid rgba(212,168,32,0.35); }
+  .pill-gravity  { color: #8899bb;          background: rgba(100,120,180,0.08); border: 1px solid rgba(100,120,180,0.3); }
+  .pill-frost    { color: #88ccee;          background: rgba(100,180,220,0.08); border: 1px solid rgba(100,180,220,0.3); }
+  .pill-fire     { color: #e06020;          background: rgba(200,80,20,0.1);    border: 1px solid rgba(200,80,20,0.35); }
+  .pill-lightning{ color: #ddcc44;          background: rgba(200,190,40,0.08);  border: 1px solid rgba(200,190,40,0.3); }
+  .pill-death    { color: #9966bb;          background: rgba(120,80,160,0.1);   border: 1px solid rgba(120,80,160,0.35); }
+  .pill-blood    { color: #cc3333;          background: rgba(180,30,30,0.1);    border: 1px solid rgba(180,30,30,0.35); }
+  .pill-dragon   { color: #cc8833;          background: rgba(180,100,30,0.1);   border: 1px solid rgba(180,100,30,0.35); }
+  .pill-heal     { color: #55bb77;          background: rgba(60,160,80,0.1);    border: 1px solid rgba(60,160,80,0.3); }
+  .pill-aoe      { color: #bb7733;          background: rgba(160,100,30,0.08);  border: 1px solid rgba(160,100,30,0.3); }
+  .pill-pve      { color: #7a8a7a;          background: rgba(80,100,80,0.08);   border: 1px solid rgba(80,100,80,0.25); }
+  .pill-pvp      { color: #aa4444;          background: rgba(140,50,50,0.08);   border: 1px solid rgba(140,50,50,0.3); }
+  .pill-buffs    { color: #88aacc;          background: rgba(100,140,180,0.08); border: 1px solid rgba(100,140,180,0.3); }
+
+  /* Stat cell */
+  .stat-val {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-align: center;
+    width: 100%;
+  }
+  .stat-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    display: block;
+    text-align: center;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .stat-col { flex-direction: column; gap: 2px; }
+
+  /* Difficulty dots */
+  .dots {
+    display: flex; gap: 3px; justify-content: center;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 1px solid var(--text-muted);
+    transition: background 0.2s;
+  }
+  .dot.on { background: var(--accent-glow); border-color: var(--accent-glow); box-shadow: 0 0 4px var(--accent-glow); }
+  .diff-col { flex-direction: column; align-items: center; gap: 5px; }
+  .diff-label {
+    font-size: 0.58rem; color: var(--text-muted);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  /* Type col */
+  .type-col { flex-direction: column; align-items: center; gap: 3px; }
+  .type-icon { font-size: 1.2rem; }
+  .type-text {
+    font-size: 0.6rem; color: var(--text-muted);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Tier badge */
+  .tier-badge {
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    text-align: center;
+    line-height: 1;
+  }
+  .tier-s-plus {
+    color: var(--s-tier);
+    text-shadow: 0 0 12px rgba(255,204,0,0.5), 0 0 24px rgba(255,204,0,0.2);
+  }
+  .tier-s {
+    color: #ffaa00;
+    text-shadow: 0 0 10px rgba(255,170,0,0.4);
+  }
+  .tier-a-plus {
+    color: var(--a-tier);
+    text-shadow: 0 0 8px rgba(224,128,32,0.4);
+  }
+  .tier-a {
+    color: #dd9020;
+    text-shadow: 0 0 6px rgba(200,120,20,0.3);
+  }
+  .tier-b-plus {
+    color: var(--b-tier);
+    text-shadow: 0 0 6px rgba(100,150,200,0.3);
+  }
+  .tier-b { color: #5580aa; }
+  .tier-col { justify-content: center; }
+
+  /* HOVER DETAIL PANEL */
+  .detail-panel {
+    display: none;
+    grid-column: 1 / -1;
+    padding: 0 16px 14px 76px;
+    border-top: 1px solid rgba(42,30,24,0.5);
+    margin-top: -2px;
+    background: rgba(0,0,0,0.25);
+    animation: fadeInDown 0.2s ease;
+  }
+  .spell-row.open .detail-panel { display: block; }
+  .detail-text {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.6;
+    border-left: 2px solid var(--gold-dim);
+    padding-left: 14px;
+    margin-top: 2px;
+  }
+  .detail-meta {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 8px;
+  }
+  .dmeta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .dmeta span { color: var(--text-dim); font-size: 0.75rem; }
+
+  /* ── BOTTOM PANELS ── */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+    animation: fadeInUp 0.8s 1.2s both;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* Reference table */
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table td {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(42,30,24,0.4);
+    vertical-align: middle;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { color: var(--text); background: rgba(255,255,255,0.02); }
+  .ref-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .ref-val {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold-dim);
+    text-align: right;
+  }
+
+  /* Tips list */
+  .tips-list { list-style: none; }
+  .tips-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(42,30,24,0.4);
+    line-height: 1.45;
+  }
+  .tips-list li:last-child { border-bottom: none; }
+  .tip-icon {
+    color: var(--gold-dim);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tip-strong {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid var(--border);
+    animation: fadeIn 1s 1.5s both;
+  }
+  .footer-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto 10px;
+    line-height: 1.6;
+  }
+  .footer-sig {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    .th-row, .spell-row {
+      grid-template-columns: 44px 1fr 70px 60px;
+    }
+    .th:nth-child(4), .cell:nth-child(4),
+    .th:nth-child(5), .cell:nth-child(5) { display: none; }
+    .panels { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
+    .detail-panel { padding-left: 55px; }
+  }
+  @media (max-width: 520px) {
+    .th-row, .spell-row { grid-template-columns: 40px 1fr 55px; }
+    .th:nth-child(3), .cell:nth-child(3) { display: none; }
+    .spell-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background rune pattern -->
+<div class="rune-pattern">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="runes" x="0" y="0" width="160" height="160" patternUnits="userSpaceOnUse">
+        <text x="10" y="40"  font-size="28" fill="#c9a84c" font-family="serif" opacity="0.6">ᚠ</text>
+        <text x="90" y="80"  font-size="20" fill="#c9a84c" font-family="serif" opacity="0.4">ᚢ</text>
+        <text x="40" y="130" font-size="24" fill="#c9a84c" font-family="serif" opacity="0.5">ᛏ</text>
+        <text x="120" y="30" font-size="18" fill="#c9a84c" font-family="serif" opacity="0.3">ᚱ</text>
+        <line x1="0" y1="160" x2="160" y2="0" stroke="#c9a84c" stroke-width="0.3" opacity="0.15"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#runes)"/>
+  </svg>
+</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">✦ The Tarnished's Compendium ✦</div>
+    <div class="title-wrap">
+      <h1>Best Elden Ring Spells</h1>
+    </div>
+    <div class="deco-line"><div class="deco-diamond"></div></div>
+    <p class="subtitle">Sorceries & Incantations ranked for the Age of the Erdtree — PvE &amp; PvP</p>
+
+    <div class="emblem-wrap">
+      <div class="emblem">
+        <div class="emblem-ring"></div>
+        <div class="emblem-num">15</div>
+        <div class="emblem-label">Ranked Spells</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION TITLE -->
+  <div class="section-title">⚔ Spell Rankings — Definitive Tier List</div>
+
+  <!-- RANKING TABLE -->
+  <div class="table-wrap">
+    <!-- Header -->
+    <div class="th-row">
+      <div class="th">Rank</div>
+      <div class="th">Spell &amp; Description</div>
+      <div class="th" style="text-align:center">FP / Slots</div>
+      <div class="th" style="text-align:center">Difficulty</div>
+      <div class="th" style="text-align:center">Type</div>
+      <div class="th" style="text-align:center">Tier</div>
+    </div>
+
+    <!-- ═══════════════════════════════════ ROWS ═════════════════════ -->
+
+    <!-- #1 -->
+    <div class="spell-row top-gold" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-1">1</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Comet Azur</div>
+        <div class="spell-desc">An enormous sustained beam of pure azurite magic, channelled through a staff in the name of Primeval Sorcery.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-gravity">Primeval</span>
+          <span class="pill pill-pve">PvE King</span>
+          <span class="pill pill-aoe">Nuke</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">40 / 2 FP</div>
+        <div class="stat-label">per sec / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Medium</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-s-plus">S+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"The most devastating spell in any caster's arsenal. Pair with Terra Magicus and the Cerulean Hidden Tear to sustain an infinite beam that vaporises nearly every boss in the game. One of the few things that can make Malenia feel trivial."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>60</span></div>
+          <div class="dmeta">Location <span>Mt. Gelmir (Primeval Sorcerer Azur)</span></div>
+          <div class="dmeta">Scaling <span>INT (S)</span></div>
+          <div class="dmeta">Best Staff <span>Lusat's Glintstone Staff</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #2 -->
+    <div class="spell-row top-gold" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-2">2</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Stars of Ruin</div>
+        <div class="spell-desc">Fires 12 homing projectiles that relentlessly track enemies — devastating in PvP and reliable in PvE.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-gravity">Primeval</span>
+          <span class="pill pill-pvp">PvP S-Tier</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">38 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-s-plus">S+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Inescapable tracking makes this the undisputed king of PvP sorcery. Each of the 12 projectiles deals independent damage — total burst potential rivals most incantations. Obtained from Sorceress Sellen's questline."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>43</span></div>
+          <div class="dmeta">Location <span>Sellen Questline (Rennala)</span></div>
+          <div class="dmeta">Scaling <span>INT (S)</span></div>
+          <div class="dmeta">Projectiles <span>12 homing bolts</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #3 -->
+    <div class="spell-row top-gold" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-3">3</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Black Blade</div>
+        <div class="spell-desc">Maliketh's own incantation — slashes with a blade of destined death, reducing max HP by 10% and inflicting a DoT.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-death">Death</span>
+          <span class="pill pill-pvp">PvP</span>
+          <span class="pill pill-pve">PvE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">26 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Medium</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🟡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-s">S</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"A persistent HP ceiling reduction of 10% is uniquely punishing — it cannot be healed away. Combine with Ancient Dragon's Lightning Strike to shred boss health bars. Widely considered the best incantation for boss fights."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>46</span></div>
+          <div class="dmeta">Location <span>Remembrance of the Black Blade</span></div>
+          <div class="dmeta">Scaling <span>FAI (S)</span></div>
+          <div class="dmeta">Special <span>−10% max HP on hit</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #4 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">4</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Ranni's Dark Moon</div>
+        <div class="spell-desc">Launches a great dark moon that debuffs enemy magic resist by 10% and inflicts frostbite on impact.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-frost">Frost</span>
+          <span class="pill pill-buffs">Debuff</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">82 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Hard</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-s">S</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"The −10% magic negation debuff stacks multiplicatively with all INT damage — fire it once, then follow up with Comet Azur for catastrophic results. Acquired at the very end of Ranni's lengthy questline."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>68</span></div>
+          <div class="dmeta">Location <span>Ranni's Questline (Moonlight Altar)</span></div>
+          <div class="dmeta">Scaling <span>INT (S)</span></div>
+          <div class="dmeta">Debuff <span>−10% Magic Negation</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #5 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">5</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Lightning Spear</div>
+        <div class="spell-desc">Hurls a javelin of crackling lightning — the bread-and-butter of any faith build, fast and efficient.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-lightning">Lightning</span>
+          <span class="pill pill-pve">PvE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">18 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Trivial</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🟡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-s">S</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Exceptional FP efficiency, short cast time, and solid range makes this the workhorse of faith casters from Limgrave to the Elden Throne. Can be charged for bonus damage. Effective against dragons."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>17</span></div>
+          <div class="dmeta">Location <span>Dragon Communion Altar (2 Dragon Hearts)</span></div>
+          <div class="dmeta">Scaling <span>FAI (A)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #6 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">6</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Ekzykes's Decay</div>
+        <div class="spell-desc">Dragon Communion incantation that breathes a wide cone of scarlet rot, devastating crowds and bosses alike.</div>
+        <div class="tags">
+          <span class="pill pill-dragon">Dragon</span>
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-blood">Rot</span>
+          <span class="pill pill-aoe">AoE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">36 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🐉</div>
+        <div class="type-text">Dragon</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a-plus">A+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Trivialises Malenia's second phase by applying scarlet rot before she can regenerate. The AoE breath cone makes it superb for clearing groups. Requires defeating Ekzykes, the Decaying Dragon in Caelid."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>23</span> ARC <span>15</span></div>
+          <div class="dmeta">Location <span>Dragon Communion Altar (2 Dragon Hearts)</span></div>
+          <div class="dmeta">Status <span>Scarlet Rot buildup</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #7 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">7</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Rock Sling</div>
+        <div class="spell-desc">Drags three boulders from the earth and hurls them with gravitational force — unique in dealing Physical damage.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-gravity">Gravity</span>
+          <span class="pill pill-pve">PvE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">18 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Trivial</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a-plus">A+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Gravity sorceries deal physical damage — bypassing the magic resistance of otherwise hard enemies. Staggered hitboxes from the three boulders can poise-break nearly any foe. Essential early sorcery found in Sellia Crystal Tunnel."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>18</span></div>
+          <div class="dmeta">Location <span>Sellia Crystal Tunnel (chest)</span></div>
+          <div class="dmeta">Damage Type <span>Physical (Gravity)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #8 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">8</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Golden Vow</div>
+        <div class="spell-desc">A battle-cry incantation that raises your attack and defence — the best self-buff in the entire game.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-buffs">Buff</span>
+          <span class="pill pill-pve">PvE</span>
+          <span class="pill pill-pvp">PvP</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">47 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Trivial</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🟡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a-plus">A+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"+7.5% attack and +10% damage negation for 80 seconds. Stacks with almost every other buff in the game. A staple for every serious build — even strength and dex characters splash 25 FAI to access this."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>25</span></div>
+          <div class="dmeta">Location <span>Corpse-Stench Shack, Mt. Gelmir</span></div>
+          <div class="dmeta">Duration <span>80 seconds</span></div>
+          <div class="dmeta">Buff <span>+7.5% ATK / +10% DEF</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #9 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">9</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Erdtree Heal</div>
+        <div class="spell-desc">Channels the grace of the Erdtree to restore a massive amount of HP — the most powerful healing incantation.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-heal">Heal</span>
+          <span class="pill pill-pve">Survival</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">65 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🟡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Restores roughly 900 HP at 80 FAI — outperforming flasks in raw HP restored. Slow cast time is the primary drawback. Best used in windows between boss attacks. Found in Erdtree Sanctuary, Leyndell."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>42</span></div>
+          <div class="dmeta">Location <span>Erdtree Sanctuary, Leyndell</span></div>
+          <div class="dmeta">Heal <span>~900 HP at 80 FAI</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #10 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">10</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Ancient Dragon's Lightning Strike</div>
+        <div class="spell-desc">Channels the power of the ancient Farum lightning — massive AOE lightning pillars strike from above.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-lightning">Lightning</span>
+          <span class="pill pill-aoe">AoE</span>
+          <span class="pill pill-dragon">Dragon</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">32 / 2 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Medium</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">⚡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Multiple lightning pillars land over a wide area — exceptional for crowd control and catching rolling players in PvP. Pairs beautifully with Black Blade for a faith-based boss killer build. Sold by Gowry after questline completion."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>36</span></div>
+          <div class="dmeta">Location <span>Sold by Gowry (Millicent questline)</span></div>
+          <div class="dmeta">Hits <span>Multiple independent pillars</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #11 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">11</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Loretta's Greatbow</div>
+        <div class="spell-desc">Conjures a magical greatbow and fires a single massive arrow of arcane force with devastating range.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-gravity">Carian</span>
+          <span class="pill pill-pve">PvE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">28 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-a">A</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Outstanding range for picking off distant enemies. The charged version deals nearly double damage and can stagger large enemies. Acquired from the Remembrance of the Full Moon Queen after defeating Royal Knight Loretta."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>26</span></div>
+          <div class="dmeta">Location <span>Remembrance of the Full Moon Queen</span></div>
+          <div class="dmeta">Charged <span>~2× damage</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #12 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">12</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Bloodboon</div>
+        <div class="spell-desc">Scatters a cloud of blood-infused ash that quickly builds hemorrhage on all caught within the spreading mist.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-blood">Bleed</span>
+          <span class="pill pill-aoe">AoE</span>
+          <span class="pill pill-pvp">PvP</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">20 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🩸</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-b-plus">B+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Excellent FP efficiency for the hemorrhage it builds. Synergises with high-ARC builds and Lord of Blood's Exultation talisman. Very oppressive in PvP close quarters. Dropped by Mohg, Lord of Blood."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>14</span> ARC <span>14</span></div>
+          <div class="dmeta">Location <span>Remembrance of the Blood Lord</span></div>
+          <div class="dmeta">Status <span>Hemorrhage buildup</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #13 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">13</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Freezing Mist</div>
+        <div class="spell-desc">Exhales a billowing cone of icy mist that lingers on the ground and builds frostbite rapidly on anything inside.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-frost">Frost</span>
+          <span class="pill pill-dragon">Dragon</span>
+          <span class="pill pill-aoe">AoE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">28 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Easy</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">❄️</div>
+        <div class="type-text">Dragon</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-b-plus">B+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"A persistent AoE that lingers far longer than other status effects. After frostbite procs, the 20% physical damage amplification makes all follow-up attacks devastating. Pairs excellently with Ranni's Dark Moon."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>15</span> ARC <span>10</span></div>
+          <div class="dmeta">Location <span>Dragon Communion Altar (1 Dragon Heart)</span></div>
+          <div class="dmeta">Frostbite Proc <span>+20% Physical Damage</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #14 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">14</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Glintstone Pebble</div>
+        <div class="spell-desc">The most fundamental sorcery — fires a small glintstone shard. Deceptively strong for its low FP cost.</div>
+        <div class="tags">
+          <span class="pill pill-sorcery">Sorcery</span>
+          <span class="pill pill-pve">PvE</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">7 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Trivial</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🔵</div>
+        <div class="type-text">Sorcery</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-b-plus">B+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"The starting sorcery that never stops being relevant. At only 7 FP per cast, its DPS-to-cost ratio rivals most S-tier spells when used rapidly. The snap-shot cancel tech makes it even stronger than it looks."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req INT <span>14</span></div>
+          <div class="dmeta">Location <span>Starting Sorcery / Shop (Thops)</span></div>
+          <div class="dmeta">FP Efficiency <span>Best in class</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- #15 -->
+    <div class="spell-row" onclick="this.classList.toggle('open')">
+      <div class="cell"><div class="rank-num rank-other">15</div></div>
+      <div class="cell name-col">
+        <div class="spell-name">Flame, Grant Me Strength</div>
+        <div class="spell-desc">A fire-keeper's prayer that temporarily boosts both Physical and Fire attack power. Essential for any bleed or fire hybrid.</div>
+        <div class="tags">
+          <span class="pill pill-incant">Incantation</span>
+          <span class="pill pill-fire">Fire</span>
+          <span class="pill pill-buffs">Buff</span>
+          <span class="pill pill-pve">Hybrid</span>
+        </div>
+      </div>
+      <div class="cell stat-col">
+        <div class="stat-val">28 / 1 FP</div>
+        <div class="stat-label">cast / slots</div>
+      </div>
+      <div class="cell diff-col">
+        <div class="dots">
+          <div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="diff-label">Trivial</div>
+      </div>
+      <div class="cell type-col">
+        <div class="type-icon">🟡</div>
+        <div class="type-text">Incant.</div>
+      </div>
+      <div class="cell tier-col">
+        <div class="tier-badge tier-b-plus">B+</div>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-text">"Adds +20% Physical AND Fire damage for 30 seconds. Combine with Golden Vow and you have a stacking buff package that eclipses almost any other opener. Behind Fort Gael, Caelid."</div>
+        <div class="detail-meta">
+          <div class="dmeta">Req FAI <span>15</span></div>
+          <div class="dmeta">Location <span>Behind Fort Gael, Caelid</span></div>
+          <div class="dmeta">Buff <span>+20% Physical & Fire ATK</span></div>
+          <div class="dmeta">Duration <span>30 seconds</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /table-wrap -->
+
+  <!-- BOTTOM PANELS -->
+  <div class="panels">
+
+    <!-- LEFT: Reference table -->
+    <div class="panel">
+      <div class="panel-title">⚗ Best Catalysts by Build</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Catalyst</th>
+            <th>Type</th>
+            <th>Best For</th>
+            <th style="text-align:right">Scaling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="ref-name">Lusat's Glintstone Staff</div></td>
+            <td><span class="pill pill-sorcery">Sorcery</span></td>
+            <td style="font-size:0.78rem">Comet Azur builds</td>
+            <td class="ref-val">INT S</td>
+          </tr>
+          <tr>
+            <td><div class="ref-name">Carian Regal Scepter</div></td>
+            <td><span class="pill pill-sorcery">Sorcery</span></td>
+            <td style="font-size:0.78rem">All-round INT caster</td>
+            <td class="ref-val">INT S</td>
+          </tr>
+          <tr>
+            <td><div class="ref-name">Golden Order Seal</div></td>
+            <td><span class="pill pill-incant">Incantation</span></td>
+            <td style="font-size:0.78rem">FAI/INT hybrid</td>
+            <td class="ref-val">FAI/INT</td>
+          </tr>
+          <tr>
+            <td><div class="ref-name">Erdtree Seal</div></td>
+            <td><span class="pill pill-incant">Incantation</span></td>
+            <td style="font-size:0.78rem">Pure FAI caster</td>
+            <td class="ref-val">FAI S</td>
+          </tr>
+          <tr>
+            <td><div class="ref-name">Dragon Communion Seal</div></td>
+            <td><span class="pill pill-dragon">Dragon</span></td>
+            <td style="font-size:0.78rem">ARC/FAI Dragon builds</td>
+            <td class="ref-val">ARC S</td>
+          </tr>
+          <tr>
+            <td><div class="ref-name">Staff of Loss</div></td>
+            <td><span class="pill pill-sorcery">Sorcery</span></td>
+            <td style="font-size:0.78rem">Night sorceries (+30%)</td>
+            <td class="ref-val">INT B</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Tips list -->
+    <div class="panel">
+      <div class="panel-title">📜 Tarnished Caster Wisdom</div>
+      <ul class="tips-list">
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Terra Magicus + Comet Azur</span>
+            Cast Terra Magicus, then stand in the circle and fire Comet Azur — the magic amplification field stacks multiplicatively.
+          </div>
+        </li>
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Cerulean Hidden Tear</span>
+            Mix this into your Wondrous Physick before Comet Azur to eliminate all FP costs for ~15 seconds — enabling an infinite beam.
+          </div>
+        </li>
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Buff Stacking Order</span>
+            Always apply Flame, Grant Me Strength → Golden Vow → then engage. Both are independent multipliers on your output.
+          </div>
+        </li>
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Frostbite → Magic Amplification</span>
+            After frostbite procs, the target takes +20% physical damage for ~30 seconds. Ranni's Dark Moon sets this up perfectly.
+          </div>
+        </li>
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Glintstone Pebble Snapshots</span>
+            Quickly cast Pebble and roll-cancel the animation — you keep the projectile while recovering stamina faster.
+          </div>
+        </li>
+        <li>
+          <span class="tip-icon">✦</span>
+          <div>
+            <span class="tip-strong">Stars of Ruin in PvP</span>
+            Fire Stars of Ruin from behind cover — projectiles track through obstacles and will home onto rolling opponents.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /panels -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="deco-line"><div class="deco-diamond"></div></div>
+    <p class="footer-text">
+      Rankings based on patch 1.12 performance across PvE and PvP contexts. Tier ratings reflect damage output, FP efficiency, acquisition difficulty, and versatility across diverse encounters. Boss effectiveness weighted 60%, general utility 40%.
+    </p>
+    <p class="footer-sig">Tarnished's Compendium — Age of the Erdtree Edition — Version 1.12</p>
+  </footer>
+
+</div><!-- /container -->
+
+<script>
+  // Stagger animation delays for rows that aren't top-3
+  const rows = document.querySelectorAll('.spell-row:not(.top-gold)');
+  rows.forEach((row, i) => {
+    row.style.animationDelay = (0.3 + i * 0.05) + 's';
+  });
+</script>
+</body>
+</html>

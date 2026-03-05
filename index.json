@@ -21,7 +21,11 @@
         "2": "Best Strength Weapons",
         "3": "Best DEX Weapons",
         "4": "Best Arcane Weapons",
-        "5": "Best Faith Weapons"
+        "5": "Best Faith Weapons",
+        "6": "Best Spells"
+      },
+      "Biomes": {
+        "1": "Biomes in Elden Ring"
       }
     },
     "FH5": {
