@@ -1,0 +1,124 @@
+Create a stunning, production-grade single HTML file for: [GAME TOPIC]
+
+━━━ AESTHETIC DIRECTION ━━━
+Before writing code, commit to one bold aesthetic that fits the game's 
+personality. Examples: decayed brutalism (Elden Ring), neon synthwave 
+(Cyberpunk), analog horror (Silent Hill), gilded baroque (Dark Souls), 
+cold-war retrofuturism (Fallout), cel-shaded ink (Okami), brushstroke 
+martial (Ghost of Tsushima). Be specific — never generic.
+
+━━━ TYPOGRAPHY ━━━
+- Pick 2 Google Fonts that feel PURPOSE-BUILT for this game's world
+- BANNED: Arial, Inter, Roboto, Lato, Open Sans, Poppins, Space Grotesk
+- Display title: large, weighted, characterful — use Cinzel, Bebas Neue, 
+  Playfair Display, Cormorant, Syne, Unbounded, or something equally distinct
+- Body: legible but stylistically flavored — not neutral
+
+━━━ COLOR SYSTEM (CSS variables only) ━━━
+--bg-base       /* atmospheric dark or rich background */
+--bg-surface    /* card/panel surface — slightly lighter */
+--accent-primary /* dominant saturated color from the game's palette */
+--accent-sharp  /* piercing contrast color for highlights */
+--text-primary  /* headings */
+--text-secondary/* body / metadata */
+--gold-1 / --gold-2 / --gold-3 /* top 3 rank tints */
+--tier-s / --tier-a / --tier-b /* tier badge colors */
+
+━━━ BACKGROUND ATMOSPHERE ━━━
+Layer these (do NOT use plain solid backgrounds):
+1. Base radial/mesh gradient using 2–3 colors from --bg-base palette
+2. Subtle SVG texture OR CSS noise grain (via inline SVG filter or 
+   pseudo-element with repeating pattern) — set OPACITY LOW (0.03–0.06)
+3. Optional: faint geometric lines, dot grid, or diagonal rule pattern
+4. Vignette overlay (radial gradient, dark edges)
+
+━━━ CRITICAL PERFORMANCE RULES ━━━
+These pages load inside an iframe. Performance is non-negotiable.
+
+ABSOLUTELY BANNED:
+✘ filter: blur() on ANY element (causes massive GPU compositing)
+✘ backdrop-filter on ANY element (forces per-frame background blur)
+✘ Animated elements larger than 200px with filter/blur
+✘ <canvas> with requestAnimationFrame for background effects
+✘ More than 2 infinite CSS animations on the entire page
+✘ will-change on elements that never animate
+✘ SVG filters applied to large/full-page elements
+
+ALLOWED ANIMATIONS (lightweight):
+✓ Entrance animations using transform + opacity (run once, not infinite)
+✓ Staggered entrance delays via nth-child (animation-fill-mode: both)
+✓ Hover transitions on transform, opacity, box-shadow, border-color
+✓ ONE small decorative infinite animation (e.g. a subtle pulse on a badge)
+✓ CSS transitions on max-height for reveal panels
+
+BACKGROUND RULES:
+✓ Use CSS gradients (radial-gradient, linear-gradient) — they are FREE
+✓ SVG noise textures as background-image are fine (static, not animated)
+✓ Keep noise/grain overlays at opacity 0.03–0.06 max
+✘ Never animate background-position or background-size continuously
+
+━━━ PAGE STRUCTURE ━━━
+
+[HEADER]
+- Eyebrow label (small caps, letter-spaced, game-themed)
+- Large display title with themed text treatment (gradient fill, outline, 
+  shadow stack, or texture clip — pick one)
+- Subtitle line (specific context for the ranking)
+- Optional: themed emblem or large typographic number (static, no animation)
+- Thin decorative divider line (static or single fade-in)
+
+[MAIN TABLE / CARD GRID]
+Each row/card must have:
+· Rank badge — gold glow for #1, silver for #2, bronze for #3
+· Name + short description (2 lines max, genuinely specific to the game)
+· Category pills — color-coded with tinted border + bg (NEVER solid fill)
+· Metadata columns — 2–3 stats relevant to the topic (damage, rarity, etc.)
+· Difficulty as 5 pip dots (CSS circles: filled vs unfilled)
+· Tier/Score badge — large styled letter: S+ > S > A+ > A > B+ > B > C
+
+Top 3 rows:
+  - Gold/silver/bronze left border (4px)
+  - Subtle metallic background tint
+  - Rank badge glow (box-shadow only, no filter)
+
+Hover state (CSS-only):
+  - Row background darkens/lightens subtly
+  - Hidden detail panel slides open (max-height: 0 → 200px, CSS transition)
+  - Detail panel shows: lore blurb, bonus stat, or contextual tip
+  - NO translateY lift on rows (causes repaints on large tables)
+
+━━━ BOTTOM PANELS (side by side, stack on mobile) ━━━
+
+Left panel — Reference Table:
+  Themed title (e.g. "Essential Arsenal", "Power Index", "Loadout Guide")
+  Mini table: Name | Type | Effect/Use | Rating
+  Compact rows, consistent styling with main table
+
+Right panel — Tips / Essentials:
+  Themed title (e.g. "Field Notes", "Insider Intel", "Tactics")
+  5–7 bullet points with custom CSS bullet icons (NOT default •)
+  Each tip is 1–2 sentences, genuinely useful game advice
+
+━━━ FOOTER ━━━
+- Ranking methodology note (1–2 lines)
+- Themed stamp or seal
+- Subtle divider + edition/version line
+
+━━━ INTERACTION POLISH ━━━
+- Custom scrollbar (::-webkit-scrollbar) styled to theme
+- ::selection color matches accent
+- Smooth scroll behavior on html
+- Table rows: cursor: default (not pointer, they're not clickable links)
+
+━━━ RESPONSIVE BREAKPOINTS ━━━
+- 1024px+: full layout
+- 768px: hide 1–2 metadata columns
+- <600px: cards stack, bottom panels stack, font sizes scale down
+
+━━━ OUTPUT RULES ━━━
+- Single .html file
+- All CSS + JS inline (no external files except Google Fonts CDN)
+- NO Bootstrap, Tailwind, jQuery, or UI libraries
+- NO placeholder/lorem text — all content must be real game data
+- Total JS should be under 30 lines, or zero if possible
+- Test mentally: does this page feel calm at 0% CPU when idle? If not, cut.

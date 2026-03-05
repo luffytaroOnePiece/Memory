@@ -1,0 +1,142 @@
+Create a stunning, production-grade single HTML file for: [SWE TOPIC]
+
+This is a technical reference / study note page for a software engineering 
+concept. It should feel like a premium developer documentation site — think 
+Stripe Docs, Vercel's design system, or a polished engineering blog post.
+
+━━━ AESTHETIC DIRECTION ━━━
+Pick one clean, developer-oriented aesthetic:
+- Midnight terminal (dark bg, monospace accents, neon syntax colors)
+- Blueprint technical (dark navy, white wireframe lines, precise grids)
+- Ink & paper (warm off-white, serif body, ink-black code blocks)
+- Obsidian vault (charcoal surfaces, purple/blue accents, subtle depth)
+Keep it professional and focused — the content is the hero, not effects.
+
+━━━ TYPOGRAPHY ━━━
+- Pick 2 Google Fonts optimized for technical reading
+- Display / headings: Syne, Space Grotesk, JetBrains Mono, DM Sans, 
+  IBM Plex Sans, or Outfit — clean and modern
+- Body text: DM Sans, Source Sans 3, IBM Plex Sans — highly legible
+- Code: Space Mono, JetBrains Mono, or Fira Code
+- BANNED for headings: Arial, Times, Comic Sans, Papyrus
+
+━━━ COLOR SYSTEM (CSS variables only) ━━━
+--bg-deep       /* main background — dark or cream */
+--bg-card       /* card/section surfaces */
+--bg-code       /* code block background — near-black or cream */
+--border        /* subtle borders */
+--border-bright /* hover / focus borders */
+--accent-1      /* primary accent (blue, cyan, or purple) */
+--accent-2      /* secondary accent (green, orange) */
+--text-primary  /* headings and important text */
+--text-secondary/* body and explanations */
+--text-muted    /* labels, metadata */
+/* Syntax highlighting colors: */
+--syn-keyword   /* purple/blue */
+--syn-function  /* blue/cyan */
+--syn-string    /* green */
+--syn-number    /* orange */
+--syn-comment   /* muted gray */
+--syn-type      /* yellow/gold */
+
+━━━ BACKGROUND ━━━
+Keep it simple and static:
+1. Solid dark color OR subtle radial gradient (2 colors max)
+2. Optional: faint CSS grid pattern (opacity 0.03–0.05)
+3. No textures, no noise, no overlays — clean and fast
+
+━━━ CRITICAL PERFORMANCE RULES ━━━
+These pages load inside an iframe. Performance is non-negotiable.
+
+ABSOLUTELY BANNED:
+✘ filter: blur() on ANY element
+✘ backdrop-filter on ANY element
+✘ <canvas> elements
+✘ requestAnimationFrame loops
+✘ Infinite CSS animations (zero allowed)
+✘ Animated backgrounds of any kind
+✘ will-change on anything
+✘ SVG filters on large elements
+
+ALLOWED:
+✓ One-shot entrance animations (opacity + transform, runs once)
+✓ Hover transitions on border-color, background-color, transform
+✓ CSS transitions on max-height for collapsible sections
+✓ IntersectionObserver for fade-in on scroll (transform + opacity only)
+✓ Smooth scroll-behavior on html
+
+━━━ PAGE STRUCTURE ━━━
+
+[NAV BAR] (optional, fixed top)
+- Logo/label on left (monospace, small)
+- Anchor links to each section on right
+- Simple solid background — no blur, no transparency
+
+[HERO / TITLE SECTION]
+- Small eyebrow label: category (e.g. "REACT · HOOKS", "SYSTEM DESIGN")
+- Large display title: the concept name
+- 1–2 line subtitle explaining what this page covers
+- Optional: quick-jump pills linking to sections below
+
+[INTRO / WHY IT MATTERS]
+- Card with brief explanation of the concept
+- 3–4 grid items: key benefits or core ideas
+- Each item: icon (emoji), title, 1-line description
+
+[CONCEPT SECTIONS] (repeat for each sub-topic)
+Each section card contains:
+- Section number + title (monospace number, display font title)
+- Tagline: one-line summary
+- Difficulty/complexity badge
+
+Inside each section:
+· Beginner / Advanced toggle (CSS-only preferred, or minimal JS)
+· 2-column info grid: "What it is" | "Why use it" | "Real-world use case"
+· Flow diagram: horizontal boxes connected by arrows (CSS flexbox)
+  - Boxes: colored border + tinted bg, monospace text
+  - Arrows: → character or CSS triangle
+· Code block with:
+  - Header bar: label + collapse/expand button + copy button
+  - Syntax-highlighted code (manual <span> classes, NOT a library)
+  - Collapsible via max-height CSS transition
+· Warnings / Tips grid (2 columns):
+  - ✅ Performance tip (green border)
+  - ⚠️ Common mistake (red border)
+  - 💡 Pro tip (blue border)
+  - ⏭️ When to skip (orange border)
+
+━━━ CODE BLOCK STYLING ━━━
+- Dark background, rounded corners
+- Line numbers optional but nice
+- Horizontal scroll for long lines
+- Syntax colors via CSS classes: .kw .fn .str .num .cmt .op .type
+- Copy button that shows "✓ Copied!" feedback
+- Collapse/expand toggle
+
+━━━ FOOTER ━━━
+- Topic + version/date
+- Source attribution if applicable
+- Minimal, monospace styled
+
+━━━ INTERACTION POLISH ━━━
+- Custom scrollbar styled to theme
+- ::selection color matches accent
+- Smooth scroll on html
+- Focus-visible outlines for accessibility
+- Code blocks: horizontal scroll, no word-wrap
+
+━━━ RESPONSIVE ━━━
+- 960px+: full layout
+- 768px: info grids go single column
+- <640px: nav links hidden, padding reduced, font sizes scale down
+
+━━━ OUTPUT RULES ━━━
+- Single .html file
+- All CSS + JS inline (no external files except Google Fonts CDN)
+- NO Bootstrap, Tailwind, jQuery, or UI libraries
+- NO placeholder text — all content must be real, accurate SWE knowledge
+- JS should be minimal: copy button, section toggle, IntersectionObserver
+  for scroll animations — that's it. Under 40 lines total.
+- Content accuracy matters: explanations should be technically correct,
+  code examples should actually work, tips should be genuinely useful
+- Test mentally: does this page use 0% CPU when idle? If not, cut.

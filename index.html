@@ -46,7 +46,7 @@
             position: relative;
         }
 
-        /* Ambient animated background meshes */
+        /* Static ambient background — no animation, no blur */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -54,59 +54,11 @@
             right: 0;
             bottom: 0;
             z-index: -1;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            animation: float 25s infinite ease-in-out alternate;
-            will-change: transform;
-            contain: strict;
-        }
-
-        .blob-1 {
-            top: -10%;
-            left: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            bottom: -20%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
-            animation-delay: -5s;
-        }
-
-        .blob-3 {
-            top: 40%;
-            left: 60%;
-            width: 40vw;
-            height: 40vw;
-            background: radial-gradient(circle, #9333ea 0%, transparent 70%);
-            animation-delay: -10s;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(5%, 10%) scale(1.1);
-            }
-
-            100% {
-                transform: translate(-5%, -10%) scale(0.9);
-            }
+            background:
+                radial-gradient(ellipse 60% 50% at 15% 10%, rgba(79, 70, 229, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 65% 55% at 85% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 45% at 60% 45%, rgba(147, 51, 234, 0.12) 0%, transparent 70%),
+                #000;
         }
 
         .container {
@@ -168,7 +120,7 @@
 
         input[type="text"] {
             width: 100%;
-            background: var(--bg-surface);
+            background: rgba(20, 20, 22, 0.85);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.2rem 1.2rem 1.2rem 3.5rem;
@@ -176,8 +128,6 @@
             color: var(--text-main);
             font-family: inherit;
             outline: none;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: all var(--transition-speed);
         }
@@ -210,7 +160,6 @@
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
             border: 1px solid var(--border-color);
-            backdrop-filter: blur(8px);
         }
 
         .toggle-btn {
@@ -223,7 +172,6 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s;
-            backdrop-filter: blur(8px);
         }
 
         .toggle-btn:hover {
@@ -234,9 +182,7 @@
 
         /* Tree Container Layout */
         .tree-container {
-            background: var(--bg-glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(30, 30, 35, 0.75);
             border-radius: 24px;
             padding: 2rem;
             border: 1px solid var(--border-color);
@@ -270,23 +216,7 @@
             overflow: hidden;
         }
 
-        /* Shine effect on hover */
-        .folder-name::after,
-        .file-name::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
-            transition: 0.5s;
-        }
 
-        .folder-name:hover::after,
-        .file-name:hover::after {
-            left: 100%;
-        }
 
         .folder-name:hover,
         .file-name:hover {
@@ -434,7 +364,6 @@
             padding: 0.7rem 1rem;
             cursor: pointer;
             transition: all 0.2s;
-            backdrop-filter: blur(8px);
             max-width: 220px;
             min-width: 160px;
             text-decoration: none;
@@ -570,9 +499,7 @@
             gap: 0;
             padding: 0;
             height: 56px;
-            background: linear-gradient(180deg, rgba(10, 10, 12, 0.95) 0%, rgba(10, 10, 12, 0.85) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: linear-gradient(180deg, rgba(10, 10, 12, 0.98) 0%, rgba(10, 10, 12, 0.95) 100%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             flex-shrink: 0;
             position: relative;
@@ -698,11 +625,11 @@
         }
 
         [data-theme="light"] .ambient-bg {
-            background: #e8eaed;
-        }
-
-        [data-theme="light"] .blob {
-            opacity: 0.15;
+            background:
+                radial-gradient(ellipse 60% 50% at 15% 10%, rgba(79, 70, 229, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 65% 55% at 85% 80%, rgba(14, 165, 233, 0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 45% at 60% 45%, rgba(147, 51, 234, 0.05) 0%, transparent 70%),
+                #e8eaed;
         }
 
         [data-theme="light"] .viewer-frame {
@@ -751,10 +678,7 @@
             color: #334155;
         }
 
-        [data-theme="light"] .folder-name::after,
-        [data-theme="light"] .file-name::after {
-            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.03), transparent);
-        }
+
 
         /* Theme toggle button */
         .theme-toggle {
@@ -767,7 +691,6 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s;
-            backdrop-filter: blur(8px);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -820,7 +743,6 @@
             padding: 0.7rem 1rem;
             cursor: pointer;
             transition: all 0.2s;
-            backdrop-filter: blur(8px);
             max-width: 220px;
             min-width: 160px;
             display: flex;
@@ -912,9 +834,7 @@
             position: fixed;
             inset: 0;
             z-index: 200;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.75);
             display: none;
             align-items: center;
             justify-content: center;
@@ -926,14 +846,12 @@
         }
 
         .shortcuts-panel {
-            background: var(--bg-surface);
+            background: rgba(20, 20, 22, 0.95);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 2rem 2.5rem;
             max-width: 420px;
             width: 90%;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
 
@@ -991,13 +909,11 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: var(--bg-surface);
+            background: rgba(20, 20, 22, 0.9);
             border: 1px solid var(--border-color);
             color: var(--text-main);
             font-size: 1.3rem;
             cursor: pointer;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
@@ -1043,11 +959,7 @@
 </head>
 
 <body>
-    <div class="ambient-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+    <div class="ambient-bg"></div>
 
     <div class="container">
         <header>
