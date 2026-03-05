@@ -28,6 +28,7 @@
     --hook-useMemo: #39ff8f;
     --hook-useRef: #ff7a30;
     --hook-useCallback: #b36bff;
+    --hook-useEffect: #ff4fd8;
     --hook-useAsync: #00e5ff;
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
@@ -200,6 +201,7 @@
   .pill-useMemo    { color: var(--hook-useMemo);    border-color: var(--hook-useMemo);    background: rgba(57,255,143,0.08); }
   .pill-useRef     { color: var(--hook-useRef);     border-color: var(--hook-useRef);     background: rgba(255,122,48,0.08); }
   .pill-useCallback{ color: var(--hook-useCallback);border-color: var(--hook-useCallback);background: rgba(179,107,255,0.08);}
+  .pill-useEffect  { color: var(--hook-useEffect);  border-color: var(--hook-useEffect);  background: rgba(255,77,216,0.08); }
   .pill-useAsync   { color: var(--hook-useAsync);   border-color: var(--hook-useAsync);   background: rgba(0,229,255,0.08);  }
 
   /* ─── INTRO CARD ─── */
@@ -492,8 +494,8 @@
     border-top: none;
     border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     overflow: hidden;
-    max-height: 600px;
-    transition: max-height 0.35s ease;
+    max-height: 9999px;
+    transition: max-height 0.4s ease;
   }
 
   .code-body.collapsed { max-height: 0; }
@@ -502,6 +504,7 @@
     padding: 20px 20px;
     overflow-x: auto;
     margin: 0;
+    white-space: pre;
   }
 
   code {
@@ -509,6 +512,7 @@
     font-size: 12.5px;
     line-height: 1.8;
     tab-size: 2;
+    white-space: pre;
   }
 
   /* Syntax highlighting */
@@ -628,6 +632,7 @@
     <li><a href="#useMemo">useMemo</a></li>
     <li><a href="#useRef">useRef</a></li>
     <li><a href="#useCallback">useCallback</a></li>
+    <li><a href="#useEffect">useEffect</a></li>
     <li><a href="#useAsync">useAsync</a></li>
   </ul>
 </nav>
@@ -640,12 +645,13 @@
     <h1 class="hero-title">
       <span class="grad-1">React Hooks<br>Deep Dive</span>
     </h1>
-    <p class="hero-sub">Master the five hooks that will transform how you think about state, performance, and side effects in modern React.</p>
+    <p class="hero-sub">Master the six hooks that will transform how you think about state, performance, and side effects in modern React.</p>
     <div class="hook-pills">
       <a href="#useState"    class="pill pill-useState">useState</a>
       <a href="#useMemo"     class="pill pill-useMemo">useMemo</a>
       <a href="#useRef"      class="pill pill-useRef">useRef</a>
       <a href="#useCallback" class="pill pill-useCallback">useCallback</a>
+      <a href="#useEffect"   class="pill pill-useEffect">useEffect</a>
       <a href="#useAsync"    class="pill pill-useAsync">useAsync</a>
     </div>
   </section>
@@ -1373,11 +1379,235 @@ timerRef.current = <span class="fn">setInterval</span>(tick, <span class="num">1
     </div>
   </section>
 
+  <!-- ════════════════════════ useEffect ════════════════════════ -->
+  <section class="hook-section" id="useEffect">
+    <div class="hook-card">
+      <div class="hook-header">
+        <div class="hook-num">05 /</div>
+        <div class="hook-title-block">
+          <div class="hook-name" style="--hook-color:var(--neon-pink);--hook-color-glow:rgba(255,77,216,0.4)">useEffect</div>
+          <div class="hook-tagline">Synchronize with the outside world — side effects after render</div>
+        </div>
+        <div class="hook-badge" style="--hook-color:var(--neon-pink);--hook-color-bg:rgba(255,77,216,0.1);--hook-color-border:rgba(255,77,216,0.3)">BUILT-IN</div>
+      </div>
+
+      <div class="hook-body">
+        <div class="level-toggle">
+          <button class="level-btn active" onclick="setLevel(this,'beginner')">Beginner</button>
+          <button class="level-btn" onclick="setLevel(this,'advanced')">Advanced</button>
+        </div>
+
+        <div class="level-content active" data-level="beginner">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">What it is</div>
+              <p>useEffect lets you run code after React has rendered your component. It's the hook for "side effects" — things outside the React tree: fetching data, subscribing to events, setting up timers, manipulating the DOM, or syncing with external stores.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Why use it</div>
+              <p>React's render phase must be pure and free of side effects. useEffect is the designated escape hatch: it runs <em>after</em> the browser has painted, keeping renders fast while still letting you interact with the outside world safely.</p>
+            </div>
+            <div class="info-block full">
+              <div class="ib-label">Real-world use case</div>
+              <p>Fetching a user's profile on mount, subscribing to a WebSocket channel when a chat room opens (and unsubscribing when it closes), syncing a React state value to <code style="color:var(--neon-pink);font-size:13px">localStorage</code>, or setting the document <code style="color:var(--neon-pink);font-size:13px">&lt;title&gt;</code> dynamically based on the current route.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-content" data-level="advanced">
+          <div class="card-grid">
+            <div class="info-block">
+              <div class="ib-label">Strict Mode double-invoke</div>
+              <p>In React 18 Strict Mode (dev only), effects intentionally mount → unmount → remount to surface cleanup bugs. If your effect breaks, your cleanup function is missing or incorrect. This is intentional — fix the cleanup, not Strict Mode.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">useLayoutEffect vs useEffect</div>
+              <p><code style="font-size:12px;color:var(--neon-pink)">useLayoutEffect</code> fires synchronously after DOM mutations but before the browser paints — use it only for DOM measurements (getBoundingClientRect) or preventing visual flicker. For everything else, prefer useEffect to avoid blocking paint.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">React 19: use() + Suspense</div>
+              <p>React 19 introduces the <code style="font-size:12px;color:var(--neon-pink)">use()</code> hook and async Server Components, shifting data fetching out of useEffect. For new projects, consider these patterns before reaching for data-fetching useEffect calls.</p>
+            </div>
+            <div class="info-block">
+              <div class="ib-label">Dependency array deep-dive</div>
+              <p>The array is a list of reactive values the effect depends on. Omitting it means "run after every render". An empty array means "run once on mount". Missing deps cause stale closures; over-specifying deps causes infinite loops — the eslint exhaustive-deps rule catches both.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagram -->
+        <div class="diagram">
+          <div class="diagram-title">Effect Lifecycle — Mount, Update, Unmount</div>
+          <div class="flow">
+            <div class="flow-box gray">Component mounts</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.12);border:1px solid rgba(255,77,216,0.3);color:var(--neon-pink)">Effect runs</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">Returns cleanup fn</div>
+          </div>
+          <div class="flow" style="margin-top:8px;">
+            <div class="flow-box gray">Dep changes → re-render</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.08);border:1px solid rgba(255,77,216,0.2);color:var(--neon-pink)">Cleanup prev effect</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.12);border:1px solid rgba(255,77,216,0.3);color:var(--neon-pink)">New effect runs</div>
+          </div>
+          <div class="flow" style="margin-top:8px;">
+            <div class="flow-box gray">Component unmounts</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.08);border:1px solid rgba(255,77,216,0.2);color:var(--neon-pink)">Final cleanup runs</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box gray">Subscriptions cleared</div>
+          </div>
+          <div class="flow" style="margin-top:12px;">
+            <div class="flow-box gray">[] empty deps</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.12);border:1px solid rgba(255,77,216,0.3);color:var(--neon-pink)">Runs once (mount only)</div>
+            <div class="flow-arrow">&nbsp;&nbsp;&nbsp;</div>
+            <div class="flow-box gray">no deps array</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="background:rgba(255,77,216,0.12);border:1px solid rgba(255,77,216,0.3);color:var(--neon-pink)">Every render</div>
+          </div>
+        </div>
+
+        <!-- Syntax -->
+        <div class="code-section">
+          <div class="code-header">
+            <span class="code-label">SYNTAX — All Variants</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="cmt">// 1. Run after every render (no deps array)</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="fn">doSomething</span>();
+});
+
+<span class="cmt">// 2. Run once on mount, cleanup on unmount</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> sub = <span class="fn">subscribe</span>(handler);
+  <span class="kw">return</span> () =&gt; sub.<span class="fn">unsubscribe</span>(); <span class="cmt">// cleanup function</span>
+}, []); <span class="cmt">// empty array = mount only</span>
+
+<span class="cmt">// 3. Run when specific values change</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="fn">fetchData</span>(userId);
+}, [userId]); <span class="cmt">// re-runs whenever userId changes</span>
+
+<span class="cmt">// 4. With AbortController for fetch cleanup</span>
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+  <span class="fn">fetch</span>(url, { signal: controller.signal });
+  <span class="kw">return</span> () =&gt; controller.<span class="fn">abort</span>();
+}, [url]);</code></pre>
+          </div>
+        </div>
+
+        <!-- Example -->
+        <div class="code-section" style="margin-top:12px;">
+          <div class="code-header">
+            <span class="code-label">EXAMPLE — Live Document Title + Event Listener</span>
+            <div class="code-actions">
+              <button class="code-toggle-btn" onclick="toggleCode(this)">▾ Collapse</button>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <pre><code><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">NotificationBell</span>({ userId }) {
+  <span class="kw">const</span> [unread, setUnread] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">const</span> [online, setOnline] = <span class="fn">useState</span>(navigator.onLine);
+
+  <span class="cmt">// Sync document title with unread count</span>
+  <span class="fn">useEffect</span>(() =&gt; {
+    document.title = unread &gt; <span class="num">0</span>
+      ? <span class="str">`(</span><span class="op">${</span>unread<span class="op">}</span><span class="str">) Notifications`</span>
+      : <span class="str">'My App'</span>;
+  }, [unread]);
+
+  <span class="cmt">// Subscribe to online/offline events</span>
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">const</span> goOnline  = () =&gt; <span class="fn">setOnline</span>(<span class="kw">true</span>);
+    <span class="kw">const</span> goOffline = () =&gt; <span class="fn">setOnline</span>(<span class="kw">false</span>);
+    window.<span class="fn">addEventListener</span>(<span class="str">'online'</span>,  goOnline);
+    window.<span class="fn">addEventListener</span>(<span class="str">'offline'</span>, goOffline);
+    <span class="kw">return</span> () =&gt; {  <span class="cmt">// ← cleanup: remove listeners on unmount</span>
+      window.<span class="fn">removeEventListener</span>(<span class="str">'online'</span>,  goOnline);
+      window.<span class="fn">removeEventListener</span>(<span class="str">'offline'</span>, goOffline);
+    };
+  }, []); <span class="cmt">// [] = attach once, remove on unmount</span>
+
+  <span class="cmt">// Fetch notifications when userId changes</span>
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!userId) <span class="kw">return</span>;
+    <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+
+    <span class="fn">fetch</span>(<span class="str">`/api/notifications/</span><span class="op">${</span>userId<span class="op">}</span><span class="str">`</span>, { signal: controller.signal })
+      .<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>())
+      .<span class="fn">then</span>(data =&gt; <span class="fn">setUnread</span>(data.count))
+      .<span class="fn">catch</span>(err =&gt; { <span class="kw">if</span> (err.name !== <span class="str">'AbortError'</span>) console.<span class="fn">error</span>(err); });
+
+    <span class="kw">return</span> () =&gt; controller.<span class="fn">abort</span>(); <span class="cmt">// cancel stale requests</span>
+  }, [userId]);
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="op">{</span>!online <span class="op">&amp;&amp;</span> <span class="tag">&lt;Banner&gt;</span>You are offline<span class="tag">&lt;/Banner&gt;</span><span class="op">}</span>
+      <span class="tag">&lt;Bell</span> <span class="attr">count</span>=<span class="op">{</span>unread<span class="op">}</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Warnings -->
+        <div class="warn-grid">
+          <div class="warn-box perf">
+            <div class="wb-title">⚡ Performance Considerations</div>
+            <ul>
+              <li>Effects run after paint — don't block the browser's rendering pipeline</li>
+              <li>Minimize effects; each one adds post-render overhead and complexity</li>
+              <li>Split independent concerns into separate useEffect calls for clarity and control</li>
+            </ul>
+          </div>
+          <div class="warn-box danger">
+            <div class="wb-title">⚠ Common Mistakes</div>
+            <ul>
+              <li>Missing cleanup: event listeners and subscriptions leak memory</li>
+              <li>Object/array deps: <code style="font-size:11px">[{id}]</code> creates a new ref every render → infinite loop</li>
+              <li>Setting state unconditionally in an effect with that state as a dep</li>
+            </ul>
+          </div>
+          <div class="warn-box skip">
+            <div class="wb-title">🚫 When NOT to Use</div>
+            <ul>
+              <li>Transforming data for rendering — compute during render or use useMemo</li>
+              <li>Handling user events — put logic directly in event handlers</li>
+              <li>Initializing something once — use lazy initializer in useState</li>
+            </ul>
+          </div>
+          <div class="warn-box tip">
+            <div class="wb-title">💡 Pro Tip</div>
+            <ul>
+              <li>Ask: "Could this be an event handler instead?" If yes, skip useEffect</li>
+              <li>Use AbortController for fetch calls — cleaner than isMounted flags</li>
+              <li>Each effect should do one thing — split them by concern, not lifecycle</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ════════════════════════ useAsync ════════════════════════ -->
   <section class="hook-section" id="useAsync">
     <div class="hook-card">
       <div class="hook-header">
-        <div class="hook-num">05 /</div>
+        <div class="hook-num">06 /</div>
         <div class="hook-title-block">
           <div class="hook-name" style="--hook-color:var(--neon-cyan);--hook-color-glow:rgba(0,229,255,0.4)">useAsync</div>
           <div class="hook-tagline">Custom hook — orchestrate async operations with full lifecycle state</div>
@@ -1588,7 +1818,7 @@ timerRef.current = <span class="fn">setInterval</span>(tick, <span class="num">1
   <!-- FOOTER -->
   <footer>
     <p>React Hooks Deep Dive &nbsp;·&nbsp; Built with <span>♥</span> and vanilla HTML &nbsp;·&nbsp; <span>React 18+</span></p>
-    <p style="margin-top:8px;font-size:10px;color:var(--text-muted)">useState · useMemo · useRef · useCallback · useAsync</p>
+    <p style="margin-top:8px;font-size:10px;color:var(--text-muted)">useState · useMemo · useRef · useCallback · useEffect · useAsync</p>
   </footer>
 
 </div>
@@ -1642,6 +1872,29 @@ timerRef.current = <span class="fn">setInterval</span>(tick, <span class="num">1
     init();
     draw();
   })();
+
+  // ─── DEDENT CODE BLOCKS ───
+  document.querySelectorAll('pre > code').forEach(block => {
+    const raw = block.innerHTML;
+    // Split into lines
+    let lines = raw.split('\n');
+    // Remove leading/trailing blank lines
+    while (lines.length && !lines[0].replace(/<[^>]+>/g,'').trim()) lines.shift();
+    while (lines.length && !lines[lines.length-1].replace(/<[^>]+>/g,'').trim()) lines.pop();
+    // Find min indentation from lines 1+ (line 0 starts flush after <code>)
+    const indentLines = lines.slice(1);
+    const minIndent = indentLines.reduce((min, line) => {
+      const text = line.replace(/<[^>]+>/g, '');
+      if (!text.trim()) return min;
+      return Math.min(min, text.match(/^(\s*)/)[1].length);
+    }, Infinity);
+    const strip = (minIndent === Infinity) ? 0 : minIndent;
+    if (strip > 0) {
+      const re = new RegExp('^' + ' '.repeat(strip));
+      lines = lines.map((line, i) => i === 0 ? line : line.replace(re, ''));
+    }
+    block.innerHTML = lines.join('\n');
+  });
 
   // ─── SCROLL REVEAL ───
   const observer = new IntersectionObserver(
