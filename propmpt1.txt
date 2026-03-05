@@ -1,41 +1,113 @@
-Create a stunning, production-grade HTML file for: [TOPIC]
+Create a stunning, production-grade single HTML file for: [TOPIC]
 
-Design requirements:
-- Choose a bold, unique aesthetic direction that fits the topic's personality 
-  (dark/moody, neon, earthy, futuristic, medieval, etc.)
-- Pick distinctive Google Fonts — NO Arial, Inter, Roboto or generic fonts
-- Use a cohesive color palette with CSS variables — one dominant color, 
-  one sharp accent, atmospheric background
-- Add layered background effects: radial gradients, subtle textures, 
-  geometric patterns or grain overlays that match the theme
-- Staggered CSS entrance animations on all elements (fadeIn, slideIn, riseUp)
-- Hover interactions on every card/row that reveal hidden details
-- Mobile responsive
+━━━ AESTHETIC DIRECTION ━━━
+Before writing a single line of code, commit to one bold, specific aesthetic 
+that fits [TOPIC]'s personality. Examples: decayed brutalism, celestial luxury, 
+acid-washed neon, analog horror, botanical art nouveau, military tactical, 
+gilded baroque, cold-war retrofuturism. Be specific — never generic.
 
-Content to include:
-- Themed header with eyebrow label, large display title, subtitle
-- A large decorative number or emblem relevant to the topic
-- Main ranking table or card grid with:
-    · Rank column (gold/silver/bronze for top 3 with glow effects)
-    · Name + description column
-    · Key attribute tags/pills with color-coded borders per category
-    · Metadata columns (stats, type, difficulty, year, etc. — relevant to topic)
-    · Right-side rating badge (S+, S, A+, A, B+... or 9.8, 9.7... scale)
-    · Hover state that reveals extra detail panel
-- Two bottom info panels side by side:
-    · Left: a reference table (best weapons / tools / items relevant to topic)
-    · Right: a tips/essentials list with bullet icons
-- Footer with ranking criteria note
+━━━ TYPOGRAPHY ━━━
+- Pick 2 Google Fonts that feel PURPOSE-BUILT for this theme
+- BANNED: Arial, Inter, Roboto, Lato, Open Sans, Poppins, Space Grotesk
+- Display title: large, weighted, characterful — use Cinzel, Bebas Neue, 
+  Playfair Display, Cormorant, Syne, Unbounded, or something equally distinct
+- Body: legible but still flavored — not neutral
 
-Styling rules:
-- Top 3 rows get golden left border + subtle gold background tint
-- All other rows get themed accent left border on hover
-- Pill/tag components must be color-coded by category with colored border + 
-  tinted background (never solid fill)
-- Difficulty shown as dot pips (5 dots, filled = on)
-- Tier/score shown in large Cinzel/Bebas/Barlow Condensed font with glow
-- Everything must feel handcrafted and specific to [TOPIC] — 
-  not generic AI output
+━━━ COLOR SYSTEM (CSS variables only) ━━━
+--bg-base       /* atmospheric dark or rich background */
+--bg-surface    /* card/panel surface — slightly lighter */
+--accent-primary /* dominant saturated color */
+--accent-sharp  /* piercing contrast color for highlights */
+--text-primary  /* headings */
+--text-secondary/* body / metadata */
+--gold-1 / --gold-2 / --gold-3 /* top 3 rank tints */
+--tier-s / --tier-a / --tier-b /* tier badge colors */
 
-Output: Single complete .html file, no external dependencies except 
-Google Fonts CDN. All CSS and JS inline.
+━━━ BACKGROUND ATMOSPHERE ━━━
+Layer these (do NOT use plain solid backgrounds):
+1. Base radial/mesh gradient
+2. Subtle SVG texture OR CSS noise grain (via filter: url(#noise) or 
+   pseudo-element with repeating pattern)
+3. Optional: faint geometric lines, dot grid, or diagonal rule pattern
+4. Vignette overlay (radial gradient, dark edges)
+
+━━━ PERFORMANCE RULES ━━━
+- Use will-change: transform only on animated elements (remove after animation)
+- CSS animations use transform + opacity ONLY (no layout-triggering props)
+- Use animation-fill-mode: both on all entrance animations
+- Stagger delays: nth-child multiplied offset (e.g. calc(0.08s * var(--i)))
+- Set --i via inline style="--i:1" on each row/card for clean stagger
+- Intersection Observer for scroll-triggered reveals (not scroll events)
+- Hover panels use CSS clip-path or max-height transitions (no JS toggling)
+- No layout thrash: avoid animating width, height, top, left, margin, padding
+
+━━━ PAGE STRUCTURE ━━━
+
+[HEADER]
+- Eyebrow label (small caps, letter-spaced)
+- Large display title with themed text treatment (gradient fill, outline, 
+  shadow stack, or texture clip — pick one that fits the aesthetic)
+- Subtitle line
+- Decorative emblem or large typographic number (themed, background layer)
+- Thin animated divider line
+
+[MAIN TABLE / CARD GRID]
+Each row/card must have:
+· Rank badge — gold glow for #1, silver for #2, bronze for #3; styled number
+· Name + short description (2 lines max)
+· Category pills — color-coded by type with colored border + tinted bg 
+  (NEVER solid fill), max 3 per item
+· Metadata columns — 2–3 stats relevant to [TOPIC] (year, power, rarity, etc.)
+· Difficulty as 5 pip dots (SVG circles: filled vs unfilled)
+· Tier/Score badge — large Bebas or Cinzel, glowing color per tier level
+  S+ > S > A+ > A > B+ > B > C (or numeric 10.0–6.0 scale)
+
+Top 3 rows:
+  - Gold/silver/bronze left border (4px)
+  - Subtle metallic background tint
+  - Faint glow on rank badge
+
+Hover state (CSS-only preferred):
+  - Row lifts (translateY(-2px) + box-shadow deepens)
+  - Hidden detail panel slides down (max-height: 0 → max-height: 200px)
+  - Detail panel shows: lore blurb, bonus stat, or contextual note
+  - Accent left border animates in
+
+━━━ BOTTOM PANELS (side by side, responsive stack on mobile) ━━━
+
+Left panel — Reference Table:
+  Title: themed (e.g. "Essential Arsenal", "Core Toolkit", "Power Index")
+  Mini table: Name | Type | Effect/Use | Rating
+  Rows styled consistently with main table but compact
+
+Right panel — Tips / Essentials:
+  Title: themed (e.g. "Field Notes", "Insider Intel", "Tactics")  
+  5–7 bullet points with custom SVG or CSS bullet icons (NOT default •)
+  Each tip is 1–2 sentences, genuinely useful to the topic
+
+━━━ FOOTER ━━━
+- Ranking methodology note (1–2 lines)
+- Criteria tags as small pills
+- Subtle divider + copyright or edition line
+
+━━━ INTERACTION POLISH ━━━
+- Custom scrollbar (webkit) styled to theme
+- ::selection color matches accent
+- Focus-visible outlines for accessibility (themed color)
+- Smooth scroll behavior on html element
+- Table rows: cursor: pointer
+- Pill tags: subtle scale(1.05) on hover
+
+━━━ RESPONSIVE BREAKPOINTS ━━━
+- 1024px+: full layout
+- 768px: hide 1–2 metadata columns, compress table
+- < 600px: cards stack vertically, bottom panels stack, font sizes scale down
+
+━━━ OUTPUT RULES ━━━
+- Single .html file
+- All CSS + JS inline (no external files)
+- Google Fonts via CDN link tag only
+- NO Bootstrap, Tailwind, jQuery, or UI libraries
+- NO placeholder/lorem text — all content must be real, specific to [TOPIC]
+- Comments in code only where genuinely useful (not every block)
+- Validate: no broken hover states, no invisible text, no overflow bugs
