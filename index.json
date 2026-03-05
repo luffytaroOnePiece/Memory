@@ -1,17 +1,28 @@
 {
   "Games": {
     "EldenRing": {
-      "1": "Top 10 Elden Ring Builds",
-      "2": "Top Intelligence Builds",
-      "3": "Top Strength Builds",
-      "4": "Top DEX Builds",
-      "5": "Top Faith Builds",
-      "6": "Top Arcane Builds",
-      "7": "Best Intelligence Armor Sets",
-      "8": "Best Strength Armor Sets",
-      "9": "Best DEX - Faith Armor Sets",
-      "10": "Best Dex - Arcane Armor Sets",
-      "11": "Best Dex Armor Sets"
+      "Builds": {
+        "1": "Top 10 Elden Ring Builds",
+        "2": "Top Intelligence Builds",
+        "3": "Top Strength Builds",
+        "4": "Top DEX Builds",
+        "5": "Top Faith Builds",
+        "6": "Top Arcane Builds"
+      },
+      "ArmourSets": {
+        "1": "Best Intelligence Armor Sets",
+        "2": "Best Strength Armor Sets",
+        "3": "Best DEX - Faith Armor Sets",
+        "4": "Best Dex - Arcane Armor Sets",
+        "5": "Best Dex Armor Sets"
+      },
+      "Weapons": {
+        "1": "Best Intelligence Weapons",
+        "2": "Best Strength Weapons",
+        "3": "Best DEX Weapons",
+        "4": "Best Arcane Weapons",
+        "5": "Best Faith Weapons"
+      }
     },
     "FH5": {
       "1": "Forza Horizon 5 Biomes of Mexico"

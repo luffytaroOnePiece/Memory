@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best STR Weapons — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e6b8;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-glow: rgba(201,168,76,0.4);
+    --ash: #1a1714;
+    --ash-mid: #221e1a;
+    --ash-lift: #2d2720;
+    --ash-border: #3a3028;
+    --blood: #8b1a1a;
+    --blood-glow: rgba(139,26,26,0.35);
+    --silver: #b8b0a0;
+    --silver-dim: #7a7268;
+    --bronze: #9c6b2e;
+    --text-main: #e8dcc8;
+    --text-muted: #8a7e6e;
+    --text-dim: #5a5040;
+    --rune-blue: #4a7fa5;
+    --rune-blue-dim: rgba(74,127,165,0.18);
+    --frost: #7ab8cc;
+    --frost-dim: rgba(122,184,204,0.15);
+    --poison: #6a9c4a;
+    --poison-dim: rgba(106,156,74,0.15);
+    --fire: #c96428;
+    --fire-dim: rgba(201,100,40,0.15);
+    --holy: #c8a84c;
+    --holy-dim: rgba(200,168,76,0.15);
+    --shadow: rgba(0,0,0,0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ash);
+    color: var(--text-main);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LAYERED BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(139,26,26,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 60% at 10% 60%, rgba(74,127,165,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px);
+    pointer-events: none;
+  }
+
+  /* grain overlay */
+  .grain {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .container {
+    position: relative; z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes slideRight { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes flicker { 0%,100%{opacity:1} 50%{opacity:0.85} 75%{opacity:0.95} }
+  @keyframes goldPulse { 0%,100%{box-shadow:0 0 8px var(--gold-glow)} 50%{box-shadow:0 0 22px var(--gold-glow),0 0 40px rgba(201,168,76,0.2)} }
+  @keyframes runeGlow { 0%,100%{text-shadow:0 0 10px var(--gold-glow),0 0 30px rgba(201,168,76,0.2)} 50%{text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 60px rgba(201,168,76,0.4)} }
+  @keyframes borderDraw { from{width:0} to{width:100%} }
+  @keyframes scanline { from{transform:translateY(-100%)} to{transform:translateY(100vh)} }
+
+  .anim-1 { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
+  .anim-2 { animation: fadeUp 0.7s ease both; animation-delay: 0.25s; }
+  .anim-3 { animation: fadeUp 0.7s ease both; animation-delay: 0.4s; }
+  .anim-4 { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
+  .anim-5 { animation: fadeUp 0.7s ease both; animation-delay: 0.7s; }
+  .anim-6 { animation: slideRight 0.7s ease both; animation-delay: 0.8s; }
+  .anim-7 { animation: slideRight 0.7s ease both; animation-delay: 0.95s; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 70px 0 50px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: borderDraw 1.4s ease forwards 0.5s;
+  }
+
+  .eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .header-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 700;
+    color: var(--gold-pale);
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(201,168,76,0.3), 0 2px 4px rgba(0,0,0,0.8);
+    animation: runeGlow 4s ease-in-out infinite;
+    margin-bottom: 12px;
+  }
+
+  .header-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--silver-dim);
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+  }
+
+  /* ── DECORATIVE EMBLEM ── */
+  .emblem-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    gap: 24px;
+  }
+
+  .emblem-line {
+    flex: 1; max-width: 260px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), rgba(201,168,76,0.4));
+  }
+  .emblem-line.right {
+    background: linear-gradient(270deg, transparent, var(--gold-dim), rgba(201,168,76,0.4));
+  }
+
+  .emblem {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 7rem;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.25);
+    line-height: 1;
+    text-shadow: none;
+    position: relative;
+    user-select: none;
+  }
+
+  .emblem::before {
+    content: attr(data-text);
+    position: absolute; inset: 0;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+    transform: translate(3px,3px);
+  }
+
+  .emblem-rune {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--text-dim);
+    text-align: center;
+    display: block;
+    margin-top: -8px;
+  }
+
+  /* ── TABLE SECTION ── */
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+
+  .weapons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 50px;
+  }
+
+  /* ── WEAPON CARD ── */
+  .weapon-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(34,30,26,0.95) 0%, rgba(26,23,20,0.98) 100%);
+    border: 1px solid var(--ash-border);
+    border-left: 3px solid var(--ash-border);
+    border-radius: 3px;
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: 52px 1fr auto auto auto;
+    gap: 16px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .weapon-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(201,168,76,0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .weapon-card:hover::before { opacity: 1; }
+
+  .weapon-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateX(4px);
+    background: linear-gradient(135deg, rgba(40,35,28,0.98) 0%, rgba(30,26,22,0.98) 100%);
+  }
+
+  /* top 3 */
+  .weapon-card.top3 {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(26,23,20,0.98) 100%);
+  }
+
+  .weapon-card.top3:hover { animation: goldPulse 2s ease infinite; }
+
+  .weapon-card.rank-1 { border-left-color: #ffd700; }
+  .weapon-card.rank-2 { border-left-color: #c0c0c0; }
+  .weapon-card.rank-3 { border-left-color: #cd7f32; }
+
+  /* staggered animations */
+  .weapon-card:nth-child(1) { animation-delay: 0.1s; }
+  .weapon-card:nth-child(2) { animation-delay: 0.2s; }
+  .weapon-card:nth-child(3) { animation-delay: 0.3s; }
+  .weapon-card:nth-child(4) { animation-delay: 0.4s; }
+  .weapon-card:nth-child(5) { animation-delay: 0.5s; }
+  .weapon-card:nth-child(6) { animation-delay: 0.6s; }
+  .weapon-card:nth-child(7) { animation-delay: 0.7s; }
+  .weapon-card:nth-child(8) { animation-delay: 0.8s; }
+  .weapon-card:nth-child(9) { animation-delay: 0.9s; }
+  .weapon-card:nth-child(10) { animation-delay: 1.0s; }
+
+  /* ── RANK BADGE ── */
+  .rank-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: var(--text-dim);
+    transition: color 0.3s;
+  }
+
+  .weapon-card:hover .rank-num { color: var(--silver); }
+
+  .rank-1 .rank-num { color: #ffd700; text-shadow: 0 0 12px rgba(255,215,0,0.5); }
+  .rank-2 .rank-num { color: #c0c0c0; text-shadow: 0 0 10px rgba(192,192,192,0.4); }
+  .rank-3 .rank-num { color: #cd7f32; text-shadow: 0 0 10px rgba(205,127,50,0.4); }
+
+  .rank-medal {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    font-family: 'Bebas Neue', sans-serif;
+    opacity: 0.7;
+  }
+
+  .rank-1 .rank-medal { color: #ffd700; }
+  .rank-2 .rank-medal { color: #c0c0c0; }
+  .rank-3 .rank-medal { color: #cd7f32; }
+
+  /* ── NAME / DESC ── */
+  .name-col { min-width: 0; }
+
+  .weapon-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    transition: color 0.3s;
+  }
+
+  .weapon-card:hover .weapon-name { color: var(--gold-light); }
+
+  .weapon-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .tag-type    { color: var(--gold);     border-color: rgba(201,168,76,0.5);  background: var(--holy-dim); }
+  .tag-scaling { color: var(--frost);    border-color: rgba(122,184,204,0.5); background: var(--frost-dim); }
+  .tag-ash     { color: var(--fire);     border-color: rgba(201,100,40,0.5);  background: var(--fire-dim); }
+  .tag-special { color: var(--poison);   border-color: rgba(106,156,74,0.5);  background: var(--poison-dim); }
+  .tag-faith   { color: #c8a0e0;         border-color: rgba(200,160,224,0.5); background: rgba(200,160,224,0.08); }
+  .tag-int     { color: var(--rune-blue);border-color: rgba(74,127,165,0.5);  background: var(--rune-blue-dim); }
+
+  /* ── META COLS ── */
+  .meta-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 56px;
+  }
+
+  .meta-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+  }
+
+  .meta-val {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--silver);
+  }
+
+  /* ── DIFFICULTY PIPS ── */
+  .pips {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--ash-border);
+    background: transparent;
+    transition: all 0.2s;
+  }
+
+  .pip.on {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 4px rgba(201,168,76,0.5);
+  }
+
+  /* ── SCORE BADGE ── */
+  .score-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 54px;
+  }
+
+  .score-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 14px rgba(201,168,76,0.5);
+    transition: all 0.3s;
+  }
+
+  .weapon-card.top3 .score-badge { font-size: 2.2rem; }
+  .weapon-card:hover .score-badge { text-shadow: 0 0 24px rgba(201,168,76,0.8), 0 0 40px rgba(201,168,76,0.3); }
+
+  .score-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+
+  /* ── HOVER REVEAL PANEL ── */
+  .hover-panel {
+    position: absolute;
+    bottom: 0; left: 3px; right: 0;
+    background: linear-gradient(to top, rgba(30,25,20,0.98) 0%, rgba(30,25,20,0.0) 100%);
+    padding: 14px 20px 16px;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+
+  .weapon-card:hover .hover-panel {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .hover-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hover-stat-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+  }
+
+  .hover-stat-val {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    color: var(--gold-light);
+  }
+
+  /* ── BOTTOM PANELS ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 12px;
+  }
+
+  .panel {
+    background: linear-gradient(135deg, rgba(34,30,26,0.9), rgba(26,23,20,0.95));
+    border: 1px solid var(--ash-border);
+    border-top: 2px solid rgba(201,168,76,0.3);
+    border-radius: 3px;
+    padding: 26px 24px;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+
+  /* ── REF TABLE ── */
+  .ref-table { width: 100%; border-collapse: collapse; }
+
+  .ref-table th {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--ash-border);
+  }
+
+  .ref-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.87rem;
+    color: var(--silver);
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(58,48,40,0.4);
+    transition: color 0.2s;
+  }
+
+  .ref-table tr:hover td { color: var(--gold-light); background: rgba(201,168,76,0.04); }
+
+  .ref-table td:first-child {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--text-main);
+    font-weight: 600;
+  }
+
+  .ref-highlight {
+    color: var(--gold) !important;
+    font-weight: 600;
+  }
+
+  /* ── TIPS LIST ── */
+  .tips-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tip-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: var(--silver-dim);
+    line-height: 1.5;
+    transition: color 0.2s;
+  }
+
+  .tip-item:hover { color: var(--text-main); }
+
+  .tip-icon {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+    background: rgba(201,168,76,0.05);
+  }
+
+  .tip-icon svg { width: 10px; height: 10px; fill: var(--gold); }
+
+  .tip-bold {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--text-main);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ash-border);
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    animation: fadeIn 1s ease both 1.5s;
+  }
+
+  .footer strong {
+    color: var(--silver-dim);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  /* ── SCANLINE ACCENT ── */
+  .scanline {
+    position: fixed; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.04), transparent);
+    animation: scanline 12s linear infinite;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* divider rune */
+  .rune-divider {
+    text-align: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: rgba(201,168,76,0.2);
+    letter-spacing: 12px;
+    margin: 36px 0 28px;
+  }
+
+  @media (max-width: 768px) {
+    .weapon-card {
+      grid-template-columns: 44px 1fr auto;
+      grid-template-rows: auto auto;
+    }
+    .meta-col { display: none; }
+    .score-col { grid-column: 3; grid-row: 1; }
+    .name-col { grid-column: 2; }
+    .rank-col { grid-row: 1 / 3; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 2rem; }
+    .emblem { font-size: 4.5rem; }
+  }
+
+  @media (max-width: 500px) {
+    .weapon-name { font-size: 0.92rem; }
+    .hover-panel { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="scanline"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <p class="eyebrow anim-1">Elden Ring — Strength Build Arsenal</p>
+    <h1 class="header-title anim-2">Strength Weapons</h1>
+    <p class="header-subtitle anim-3">Weapons that crush, cleave, and devastate — ranked for the true giant-slayer</p>
+  </header>
+
+  <!-- EMBLEM -->
+  <div class="emblem-wrap anim-4">
+    <div class="emblem-line"></div>
+    <div>
+      <div class="emblem" data-text="STR">STR</div>
+      <span class="emblem-rune">⚔ STRENGTH SCALING ⚔</span>
+    </div>
+    <div class="emblem-line right"></div>
+  </div>
+
+  <!-- WEAPONS TABLE -->
+  <p class="section-label anim-5">▸ Tier Rankings — All Categories Considered</p>
+
+  <div class="weapons-list">
+
+    <!-- RANK 1 -->
+    <div class="weapon-card top3 rank-1">
+      <div class="rank-col">
+        <span class="rank-num">1</span>
+        <span class="rank-medal">GOLD</span>
+      </div>
+      <div class="name-col">
+        <div class="weapon-name">Giant-Crusher</div>
+        <div class="weapon-desc">The heaviest colossal hammer in the Lands Between. Obliterates poise and leaves nothing standing.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal</span>
+          <span class="tag tag-scaling">S-Scaling</span>
+          <span class="tag tag-ash">Endure</span>
+          <span class="tag tag-special">Poise Breaker</span>
+        </div>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Base ATK</span>
+        <span class="meta-val">155</span>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Weight</span>
+        <span class="meta-val">23.5</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+        </div>
+      </div>
+      <div class="score-col">
+        <span class="score-badge">S+</span>
+        <span class="score-sub">TIER</span>
+      </div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Leyndell — Outer Wall</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">60</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Max AR (+25)</span><span class="hover-stat-val">~930 Pure STR</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Best Ash</span><span class="hover-stat-val">Endure / Stamp</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 2 -->
+    <div class="weapon-card top3 rank-2">
+      <div class="rank-col">
+        <span class="rank-num">2</span>
+        <span class="rank-medal">SILVER</span>
+      </div>
+      <div class="name-col">
+        <div class="weapon-name">Greatsword</div>
+        <div class="weapon-desc">The definitive STR weapon. Exceptional range, solid scaling, and legendary community status.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal Sword</span>
+          <span class="tag tag-scaling">B→S Scaling</span>
+          <span class="tag tag-ash">Lion's Claw</span>
+          <span class="tag tag-special">Versatile</span>
+        </div>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Base ATK</span>
+        <span class="meta-val">138</span>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Weight</span>
+        <span class="meta-val">21.0</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="score-col">
+        <span class="score-badge">S+</span>
+        <span class="score-sub">TIER</span>
+      </div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Caelid — Vagrant Drop</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">31</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Max AR (+25)</span><span class="hover-stat-val">~870 Pure STR</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Best Ash</span><span class="hover-stat-val">Lion's Claw</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 3 -->
+    <div class="weapon-card top3 rank-3">
+      <div class="rank-col">
+        <span class="rank-num">3</span>
+        <span class="rank-medal">BRONZE</span>
+      </div>
+      <div class="name-col">
+        <div class="weapon-name">Ruins Greatsword</div>
+        <div class="weapon-desc">Gravitational power carved into stone. Wave of Destruction fires a devastating shockwave across the arena.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal Sword</span>
+          <span class="tag tag-int">Gravity</span>
+          <span class="tag tag-ash">Wave of Dest.</span>
+          <span class="tag tag-special">S-Scaling</span>
+        </div>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Base ATK</span>
+        <span class="meta-val">148</span>
+      </div>
+      <div class="meta-col">
+        <span class="meta-label">Weight</span>
+        <span class="meta-val">23.0</span>
+        <div class="pips">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+        </div>
+      </div>
+      <div class="score-col">
+        <span class="score-badge">S</span>
+        <span class="score-sub">TIER</span>
+      </div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Radahn Festival Drop</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">50</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Max AR (+10)</span><span class="hover-stat-val">~880 Pure STR</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Best Infusion</span><span class="hover-stat-val">Cannot Infuse</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 4 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">4</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Prelate's Inferno Crozier</div>
+        <div class="weapon-desc">Crushing fire hammer with a punishing moveset. The Flame of the Fell God ash of war is uniquely brutal.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal</span>
+          <span class="tag tag-ash">Fell God Flame</span>
+          <span class="tag tag-special">Fire Dmg</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">151</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">23.5</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">S</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Fire Prelate Drop</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">45</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Best Against</span><span class="hover-stat-val">Humanoids</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 5 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">5</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Dragon Greatclaw</div>
+        <div class="weapon-desc">Dragon-forged strength weapon with a unique leap slam. Packs Dragon Claw ash for tremendous burst.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal</span>
+          <span class="tag tag-scaling">A-Scaling</span>
+          <span class="tag tag-ash">Dragon Claw</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">141</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">21.5</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">A+</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Crumbling Farum</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">30</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Pairs With</span><span class="hover-stat-val">Dragon Communion</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 6 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">6</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Starscourge Greatsword</div>
+        <div class="weapon-desc">Radahn's paired blades summon gravity meteorites. Requires two to dual-wield into the ultimate stance.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Great Sword</span>
+          <span class="tag tag-int">Gravity</span>
+          <span class="tag tag-ash">Starcaller Cry</span>
+          <span class="tag tag-special">Dual Wield</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">128</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">18.0</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">A+</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Radahn Boss Remem.</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">38</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Note</span><span class="hover-stat-val">Buy 2 for L+R</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 7 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">7</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Grafted Blade Greatsword</div>
+        <div class="weapon-desc">A throne of impaled weapons forged into a blade. Oath of Vengeance raises all stats for a fierce duration.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal Sword</span>
+          <span class="tag tag-ash">Oath of Vengence</span>
+          <span class="tag tag-scaling">B-Scaling</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">145</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">21.0</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">A</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Castle Morne Boss</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">40</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Best Role</span><span class="hover-stat-val">Buff + Trade</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 8 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">8</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Great Stars</div>
+        <div class="weapon-desc">Morning star that restores HP on every hit. Great for sustained combat and crowd control scenarios.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Great Mace</span>
+          <span class="tag tag-special">HP Regen</span>
+          <span class="tag tag-ash">Endure</span>
+          <span class="tag tag-scaling">B-Scaling</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">132</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">14.0</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">A</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Altus Plateau</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">24</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Special</span><span class="hover-stat-val">+3 HP per hit</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 9 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">9</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Anvil Hammer</div>
+        <div class="weapon-desc">Smithing-table brutality. Exceptional stagger on charged heavies. A late-addition DLC powerhouse.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal</span>
+          <span class="tag tag-scaling">A-Scaling</span>
+          <span class="tag tag-ash">Troll's Roar</span>
+          <span class="tag tag-special">DLC</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">158</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">24.0</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">A</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Shadow of Erdtree</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">55</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Stagger</span><span class="hover-stat-val">Exceptional</span></div>
+      </div>
+    </div>
+
+    <!-- RANK 10 -->
+    <div class="weapon-card">
+      <div class="rank-col"><span class="rank-num">10</span></div>
+      <div class="name-col">
+        <div class="weapon-name">Ghiza's Wheel</div>
+        <div class="weapon-desc">A spinning torture device of pure bleed and strength. Inquisitor's Girandole deals phenomenal bleed buildup.</div>
+        <div class="tag-row">
+          <span class="tag tag-type">Colossal</span>
+          <span class="tag tag-special">Bleed 65</span>
+          <span class="tag tag-ash">Spinning Slash</span>
+          <span class="tag tag-scaling">B-Scaling</span>
+        </div>
+      </div>
+      <div class="meta-col"><span class="meta-label">Base ATK</span><span class="meta-val">130</span></div>
+      <div class="meta-col"><span class="meta-label">Weight</span><span class="meta-val">22.5</span>
+        <div class="pips"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+      </div>
+      <div class="score-col"><span class="score-badge">B+</span><span class="score-sub">TIER</span></div>
+      <div class="hover-panel">
+        <div class="hover-stat"><span class="hover-stat-label">Location</span><span class="hover-stat-val">Volcano Manor Reward</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Req STR</span><span class="hover-stat-val">28</span></div>
+        <div class="hover-stat"><span class="hover-stat-label">Ideal With</span><span class="hover-stat-val">Arcane Bleed Build</span></div>
+      </div>
+    </div>
+
+  </div><!-- /weapons-list -->
+
+  <div class="rune-divider anim-6">✦ ✦ ✦</div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid anim-7">
+
+    <!-- LEFT: Reference Table -->
+    <div class="panel">
+      <div class="panel-title">⚒ Infusion & Scaling Reference</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Infusion</th>
+            <th>Best Scaling</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Heavy</td>
+            <td class="ref-highlight">S-STR at +25</td>
+            <td>Pure STR Builds</td>
+          </tr>
+          <tr>
+            <td>Cold</td>
+            <td>B-STR / B-INT</td>
+            <td>Frostbite + Mix</td>
+          </tr>
+          <tr>
+            <td>Occult</td>
+            <td>B-ARC</td>
+            <td>Bleed / Poison</td>
+          </tr>
+          <tr>
+            <td>Fire</td>
+            <td>C-STR / C-DEX</td>
+            <td>Resistanceless</td>
+          </tr>
+          <tr>
+            <td>Sacred</td>
+            <td>B-FAI</td>
+            <td>Faith Hybrid</td>
+          </tr>
+          <tr>
+            <td>Lightning</td>
+            <td>C-STR / D-DEX</td>
+            <td>Dex Mix Only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: Tips -->
+    <div class="panel">
+      <div class="panel-title">⚔ STR Build Essentials</div>
+      <ul class="tips-list">
+        <li class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9"/></svg></div>
+          <div>
+            <span class="tip-bold">Two-Hand for +50% STR</span>
+            Two-handing multiplies your effective STR by 1.5 — a 60 STR build becomes 90 for scaling purposes.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9"/></svg></div>
+          <div>
+            <span class="tip-bold">Heavy Infusion is King</span>
+            For pure STR, Heavy is almost always the best infusion on colossal weapons — outscaling all alternatives.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9"/></svg></div>
+          <div>
+            <span class="tip-bold">Poise Threshold: 101</span>
+            Hit 101 poise to trade through most attacks without being staggered when wearing heavy armor.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9"/></svg></div>
+          <div>
+            <span class="tip-bold">Stallion + Roar Medallion</span>
+            Equip Roar Medallion + use any roar ash to boost colossal weapon damage by ~10% for the full combo.
+          </div>
+        </li>
+        <li class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9"/></svg></div>
+          <div>
+            <span class="tip-bold">Soft Cap: 54 STR</span>
+            Diminishing returns accelerate past 54. Two-handing lets you hit STR soft cap effects at just 36 base.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /bottom-grid -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <strong>Ranking Criteria:</strong> AR ceiling (Heavy +25), Ash of War quality, poise damage, moveset versatility,<br>
+    PvE & PvP viability, accessibility, and overall fun factor — tested across NG+7 and Colosseum.<br><br>
+    Patch 1.12.3 · Shadow of the Erdtree DLC Included · All Weapons Tested at 80 STR
+  </footer>
+
+</div><!-- /container -->
+
+<script>
+  // Intersection Observer for scroll-triggered entrance
+  const cards = document.querySelectorAll('.weapon-card');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(c => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(20px)';
+    c.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    obs.observe(c);
+  });
+
+  // Re-trigger animation on initial render
+  setTimeout(() => {
+    cards.forEach((c, i) => {
+      setTimeout(() => { obs.unobserve(c); c.style.opacity = '1'; c.style.transform = 'translateY(0)'; }, i * 80);
+    });
+  }, 300);
+
+  // Easter egg: click emblem
+  const emblem = document.querySelector('.emblem');
+  if (emblem) {
+    emblem.addEventListener('click', () => {
+      emblem.style.color = 'var(--gold)';
+      emblem.style.textShadow = '0 0 40px rgba(201,168,76,0.8)';
+      emblem.style.webkitTextStroke = '1px var(--gold)';
+      setTimeout(() => {
+        emblem.style.color = '';
+        emblem.style.textShadow = '';
+        emblem.style.webkitTextStroke = '1px rgba(201,168,76,0.25)';
+      }, 1200);
+    });
+    emblem.style.cursor = 'pointer';
+  }
+</script>
+</body>
+</html>

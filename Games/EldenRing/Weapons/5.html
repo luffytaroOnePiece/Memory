@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Faith Weapons — Elden Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #c9973a;
+  --gold-light: #e8bb6a;
+  --gold-dim: #7a5a1e;
+  --ember: #d4541a;
+  --ember-dim: #7a2e0a;
+  --sacred: #b8a0d4;
+  --sacred-dim: #4a3660;
+  --bg-void: #080608;
+  --bg-deep: #0e0b10;
+  --bg-surface: #16111a;
+  --bg-card: #1c1522;
+  --bg-card-hover: #231929;
+  --text-primary: #e8dcc8;
+  --text-secondary: #9a8e7e;
+  --text-dim: #5a5048;
+  --border-subtle: rgba(201,151,58,0.12);
+  --border-mid: rgba(201,151,58,0.25);
+  --glow-gold: 0 0 20px rgba(201,151,58,0.35), 0 0 60px rgba(201,151,58,0.12);
+  --glow-ember: 0 0 20px rgba(212,84,26,0.35), 0 0 60px rgba(212,84,26,0.12);
+  --glow-sacred: 0 0 20px rgba(184,160,212,0.35), 0 0 60px rgba(184,160,212,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: 'Crimson Pro', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ─── LAYERED BACKGROUND ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,151,58,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 90% 50%, rgba(212,84,26,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,160,212,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 100%, rgba(14,11,16,0.9) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,151,58,0.015) 60px, rgba(201,151,58,0.015) 61px),
+    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,151,58,0.015) 60px, rgba(201,151,58,0.015) 61px);
+  pointer-events: none; z-index: 0;
+}
+
+/* Grain overlay */
+.grain {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.wrapper { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes riseIn { from { opacity:0; transform: translateY(60px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
+@keyframes glowPulse { 0%,100% { text-shadow: 0 0 30px rgba(201,151,58,0.3), 0 0 80px rgba(201,151,58,0.1); } 50% { text-shadow: 0 0 50px rgba(201,151,58,0.5), 0 0 120px rgba(201,151,58,0.2); } }
+@keyframes burnIn { from { opacity:0; letter-spacing: 0.4em; } to { opacity:1; letter-spacing: 0.15em; } }
+@keyframes emblemFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+@keyframes lineExpand { from { width: 0; } to { width: 100%; } }
+@keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+
+.anim-1 { animation: fadeUp 0.8s ease both; animation-delay: 0.1s; }
+.anim-2 { animation: fadeUp 0.8s ease both; animation-delay: 0.25s; }
+.anim-3 { animation: fadeUp 0.8s ease both; animation-delay: 0.4s; }
+.anim-4 { animation: riseIn 0.9s ease both; animation-delay: 0.55s; }
+.anim-5 { animation: riseIn 0.9s ease both; animation-delay: 0.65s; }
+
+/* ─── HEADER ─── */
+header {
+  text-align: center;
+  padding: 80px 0 60px;
+  position: relative;
+}
+
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0.8;
+  animation: burnIn 1s ease both 0.1s;
+}
+
+.emblem {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(5rem, 18vw, 12rem);
+  font-weight: 900;
+  color: transparent;
+  background: linear-gradient(135deg, #7a5a1e 0%, #c9973a 35%, #e8bb6a 50%, #c9973a 65%, #7a5a1e 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  line-height: 1;
+  margin: 16px 0 4px;
+  animation: emblemFloat 6s ease-in-out infinite, fadeIn 1.2s ease both 0.3s, shimmer 4s linear infinite 1.5s;
+  user-select: none;
+}
+
+.display-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  animation: glowPulse 4s ease-in-out infinite, fadeUp 0.8s ease both 0.5s;
+  text-shadow: 0 0 40px rgba(201,151,58,0.2);
+}
+
+.title-accent {
+  color: var(--gold-light);
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  animation: fadeUp 0.8s ease both 0.65s;
+}
+
+.header-divider {
+  margin: 32px auto 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: lineExpand 1.2s ease both 0.8s;
+}
+
+/* ─── SECTION LABEL ─── */
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before, .section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+.section-label::after { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+
+/* ─── RANKING TABLE ─── */
+.ranking-section { margin-top: 48px; }
+
+.rank-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+/* Staggered entrance */
+.rank-card:nth-child(1) { animation: fadeUp 0.7s ease both 0.7s; }
+.rank-card:nth-child(2) { animation: fadeUp 0.7s ease both 0.8s; }
+.rank-card:nth-child(3) { animation: fadeUp 0.7s ease both 0.9s; }
+.rank-card:nth-child(4) { animation: fadeUp 0.7s ease both 1.0s; }
+.rank-card:nth-child(5) { animation: fadeUp 0.7s ease both 1.1s; }
+.rank-card:nth-child(6) { animation: fadeUp 0.7s ease both 1.2s; }
+.rank-card:nth-child(7) { animation: fadeUp 0.7s ease both 1.3s; }
+.rank-card:nth-child(8) { animation: fadeUp 0.7s ease both 1.4s; }
+
+.rank-card.top-3 {
+  border-color: rgba(201,151,58,0.3);
+  background: linear-gradient(90deg, rgba(201,151,58,0.06) 0%, var(--bg-card) 60%);
+}
+
+.rank-card.top-3::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-dim));
+  box-shadow: var(--glow-gold);
+}
+
+.rank-card:not(.top-3):hover::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--ember);
+  box-shadow: var(--glow-ember);
+}
+
+.rank-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-mid);
+  transform: translateX(3px);
+}
+
+.card-main {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;
+  align-items: center;
+  gap: 0;
+  padding: 18px 20px 18px 24px;
+}
+
+/* Rank badge */
+.rank-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+}
+.rank-1 .rank-num { color: var(--gold-light); text-shadow: var(--glow-gold); }
+.rank-2 .rank-num { color: #b8b8c0; text-shadow: 0 0 20px rgba(184,184,192,0.4); }
+.rank-3 .rank-num { color: #c4824a; text-shadow: 0 0 20px rgba(196,130,74,0.4); }
+.rank-card:not(.top-3) .rank-num { color: var(--text-dim); }
+
+.rank-icon { font-size: 0.7rem; text-align: center; margin-top: 2px; color: var(--gold-dim); }
+
+/* Name + description */
+.card-info { padding-left: 4px; }
+
+.weapon-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.weapon-type-line {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.tag-incant { color: #e8c87a; border: 1px solid rgba(232,200,122,0.35); background: rgba(232,200,122,0.07); }
+.tag-physical { color: #c4b8a0; border: 1px solid rgba(196,184,160,0.3); background: rgba(196,184,160,0.06); }
+.tag-fire { color: #e87a3a; border: 1px solid rgba(232,122,58,0.35); background: rgba(232,122,58,0.07); }
+.tag-holy { color: #c8a8e8; border: 1px solid rgba(200,168,232,0.35); background: rgba(200,168,232,0.07); }
+.tag-bleed { color: #e85a5a; border: 1px solid rgba(232,90,90,0.35); background: rgba(232,90,90,0.07); }
+.tag-scales { color: #7ac8e8; border: 1px solid rgba(122,200,232,0.35); background: rgba(122,200,232,0.07); }
+.tag-unique { color: #a8e8a0; border: 1px solid rgba(168,232,160,0.35); background: rgba(168,232,160,0.07); }
+
+/* Stats meta */
+.card-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 0 20px;
+  min-width: 120px;
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.stat-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.stat-val {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+/* Difficulty dots */
+.dots { display: flex; gap: 4px; align-items: center; }
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  transition: all 0.2s;
+}
+.dot.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,151,58,0.5); }
+.rank-card:hover .dot.on { box-shadow: 0 0 10px rgba(201,151,58,0.7); }
+
+/* Rating badge */
+.rating-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  min-width: 64px;
+  text-align: center;
+  line-height: 1;
+  padding: 10px 8px;
+}
+.rating-S-plus { color: var(--gold-light); text-shadow: var(--glow-gold); }
+.rating-S { color: #e8d090; text-shadow: 0 0 20px rgba(232,208,144,0.35); }
+.rating-A-plus { color: #c8a8e8; text-shadow: var(--glow-sacred); }
+.rating-A { color: #a890d0; }
+.rating-B-plus { color: #90b8c8; }
+
+/* ─── REVEAL PANEL ─── */
+.card-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  opacity: 0;
+}
+.rank-card.open .card-detail {
+  max-height: 200px;
+  opacity: 1;
+}
+.detail-inner {
+  padding: 0 24px 18px 80px;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 0;
+  padding-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  font-size: 0.9rem;
+}
+.detail-block .detail-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.detail-block p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.88rem;
+}
+.detail-block .detail-val {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ─── BOTTOM PANELS ─── */
+.bottom-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 28px;
+  animation: fadeUp 0.8s ease both 1.5s;
+  position: relative;
+  overflow: hidden;
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+
+.panel-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* Reference table */
+.ref-table { width: 100%; border-collapse: collapse; }
+.ref-table th {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 0 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.ref-table td {
+  padding: 8px 8px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(201,151,58,0.05);
+  vertical-align: middle;
+}
+.ref-table tr:hover td { color: var(--text-primary); background: rgba(201,151,58,0.04); }
+.ref-table .weapon-col { color: var(--text-primary); font-weight: 600; font-size: 0.85rem; }
+.ref-table .faith-req {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Tips list */
+.tips-list { list-style: none; }
+.tips-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(201,151,58,0.05);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.tips-list li::before {
+  content: '✦';
+  color: var(--gold-dim);
+  font-size: 0.6rem;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.tips-list li:hover { color: var(--text-primary); }
+.tips-list li strong { color: var(--gold); font-weight: 600; }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 48px 0 24px;
+  animation: fadeIn 1s ease both 1.8s;
+}
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-mid), transparent);
+  margin-bottom: 24px;
+}
+.footer-text {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.footer-text span { color: var(--gold-dim); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .card-main { grid-template-columns: 44px 1fr auto; gap: 0; }
+  .card-stats { display: none; }
+  .detail-inner { grid-template-columns: 1fr; padding-left: 24px; }
+  .bottom-panels { grid-template-columns: 1fr; }
+  .rating-badge { font-size: 1.2rem; min-width: 48px; }
+  .emblem { font-size: clamp(4rem, 20vw, 8rem); }
+}
+
+@media (max-width: 480px) {
+  .wrapper { padding: 0 16px 60px; }
+  .card-main { padding: 14px 14px 14px 18px; }
+  .tags { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow anim-1">Tarnished's Codex — Faith Arsenal</div>
+    <div class="emblem anim-2">✦</div>
+    <h1 class="display-title anim-3">Best <span class="title-accent">Faith</span> Weapons<br>in Elden Ring</h1>
+    <p class="subtitle anim-4">The sacred flames of the Erdtree and the wrath of the Golden Order — ranked for Incantation builds, hybrid warriors, and devout Tarnished alike.</p>
+    <div class="header-divider anim-5"></div>
+  </header>
+
+  <!-- RANKING TABLE -->
+  <section class="ranking-section anim-4">
+    <div class="section-label">Ranked Tier List</div>
+
+    <!-- RANK 1 -->
+    <div class="rank-card top-3 rank-1" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">1</div>
+          <div class="rank-icon">★★★</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Blasphemous Blade</div>
+          <div class="weapon-type-line">Greatsword · Rykard's Legacy</div>
+          <div class="tags">
+            <span class="tag tag-fire">Fire</span>
+            <span class="tag tag-incant">Incant Scaling</span>
+            <span class="tag tag-unique">Lifesteal</span>
+            <span class="tag tag-physical">STR/FAI</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">24</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-S-plus">S+</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Taker's Flames — erupts a surge of fire, dealing massive AoE damage and restoring HP per enemy hit. Unmatched survivability.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Base AR (Max)</div>
+            <p class="detail-val">~800+ AR at 80 FAI/STR. Scales strongly with both attributes via Somber upgrade path.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Obtained by trading Remembrance of the Blasphemous at Finger Reader Enia. Rykard must be slain first.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 2 -->
+    <div class="rank-card top-3 rank-2" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">2</div>
+          <div class="rank-icon">★★★</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Golden Order Greatsword</div>
+          <div class="weapon-type-line">Greatsword · Sacred Erdtree Relic</div>
+          <div class="tags">
+            <span class="tag tag-holy">Holy</span>
+            <span class="tag tag-incant">Casts Incants</span>
+            <span class="tag tag-scales">INT/FAI</span>
+            <span class="tag tag-unique">Unique Skill</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">28</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-S">S</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Establish Order — casts Rejection and Litany of Proper Death simultaneously. Ideal for dual-casting hybrid playstyle.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Base AR (Max)</div>
+            <p class="detail-val">~760 AR at 45 INT / 45 FAI. Holy damage chunks both undead and late-game bosses.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Dropped by the Misbegotten Crusader in Cave of the Forlorn, Mountaintops of the Giants.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 3 -->
+    <div class="rank-card top-3 rank-3" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">3</div>
+          <div class="rank-icon">★★☆</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Erdtree Bow</div>
+          <div class="weapon-type-line">Shortbow · Sacred Ranged Weapon</div>
+          <div class="tags">
+            <span class="tag tag-holy">Holy</span>
+            <span class="tag tag-scales">FAI Primary</span>
+            <span class="tag tag-physical">DEX/FAI</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">14</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-S">S</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Through and Through — fires a piercing bolt of golden light, dealing Holy damage through all targets in a line.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Base AR (Max)</div>
+            <p class="detail-val">~550 AR at 80 FAI. Best Faith-scaling bow in the game; fires Golden Great Arrows natively.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Found in Leyndell, Ashen Capital — on a body near a Site of Grace after Maliketh is defeated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 4 -->
+    <div class="rank-card" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">4</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Dragon Communion Seal</div>
+          <div class="weapon-type-line">Sacred Seal · Dragon Incantation Catalyst</div>
+          <div class="tags">
+            <span class="tag tag-fire">Dragon</span>
+            <span class="tag tag-incant">Boosts Incants</span>
+            <span class="tag tag-scales">ARC/FAI</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">10</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-A-plus">A+</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Passive</div>
+            <p>Boosts the power of Dragon Communion Incantations. Best-in-slot for Dragon-breath and Rot builds.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Scaling Breakpoint</div>
+            <p class="detail-val">Peaks at 45 ARC / 25 FAI for Dragon Incants. Pair with Frenzied Flame Seal for dual-catalyst casting.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Found in Fringefolk Hero's Grave — use two Stonesword Keys at the Stranded Graveyard imp statue.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 5 -->
+    <div class="rank-card" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">5</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Godslayer's Greatsword</div>
+          <div class="weapon-type-line">Colossal Sword · Black Flame Infused</div>
+          <div class="tags">
+            <span class="tag tag-fire">Black Flame</span>
+            <span class="tag tag-incant">FAI Scaling</span>
+            <span class="tag tag-physical">STR/FAI</span>
+            <span class="tag tag-unique">Unique Skill</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">20</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-A-plus">A+</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>The Queen's Black Flame — a spinning sweeping attack wreathed in Black Flame that melts boss HP over time.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">HP Drain Effect</div>
+            <p class="detail-val">Black Flame inflicts a percentage-based HP drain, making it disproportionately powerful against high-HP bosses.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Found at the end of the Godskin Apostle dungeon beneath Stormveil Castle, inside a chest.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 6 -->
+    <div class="rank-card" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">6</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Winged Scythe</div>
+          <div class="weapon-type-line">Reaper · Erdtree Blessed</div>
+          <div class="tags">
+            <span class="tag tag-holy">Holy</span>
+            <span class="tag tag-bleed">Bleed</span>
+            <span class="tag tag-scales">FAI Primary</span>
+            <span class="tag tag-unique">Blocks Flasks</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">24</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-A">A</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Angel's Wings — a leaping Holy-damage slash that prevents the target from using Flasks for 3 seconds. PVP dominant.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Build Synergy</div>
+            <p class="detail-val">Best paired with Sacred Relic Sword for Bleed+Holy split. Haligdrake Talisman amplifies its Holy output.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Found in Tombsward Ruins, Weeping Peninsula. Located in an underground chest accessible via staircase.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 7 -->
+    <div class="rank-card" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">7</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Sacred Relic Sword</div>
+          <div class="weapon-type-line">Greatsword · Elden Ring Remnant</div>
+          <div class="tags">
+            <span class="tag tag-holy">Holy</span>
+            <span class="tag tag-scales">FAI/STR/DEX</span>
+            <span class="tag tag-unique">Wave of Gold</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">22</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-A">A</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Wave of Gold — the most powerful rune farming tool in the game. Single-shots the Albinaurics of Mohgwyn Palace.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Rune Farming Value</div>
+            <p class="detail-val">750,000+ runes per minute at Mohgwyn Palace — the definitive late-game rune farm enabler.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Trade Elden Remembrance at Finger Reader Enia after defeating Elden Beast. End-game weapon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK 8 -->
+    <div class="rank-card" onclick="this.classList.toggle('open')">
+      <div class="card-main">
+        <div>
+          <div class="rank-num">8</div>
+        </div>
+        <div class="card-info">
+          <div class="weapon-name">Giant's Red Braid</div>
+          <div class="weapon-type-line">Whip · Fire Giant Relic</div>
+          <div class="tags">
+            <span class="tag tag-fire">Fire</span>
+            <span class="tag tag-scales">FAI Primary</span>
+            <span class="tag tag-physical">STR/FAI</span>
+            <span class="tag tag-unique">Flame Whip</span>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-label">Faith Req</div>
+            <div class="stat-val">20</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Difficulty</div>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-badge rating-B-plus">B+</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-block">
+            <div class="detail-title">Weapon Skill</div>
+            <p>Flame Dance — a ferocious spinning whip combo engulfed in Giant Flame. Extreme range and stagger on multi-hit.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">Unique Property</div>
+            <p class="detail-val">One of few Faith weapons that excels at crowd control. Fire Giant flame type bypasses many late-game resistances.</p>
+          </div>
+          <div class="detail-block">
+            <div class="detail-title">How to Obtain</div>
+            <p>Trade Remembrance of the Fire Giant at Enia. Requires defeating the Fire Giant atop the Mountaintops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-panels">
+
+    <!-- Left: Reference Table -->
+    <div class="panel">
+      <div class="panel-title">⟡ Sacred Seal Rankings</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Seal</th>
+            <th>Faith Req</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="weapon-col">Erdtree Seal</td>
+            <td class="faith-req">40</td>
+            <td>Pure FAI · Highest AR</td>
+          </tr>
+          <tr>
+            <td class="weapon-col">Giant's Seal</td>
+            <td class="faith-req">14</td>
+            <td>Fire Giant Incants</td>
+          </tr>
+          <tr>
+            <td class="weapon-col">Frenzied Flame Seal</td>
+            <td class="faith-req">10</td>
+            <td>Frenzy Incants + ARC</td>
+          </tr>
+          <tr>
+            <td class="weapon-col">Dragon Communion Seal</td>
+            <td class="faith-req">10</td>
+            <td>Dragon + ARC builds</td>
+          </tr>
+          <tr>
+            <td class="weapon-col">Godslayer's Seal</td>
+            <td class="faith-req">27</td>
+            <td>Black Flame Incants</td>
+          </tr>
+          <tr>
+            <td class="weapon-col">Golden Order Seal</td>
+            <td class="faith-req">17</td>
+            <td>INT/FAI Hybrids</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right: Tips -->
+    <div class="panel">
+      <div class="panel-title">⟡ Faith Build Essentials</div>
+      <ul class="tips-list">
+        <li><strong>Soft cap your Faith at 60</strong> for most builds — returns diminish sharply past this threshold.</li>
+        <li><strong>Two-seal casting</strong> lets you combine bonuses — hold a Dragon Seal + Godslayer Seal for split Incant types.</li>
+        <li><strong>Sacred Scorpion Charm</strong> is your strongest talisman for Holy damage — worth the 10% damage taken penalty.</li>
+        <li><strong>Frenzied Flame Proscription</strong> gives massive HP at cost of story choices — worth it on pure survivability runs.</li>
+        <li><strong>Flame, Grant Me Strength</strong> + Howl of Shabriri stacked before a boss fight gives ~30% fire damage boost.</li>
+        <li><strong>Haligdrake Talisman +2</strong> is essential if fighting ancient dragons — their Holy resistance is extreme otherwise.</li>
+        <li>Click any weapon row above to <strong>reveal hidden details</strong>, stat breakpoints, and acquisition notes.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-divider"></div>
+    <p class="footer-text">
+      Rankings reflect <span>patch 1.12.3</span> performance across PvE, PvP, and rune farming utility. Tier placement weighs raw damage output, build flexibility, acquisition difficulty, and fun factor. All weapons tested at <span>+10 Somber / +25 Standard</span> with 80 Faith unless otherwise noted. <em>May the grace of the Erdtree guide thee, Tarnished.</em>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  // Smooth toggle with click-outside close
+  document.querySelectorAll('.rank-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.rank-card').forEach(c => c.classList.remove('open'));
+      if (!wasOpen) card.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

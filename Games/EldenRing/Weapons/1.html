@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Elden Ring INT Based Weapons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Crimson+Text:ital@0;1&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0e27;
+            --primary-light: #1a1f3a;
+            --accent: #c9a961;
+            --accent-glow: #e8d5b7;
+            --danger: #e75480;
+            --success: #6ba3d4;
+            --warning: #f5a962;
+            --text-primary: #e8e4d9;
+            --text-secondary: #a8a199;
+            --border: #2d2820;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #0f1432 25%, #1a0f2e 50%, #0a0e27 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Atmospheric background layers */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse 80% 80% at 20% 50%, rgba(201, 169, 97, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 100% at 80% 0%, rgba(107, 163, 212, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 100% at 50% 100%, rgba(231, 84, 128, 0.04) 0%, transparent 80%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* Noise texture overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 0.02) 0px,
+                    rgba(255, 255, 255, 0.02) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: -1;
+            animation: grain 0.8s steps(2) infinite;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-2px, -2px); }
+            20% { transform: translate(2px, 2px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            animation: floatGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes floatGlow {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            animation: riseUp 1s ease-out 0.2s both;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 30px rgba(201, 169, 97, 0.3);
+        }
+
+        @keyframes riseUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .emblem {
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary);
+            box-shadow: 
+                0 0 40px rgba(201, 169, 97, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .emblem::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent),
+                var(--success),
+                var(--accent)
+            );
+            border-radius: 50%;
+            opacity: 0;
+            animation: spinPulse 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes spinPulse {
+            0% { opacity: 0.3; transform: rotate(0deg); }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.3; transform: rotate(360deg); }
+        }
+
+        /* ============ MAIN TABLE ============ */
+        .weapons-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .weapon-row {
+            display: grid;
+            grid-template-columns: 80px 1fr auto auto auto 120px;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(90deg, rgba(26, 31, 58, 0.6) 0%, rgba(26, 31, 58, 0.3) 100%);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: slideInLeft 0.6s ease-out both;
+            cursor: pointer;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .weapon-row:nth-child(1) { animation-delay: 0.1s; }
+        .weapon-row:nth-child(2) { animation-delay: 0.2s; }
+        .weapon-row:nth-child(3) { animation-delay: 0.3s; }
+        .weapon-row:nth-child(n+4) { animation-delay: 0.4s; }
+
+        .weapon-row.rank-1,
+        .weapon-row.rank-2,
+        .weapon-row.rank-3 {
+            border-left: 6px solid var(--accent);
+            background: linear-gradient(90deg, rgba(201, 169, 97, 0.15) 0%, rgba(26, 31, 58, 0.4) 100%);
+        }
+
+        .weapon-row.rank-1 { --rank-color: #FFD700; }
+        .weapon-row.rank-2 { --rank-color: #C0C0C0; }
+        .weapon-row.rank-3 { --rank-color: #CD7F32; }
+
+        .weapon-row:hover {
+            background: linear-gradient(90deg, rgba(201, 169, 97, 0.25) 0%, rgba(26, 31, 58, 0.5) 100%);
+            border-left-color: var(--accent-glow);
+            box-shadow: 
+                0 8px 32px rgba(201, 169, 97, 0.2),
+                inset 0 0 20px rgba(201, 169, 97, 0.1);
+            transform: translateX(8px);
+        }
+
+        .weapon-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 169, 97, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+
+        .weapon-row:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Rank Badge */
+        .rank-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(201, 169, 97, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.5);
+        }
+
+        .weapon-row.rank-1 .rank-badge,
+        .weapon-row.rank-2 .rank-badge,
+        .weapon-row.rank-3 .rank-badge {
+            color: var(--rank-color);
+            border-color: var(--rank-color);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Weapon Info */
+        .weapon-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .weapon-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .weapon-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Tags/Pills */
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: 1.5px solid;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        .tag.scaling-int {
+            border-color: var(--success);
+            color: var(--success);
+            box-shadow: inset 0 0 10px rgba(107, 163, 212, 0.1);
+        }
+
+        .tag.type-spell {
+            border-color: var(--danger);
+            color: var(--danger);
+            box-shadow: inset 0 0 10px rgba(231, 84, 128, 0.1);
+        }
+
+        .tag.type-weapon {
+            border-color: var(--warning);
+            color: var(--warning);
+            box-shadow: inset 0 0 10px rgba(245, 169, 98, 0.1);
+        }
+
+        .tag.attribute-faith {
+            border-color: #a890d6;
+            color: #a890d6;
+            box-shadow: inset 0 0 10px rgba(168, 144, 214, 0.1);
+        }
+
+        /* Stats */
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            text-align: center;
+        }
+
+        /* Difficulty dots */
+        .difficulty {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        /* Rating Badge */
+        .rating-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.2) 0%, rgba(201, 169, 97, 0.05) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            min-width: 100px;
+        }
+
+        .rating-score {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(201, 169, 97, 0.5);
+            line-height: 1;
+        }
+
+        .rating-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        /* Hover detail panel */
+        .detail-panel {
+            position: absolute;
+            bottom: -200px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(26, 31, 58, 0.95) 0%, rgba(10, 14, 39, 0.98) 100%);
+            padding: 1.5rem;
+            border-top: 2px solid var(--accent);
+            backdrop-filter: blur(15px);
+            transition: bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .weapon-row:hover .detail-panel {
+            bottom: 0;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .detail-value {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .weapon-row {
+                grid-template-columns: 60px 1fr 100px;
+                gap: 1rem;
+            }
+
+            .rank-badge,
+            .stat,
+            .difficulty {
+                display: none;
+            }
+
+            .detail-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .weapon-row {
+                grid-template-columns: 50px 1fr;
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+
+            .rating-badge {
+                min-width: 80px;
+                padding: 0.5rem;
+            }
+
+            .rating-score {
+                font-size: 1.5rem;
+            }
+
+            .weapon-name {
+                font-size: 1.1rem;
+            }
+
+            .tags {
+                gap: 0.35rem;
+            }
+
+            .tag {
+                font-size: 0.65rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .header {
+                margin-bottom: 2rem;
+            }
+
+            .title {
+                font-size: clamp(1.8rem, 6vw, 3rem);
+            }
+        }
+
+        /* ============ INFO PANELS ============ */
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .info-panel {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(26, 31, 58, 0.4) 100%);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            animation: slideInUp 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-panel:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .info-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reference-table th {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            text-align: left;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 700;
+        }
+
+        .reference-table td {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .reference-table tr:hover {
+            background: rgba(201, 169, 97, 0.05);
+        }
+
+        .reference-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: rgba(107, 163, 212, 0.05);
+            border-left: 3px solid var(--success);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .tips-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0.75rem;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .tips-list li:hover {
+            background: rgba(107, 163, 212, 0.1);
+            padding-left: 2.25rem;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+            animation: fadeIn 1.2s ease-out 1s both;
+        }
+
+        .footer strong {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .tips-list li {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="eyebrow">⚡ Ultimate Ranking ⚡</div>
+            <h1 class="title">Best Elden Ring INT Weapons</h1>
+            <p class="subtitle">Harness the arcane arts with the mightiest sorceries and magical armaments</p>
+            <div class="emblem">⚔</div>
+        </div>
+
+        <!-- WEAPONS TABLE -->
+        <div class="weapons-grid">
+            <!-- Rank 1 -->
+            <div class="weapon-row rank-1">
+                <div class="rank-badge">1</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Moonveil</div>
+                    <div class="weapon-description">The legendary unsheathing blade that bends reality</div>
+                    <div class="tags">
+                        <span class="tag type-weapon">Sword</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                        <span class="tag attribute-faith">Dex Hybrid</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">B</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">S+</div>
+                    <div class="rating-label">Meta</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Base Damage</span>
+                            <span class="detail-value">124</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">DPS Peak</span>
+                            <span class="detail-value">2850</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Siofra Aqueduct</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Ash</span>
+                            <span class="detail-value">Unsheathe</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value">7.5</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Reqs</span>
+                            <span class="detail-value">INT 23</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rank 2 -->
+            <div class="weapon-row rank-2">
+                <div class="rank-badge">2</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Lusat's Glintstone Staff</div>
+                    <div class="weapon-description">Legendary catalyst for maximum INT scaling damage</div>
+                    <div class="tags">
+                        <span class="tag type-spell">Staff</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                        <span class="tag attribute-faith">Pure Caster</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">S</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">S</div>
+                    <div class="rating-label">Endgame</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Spell Buff</span>
+                            <span class="detail-value">398</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Focus Cost</span>
+                            <span class="detail-value">12-35</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Smarag Thicket</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Poise Break</span>
+                            <span class="detail-value">High</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value">7.5</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Reqs</span>
+                            <span class="detail-value">INT 52</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rank 3 -->
+            <div class="weapon-row rank-3">
+                <div class="rank-badge">3</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Azur's Glintstone Staff</div>
+                    <div class="weapon-description">Master artificer's legacy staff with excellent scaling</div>
+                    <div class="tags">
+                        <span class="tag type-spell">Staff</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                        <span class="tag attribute-faith">Pure Caster</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">S</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">A+</div>
+                    <div class="rating-label">Optimal</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Spell Buff</span>
+                            <span class="detail-value">382</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Focus Cost</span>
+                            <span class="detail-value">12-35</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Mt. Gelmir</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Int Requirement</span>
+                            <span class="detail-value">62</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value">8.0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Buff Potential</span>
+                            <span class="detail-value">Very High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rank 4+ -->
+            <div class="weapon-row">
+                <div class="rank-badge">4</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Astel's Wing</div>
+                    <div class="weapon-description">Curved sword with stellar INT scaling and cosmic power</div>
+                    <div class="tags">
+                        <span class="tag type-weapon">Curved Sword</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">B</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">A</div>
+                    <div class="rating-label">Strong</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Base Damage</span>
+                            <span class="detail-value">118</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Crit Rating</span>
+                            <span class="detail-value">115</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Siofra River</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Versatile</span>
+                            <span class="detail-value">Yes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Combo Potential</span>
+                            <span class="detail-value">Excellent</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Reqs</span>
+                            <span class="detail-value">INT 24</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-row">
+                <div class="rank-badge">5</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Crystal Staff</div>
+                    <div class="weapon-description">Versatile catalyst for balanced spell casting</div>
+                    <div class="tags">
+                        <span class="tag type-spell">Staff</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">A</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">A</div>
+                    <div class="rating-label">Solid</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Spell Buff</span>
+                            <span class="detail-value">323</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Availability</span>
+                            <span class="detail-value">Early Game</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Upgradable</span>
+                            <span class="detail-value">Yes</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Focus Cost</span>
+                            <span class="detail-value">12-35</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Reliability</span>
+                            <span class="detail-value">High</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Reqs</span>
+                            <span class="detail-value">INT 10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-row">
+                <div class="rank-badge">6</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Meteorite Staff</div>
+                    <div class="weapon-description">Unearthly catalyst of exceptional cosmic power</div>
+                    <div class="tags">
+                        <span class="tag type-spell">Staff</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">A</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">A</div>
+                    <div class="rating-label">Excellent</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Spell Buff</span>
+                            <span class="detail-value">358</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Int Requirement</span>
+                            <span class="detail-value">18</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Availability</span>
+                            <span class="detail-value">Early Access</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">No Smithstone</span>
+                            <span class="detail-value">Special</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Gravity Spells</span>
+                            <span class="detail-value">Perfect</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Limgrave</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-row">
+                <div class="rank-badge">7</div>
+                <div class="weapon-info">
+                    <div class="weapon-name">Academy Glintstone Staff</div>
+                    <div class="weapon-description">Starting point for aspiring sorcerers and mages</div>
+                    <div class="tags">
+                        <span class="tag type-spell">Staff</span>
+                        <span class="tag scaling-int">INT Scaling</span>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">INT Scaling</div>
+                    <div class="stat-value">C</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Difficulty</div>
+                    <div class="difficulty">
+                        <div class="dot filled"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="rating-badge">
+                    <div class="rating-score">B+</div>
+                    <div class="rating-label">Starter</div>
+                </div>
+                <div class="detail-panel">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Spell Buff</span>
+                            <span class="detail-value">211</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Int Requirement</span>
+                            <span class="detail-value">6</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Early Access</span>
+                            <span class="detail-value">Yes</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Learning Curve</span>
+                            <span class="detail-value">Beginner</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Upgrades Available</span>
+                            <span class="detail-value">Yes</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Found</span>
+                            <span class="detail-value">Raya Lucaria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFO PANELS -->
+        <div class="info-section">
+            <!-- Reference Table -->
+            <div class="info-panel">
+                <div class="info-title">⚗ Essential Catalysts</div>
+                <table class="reference-table">
+                    <thead>
+                        <tr>
+                            <th>Catalyst</th>
+                            <th>Buff</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Lusat's Glintstone</td>
+                            <td>398</td>
+                            <td>S-Tier</td>
+                        </tr>
+                        <tr>
+                            <td>Azur's Glintstone</td>
+                            <td>382</td>
+                            <td>S-Tier</td>
+                        </tr>
+                        <tr>
+                            <td>Meteorite Staff</td>
+                            <td>358</td>
+                            <td>A-Tier</td>
+                        </tr>
+                        <tr>
+                            <td>Crystal Staff</td>
+                            <td>323</td>
+                            <td>A-Tier</td>
+                        </tr>
+                        <tr>
+                            <td>Academy Glintstone</td>
+                            <td>211</td>
+                            <td>B-Tier</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tips Panel -->
+            <div class="info-panel">
+                <div class="info-title">✨ Sorcerer's Essentials</div>
+                <ul class="tips-list">
+                    <li><strong>Invest in INT first</strong> — Scale Intelligence to 60+ for maximum damage output</li>
+                    <li><strong>Pair with Moon Ring</strong> — Boosts sorcery damage by 12% when equipped</li>
+                    <li><strong>Manage FP wisely</strong> — High-tier spells drain focus; use Mind talismans</li>
+                    <li><strong>Mix spell types</strong> — Combine Glintstone, Gravity, and Night spells for versatility</li>
+                    <li><strong>Range is your friend</strong> — Stay back and control the battlefield from distance</li>
+                    <li><strong>Use Poise management</strong> — Two-handed staffs break poise faster for devastating combos</li>
+                    <li><strong>Buff before major fights</strong> — Apply Shabriri's Woe and Golden Order Seal for advantage</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><strong>Ranking Criteria:</strong> Based on damage scaling, spell buff potential, availability, versatility in combat, and endgame viability. Ratings consider pure INT scaling builds without hybrid requirements. Data accurate as of Patch 1.12.</p>
+        </div>
+    </div>
+
+    <script>
+        // Stagger animation on load
+        const weaponRows = document.querySelectorAll('.weapon-row');
+        weaponRows.forEach((row, index) => {
+            row.style.animationDelay = `${0.1 + index * 0.1}s`;
+        });
+
+        // Smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Optional: Add click event to expand details on mobile
+        weaponRows.forEach(row => {
+            row.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
