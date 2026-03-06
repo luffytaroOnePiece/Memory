@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLID Principles — Software Engineering Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0e0f14;
+  --bg-card: #14151d;
+  --bg-card-2: #1a1b26;
+  --bg-code: #0a0b0f;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(120,100,255,0.5);
+  --accent-1: #7b6cff;
+  --accent-1-soft: rgba(123,108,255,0.12);
+  --accent-2: #2dd4a0;
+  --accent-2-soft: rgba(45,212,160,0.1);
+  --accent-warn: #f59e0b;
+  --accent-err: #f87171;
+  --text-primary: #e8e9f0;
+  --text-secondary: #9ca3b4;
+  --text-muted: #555970;
+  --syn-keyword: #c084fc;
+  --syn-function: #60a5fa;
+  --syn-string: #4ade80;
+  --syn-number: #fb923c;
+  --syn-comment: #4b5265;
+  --syn-type: #fbbf24;
+  --syn-op: #94a3b8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+::selection { background: rgba(123,108,255,0.35); color: var(--text-primary); }
+
+body {
+  background: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(123,108,255,0.08) 0%, transparent 60%),
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  color: var(--text-primary);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(14,15,20,0.96);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent-1);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; color: var(--text-muted);
+  text-decoration: none; padding: 5px 10px;
+  border-radius: 4px; letter-spacing: 0.04em;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--text-primary); background: var(--accent-1-soft); }
+
+/* HERO */
+.hero {
+  max-width: 900px; margin: 0 auto;
+  padding: 130px 32px 72px;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.hero.visible { opacity: 1; transform: none; }
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.15em; color: var(--accent-1);
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 20px;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-1); }
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(44px, 7vw, 80px);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #e8e9f0 0%, #9ca3b4 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 18px; color: var(--text-secondary);
+  max-width: 560px; line-height: 1.6; margin-bottom: 36px;
+}
+.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text-muted); text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.pill:hover { border-color: var(--accent-1); color: var(--accent-1); background: var(--accent-1-soft); }
+
+/* INTRO */
+.container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+
+.intro-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px;
+  margin-bottom: 24px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.intro-card.visible { opacity: 1; transform: none; }
+
+.intro-card p { color: var(--text-secondary); font-size: 16px; line-height: 1.75; }
+.intro-card p strong { color: var(--text-primary); }
+
+.benefits-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-top: 28px;
+}
+.benefit {
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.benefit:hover { border-color: var(--border-bright); background: rgba(123,108,255,0.06); }
+.benefit-icon { font-size: 22px; margin-bottom: 10px; }
+.benefit-title { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.benefit-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* SECTION CARDS */
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 40px;
+  margin-bottom: 20px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s;
+}
+.section-card.visible { opacity: 1; transform: none; }
+.section-card:hover { border-color: rgba(123,108,255,0.2); }
+
+.section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 8px; }
+.section-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  font-weight: 500; color: var(--accent-1);
+  background: var(--accent-1-soft); border: 1px solid rgba(123,108,255,0.25);
+  padding: 4px 10px; border-radius: 6px; margin-top: 6px; white-space: nowrap;
+}
+.section-title-wrap {}
+.section-title {
+  font-family: 'Outfit', sans-serif; font-size: 28px;
+  font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary);
+}
+.section-tagline { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  padding: 3px 9px; border-radius: 4px; font-weight: 500;
+  margin-left: auto; margin-top: 6px; white-space: nowrap;
+}
+.badge-foundation { background: rgba(45,212,160,0.12); color: var(--accent-2); border: 1px solid rgba(45,212,160,0.25); }
+.badge-intermediate { background: rgba(251,191,36,0.1); color: var(--accent-warn); border: 1px solid rgba(251,191,36,0.25); }
+.badge-advanced { background: rgba(248,113,113,0.1); color: var(--accent-err); border: 1px solid rgba(248,113,113,0.25); }
+
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+/* INFO GRID */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.info-box {
+  background: var(--bg-code); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px;
+}
+.info-box-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.info-box-text { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+.info-box-text strong { color: var(--text-primary); }
+
+/* FLOW DIAGRAM */
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin-bottom: 28px; }
+.flow-box {
+  background: var(--bg-card-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  color: var(--text-secondary); white-space: nowrap;
+}
+.flow-box.accent { border-color: rgba(123,108,255,0.4); color: var(--accent-1); background: var(--accent-1-soft); }
+.flow-box.green { border-color: rgba(45,212,160,0.4); color: var(--accent-2); background: var(--accent-2-soft); }
+.flow-box.warn { border-color: rgba(251,191,36,0.4); color: var(--accent-warn); background: rgba(251,191,36,0.06); }
+.flow-arrow { color: var(--text-muted); padding: 0 8px; font-size: 16px; }
+
+/* CODE BLOCK */
+.code-block { margin-bottom: 28px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+.code-header {
+  background: var(--bg-card-2); padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.code-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); }
+.code-actions { display: flex; gap: 8px; }
+.btn-code {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); transition: border-color 0.2s, color 0.2s;
+}
+.btn-code:hover { border-color: var(--accent-1); color: var(--accent-1); }
+.code-body {
+  background: var(--bg-code); overflow: hidden;
+  max-height: 1000px; transition: max-height 0.4s ease;
+}
+.code-body.collapsed { max-height: 0; }
+.code-body pre {
+  padding: 20px 22px; overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+  line-height: 1.7; tab-size: 2;
+}
+/* Syntax */
+.kw { color: var(--syn-keyword); }
+.fn { color: var(--syn-function); }
+.str { color: var(--syn-string); }
+.num { color: var(--syn-number); }
+.cmt { color: var(--syn-comment); font-style: italic; }
+.tp { color: var(--syn-type); }
+.op { color: var(--syn-op); }
+
+/* TIPS GRID */
+.tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tip {
+  border-radius: 10px; padding: 16px 18px;
+  font-size: 13px; line-height: 1.55; color: var(--text-secondary);
+  border: 1px solid;
+}
+.tip strong { display: block; font-size: 12px; font-family: 'IBM Plex Mono', monospace; margin-bottom: 5px; }
+.tip-good { background: rgba(45,212,160,0.05); border-color: rgba(45,212,160,0.2); }
+.tip-good strong { color: var(--accent-2); }
+.tip-warn { background: rgba(248,113,113,0.05); border-color: rgba(248,113,113,0.2); }
+.tip-warn strong { color: var(--accent-err); }
+.tip-pro { background: rgba(96,165,250,0.05); border-color: rgba(96,165,250,0.2); }
+.tip-pro strong { color: #60a5fa; }
+.tip-skip { background: rgba(251,191,36,0.05); border-color: rgba(251,191,36,0.2); }
+.tip-skip strong { color: var(--accent-warn); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border); margin-top: 80px;
+  padding: 32px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: var(--text-muted); display: flex; justify-content: space-between;
+  align-items: center; max-width: 900px; margin: 80px auto 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .benefits-grid { grid-template-columns: 1fr 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .section-header { flex-wrap: wrap; }
+  .badge { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 90px 16px 48px; }
+  .container { padding: 0 16px; }
+  .section-card { padding: 24px 20px; }
+  .intro-card { padding: 24px 20px; }
+  .benefits-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">◈ SOLID</a>
+  <div class="nav-links">
+    <a href="#srp">SRP</a>
+    <a href="#ocp">OCP</a>
+    <a href="#lsp">LSP</a>
+    <a href="#isp">ISP</a>
+    <a href="#dip">DIP</a>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="eyebrow">Software Engineering · Design Principles</div>
+  <h1>SOLID Principles</h1>
+  <p class="hero-sub">Five foundational object-oriented design principles that produce maintainable, flexible, and scalable software systems.</p>
+  <div class="hero-pills">
+    <a class="pill" href="#srp">Single Responsibility</a>
+    <a class="pill" href="#ocp">Open/Closed</a>
+    <a class="pill" href="#lsp">Liskov Substitution</a>
+    <a class="pill" href="#isp">Interface Segregation</a>
+    <a class="pill" href="#dip">Dependency Inversion</a>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="intro-card">
+    <p>Coined by <strong>Robert C. Martin</strong> (Uncle Bob) and popularized by Michael Feathers, SOLID is an acronym for five design principles intended to make software designs more <strong>understandable, flexible, and maintainable</strong>. While originally formulated for OOP, these principles apply broadly across paradigms.</p>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">🔧</div>
+        <div class="benefit-title">Maintainability</div>
+        <div class="benefit-desc">Changes are localized, reducing ripple effects</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🧩</div>
+        <div class="benefit-title">Extensibility</div>
+        <div class="benefit-desc">New features without breaking existing code</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🧪</div>
+        <div class="benefit-title">Testability</div>
+        <div class="benefit-desc">Isolated units are straightforward to unit test</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">♻️</div>
+        <div class="benefit-title">Reusability</div>
+        <div class="benefit-desc">Decoupled components compose into new systems</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SRP -->
+  <div class="section-card" id="srp">
+    <div class="section-header">
+      <div class="section-num">S · 01</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Single Responsibility Principle</div>
+        <div class="section-tagline">A class should have one, and only one, reason to change.</div>
+      </div>
+      <span class="badge badge-foundation">Foundation</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-label">What it is</div>
+        <div class="info-box-text">Every class, module, or function should encapsulate <strong>exactly one concern</strong>. "Reason to change" maps to a single stakeholder or actor whose requirements drive that unit.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Why use it</div>
+        <div class="info-box-text">When a class has multiple responsibilities, a change for one stakeholder can unintentionally break behaviour for another. Isolation prevents that fragility.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Real-world use case</div>
+        <div class="info-box-text">Separating a <strong>User</strong> domain model from an <strong>EmailService</strong>. The User class shouldn't know how emails are sent — that's a separate concern.</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-box warn">❌ UserService</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">saves to DB</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">sends email</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">generates PDF</div>
+      <div class="flow-arrow" style="margin: 0 16px; color: var(--text-muted);">vs</div>
+      <div class="flow-box accent">✓ UserRepository</div>
+      <div class="flow-arrow">|</div>
+      <div class="flow-box green">EmailService</div>
+      <div class="flow-arrow">|</div>
+      <div class="flow-box" style="border-color:rgba(251,191,36,0.4);color:var(--accent-warn);">ReportGenerator</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">TypeScript · srp_example.ts</span>
+        <div class="code-actions">
+          <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+          <button class="btn-code" onclick="copyCode(this)">copy</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre><span class="cmt">// ❌ Violation — UserService has too many responsibilities</span>
+<span class="kw">class</span> <span class="tp">UserService</span> {
+  <span class="fn">saveUser</span>(<span class="op">user:</span> <span class="tp">User</span>) { <span class="cmt">/* persist to DB */</span> }
+  <span class="fn">sendWelcomeEmail</span>(<span class="op">user:</span> <span class="tp">User</span>) { <span class="cmt">/* SMTP logic here */</span> }
+  <span class="fn">generateInvoicePdf</span>(<span class="op">user:</span> <span class="tp">User</span>) { <span class="cmt">/* PDF rendering here */</span> }
+}
+
+<span class="cmt">// ✅ Correct — each class has a single reason to change</span>
+<span class="kw">class</span> <span class="tp">UserRepository</span> {
+  <span class="fn">save</span>(<span class="op">user:</span> <span class="tp">User</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">void</span><span class="op">&gt;</span> {
+    <span class="kw">return</span> <span class="fn">this</span>.db.<span class="fn">insert</span>(<span class="str">'users'</span>, user);
+  }
+}
+
+<span class="kw">class</span> <span class="tp">EmailService</span> {
+  <span class="fn">sendWelcome</span>(<span class="op">user:</span> <span class="tp">User</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">void</span><span class="op">&gt;</span> {
+    <span class="kw">return</span> <span class="fn">this</span>.mailer.<span class="fn">send</span>({
+      to<span class="op">:</span> user.email,
+      subject<span class="op">:</span> <span class="str">'Welcome!'</span>,
+      template<span class="op">:</span> <span class="str">'welcome'</span>,
+    });
+  }
+}
+
+<span class="kw">class</span> <span class="tp">InvoiceGenerator</span> {
+  <span class="fn">generate</span>(<span class="op">user:</span> <span class="tp">User</span>)<span class="op">:</span> <span class="tp">Buffer</span> {
+    <span class="kw">return</span> <span class="fn">this</span>.pdfRenderer.<span class="fn">render</span>(<span class="str">'invoice'</span>, { user });
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-good"><strong>✅ Best Practice</strong>If you struggle to name a class in one word, it likely has too many responsibilities. Split it.</div>
+      <div class="tip tip-warn"><strong>⚠️ Common Mistake</strong>Confusing SRP with "one method per class". SRP is about a single <em>reason to change</em>, not a line count.</div>
+      <div class="tip tip-pro"><strong>💡 Pro Tip</strong>Group related methods by the actor they serve. If Finance and HR would both request changes, split the class.</div>
+      <div class="tip tip-skip"><strong>⏭️ When to Skip</strong>In tiny scripts or data-transfer objects (DTOs) with no behaviour, strict SRP separation may add unnecessary indirection.</div>
+    </div>
+  </div>
+
+  <!-- OCP -->
+  <div class="section-card" id="ocp">
+    <div class="section-header">
+      <div class="section-num">O · 02</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Open/Closed Principle</div>
+        <div class="section-tagline">Open for extension, closed for modification.</div>
+      </div>
+      <span class="badge badge-intermediate">Intermediate</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-label">What it is</div>
+        <div class="info-box-text">Software entities should be <strong>extendable without altering existing code</strong>. Achieved through abstractions (interfaces/abstract classes) that allow new behaviour via new implementations.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Why use it</div>
+        <div class="info-box-text">Modifying existing, tested code risks introducing regressions. OCP lets you add functionality by writing <em>new</em> code, leaving proven code untouched.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Real-world use case</div>
+        <div class="info-box-text">A <strong>payment processing system</strong> where adding Stripe, PayPal, or Crypto means implementing a <code>PaymentProvider</code> interface — the checkout flow never changes.</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-box accent">«interface» PaymentProvider</div>
+      <div class="flow-arrow">←implements</div>
+      <div class="flow-box green">StripeProvider</div>
+      <div class="flow-arrow" style="color:var(--border)">·</div>
+      <div class="flow-box green">PaypalProvider</div>
+      <div class="flow-arrow" style="color:var(--border)">·</div>
+      <div class="flow-box" style="border-color:rgba(251,191,36,0.4);color:var(--accent-warn);">CryptoProvider (new)</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">TypeScript · ocp_example.ts</span>
+        <div class="code-actions">
+          <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+          <button class="btn-code" onclick="copyCode(this)">copy</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre><span class="cmt">// ❌ Violation — adding a new type requires editing existing switch</span>
+<span class="kw">function</span> <span class="fn">processPayment</span>(<span class="op">type:</span> <span class="tp">string</span>, <span class="op">amount:</span> <span class="tp">number</span>) {
+  <span class="kw">if</span> (type <span class="op">===</span> <span class="str">'stripe'</span>) { <span class="cmt">/* ... */</span> }
+  <span class="kw">else if</span> (type <span class="op">===</span> <span class="str">'paypal'</span>) { <span class="cmt">/* ... */</span> }
+  <span class="cmt">// Every new provider = modify this function</span>
+}
+
+<span class="cmt">// ✅ Correct — new providers extend, never modify</span>
+<span class="kw">interface</span> <span class="tp">PaymentProvider</span> {
+  <span class="fn">charge</span>(<span class="op">amount:</span> <span class="tp">number</span>, <span class="op">currency:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">PaymentResult</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">class</span> <span class="tp">StripeProvider</span> <span class="kw">implements</span> <span class="tp">PaymentProvider</span> {
+  <span class="kw">async</span> <span class="fn">charge</span>(<span class="op">amount:</span> <span class="tp">number</span>, <span class="op">currency:</span> <span class="tp">string</span>) {
+    <span class="kw">return</span> stripeClient.<span class="fn">charges</span>.<span class="fn">create</span>({ amount, currency });
+  }
+}
+
+<span class="kw">class</span> <span class="tp">CryptoProvider</span> <span class="kw">implements</span> <span class="tp">PaymentProvider</span> {
+  <span class="kw">async</span> <span class="fn">charge</span>(<span class="op">amount:</span> <span class="tp">number</span>, <span class="op">currency:</span> <span class="tp">string</span>) {
+    <span class="kw">return</span> <span class="fn">this</span>.wallet.<span class="fn">sendTransaction</span>({ amount, currency });
+  }
+}
+
+<span class="cmt">// Checkout never needs to change regardless of provider count</span>
+<span class="kw">class</span> <span class="tp">Checkout</span> {
+  <span class="fn">constructor</span>(<span class="kw">private</span> <span class="op">provider:</span> <span class="tp">PaymentProvider</span>) {}
+
+  <span class="fn">complete</span>(<span class="op">cart:</span> <span class="tp">Cart</span>) {
+    <span class="kw">return</span> <span class="fn">this</span>.provider.<span class="fn">charge</span>(cart.total, cart.currency);
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-good"><strong>✅ Best Practice</strong>Use the Strategy or Template Method pattern to encapsulate varying behaviour behind a stable interface.</div>
+      <div class="tip tip-warn"><strong>⚠️ Common Mistake</strong>Over-engineering: don't abstract prematurely. Apply OCP when you have at least two concrete variations or anticipate real extension points.</div>
+      <div class="tip tip-pro"><strong>💡 Pro Tip</strong>The Plugin pattern is OCP in action — a host system defines extension points; plugins provide behaviour without modifying the host.</div>
+      <div class="tip tip-skip"><strong>⏭️ When to Skip</strong>Pure data structures or configurations where "extension" is just a new field. OCP is most valuable in behavioural, logic-heavy code.</div>
+    </div>
+  </div>
+
+  <!-- LSP -->
+  <div class="section-card" id="lsp">
+    <div class="section-header">
+      <div class="section-num">L · 03</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Liskov Substitution Principle</div>
+        <div class="section-tagline">Subtypes must be substitutable for their base types without altering program correctness.</div>
+      </div>
+      <span class="badge badge-intermediate">Intermediate</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-label">What it is</div>
+        <div class="info-box-text">If <strong>S is a subtype of T</strong>, then objects of type T may be replaced with objects of type S without changing the correctness of the program. Formal contract: preconditions, postconditions, invariants.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Why use it</div>
+        <div class="info-box-text">Violations cause silent bugs when polymorphism is used. LSP ensures inheritance hierarchies are semantically consistent — not just syntactically compatible.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Real-world use case</div>
+        <div class="info-box-text">The classic violation: <strong>Square extends Rectangle</strong>. Setting width on a Square silently changes height, breaking callers that expect independent dimensions.</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-box accent">Shape (base)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box green">Circle.area() ✓</div>
+      <div class="flow-arrow" style="color:var(--border)">·</div>
+      <div class="flow-box green">Rectangle.area() ✓</div>
+      <div class="flow-arrow" style="color:var(--border)">·</div>
+      <div class="flow-box warn">Square(Rectangle) ✗</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">TypeScript · lsp_example.ts</span>
+        <div class="code-actions">
+          <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+          <button class="btn-code" onclick="copyCode(this)">copy</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre><span class="cmt">// ❌ Violation — Square breaks Rectangle's invariant</span>
+<span class="kw">class</span> <span class="tp">Rectangle</span> {
+  <span class="fn">setWidth</span>(<span class="op">w:</span> <span class="tp">number</span>)  { <span class="fn">this</span>.width = w; }
+  <span class="fn">setHeight</span>(<span class="op">h:</span> <span class="tp">number</span>) { <span class="fn">this</span>.height = h; }
+  <span class="fn">area</span>() { <span class="kw">return</span> <span class="fn">this</span>.width <span class="op">*</span> <span class="fn">this</span>.height; }
+}
+
+<span class="kw">class</span> <span class="tp">Square</span> <span class="kw">extends</span> <span class="tp">Rectangle</span> {
+  <span class="fn">setWidth</span>(<span class="op">w:</span> <span class="tp">number</span>)  { <span class="fn">this</span>.width = <span class="fn">this</span>.height = w; }
+  <span class="fn">setHeight</span>(<span class="op">h:</span> <span class="tp">number</span>) { <span class="fn">this</span>.width = <span class="fn">this</span>.height = h; }
+}
+
+<span class="kw">function</span> <span class="fn">doubleWidth</span>(<span class="op">r:</span> <span class="tp">Rectangle</span>) {
+  <span class="kw">const</span> h = r.height;
+  r.<span class="fn">setWidth</span>(r.width <span class="op">*</span> <span class="num">2</span>);
+  <span class="cmt">// Passes Rectangle, fails Square — height was also changed</span>
+  <span class="kw">console</span>.<span class="fn">assert</span>(r.height <span class="op">===</span> h);
+}
+
+<span class="cmt">// ✅ Correct — use a common interface, not inheritance</span>
+<span class="kw">interface</span> <span class="tp">Shape</span> {
+  <span class="fn">area</span>()<span class="op">:</span> <span class="tp">number</span>;
+  <span class="fn">perimeter</span>()<span class="op">:</span> <span class="tp">number</span>;
+}
+
+<span class="kw">class</span> <span class="tp">Rectangle</span> <span class="kw">implements</span> <span class="tp">Shape</span> {
+  <span class="fn">constructor</span>(<span class="kw">readonly</span> width<span class="op">:</span> <span class="tp">number</span>, <span class="kw">readonly</span> height<span class="op">:</span> <span class="tp">number</span>) {}
+  <span class="fn">area</span>()      { <span class="kw">return</span> <span class="fn">this</span>.width <span class="op">*</span> <span class="fn">this</span>.height; }
+  <span class="fn">perimeter</span>() { <span class="kw">return</span> <span class="num">2</span> <span class="op">*</span> (<span class="fn">this</span>.width <span class="op">+</span> <span class="fn">this</span>.height); }
+}
+
+<span class="kw">class</span> <span class="tp">Square</span> <span class="kw">implements</span> <span class="tp">Shape</span> {
+  <span class="fn">constructor</span>(<span class="kw">readonly</span> side<span class="op">:</span> <span class="tp">number</span>) {}
+  <span class="fn">area</span>()      { <span class="kw">return</span> <span class="fn">this</span>.side <span class="op">**</span> <span class="num">2</span>; }
+  <span class="fn">perimeter</span>() { <span class="kw">return</span> <span class="num">4</span> <span class="op">*</span> <span class="fn">this</span>.side; }
+}</pre>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-good"><strong>✅ Best Practice</strong>Prefer composition or shared interfaces over deep inheritance when subtype behavior must diverge from the parent contract.</div>
+      <div class="tip tip-warn"><strong>⚠️ Common Mistake</strong>Throwing <code>UnsupportedOperationException</code> (or similar) from an inherited method. That's an LSP violation — the caller's assumptions are broken.</div>
+      <div class="tip tip-pro"><strong>💡 Pro Tip</strong>Design by contract: document preconditions (what you require), postconditions (what you guarantee), and invariants. Subtypes may only weaken preconditions and strengthen postconditions.</div>
+      <div class="tip tip-skip"><strong>⏭️ When to Skip</strong>Leaf classes with no polymorphic usage. LSP only matters when a reference to the base type is used in a context that may receive a subtype.</div>
+    </div>
+  </div>
+
+  <!-- ISP -->
+  <div class="section-card" id="isp">
+    <div class="section-header">
+      <div class="section-num">I · 04</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Interface Segregation Principle</div>
+        <div class="section-tagline">Clients should not be forced to depend on interfaces they do not use.</div>
+      </div>
+      <span class="badge badge-foundation">Foundation</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-label">What it is</div>
+        <div class="info-box-text">Large, monolithic interfaces should be split into <strong>smaller, role-specific interfaces</strong>. Clients only implement what they actually need, preventing "fat interface" pollution.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Why use it</div>
+        <div class="info-box-text">Implementing irrelevant methods leads to empty stubs, thrown exceptions, and tight coupling. Segregated interfaces reduce friction and make dependencies explicit.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Real-world use case</div>
+        <div class="info-box-text">A <strong>read-only repository</strong> shouldn't be forced to implement <code>save()</code> or <code>delete()</code>. Separate <code>Readable</code> and <code>Writable</code> interfaces solve this.</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-box warn">❌ IWorker: work + eat + sleep</div>
+      <div class="flow-arrow" style="margin:0 20px">vs</div>
+      <div class="flow-box accent">IWorkable: work()</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box green">IEatable: eat()</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box" style="border-color:rgba(251,191,36,0.4);color:var(--accent-warn);">ISleepable: sleep()</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">TypeScript · isp_example.ts</span>
+        <div class="code-actions">
+          <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+          <button class="btn-code" onclick="copyCode(this)">copy</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre><span class="cmt">// ❌ Violation — fat interface forces unneeded methods</span>
+<span class="kw">interface</span> <span class="tp">IMultiFunctionPrinter</span> {
+  <span class="fn">print</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>;
+  <span class="fn">scan</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>;
+  <span class="fn">fax</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>;
+}
+
+<span class="kw">class</span> <span class="tp">SimplePrinter</span> <span class="kw">implements</span> <span class="tp">IMultiFunctionPrinter</span> {
+  <span class="fn">print</span>(<span class="op">doc:</span> <span class="tp">Document</span>) { <span class="cmt">/* works */</span> }
+  <span class="fn">scan</span>(<span class="op">doc:</span> <span class="tp">Document</span>)  { <span class="kw">throw</span> <span class="kw">new</span> <span class="tp">Error</span>(<span class="str">'Not supported'</span>); } <span class="cmt">// ← violation</span>
+  <span class="fn">fax</span>(<span class="op">doc:</span> <span class="tp">Document</span>)   { <span class="kw">throw</span> <span class="kw">new</span> <span class="tp">Error</span>(<span class="str">'Not supported'</span>); } <span class="cmt">// ← violation</span>
+}
+
+<span class="cmt">// ✅ Correct — segregated, role-specific interfaces</span>
+<span class="kw">interface</span> <span class="tp">IPrintable</span> { <span class="fn">print</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>; }
+<span class="kw">interface</span> <span class="tp">IScannable</span> { <span class="fn">scan</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>; }
+<span class="kw">interface</span> <span class="tp">IFaxable</span>   { <span class="fn">fax</span>(<span class="op">doc:</span> <span class="tp">Document</span>)<span class="op">:</span> <span class="tp">void</span>; }
+
+<span class="cmt">// SimplePrinter only needs IPrintable</span>
+<span class="kw">class</span> <span class="tp">SimplePrinter</span> <span class="kw">implements</span> <span class="tp">IPrintable</span> {
+  <span class="fn">print</span>(<span class="op">doc:</span> <span class="tp">Document</span>) { <span class="cmt">/* implementation */</span> }
+}
+
+<span class="cmt">// Enterprise printer implements all three</span>
+<span class="kw">class</span> <span class="tp">EnterprisePrinter</span> <span class="kw">implements</span> <span class="tp">IPrintable</span>, <span class="tp">IScannable</span>, <span class="tp">IFaxable</span> {
+  <span class="fn">print</span>(<span class="op">doc:</span> <span class="tp">Document</span>) { <span class="cmt">/* ... */</span> }
+  <span class="fn">scan</span>(<span class="op">doc:</span> <span class="tp">Document</span>)  { <span class="cmt">/* ... */</span> }
+  <span class="fn">fax</span>(<span class="op">doc:</span> <span class="tp">Document</span>)   { <span class="cmt">/* ... */</span> }
+}
+
+<span class="cmt">// Repository split example</span>
+<span class="kw">interface</span> <span class="tp">ReadRepository</span><span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  <span class="fn">findById</span>(<span class="op">id:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">T</span> <span class="op">|</span> <span class="kw">null</span><span class="op">&gt;</span>;
+  <span class="fn">findAll</span>()<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">T</span>[]<span class="op">&gt;</span>;
+}
+
+<span class="kw">interface</span> <span class="tp">WriteRepository</span><span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  <span class="fn">save</span>(<span class="op">entity:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">void</span><span class="op">&gt;</span>;
+  <span class="fn">delete</span>(<span class="op">id:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">void</span><span class="op">&gt;</span>;
+}</pre>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-good"><strong>✅ Best Practice</strong>Design interfaces from the client's perspective, not the implementation's. Ask "what does this consumer actually need?"</div>
+      <div class="tip tip-warn"><strong>⚠️ Common Mistake</strong>Creating one interface per method. ISP is about logical cohesion, not granularity for its own sake. Group methods that change together.</div>
+      <div class="tip tip-pro"><strong>💡 Pro Tip</strong>CQRS naturally enforces ISP — Command and Query interfaces are segregated by definition, making read models lightweight and focused.</div>
+      <div class="tip tip-skip"><strong>⏭️ When to Skip</strong>Stable, narrow interfaces that all consumers genuinely use. Don't split interfaces that serve a single, coherent contract.</div>
+    </div>
+  </div>
+
+  <!-- DIP -->
+  <div class="section-card" id="dip">
+    <div class="section-header">
+      <div class="section-num">D · 05</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Dependency Inversion Principle</div>
+        <div class="section-tagline">High-level modules should not depend on low-level modules. Both should depend on abstractions.</div>
+      </div>
+      <span class="badge badge-advanced">Advanced</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-label">What it is</div>
+        <div class="info-box-text">Two rules: <strong>(1)</strong> High-level policy code must not import concrete low-level details. <strong>(2)</strong> Abstractions (interfaces) should not depend on details — details should depend on abstractions.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Why use it</div>
+        <div class="info-box-text">Direct coupling to implementations makes testing painful (you can't mock a <code>new MySQLDatabase()</code>) and deployment inflexible. DIP enables swapping implementations at runtime or test-time.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Real-world use case</div>
+        <div class="info-box-text">A <strong>NotificationService</strong> depending on an <code>IMessageBroker</code> interface rather than a concrete <code>RabbitMQ</code> class. In tests, inject an in-memory mock; in production, inject RabbitMQ.</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-box warn">❌ OrderService → MySQLDB (concrete)</div>
+      <div class="flow-arrow" style="margin:0 20px">vs</div>
+      <div class="flow-box accent">OrderService → IDatabase (abstract)</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box green">MySQLDB</div>
+      <div class="flow-arrow" style="color:var(--border)">·</div>
+      <div class="flow-box" style="border-color:rgba(251,191,36,0.4);color:var(--accent-warn);">MockDB (test)</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">TypeScript · dip_example.ts</span>
+        <div class="code-actions">
+          <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+          <button class="btn-code" onclick="copyCode(this)">copy</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre><span class="cmt">// ❌ Violation — OrderService tightly coupled to MySQL</span>
+<span class="kw">class</span> <span class="tp">OrderService</span> {
+  <span class="kw">private</span> db <span class="op">=</span> <span class="kw">new</span> <span class="fn">MySQLDatabase</span>(); <span class="cmt">// ← hardcoded, untestable</span>
+
+  <span class="kw">async</span> <span class="fn">createOrder</span>(<span class="op">order:</span> <span class="tp">Order</span>) {
+    <span class="kw">await</span> <span class="fn">this</span>.db.<span class="fn">query</span>(<span class="str">`INSERT INTO orders ...`</span>);
+  }
+}
+
+<span class="cmt">// ✅ Correct — depend on abstraction, inject concrete at runtime</span>
+<span class="kw">interface</span> <span class="tp">IOrderRepository</span> {
+  <span class="fn">save</span>(<span class="op">order:</span> <span class="tp">Order</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">Order</span><span class="op">&gt;</span>;
+  <span class="fn">findById</span>(<span class="op">id:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Promise</span><span class="op">&lt;</span><span class="tp">Order</span> <span class="op">|</span> <span class="kw">null</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">class</span> <span class="tp">OrderService</span> {
+  <span class="cmt">// ↓ Receives abstraction via constructor injection</span>
+  <span class="fn">constructor</span>(<span class="kw">private</span> repo<span class="op">:</span> <span class="tp">IOrderRepository</span>) {}
+
+  <span class="kw">async</span> <span class="fn">createOrder</span>(<span class="op">order:</span> <span class="tp">Order</span>) {
+    <span class="fn">this</span>.<span class="fn">validateOrder</span>(order);
+    <span class="kw">return</span> <span class="fn">this</span>.repo.<span class="fn">save</span>(order);
+  }
+}
+
+<span class="cmt">// Production wiring</span>
+<span class="kw">const</span> service <span class="op">=</span> <span class="kw">new</span> <span class="fn">OrderService</span>(<span class="kw">new</span> <span class="fn">MySQLOrderRepository</span>(db));
+
+<span class="cmt">// Test wiring — no DB needed</span>
+<span class="kw">const</span> mockRepo<span class="op">:</span> <span class="tp">IOrderRepository</span> = {
+  <span class="fn">save</span><span class="op">:</span> <span class="fn">jest.fn</span>().<span class="fn">mockResolvedValue</span>({ id<span class="op">:</span> <span class="str">'mock-123'</span>, <span class="op">...</span>order }),
+  <span class="fn">findById</span><span class="op">:</span> <span class="fn">jest.fn</span>().<span class="fn">mockResolvedValue</span>(<span class="kw">null</span>),
+};
+<span class="kw">const</span> testService <span class="op">=</span> <span class="kw">new</span> <span class="fn">OrderService</span>(mockRepo);
+
+<span class="cmt">// Dependency Injection Container (e.g. InversifyJS / tsyringe)</span>
+<span class="op">@</span><span class="fn">injectable</span>()
+<span class="kw">class</span> <span class="tp">MySQLOrderRepository</span> <span class="kw">implements</span> <span class="tp">IOrderRepository</span> {
+  <span class="fn">constructor</span>(<span class="op">@inject(</span><span class="tp">DATABASE_TOKEN</span><span class="op">)</span> <span class="kw">private</span> db<span class="op">:</span> <span class="tp">IDatabase</span>) {}
+  <span class="kw">async</span> <span class="fn">save</span>(<span class="op">order:</span> <span class="tp">Order</span>) { <span class="cmt">/* ... */</span> }
+  <span class="kw">async</span> <span class="fn">findById</span>(<span class="op">id:</span> <span class="tp">string</span>) { <span class="cmt">/* ... */</span> }
+}</pre>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-good"><strong>✅ Best Practice</strong>Use constructor injection as the primary DI pattern. It makes dependencies explicit, easy to mock, and impossible to forget at instantiation.</div>
+      <div class="tip tip-warn"><strong>⚠️ Common Mistake</strong>Confusing DIP with Dependency Injection. DI is a <em>technique</em> to achieve DIP. You can honor DIP without a DI container by passing interfaces manually.</div>
+      <div class="tip tip-pro"><strong>💡 Pro Tip</strong>The interface belongs in the high-level module's package, not the low-level module's. This is the "inversion" — low-level code depends on the high-level module's contracts.</div>
+      <div class="tip tip-skip"><strong>⏭️ When to Skip</strong>Stable leaf utilities (logging, date formatting) where swapping is implausible. Abstracting truly stable dependencies adds ceremony without value.</div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <span>SOLID Principles · Software Engineering Reference · 2025</span>
+  <span>Robert C. Martin · <em>Agile Software Development, Principles, Patterns, and Practices</em> · 2003</span>
+</footer>
+
+<script>
+function toggleCode(btn) {
+  const body = btn.closest('.code-block').querySelector('.code-body');
+  const collapsed = body.classList.toggle('collapsed');
+  btn.textContent = collapsed ? 'expand' : 'collapse';
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+
+// Entrance animation
+document.querySelector('.hero').classList.add('visible');
+
+// Scroll-based fade-in
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.intro-card, .section-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
