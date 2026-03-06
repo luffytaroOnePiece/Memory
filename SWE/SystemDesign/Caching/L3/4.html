@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Caches Live — System Design Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0d0f14;
+  --bg-card: #13161e;
+  --bg-card-hover: #181c26;
+  --bg-code: #0a0c10;
+  --border: #1e2330;
+  --border-bright: #3d4a6b;
+  --accent-1: #5b8dee;
+  --accent-1-dim: rgba(91,141,238,0.12);
+  --accent-2: #3ecf8e;
+  --accent-2-dim: rgba(62,207,142,0.10);
+  --accent-warn: #f59e0b;
+  --accent-danger: #f43f5e;
+  --text-primary: #e8ecf4;
+  --text-secondary: #8e97b0;
+  --text-muted: #4e576e;
+  --syn-keyword: #c792ea;
+  --syn-function: #82aaff;
+  --syn-string: #c3e88d;
+  --syn-number: #f78c6c;
+  --syn-comment: #546e7a;
+  --syn-type: #ffcb6b;
+  --syn-op: #89ddff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-bright) var(--bg-deep);
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::selection { background: rgba(91,141,238,0.3); color: var(--text-primary); }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(91,141,238,0.07) 0%, transparent 70%);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav-logo span { color: var(--accent-1); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent-1); }
+
+/* ── LAYOUT ── */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 52px 2rem 4rem;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 5rem 0 3.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.hero.visible { opacity: 1; transform: translateY(0); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  margin-bottom: 1.5rem;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--accent-1);
+}
+
+h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+h1 .accent { color: var(--accent-1); }
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.quick-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.pill:hover { border-color: var(--accent-1); color: var(--accent-1); background: var(--accent-1-dim); }
+.pill .num {
+  font-weight: 600;
+  color: var(--accent-1);
+}
+
+/* ── INTRO CARD ── */
+.intro-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s 0.1s ease, transform 0.5s 0.1s ease;
+}
+.intro-card.visible { opacity: 1; transform: translateY(0); }
+
+.intro-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  border-left: 2px solid var(--accent-1);
+  padding-left: 1rem;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.benefit-item {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: border-color 0.2s;
+}
+.benefit-item:hover { border-color: var(--border-bright); }
+.benefit-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.benefit-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+.benefit-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ── SECTION CARDS ── */
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+}
+.section-card.visible { opacity: 1; transform: translateY(0); }
+.section-card:hover { border-color: var(--border-bright); }
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.section-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent-1);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.tagline {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-beginner { background: rgba(62,207,142,0.12); color: var(--accent-2); border: 1px solid rgba(62,207,142,0.25); }
+.badge-intermediate { background: rgba(245,158,11,0.12); color: var(--accent-warn); border: 1px solid rgba(245,158,11,0.25); }
+.badge-advanced { background: rgba(244,63,94,0.12); color: var(--accent-danger); border: 1px solid rgba(244,63,94,0.25); }
+
+/* ── TOGGLE ── */
+.toggle-wrap { margin-bottom: 1.5rem; }
+.toggle-btns {
+  display: inline-flex;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+.toggle-btn {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.toggle-btn.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-bright);
+}
+.level-content { display: none; }
+.level-content.active { display: block; }
+
+/* ── INFO GRID ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.info-cell {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.info-cell-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.info-cell-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── FLOW DIAGRAM ── */
+.flow-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+.flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.flow-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.flow-box .fb-label { color: var(--text-muted); font-size: 0.6rem; letter-spacing: 0.06em; margin-bottom: 0.15rem; text-transform: uppercase; }
+.flow-box .fb-val { font-weight: 500; }
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: 0 0.4rem;
+  flex-shrink: 0;
+}
+.fb-blue { border: 1px solid rgba(91,141,238,0.4); background: rgba(91,141,238,0.07); }
+.fb-blue .fb-val { color: var(--accent-1); }
+.fb-green { border: 1px solid rgba(62,207,142,0.4); background: rgba(62,207,142,0.07); }
+.fb-green .fb-val { color: var(--accent-2); }
+.fb-orange { border: 1px solid rgba(245,158,11,0.4); background: rgba(245,158,11,0.07); }
+.fb-orange .fb-val { color: var(--accent-warn); }
+.fb-purple { border: 1px solid rgba(199,146,234,0.4); background: rgba(199,146,234,0.07); }
+.fb-purple .fb-val { color: var(--syn-keyword); }
+.fb-red { border: 1px solid rgba(244,63,94,0.4); background: rgba(244,63,94,0.07); }
+.fb-red .fb-val { color: var(--accent-danger); }
+
+/* ── CODE BLOCK ── */
+.code-block { margin-bottom: 1.5rem; }
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0e1118;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 0.5rem 1rem;
+}
+.code-lang {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.code-actions { display: flex; gap: 0.5rem; align-items: center; }
+.code-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.code-btn:hover { border-color: var(--border-bright); color: var(--text-primary); }
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  padding: 1.2rem 1.4rem;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.75;
+  max-height: 340px;
+  overflow-y: auto;
+  transition: max-height 0.3s ease;
+}
+pre.collapsed { max-height: 0; overflow: hidden; padding: 0 1.4rem; }
+.kw { color: var(--syn-keyword); }
+.fn { color: var(--syn-function); }
+.str { color: var(--syn-string); }
+.num { color: var(--syn-number); }
+.cmt { color: var(--syn-comment); font-style: italic; }
+.op { color: var(--syn-op); }
+.type { color: var(--syn-type); }
+.plain { color: var(--text-secondary); }
+
+/* ── TIPS GRID ── */
+.tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.tip-card {
+  background: var(--bg-deep);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.tip-card.perf { border: 1px solid rgba(62,207,142,0.3); }
+.tip-card.warn { border: 1px solid rgba(244,63,94,0.3); }
+.tip-card.pro  { border: 1px solid rgba(91,141,238,0.3); }
+.tip-card.skip { border: 1px solid rgba(245,158,11,0.3); }
+.tip-card strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-bottom: 0.3rem;
+}
+.tip-card.perf strong { color: var(--accent-2); }
+.tip-card.warn strong { color: var(--accent-danger); }
+.tip-card.pro  strong { color: var(--accent-1); }
+.tip-card.skip strong { color: var(--accent-warn); }
+.tip-card span { color: var(--text-secondary); }
+
+/* ── DIVIDER ── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 0.5rem 0 1.5rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .benefits-grid { grid-template-columns: 1fr 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  main { padding: 52px 1rem 3rem; }
+  .nav-links { display: none; }
+  h1 { font-size: 2rem; }
+  .benefits-grid { grid-template-columns: 1fr 1fr; }
+  .flow { padding: 0.75rem; }
+  .section-card { padding: 1.25rem; }
+  .intro-card { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>⬡</span> CACHE TOPOLOGY</div>
+  <ul class="nav-links">
+    <li><a href="#in-process">In-Process</a></li>
+    <li><a href="#sidecar">Sidecar</a></li>
+    <li><a href="#distributed">Distributed</a></li>
+    <li><a href="#cdn">CDN / Edge</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="eyebrow">System Design · Caching</div>
+    <h1>Where <span class="accent">Caches</span> Live</h1>
+    <p class="hero-sub">A technical reference to the four layers of cache deployment — from in-process memory to global edge nodes — and how to choose the right tier for your use case.</p>
+    <div class="quick-pills">
+      <a href="#in-process" class="pill"><span class="num">01</span> In-Process / In-Memory</a>
+      <a href="#sidecar" class="pill"><span class="num">02</span> Sidecar / Local Redis</a>
+      <a href="#distributed" class="pill"><span class="num">03</span> Distributed Cache</a>
+      <a href="#cdn" class="pill"><span class="num">04</span> CDN / Edge</a>
+    </div>
+  </section>
+
+  <div class="intro-card" id="intro">
+    <p>Choosing where to place a cache is as important as choosing whether to cache. Each tier trades off latency, consistency, memory capacity, and operational complexity. Push the cache closer to the compute, and you get lower latency but harder invalidation. Pull it out to a shared cluster, and you gain consistency but add a network hop.</p>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-title">Reduce Latency</div>
+        <div class="benefit-desc">Serve data from RAM instead of disk or remote services.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📉</div>
+        <div class="benefit-title">Reduce Load</div>
+        <div class="benefit-desc">Fewer queries to databases, APIs, and origin servers.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📐</div>
+        <div class="benefit-title">Right-Size the Tier</div>
+        <div class="benefit-desc">Match the cache layer to your consistency and scale needs.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">🌐</div>
+        <div class="benefit-title">Scale Globally</div>
+        <div class="benefit-desc">Edge caches push content physically closer to users.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ SECTION 1 -->
+  <section class="section-card" id="in-process">
+    <div class="section-header">
+      <div>
+        <div class="section-num">01 / CACHE TIER</div>
+        <h2>In-Process / In-Memory</h2>
+      </div>
+      <span class="badge badge-beginner">Beginner</span>
+    </div>
+    <p class="tagline">The fastest cache possible — data lives in the same heap as your application code.</p>
+
+    <div class="toggle-wrap">
+      <div class="toggle-btns">
+        <button class="toggle-btn active" onclick="toggle(this,'basic-1')">Overview</button>
+        <button class="toggle-btn" onclick="toggle(this,'adv-1')">Deep Dive</button>
+      </div>
+    </div>
+
+    <div id="basic-1" class="level-content active">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">What it is</div>
+          <div class="info-cell-text">A data structure (HashMap, LRU map, array) stored inside the process's own memory space. Zero network overhead — a cache hit is just a pointer dereference.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Why use it</div>
+          <div class="info-cell-text">Sub-microsecond reads. Perfect for lookup tables, config values, computed constants, or reference data that changes rarely and fits in a few hundred MB.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Real-world use case</div>
+          <div class="info-cell-text">A payment service caching country→currency mappings. An auth service caching a parsed public key. A recommendation engine caching a feature weight matrix.</div>
+        </div>
+      </div>
+
+      <div class="flow-label">Request Path</div>
+      <div class="flow">
+        <div class="flow-box fb-blue"><span class="fb-label">client</span><span class="fb-val">HTTP Request</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-purple"><span class="fb-label">process</span><span class="fb-val">Handler / Controller</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-green"><span class="fb-label">heap</span><span class="fb-val">HashMap / LRU</span></div>
+        <span class="flow-arrow">✓ hit /</span>
+        <div class="flow-box fb-orange"><span class="fb-label">db / api</span><span class="fb-val">Origin Fetch</span></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java · Guava LoadingCache</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">import</span> <span class="type">com.google.common.cache</span><span class="op">.*</span>;
+
+<span class="kw">public class</span> <span class="type">UserService</span> {
+
+  <span class="kw">private final</span> <span class="type">LoadingCache</span><span class="op">&lt;</span><span class="type">Long</span>, <span class="type">User</span><span class="op">&gt;</span> userCache <span class="op">=</span>
+    <span class="type">CacheBuilder</span>.<span class="fn">newBuilder</span>()
+      .<span class="fn">maximumSize</span>(<span class="num">10_000</span>)              <span class="cmt">// evict when heap fills</span>
+      .<span class="fn">expireAfterWrite</span>(<span class="num">5</span>, <span class="type">TimeUnit</span>.<span class="op">MINUTES</span>)
+      .<span class="fn">recordStats</span>()
+      .<span class="fn">build</span>(key <span class="op">-&gt;</span> db.<span class="fn">findUserById</span>(key)); <span class="cmt">// auto-load on miss</span>
+
+  <span class="kw">public</span> <span class="type">User</span> <span class="fn">getUser</span>(<span class="type">long</span> userId) {
+    <span class="kw">return</span> userCache.<span class="fn">get</span>(userId); <span class="cmt">// ~100ns on hit, ~5ms on miss</span>
+  }
+
+  <span class="kw">public void</span> <span class="fn">onUserUpdated</span>(<span class="type">long</span> userId) {
+    userCache.<span class="fn">invalidate</span>(userId); <span class="cmt">// must invalidate manually</span>
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div id="adv-1" class="level-content">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Memory Pressure</div>
+          <div class="info-cell-text">All cached data lives on the JVM/Go/Node.js heap. Large caches trigger GC pauses in managed runtimes. Size limits (e.g., maximumSize or maximumWeight in Guava/Caffeine) are mandatory — not optional.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Consistency Problem</div>
+          <div class="info-cell-text">Each process instance holds its own independent copy. In a 3-replica deployment, a write invalidating one replica's cache leaves the other two stale until TTL expiry. Known as "thundering herd" when all miss simultaneously.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Caffeine vs Guava</div>
+          <div class="info-cell-text">Prefer Caffeine for JVM services — it uses a lock-free W-TinyLFU eviction policy that outperforms Guava's LRU by 2–5× in hit rate for skewed workloads. Go: use <code>sync.Map</code> or <code>ristretto</code>.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Go · sync.Map + TTL expiry</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">type</span> <span class="type">entry</span> <span class="kw">struct</span> {
+    value    <span class="type">any</span>
+    expiresAt <span class="type">time.Time</span>
+}
+
+<span class="kw">type</span> <span class="type">TTLCache</span> <span class="kw">struct</span> { m <span class="type">sync.Map</span> }
+
+<span class="kw">func</span> (c <span class="op">*</span><span class="type">TTLCache</span>) <span class="fn">Set</span>(key <span class="type">string</span>, val <span class="type">any</span>, ttl <span class="type">time.Duration</span>) {
+    c.m.<span class="fn">Store</span>(key, <span class="type">entry</span>{val, time.<span class="fn">Now</span>().<span class="fn">Add</span>(ttl)})
+}
+
+<span class="kw">func</span> (c <span class="op">*</span><span class="type">TTLCache</span>) <span class="fn">Get</span>(key <span class="type">string</span>) (<span class="type">any</span>, <span class="type">bool</span>) {
+    v, ok <span class="op">:=</span> c.m.<span class="fn">Load</span>(key)
+    <span class="kw">if</span> !ok { <span class="kw">return</span> <span class="kw">nil</span>, <span class="kw">false</span> }
+    e <span class="op">:=</span> v.(<span class="type">entry</span>)
+    <span class="kw">if</span> time.<span class="fn">Now</span>().<span class="fn">After</span>(e.expiresAt) {
+        c.m.<span class="fn">Delete</span>(key) <span class="cmt">// lazy eviction</span>
+        <span class="kw">return</span> <span class="kw">nil</span>, <span class="kw">false</span>
+    }
+    <span class="kw">return</span> e.value, <span class="kw">true</span>
+}</pre>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="tips-grid">
+      <div class="tip-card perf"><strong>✅ Performance Tip</strong><span>Use Caffeine (Java) or ristretto (Go) for production — they have sophisticated eviction policies, async refresh, and per-entry weights that outperform naive HashMap wrappers.</span></div>
+      <div class="tip-card warn"><strong>⚠️ Common Mistake</strong><span>Forgetting to set a size cap. An unbounded in-process cache will slowly consume all available heap, causing OOM errors or degraded GC performance under load.</span></div>
+      <div class="tip-card pro"><strong>💡 Pro Tip</strong><span>Use <code>refreshAfterWrite</code> (Caffeine) instead of <code>expireAfterWrite</code> for hot data — the first stale reader triggers an async reload while still returning the old value, eliminating cold-miss spikes.</span></div>
+      <div class="tip-card skip"><strong>⏭️ When to Skip</strong><span>Skip in-process caching when data changes frequently across multiple writers, or when running many replicas where stale reads would cause correctness issues (e.g., billing, inventory counts).</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ SECTION 2 -->
+  <section class="section-card" id="sidecar">
+    <div class="section-header">
+      <div>
+        <div class="section-num">02 / CACHE TIER</div>
+        <h2>Sidecar / Local Redis</h2>
+      </div>
+      <span class="badge badge-intermediate">Intermediate</span>
+    </div>
+    <p class="tagline">A dedicated cache process co-located on the same host — separate memory, single network hop.</p>
+
+    <div class="toggle-wrap">
+      <div class="toggle-btns">
+        <button class="toggle-btn active" onclick="toggle(this,'basic-2')">Overview</button>
+        <button class="toggle-btn" onclick="toggle(this,'adv-2')">Deep Dive</button>
+      </div>
+    </div>
+
+    <div id="basic-2" class="level-content active">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">What it is</div>
+          <div class="info-cell-text">A Redis or Memcached instance running as a sidecar container or separate systemd process on the same VM/pod as your app. Communication is over localhost (<code>127.0.0.1</code>), not a remote network.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Why use it</div>
+          <div class="info-cell-text">Data survives process restarts, can be shared between threads without locking, and the cache can hold significantly more data than heap allows — with richer data structures (sorted sets, HyperLogLog).</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Real-world use case</div>
+          <div class="info-cell-text">A video streaming service with one Redis sidecar per encoding worker caching segment manifests. Each worker reads its own local cache before hitting the object store, reducing cold reads by 80%.</div>
+        </div>
+      </div>
+
+      <div class="flow-label">Deployment Topology</div>
+      <div class="flow">
+        <div class="flow-box fb-blue"><span class="fb-label">pod / vm</span><span class="fb-val">App Container</span></div>
+        <span class="flow-arrow">←loopback→</span>
+        <div class="flow-box fb-green"><span class="fb-label">sidecar</span><span class="fb-val">Redis :6379</span></div>
+        <span class="flow-arrow">→ miss →</span>
+        <div class="flow-box fb-orange"><span class="fb-label">remote</span><span class="fb-val">PostgreSQL / S3</span></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python · redis-py with cache-aside</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">import</span> redis, json
+
+<span class="cmt"># Connects to sidecar on localhost — sub-millisecond latency</span>
+r = redis.<span class="fn">Redis</span>(host=<span class="str">"127.0.0.1"</span>, port=<span class="num">6379</span>, decode_responses=<span class="kw">True</span>)
+
+<span class="kw">def</span> <span class="fn">get_product</span>(product_id: <span class="type">int</span>) <span class="op">-&gt;</span> <span class="type">dict</span>:
+    key = <span class="fn">f</span><span class="str">"product:{product_id}"</span>
+    cached = r.<span class="fn">get</span>(key)
+
+    <span class="kw">if</span> cached:
+        <span class="kw">return</span> json.<span class="fn">loads</span>(cached)  <span class="cmt"># cache hit — ~0.3ms</span>
+
+    <span class="cmt"># Cache miss — fetch from DB and populate</span>
+    product = db.<span class="fn">query</span>(<span class="str">"SELECT * FROM products WHERE id = %s"</span>, product_id)
+    r.<span class="fn">setex</span>(key, <span class="num">300</span>, json.<span class="fn">dumps</span>(product))  <span class="cmt"># TTL = 5 min</span>
+    <span class="kw">return</span> product
+
+<span class="kw">def</span> <span class="fn">update_product</span>(product_id: <span class="type">int</span>, data: <span class="type">dict</span>):
+    db.<span class="fn">update</span>(product_id, data)
+    r.<span class="fn">delete</span>(<span class="fn">f</span><span class="str">"product:{product_id}"</span>)  <span class="cmt"># invalidate on write</span></pre>
+      </div>
+    </div>
+
+    <div id="adv-2" class="level-content">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Sidecar vs Shared</div>
+          <div class="info-cell-text">A sidecar Redis is not shared across instances. This avoids network latency but means each node has its own cold cache on startup and independent data — you lose cross-instance cache hits.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Kubernetes Pattern</div>
+          <div class="info-cell-text">In K8s, add Redis as a second container in the same Pod spec. They share network namespace — <code>localhost</code> works. Mount a <code>ConfigMap</code> with <code>maxmemory-policy allkeys-lru</code> to handle eviction under pressure.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Memcached vs Redis</div>
+          <div class="info-cell-text">Use Memcached for pure key-value caching at extreme throughput — it's simpler and slightly faster for string reads. Use Redis when you need TTL precision, pub/sub invalidation, sorted sets, or persistence.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML · Kubernetes Pod with Redis sidecar</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">apiVersion</span>: <span class="str">v1</span>
+<span class="kw">kind</span>: <span class="str">Pod</span>
+<span class="kw">spec</span>:
+  <span class="kw">containers</span>:
+    - <span class="kw">name</span>: <span class="str">app</span>
+      <span class="kw">image</span>: <span class="str">myapp:latest</span>
+      <span class="kw">env</span>:
+        - <span class="kw">name</span>: <span class="str">REDIS_URL</span>
+          <span class="kw">value</span>: <span class="str">"redis://127.0.0.1:6379"</span> <span class="cmt"># localhost — no DNS needed</span>
+
+    - <span class="kw">name</span>: <span class="str">redis-sidecar</span>
+      <span class="kw">image</span>: <span class="str">redis:7-alpine</span>
+      <span class="kw">args</span>: [<span class="str">"--maxmemory"</span>, <span class="str">"256mb"</span>, <span class="str">"--maxmemory-policy"</span>, <span class="str">"allkeys-lru"</span>]
+      <span class="kw">resources</span>:
+        <span class="kw">limits</span>:
+          <span class="kw">memory</span>: <span class="str">"280Mi"</span>  <span class="cmt"># slightly above maxmemory</span></pre>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="tips-grid">
+      <div class="tip-card perf"><strong>✅ Performance Tip</strong><span>Set <code>maxmemory-policy allkeys-lru</code> explicitly — the default Redis policy is <code>noeviction</code>, which causes errors when full instead of evicting old keys.</span></div>
+      <div class="tip-card warn"><strong>⚠️ Common Mistake</strong><span>Treating sidecar Redis like a durable store. A pod restart flushes all sidecar state. Never store write-ahead data or session tokens here without replication.</span></div>
+      <div class="tip-card pro"><strong>💡 Pro Tip</strong><span>Pipeline multiple Redis commands with <code>MULTI/EXEC</code> or client-side pipelining to batch round-trips — even on localhost, batching 10 commands in one pipeline cuts overhead by ~8×.</span></div>
+      <div class="tip-card skip"><strong>⏭️ When to Skip</strong><span>Skip sidecar caches when you need cross-instance cache sharing — e.g., user session stores, shared rate-limit counters, or leaderboard state. Use a distributed cache instead.</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ SECTION 3 -->
+  <section class="section-card" id="distributed">
+    <div class="section-header">
+      <div>
+        <div class="section-num">03 / CACHE TIER</div>
+        <h2>Distributed Cache</h2>
+      </div>
+      <span class="badge badge-intermediate">Intermediate–Advanced</span>
+    </div>
+    <p class="tagline">A shared cache cluster accessible to all service instances — consistent reads, higher latency than local.</p>
+
+    <div class="toggle-wrap">
+      <div class="toggle-btns">
+        <button class="toggle-btn active" onclick="toggle(this,'basic-3')">Overview</button>
+        <button class="toggle-btn" onclick="toggle(this,'adv-3')">Deep Dive</button>
+      </div>
+    </div>
+
+    <div id="basic-3" class="level-content active">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">What it is</div>
+          <div class="info-cell-text">A standalone Redis Cluster, Redis Sentinel, or Memcached cluster shared across all pods/instances of a service. Every instance reads from and writes to the same cache — one source of truth.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Why use it</div>
+          <div class="info-cell-text">All instances share warmed cache entries immediately. Rate limiters, session stores, distributed locks (Redlock), and shopping carts require a single consistent cache visible to all replicas.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Real-world use case</div>
+          <div class="info-cell-text">An e-commerce checkout service running 20 replicas uses a Redis Cluster for cart state. Any replica can read any user's cart — session affinity is not required.</div>
+        </div>
+      </div>
+
+      <div class="flow-label">Cluster Topology (Redis Cluster — 3 Primary, 3 Replica)</div>
+      <div class="flow">
+        <div class="flow-box fb-blue"><span class="fb-label">instance A</span><span class="fb-val">App Pod</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-purple"><span class="fb-label">slots 0–5460</span><span class="fb-val">Redis Primary 1</span></div>
+        <span class="flow-arrow">|</span>
+        <div class="flow-box fb-purple"><span class="fb-label">slots 5461–10922</span><span class="fb-val">Redis Primary 2</span></div>
+        <span class="flow-arrow">|</span>
+        <div class="flow-box fb-purple"><span class="fb-label">slots 10923–16383</span><span class="fb-val">Redis Primary 3</span></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Node.js · ioredis Cluster + rate limiter</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">import</span> <span class="type">Redis</span> <span class="kw">from</span> <span class="str">'ioredis'</span>;
+
+<span class="kw">const</span> cluster = <span class="kw">new</span> <span class="type">Redis</span>.<span class="fn">Cluster</span>([
+  { host: <span class="str">'redis-0.redis-headless'</span>, port: <span class="num">6379</span> },
+  { host: <span class="str">'redis-1.redis-headless'</span>, port: <span class="num">6379</span> },
+  { host: <span class="str">'redis-2.redis-headless'</span>, port: <span class="num">6379</span> },
+]);
+
+<span class="cmt">// Sliding window rate limiter — works across ALL replicas</span>
+<span class="kw">async function</span> <span class="fn">rateLimit</span>(userId: <span class="type">string</span>): <span class="type">Promise</span><span class="op">&lt;</span><span class="type">boolean</span><span class="op">&gt;</span> {
+  <span class="kw">const</span> key = <span class="fn">`rate:${userId}`</span>;
+  <span class="kw">const</span> now = <span class="type">Date</span>.<span class="fn">now</span>();
+  <span class="kw">const</span> window = <span class="num">60_000</span>; <span class="cmt">// 1 minute</span>
+
+  <span class="kw">const</span> [, count] = <span class="kw">await</span> cluster
+    .<span class="fn">multi</span>()
+    .<span class="fn">zremrangebyscore</span>(key, <span class="num">0</span>, now - window)
+    .<span class="fn">zadd</span>(key, now, <span class="fn">`${now}`</span>)
+    .<span class="fn">zcard</span>(key)
+    .<span class="fn">expire</span>(key, <span class="num">60</span>)
+    .<span class="fn">exec</span>();
+
+  <span class="kw">return</span> (count <span class="kw">as</span> <span class="type">number</span>) &lt;= <span class="num">100</span>; <span class="cmt">// 100 req/min per user</span>
+}</pre>
+      </div>
+    </div>
+
+    <div id="adv-3" class="level-content">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Consistent Hashing</div>
+          <div class="info-cell-text">Redis Cluster uses 16,384 hash slots. Each key maps to a slot via <code>CRC16(key) mod 16384</code>. Adding or removing nodes only remaps a fraction of slots — avoiding a full rehash storm seen in naive modulo sharding.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Hot Key Problem</div>
+          <div class="info-cell-text">A single key receiving millions of reads (e.g., a viral post) can saturate one shard's CPU. Mitigate with local read-through replicas, key sharding suffixes (<code>key:{0..N}</code>), or client-side in-process L1 caches for top-N hot keys.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Cache Stampede</div>
+          <div class="info-cell-text">When a TTL expires simultaneously for a hot key, all instances miss and flood the origin. Use probabilistic early expiration (PER algorithm) or a distributed mutex (<code>SET NX PX</code>) to let one instance recompute while others wait.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python · Distributed lock + stampede prevention</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="kw">import</span> uuid, time
+
+<span class="kw">def</span> <span class="fn">get_with_lock</span>(r, key, fetch_fn, ttl=<span class="num">300</span>):
+    <span class="cmt"># Try cache first</span>
+    value = r.<span class="fn">get</span>(key)
+    <span class="kw">if</span> value:
+        <span class="kw">return</span> value
+
+    lock_key = <span class="fn">f</span><span class="str">"lock:{key}"</span>
+    lock_id = <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>())
+
+    <span class="cmt"># Acquire mutex — only one process recomputes</span>
+    acquired = r.<span class="fn">set</span>(lock_key, lock_id, nx=<span class="kw">True</span>, ex=<span class="num">10</span>)
+
+    <span class="kw">if</span> acquired:
+        <span class="kw">try</span>:
+            result = <span class="fn">fetch_fn</span>()
+            r.<span class="fn">setex</span>(key, ttl, result)
+            <span class="kw">return</span> result
+        <span class="kw">finally</span>:
+            <span class="cmt"># Release only our lock (atomic Lua script)</span>
+            r.<span class="fn">eval</span>(<span class="str">"""
+              if redis.call('get',KEYS[1])==ARGV[1]
+              then return redis.call('del',KEYS[1])
+              else return 0 end"""</span>,
+              <span class="num">1</span>, lock_key, lock_id)
+    <span class="kw">else</span>:
+        time.<span class="fn">sleep</span>(<span class="num">0.05</span>)          <span class="cmt"># wait and retry</span>
+        <span class="kw">return</span> r.<span class="fn">get</span>(key)       <span class="cmt"># should be populated now</span></pre>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="tips-grid">
+      <div class="tip-card perf"><strong>✅ Performance Tip</strong><span>Use connection pooling aggressively — each new Redis connection costs ~1ms. With 20 app replicas each opening 10 connections, you get 200 persistent connections that amortize handshake overhead.</span></div>
+      <div class="tip-card warn"><strong>⚠️ Common Mistake</strong><span>Using <code>KEYS *</code> in production. It blocks the Redis event loop for the full scan duration — use <code>SCAN</code> with a cursor instead, which is non-blocking and cursor-safe.</span></div>
+      <div class="tip-card pro"><strong>💡 Pro Tip</strong><span>Use Redis hash tags (<code>{user}.cart</code>) to force related keys onto the same slot, enabling atomic multi-key operations via <code>MULTI/EXEC</code> without cross-slot errors in cluster mode.</span></div>
+      <div class="tip-card skip"><strong>⏭️ When to Skip</strong><span>Skip distributed caches for very large binary blobs (>1MB per key) — use object storage with signed URLs + CDN instead. Redis is optimized for small-to-medium serialized objects.</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ SECTION 4 -->
+  <section class="section-card" id="cdn">
+    <div class="section-header">
+      <div>
+        <div class="section-num">04 / CACHE TIER</div>
+        <h2>CDN / Edge Caching</h2>
+      </div>
+      <span class="badge badge-advanced">Advanced</span>
+    </div>
+    <p class="tagline">Cache at the network edge — physically close to users, globally distributed, with zero origin load on hits.</p>
+
+    <div class="toggle-wrap">
+      <div class="toggle-btns">
+        <button class="toggle-btn active" onclick="toggle(this,'basic-4')">Overview</button>
+        <button class="toggle-btn" onclick="toggle(this,'adv-4')">Deep Dive</button>
+      </div>
+    </div>
+
+    <div id="basic-4" class="level-content active">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">What it is</div>
+          <div class="info-cell-text">A Content Delivery Network caches HTTP responses at Points of Presence (PoPs) distributed globally. Requests are routed to the nearest PoP via Anycast. Cache misses are forwarded to the origin server.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Why use it</div>
+          <div class="info-cell-text">Reduces round-trip time from 200ms (cross-continent) to 10–20ms (local PoP). Absorbs traffic spikes — a viral event hitting 1M RPS never touches your origin if cache hit rate is high.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Real-world use case</div>
+          <div class="info-cell-text">A media site serving article HTML with <code>Cache-Control: public, s-maxage=600</code>. Cloudflare caches the page at ~300 PoPs. 99% of readers hit edge cache — origin only serves cache-miss refreshes.</div>
+        </div>
+      </div>
+
+      <div class="flow-label">Request Flow</div>
+      <div class="flow">
+        <div class="flow-box fb-blue"><span class="fb-label">user · Tokyo</span><span class="fb-val">Browser</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-green"><span class="fb-label">PoP · Tokyo</span><span class="fb-val">CDN Edge Node</span></div>
+        <span class="flow-arrow">HIT→ ✓</span>
+        <div class="flow-box fb-orange"><span class="fb-label">MISS only</span><span class="fb-val">Origin Server</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-purple"><span class="fb-label">storage</span><span class="fb-val">Database / S3</span></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">HTTP · Cache-Control header patterns</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="cmt"># Static assets with content hash in filename (e.g., app.a3f9b2.js)</span>
+<span class="kw">Cache-Control</span>: <span class="str">public, max-age=31536000, immutable</span>
+<span class="cmt"># CDN and browser cache forever — safe because the hash changes on deploy</span>
+
+<span class="cmt"># Frequently updated HTML page — CDN caches for 10 min, browser must revalidate</span>
+<span class="kw">Cache-Control</span>: <span class="str">public, s-maxage=600, max-age=0, must-revalidate</span>
+<span class="kw">Surrogate-Key</span>: <span class="str">article-42 author-7</span>  <span class="cmt"># Fastly tag-based purge</span>
+
+<span class="cmt"># User-specific data — CDN must NOT cache, browser may cache briefly</span>
+<span class="kw">Cache-Control</span>: <span class="str">private, max-age=60</span>
+<span class="kw">Vary</span>: <span class="str">Authorization</span>
+
+<span class="cmt"># API response — CDN-cacheable, stale-while-revalidate for smooth UX</span>
+<span class="kw">Cache-Control</span>: <span class="str">public, s-maxage=30, stale-while-revalidate=300</span>
+<span class="kw">ETag</span>: <span class="str">"a3f9b2c8"</span>  <span class="cmt"># allows conditional GET (304 Not Modified)</span></pre>
+      </div>
+    </div>
+
+    <div id="adv-4" class="level-content">
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Purge Strategies</div>
+          <div class="info-cell-text">Tag-based purge (Fastly, Cloudflare) lets you invalidate all pages associated with a resource in one API call. URL-based purge is simpler but doesn't scale when one content change affects thousands of pages.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">stale-while-revalidate</div>
+          <div class="info-cell-text">Instructs the CDN to serve a stale (expired) cached response immediately while fetching a fresh copy in the background. Eliminates synchronous origin round-trips on cache expiry — users never see the latency spike.</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Edge Compute</div>
+          <div class="info-cell-text">Cloudflare Workers, Fastly Compute, and Vercel Edge Functions run code at PoPs. You can personalize cached content, implement A/B tests, or run auth checks at the edge without hitting origin — sub-5ms globally.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JavaScript · Cloudflare Worker — serving stale + background refresh</span>
+          <div class="code-actions">
+            <button class="code-btn" onclick="collapseCode(this)">collapse</button>
+            <button class="code-btn copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+<pre><span class="fn">addEventListener</span>(<span class="str">'fetch'</span>, event <span class="op">=&gt;</span> {
+  event.<span class="fn">respondWith</span>(<span class="fn">handleRequest</span>(event));
+});
+
+<span class="kw">async function</span> <span class="fn">handleRequest</span>(event) {
+  <span class="kw">const</span> cache = <span class="kw">await</span> caches.<span class="fn">open</span>(<span class="str">'v1'</span>);
+  <span class="kw">const</span> cached = <span class="kw">await</span> cache.<span class="fn">match</span>(event.request);
+
+  <span class="kw">if</span> (cached) {
+    <span class="kw">const</span> age = <span class="type">Date</span>.<span class="fn">now</span>() - <span class="kw">new</span> <span class="type">Date</span>(cached.headers.<span class="fn">get</span>(<span class="str">'Date'</span>));
+
+    <span class="kw">if</span> (age &gt; <span class="num">30_000</span>) {
+      <span class="cmt">// Stale — revalidate in background, return stale immediately</span>
+      event.<span class="fn">waitUntil</span>(<span class="fn">refreshCache</span>(cache, event.request));
+    }
+    <span class="kw">return</span> cached; <span class="cmt">// always respond fast</span>
+  }
+
+  <span class="kw">return</span> <span class="fn">refreshCache</span>(cache, event.request);
+}
+
+<span class="kw">async function</span> <span class="fn">refreshCache</span>(cache, request) {
+  <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(request);
+  <span class="kw">if</span> (response.ok) cache.<span class="fn">put</span>(request, response.<span class="fn">clone</span>());
+  <span class="kw">return</span> response;
+}</pre>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="tips-grid">
+      <div class="tip-card perf"><strong>✅ Performance Tip</strong><span>Use fingerprinted asset URLs (<code>bundle.a3f9b2.js</code>) and set <code>immutable</code> in Cache-Control. This lets both CDN and browser cache indefinitely, while new deploys automatically bust the cache via the new hash.</span></div>
+      <div class="tip-card warn"><strong>⚠️ Common Mistake</strong><span>Caching responses that contain the <code>Set-Cookie</code> header. CDNs that cache cookies will serve one user's session cookie to another user — a critical security bug. Always set <code>Vary: Cookie</code> or strip cookies at the edge.</span></div>
+      <div class="tip-card pro"><strong>💡 Pro Tip</strong><span>Use <code>Surrogate-Key</code> (Fastly) or <code>Cache-Tag</code> (Cloudflare) to group related pages. When article #42 is updated, purge the tag <code>article-42</code> to instantly invalidate every page that embeds it — no URL enumeration required.</span></div>
+      <div class="tip-card skip"><strong>⏭️ When to Skip</strong><span>Skip CDN caching for highly personalized or private responses (dashboards, account pages). The <code>Vary: Authorization</code> header effectively disables CDN caching — use a distributed cache server-side instead.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>System Design · Caching · Where Caches Live — v1.0 · 2025</span>
+    <span>Cache topology reference for distributed systems engineers</span>
+  </footer>
+</main>
+
+<script>
+function toggle(btn, id) {
+  const wrap = btn.closest('.toggle-wrap');
+  wrap.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const card = btn.closest('.section-card');
+  card.querySelectorAll('.level-content').forEach(c => c.classList.remove('active'));
+  card.querySelector('#' + id).classList.add('active');
+}
+
+function collapseCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const collapsed = pre.classList.toggle('collapsed');
+  btn.textContent = collapsed ? 'expand' : 'collapse';
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.hero, .intro-card, .section-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

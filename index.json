@@ -58,7 +58,10 @@
     "SystemDesign": {
       "Caching": {
         "L3": {
-          "1": "Basic Caching Concepts"
+          "1": "Basic Caching Concepts",
+          "2": "Eviction Policies",
+          "3": "Caching Patterns",
+          "4": "Where Caches Live"
         }
       }
     }

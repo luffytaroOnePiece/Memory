@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cache Eviction Policies — System Design Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0e0b14;
+  --bg-card: #141020;
+  --bg-card-hover: #181428;
+  --bg-code: #090710;
+  --border: #1f1a30;
+  --border-bright: #3d2f6e;
+  --accent-1: #a78bfa;
+  --accent-2: #fb923c;
+  --accent-green: #4ade80;
+  --accent-cyan: #22d3ee;
+  --accent-err: #f87171;
+  --text-primary: #f0eaff;
+  --text-secondary: #9587b8;
+  --text-muted: #4d3f6e;
+  --syn-keyword: #c084fc;
+  --syn-function: #60a5fa;
+  --syn-string: #4ade80;
+  --syn-number: #fb923c;
+  --syn-comment: #4d3f6e;
+  --syn-type: #fbbf24;
+  --syn-op: #8b7aa8;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg-deep)}
+::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:3px}
+::selection{background:rgba(167,139,250,0.22);color:var(--text-primary)}
+
+body {
+  background: var(--bg-deep);
+  background-image: radial-gradient(ellipse 70% 45% at 50% -5%, rgba(124,58,237,0.12) 0%, transparent 55%);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+body::before {
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:52px 52px;
+  opacity:0.04;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* NAV */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(14,11,20,0.98);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:52px;
+}
+.nav-logo {
+  font-family:'Space Mono',monospace;font-size:11px;
+  color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;
+}
+.nav-logo span{color:var(--accent-1)}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a {
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:var(--text-muted);text-decoration:none;
+  letter-spacing:0.07em;text-transform:uppercase;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--accent-1)}
+
+/* MAIN */
+main {
+  position:relative;z-index:1;
+  max-width:960px;margin:0 auto;
+  padding:0 2rem 6rem;
+}
+
+/* HERO */
+.hero {
+  padding:118px 0 60px;
+  opacity:0;transform:translateY(18px);
+  animation:fadeUp 0.55s ease 0.1s forwards;
+}
+.eyebrow {
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:var(--accent-1);letter-spacing:0.18em;
+  text-transform:uppercase;margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:0.6rem;
+}
+.eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent-1)}
+h1 {
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:800;color:var(--text-primary);
+  line-height:1.08;letter-spacing:-0.025em;margin-bottom:1rem;
+}
+h1 .hl{color:var(--accent-1)}
+.subtitle {
+  font-size:1.05rem;color:var(--text-secondary);
+  max-width:540px;line-height:1.65;margin-bottom:2rem;
+}
+.pills{display:flex;flex-wrap:wrap;gap:0.45rem}
+.pill {
+  font-family:'Space Mono',monospace;font-size:10px;
+  padding:4px 12px;border:1px solid var(--border);
+  border-radius:20px;color:var(--text-muted);
+  text-decoration:none;letter-spacing:0.04em;
+  transition:border-color 0.2s,color 0.2s;
+}
+.pill:hover{border-color:var(--accent-1);color:var(--accent-1)}
+
+/* INTRO */
+.intro-card {
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;padding:1.8rem 2rem;margin-bottom:2rem;
+  position:relative;overflow:hidden;
+}
+.intro-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent-1),#7c3aed,transparent);
+}
+.intro-card > p{color:var(--text-secondary);font-size:1rem;max-width:700px;margin-bottom:1.5rem}
+.key-grid {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0.9rem;margin-top:1.2rem;
+}
+.key-item {
+  padding:0.9rem 1rem;background:var(--bg-deep);
+  border:1px solid var(--border);border-radius:8px;
+  transition:border-color 0.2s;
+}
+.key-item:hover{border-color:var(--border-bright)}
+.ki-icon{font-size:1.2rem;margin-bottom:0.35rem}
+.ki-title {
+  font-family:'Outfit',sans-serif;font-size:0.78rem;
+  font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;
+}
+.ki-desc{font-size:0.76rem;color:var(--text-muted);line-height:1.4}
+
+/* COMPARISON TABLE */
+.compare-table {
+  width:100%;border-collapse:collapse;
+  font-size:0.83rem;margin-bottom:2rem;
+  background:var(--bg-card);border-radius:10px;
+  overflow:hidden;border:1px solid var(--border);
+}
+.compare-table th {
+  font-family:'Space Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);padding:10px 14px;
+  background:rgba(255,255,255,0.02);
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+.compare-table td {
+  padding:10px 14px;color:var(--text-secondary);
+  border-bottom:1px solid var(--border);
+  vertical-align:top;line-height:1.5;
+}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(167,139,250,0.04)}
+.tag {
+  font-family:'Space Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:4px;
+  text-transform:uppercase;letter-spacing:0.05em;
+  display:inline-block;
+}
+.tag-best{background:rgba(74,222,128,0.1);color:var(--accent-green);border:1px solid rgba(74,222,128,0.25)}
+.tag-good{background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)}
+.tag-ok{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+.tag-niche{background:rgba(167,139,250,0.1);color:var(--accent-1);border:1px solid rgba(167,139,250,0.25)}
+
+/* SECTION CARDS */
+.section-card {
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;margin-bottom:2rem;overflow:hidden;
+  opacity:0;transform:translateY(14px);
+  transition:border-color 0.2s;
+}
+.section-card.visible{opacity:1;transform:translateY(0);transition:opacity 0.5s ease,transform 0.5s ease,border-color 0.2s}
+.section-card:hover{border-color:var(--border-bright)}
+
+.section-header {
+  padding:1.7rem 2rem 1.3rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+}
+.sn{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent-1);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem}
+.st{font-family:'Outfit',sans-serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.15;margin-bottom:0.25rem}
+.stag{font-size:0.86rem;color:var(--text-muted)}
+
+.badge{font-family:'Space Mono',monospace;font-size:9px;padding:3px 10px;border-radius:4px;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.badge-core{background:rgba(167,139,250,0.12);color:var(--accent-1);border:1px solid rgba(167,139,250,0.25)}
+.badge-adv{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2)}
+.badge-simple{background:rgba(74,222,128,0.1);color:var(--accent-green);border:1px solid rgba(74,222,128,0.2)}
+
+.section-body{padding:1.7rem 2rem}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;margin-bottom:1.7rem}
+.info-cell{padding:0.95rem 1.1rem;background:var(--bg-deep);border:1px solid var(--border);border-radius:8px}
+.icl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.45rem}
+.info-cell p{font-size:0.86rem;color:var(--text-secondary);line-height:1.55}
+
+/* FLOW */
+.flow-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.7rem}
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:1.7rem;padding:1.1rem 1.3rem;background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;overflow-x:auto}
+.fb{font-family:'Space Mono',monospace;font-size:11px;padding:7px 12px;border-radius:6px;white-space:nowrap;line-height:1.3;text-align:center}
+.fb small{display:block;font-size:9px;opacity:0.7;margin-top:2px}
+.fb-v{border:1px solid rgba(167,139,250,0.4);background:rgba(167,139,250,0.08);color:var(--accent-1)}
+.fb-g{border:1px solid rgba(74,222,128,0.4);background:rgba(74,222,128,0.08);color:var(--accent-green)}
+.fb-o{border:1px solid rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);color:var(--accent-2)}
+.fb-c{border:1px solid rgba(34,211,238,0.4);background:rgba(34,211,238,0.08);color:var(--accent-cyan)}
+.fb-d{border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--text-muted)}
+.fb-r{border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:var(--accent-err)}
+.arr{font-size:13px;color:var(--text-muted);padding:0 5px;flex-shrink:0}
+.arr-evict{color:var(--accent-err)}
+.arr-keep{color:var(--accent-green)}
+
+/* LINKED LIST VIZ */
+.ll-container{
+  margin-bottom:1.7rem;padding:1.2rem 1.4rem;
+  background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;
+  overflow-x:auto;
+}
+.ll-row{display:flex;align-items:center;gap:0;margin-bottom:0.5rem}
+.ll-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.7rem}
+.ll-node{
+  font-family:'Space Mono',monospace;font-size:11px;
+  padding:7px 12px;border-radius:6px;white-space:nowrap;
+  display:flex;flex-direction:column;align-items:center;
+  gap:2px;min-width:60px;
+}
+.ll-key{font-size:10px;font-weight:700}
+.ll-freq{font-size:9px;opacity:0.7}
+.ll-ptr{font-size:12px;color:var(--text-muted);padding:0 3px}
+.ll-head{border:1px solid var(--border-bright);background:rgba(167,139,250,0.05);color:var(--text-muted);font-size:9px;padding:5px 10px}
+.ll-tail{border:1px solid var(--border-bright);background:rgba(167,139,250,0.05);color:var(--text-muted);font-size:9px;padding:5px 10px}
+.ll-anno{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:0.3rem}
+
+/* CODE BLOCKS */
+.code-block{background:var(--bg-code);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.7rem}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015)}
+.code-lang{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em}
+.code-actions{display:flex;gap:5px}
+.btn-c,.btn-cp{
+  font-family:'Space Mono',monospace;font-size:9px;
+  padding:3px 10px;background:transparent;
+  border:1px solid var(--border);border-radius:4px;
+  color:var(--text-muted);cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-c:hover,.btn-cp:hover{border-color:var(--border-bright);color:var(--text-secondary)}
+.code-content{overflow:hidden;max-height:700px;transition:max-height 0.3s ease}
+.code-content.collapsed{max-height:0}
+pre{padding:1.15rem 1.3rem;overflow-x:auto;font-family:'Space Mono',monospace;font-size:12.5px;line-height:1.75;tab-size:2;white-space:pre}
+.kw{color:var(--syn-keyword)}
+.fn{color:var(--syn-function)}
+.str{color:var(--syn-string)}
+.num{color:var(--syn-number)}
+.cmt{color:var(--syn-comment);font-style:italic}
+.tp{color:var(--syn-type)}
+.op{color:var(--syn-op)}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.tip{padding:0.85rem 1rem;border-radius:8px;font-size:0.82rem;line-height:1.5}
+.tip-title{font-weight:600;font-size:0.81rem;color:var(--text-primary);margin-bottom:0.18rem}
+.tip-g{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2)}
+.tip-r{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2)}
+.tip-b{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2)}
+.tip-o{background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.2)}
+
+/* TOGGLE */
+.toggle-wrap{margin-bottom:1.4rem}
+.toggle-tabs{display:inline-flex;background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:3px;gap:2px;margin-bottom:0.9rem}
+.ttab{font-family:'Space Mono',monospace;font-size:10px;padding:4px 14px;border-radius:4px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;letter-spacing:0.04em;transition:background 0.2s,color 0.2s}
+.ttab.active{background:var(--border-bright);color:var(--text-primary)}
+.tcontent{display:none}.tcontent.active{display:block}
+
+/* DIVIDER */
+.sdiv{width:100%;height:1px;background:var(--border);margin:1.4rem 0}
+
+/* FOOTER */
+footer{
+  position:relative;z-index:1;border-top:1px solid var(--border);
+  padding:1.4rem 2rem;max-width:960px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);
+}
+footer a{color:var(--text-muted);text-decoration:none}
+footer a:hover{color:var(--accent-1)}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+:focus-visible{outline:2px solid var(--accent-1);outline-offset:3px}
+
+@media(max-width:768px){
+  .key-grid{grid-template-columns:1fr 1fr}
+  .info-grid{grid-template-columns:1fr}
+  .tips-grid{grid-template-columns:1fr}
+  .compare-table{font-size:0.76rem}
+}
+@media(max-width:640px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  main{padding:0 1rem 4rem}
+  footer{flex-direction:column;gap:0.4rem;text-align:center}
+  .hero{padding:78px 0 36px}
+  .key-grid{grid-template-columns:1fr}
+  .section-header{flex-direction:column}
+  .section-body{padding:1.2rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>▸</span> cache · eviction</div>
+  <ul class="nav-links">
+    <li><a href="#lru">LRU</a></li>
+    <li><a href="#lfu">LFU</a></li>
+    <li><a href="#fifo">FIFO</a></li>
+    <li><a href="#random">Random</a></li>
+    <li><a href="#lru-impl">LRU Impl</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">System Design · Caching</div>
+    <h1>Cache <span class="hl">Eviction</span><br>Policies</h1>
+    <p class="subtitle">When a cache is full, something must go. Which key you choose to evict determines whether your cache helps or hurts. Master all four policies and know how to implement LRU from scratch.</p>
+    <div class="pills">
+      <a href="#lru" class="pill">01 · LRU</a>
+      <a href="#lfu" class="pill">02 · LFU</a>
+      <a href="#fifo" class="pill">03 · FIFO</a>
+      <a href="#random" class="pill">04 · Random</a>
+      <a href="#lru-impl" class="pill">05 · LRU Implementation</a>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <p>Every cache has a fixed capacity. When it's full and a new key must be inserted, the cache must <strong style="color:var(--text-primary)">evict</strong> an existing entry to make room. The eviction policy determines which key is sacrificed. A bad policy evicts hot data, causing a cascade of expensive cache misses. A good policy keeps the most useful data alive, maximizing hit rate.</p>
+    <div class="key-grid">
+      <div class="key-item"><div class="ki-icon">🎯</div><div class="ki-title">Hit Rate</div><div class="ki-desc">The primary metric. A good policy maximizes the fraction of requests served from cache.</div></div>
+      <div class="key-item"><div class="ki-icon">📐</div><div class="ki-title">O(1) Operations</div><div class="ki-desc">Production caches require O(1) get and set — policy overhead cannot dominate request time.</div></div>
+      <div class="key-item"><div class="ki-icon">🧠</div><div class="ki-title">Access Pattern</div><div class="ki-desc">The best policy depends on your workload: recency, frequency, or insertion order.</div></div>
+      <div class="key-item"><div class="ki-icon">⚖️</div><div class="ki-title">Memory Overhead</div><div class="ki-desc">Tracking frequency costs more memory than tracking recency. Trade-offs matter at scale.</div></div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="intro-card" style="padding:0;overflow:hidden">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Policy</th>
+          <th>Evicts</th>
+          <th>Time Complexity</th>
+          <th>Memory Overhead</th>
+          <th>Best For</th>
+          <th>Used In</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--accent-1)">LRU</strong></td>
+          <td>Least recently accessed key</td>
+          <td><code style="font-family:'Space Mono',monospace;font-size:11px">O(1)</code></td>
+          <td>HashMap + DLL pointers</td>
+          <td><span class="tag tag-best">General Use</span></td>
+          <td>Redis, memcached, CPU L1</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fbbf24">LFU</strong></td>
+          <td>Least frequently accessed key</td>
+          <td><code style="font-family:'Space Mono',monospace;font-size:11px">O(1)</code></td>
+          <td>2× HashMaps + freq buckets</td>
+          <td><span class="tag tag-good">Skewed Access</span></td>
+          <td>Redis 4.0+, ARC hybrid</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent-green)">FIFO</strong></td>
+          <td>Oldest inserted key</td>
+          <td><code style="font-family:'Space Mono',monospace;font-size:11px">O(1)</code></td>
+          <td>Queue only</td>
+          <td><span class="tag tag-ok">Simple Pipelines</span></td>
+          <td>Stream buffers, CDN purge queues</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent-2)">Random</strong></td>
+          <td>Randomly chosen key</td>
+          <td><code style="font-family:'Space Mono',monospace;font-size:11px">O(1)</code></td>
+          <td>None</td>
+          <td><span class="tag tag-niche">Uniform Access</span></td>
+          <td>Redis allkeys-random, CPU TLB</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 1: LRU -->
+  <section class="section-card" id="lru">
+    <div class="section-header">
+      <div>
+        <div class="sn">01 — Most Common</div>
+        <div class="st">LRU — Least Recently Used</div>
+        <div class="stag">The workhorse of production caches. Evict the key you haven't touched in the longest time.</div>
+      </div>
+      <span class="badge badge-core">Core Policy</span>
+    </div>
+    <div class="section-body">
+      <div class="toggle-wrap">
+        <div class="toggle-tabs">
+          <button class="ttab active" onclick="sw(this,'lru-a')">Overview</button>
+          <button class="ttab" onclick="sw(this,'lru-b')">Deep Dive</button>
+        </div>
+        <div id="lru-a" class="tcontent active">
+          <div class="info-grid">
+            <div class="info-cell"><div class="icl">What It Is</div><p>Evicts the key whose most recent access is the oldest. The assumption: if you haven't used something recently, you probably won't need it soon. Temporal locality makes this true for most workloads.</p></div>
+            <div class="info-cell"><div class="icl">Why Use It</div><p>Works extremely well for access patterns with <strong style="color:var(--text-primary)">temporal locality</strong> — users browsing the same pages, the same products trending, the same configs being loaded. It's the sensible default.</p></div>
+            <div class="info-cell"><div class="icl">Real-World Use Case</div><p>A social media feed cache. User @alice's feed is loaded every few seconds. LRU keeps it hot. An old post from 2019 that no one reads gets evicted naturally.</p></div>
+            <div class="info-cell"><div class="icl">Redis Config</div><p><code style="font-family:'Space Mono',monospace;font-size:11px">maxmemory-policy allkeys-lru</code> — evicts any key. Or <code style="font-family:'Space Mono',monospace;font-size:11px">volatile-lru</code> — only evicts keys that have a TTL set.</p></div>
+          </div>
+        </div>
+        <div id="lru-b" class="tcontent">
+          <div class="info-grid">
+            <div class="info-cell"><div class="icl">The Scan Resistance Problem</div><p>LRU has one flaw: a <strong style="color:var(--text-primary)">sequential scan</strong> (e.g., <code style="font-family:'Space Mono',monospace;font-size:11px">SELECT *</code> over 1M rows) will thrash the cache, evicting hot data to cache cold scan rows that are never re-read.</p></div>
+            <div class="info-cell"><div class="icl">Redis's Approximated LRU</div><p>True LRU requires a doubly linked list over all keys — expensive at millions of keys. Redis uses <strong style="color:var(--text-primary)">sampled LRU</strong>: on eviction, sample N random keys (default 5), evict the least recently used among them. Good enough at scale.</p></div>
+            <div class="info-cell"><div class="icl">LRU vs LRU-K</div><p>LRU-K evicts the key whose <em>K-th most recent</em> access is oldest. LRU-2 is popular: you need 2 hits to be "promoted" into the main cache, preventing one-hit-wonders from evicting stable hot data.</p></div>
+            <div class="info-cell"><div class="icl">Clock Algorithm</div><p>A practical LRU approximation used in OS page replacement. Each page has a reference bit. On eviction, scan clockwise — if bit=1, clear it (second chance); if bit=0, evict it. O(1), low overhead.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-label">LRU State — Access Order (MRU → LRU)</div>
+      <div class="flow">
+        <div class="fb fb-d fb-head" style="padding:5px 10px;font-size:9px">HEAD<br><small>MRU</small></div>
+        <div class="arr arr-keep">⟷</div>
+        <div class="fb fb-v">D<br><small>just used</small></div>
+        <div class="arr">⟷</div>
+        <div class="fb fb-v" style="opacity:0.8">B<br><small>recent</small></div>
+        <div class="arr">⟷</div>
+        <div class="fb fb-v" style="opacity:0.55">A<br><small>older</small></div>
+        <div class="arr">⟷</div>
+        <div class="fb fb-r" style="opacity:0.8">C<br><small>evict next</small></div>
+        <div class="arr arr-evict">⟷</div>
+        <div class="fb fb-d" style="padding:5px 10px;font-size:9px">TAIL<br><small>LRU</small></div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-g"><div class="tip-title">✅ Best default policy</div>Unless you have specific data showing your workload has non-temporal access, start with LRU. It outperforms FIFO and random on almost every realistic benchmark.</div>
+        <div class="tip tip-r"><div class="tip-title">⚠️ Vulnerable to cache pollution</div>A one-time full table scan will flush all your hot keys. Mitigate with LRU-2, or restrict your cache client to never cache scan-type queries.</div>
+        <div class="tip tip-b"><div class="tip-title">💡 Use volatile-lru in Redis for sessions</div>Only evict keys with TTLs set, so permanent config keys are never evicted. This separates ephemeral cached data from long-lived reference data.</div>
+        <div class="tip tip-o"><div class="tip-title">⏭️ Skip LRU for frequency-skewed data</div>If your top 100 keys get 99% of traffic but LRU keeps cycling through the other 10,000 keys, LFU will dramatically outperform it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: LFU -->
+  <section class="section-card" id="lfu">
+    <div class="section-header">
+      <div>
+        <div class="sn">02 — Frequency-Aware</div>
+        <div class="st">LFU — Least Frequently Used</div>
+        <div class="stag">Evict the key accessed the fewest times. Ideal for highly skewed, Zipfian access distributions.</div>
+      </div>
+      <span class="badge badge-adv">Advanced</span>
+    </div>
+    <div class="section-body">
+      <div class="info-grid">
+        <div class="info-cell"><div class="icl">What It Is</div><p>Tracks access counts for every key. When eviction is needed, the key with the <strong style="color:var(--text-primary)">lowest frequency counter</strong> is removed. Keys must earn their place through repeated use.</p></div>
+        <div class="info-cell"><div class="icl">LFU vs LRU — Key Difference</div><p>LRU asks "when was this last used?" LFU asks "how often has this been used overall?" A key accessed 10,000 times but not in the last 5 seconds stays in LFU, but may be evicted by LRU.</p></div>
+        <div class="info-cell"><div class="icl">Real-World Use Case</div><p>A product catalog with power-law access: iPhone Pro is fetched 50,000×/day, while obscure SKUs get 2–3 hits. LFU keeps the iPhone Pro permanently warm; LRU might not.</p></div>
+        <div class="info-cell"><div class="icl">The Aging Problem</div><p>Naïve LFU suffers from "cache pollution by history" — a key that was popular a month ago but is now dead still has a high count and never gets evicted. Solution: <strong style="color:var(--text-primary)">frequency decay</strong> (halve counts periodically) or use Redis's LFU with configurable decay.</p></div>
+      </div>
+
+      <div class="flow-label">LFU Frequency Buckets (O'Neil et al. O(1) LFU)</div>
+      <div class="flow" style="flex-direction:column;align-items:stretch;gap:8px">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="fb fb-r" style="min-width:80px">freq=1<br><small>A, E</small></div>
+          <div class="arr arr-evict">← evict</div>
+          <div class="fb fb-d" style="min-width:80px">freq=3<br><small>C</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-v" style="min-width:80px">freq=7<br><small>B, D</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-g" style="min-width:80px">freq=24<br><small>F</small></div>
+          <div class="arr arr-keep">← safest</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">Each frequency bucket holds a doubly-linked list; min_freq pointer tracks which bucket to evict from. O(1) access, insert, delete.</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — O(1) LFU Cache (Leetcode 460)</span>
+          <div class="code-actions">
+            <button class="btn-c" onclick="tc(this)">Collapse</button>
+            <button class="btn-cp" onclick="cp(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">from</span> collections <span class="kw">import</span> defaultdict, OrderedDict
+
+<span class="kw">class</span> <span class="tp">LFUCache</span>:
+    <span class="str">"""O(1) get and put using two hashmaps + frequency buckets."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="tp">int</span>):
+        self.capacity   <span class="op">=</span> capacity
+        self.key_val    <span class="op">=</span> {}                    <span class="cmt"># key → value</span>
+        self.key_freq   <span class="op">=</span> {}                    <span class="cmt"># key → frequency count</span>
+        self.freq_keys  <span class="op">=</span> defaultdict(OrderedDict)  <span class="cmt"># freq → OrderedDict of keys (LRU within freq)</span>
+        self.min_freq   <span class="op">=</span> <span class="num">0</span>                    <span class="cmt"># current minimum frequency</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">int</span>:
+        <span class="kw">if</span> key <span class="kw">not in</span> self.key_val:
+            <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>
+        self.<span class="fn">_bump_freq</span>(key)
+        <span class="kw">return</span> self.key_val[key]
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="tp">int</span>, value: <span class="tp">int</span>) <span class="op">-></span> <span class="kw">None</span>:
+        <span class="kw">if</span> self.capacity <span class="op"><=</span> <span class="num">0</span>: <span class="kw">return</span>
+
+        <span class="kw">if</span> key <span class="kw">in</span> self.key_val:
+            self.key_val[key] <span class="op">=</span> value
+            self.<span class="fn">_bump_freq</span>(key)
+            <span class="kw">return</span>
+
+        <span class="kw">if</span> <span class="fn">len</span>(self.key_val) <span class="op">>=</span> self.capacity:
+            <span class="cmt"># Evict LRU item from the minimum-frequency bucket</span>
+            evict_key, _ <span class="op">=</span> self.freq_keys[self.min_freq].<span class="fn">popitem</span>(last<span class="op">=</span><span class="kw">False</span>)
+            <span class="kw">del</span> self.key_val[evict_key]
+            <span class="kw">del</span> self.key_freq[evict_key]
+
+        self.key_val[key]  <span class="op">=</span> value
+        self.key_freq[key] <span class="op">=</span> <span class="num">1</span>
+        self.freq_keys[<span class="num">1</span>][key] <span class="op">=</span> <span class="kw">None</span>
+        self.min_freq <span class="op">=</span> <span class="num">1</span>             <span class="cmt"># New keys always start at freq 1</span>
+
+    <span class="kw">def</span> <span class="fn">_bump_freq</span>(self, key: <span class="tp">int</span>):
+        freq <span class="op">=</span> self.key_freq[key]
+        self.key_freq[key] <span class="op">+=</span> <span class="num">1</span>
+        <span class="kw">del</span> self.freq_keys[freq][key]
+        <span class="kw">if</span> <span class="kw">not</span> self.freq_keys[freq] <span class="kw">and</span> freq <span class="op">==</span> self.min_freq:
+            self.min_freq <span class="op">+=</span> <span class="num">1</span>         <span class="cmt"># Advance min_freq if bucket is now empty</span>
+        self.freq_keys[freq <span class="op">+</span> <span class="num">1</span>][key] <span class="op">=</span> <span class="kw">None</span></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-g"><div class="tip-title">✅ Use for power-law (Zipfian) access</div>When a small fraction of keys get the vast majority of traffic, LFU is dramatically superior to LRU. E-commerce product pages, social profiles, media assets.</div>
+        <div class="tip tip-r"><div class="tip-title">⚠️ New keys are always eviction candidates</div>A brand new trending key starts at freq=1 and may be immediately evicted before it can build up frequency. Mitigate with a "new key immunity window" or LFU+LRU hybrid (ARC).</div>
+        <div class="tip tip-b"><div class="tip-title">💡 Redis LFU uses logarithmic counters</div>Redis uses a 8-bit Morris counter — it increments probabilistically to avoid overflow, and decays based on <code style="font-family:'Space Mono',monospace;font-size:11px">lfu-decay-time</code>. Efficient and surprisingly accurate.</div>
+        <div class="tip tip-o"><div class="tip-title">⏭️ Avoid LFU for uniform access</div>If all keys have similar access frequencies, LFU provides no benefit over LRU and adds memory overhead for tracking counts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: FIFO -->
+  <section class="section-card" id="fifo">
+    <div class="section-header">
+      <div>
+        <div class="sn">03 — Simplest</div>
+        <div class="st">FIFO — First In, First Out</div>
+        <div class="stag">Evict whatever was inserted first, regardless of how often it's been used.</div>
+      </div>
+      <span class="badge badge-simple">Simple</span>
+    </div>
+    <div class="section-body">
+      <div class="info-grid">
+        <div class="info-cell"><div class="icl">What It Is</div><p>A pure queue. Keys enter at the back and leave from the front. The eviction candidate is always the key that has been in the cache the longest — ignoring all usage patterns entirely.</p></div>
+        <div class="info-cell"><div class="icl">Why It's Suboptimal</div><p>FIFO is <strong style="color:var(--text-primary)">access-unaware</strong>. A key inserted first but still actively used (e.g., a static config) gets evicted while a brand-new key nobody will ever read again stays in cache.</p></div>
+        <div class="info-cell"><div class="icl">Where It Makes Sense</div><p>Stream processing buffers where data is processed in order: message queues, log pipelines, sliding window aggregations. The "oldest" data is genuinely the least useful.</p></div>
+        <div class="info-cell"><div class="icl">Bélády's Anomaly</div><p>FIFO uniquely suffers from Bélády's anomaly: <strong style="color:var(--text-primary)">adding more cache capacity can increase miss rate</strong> with some access patterns. LRU and LFU are immune to this paradox.</p></div>
+      </div>
+
+      <div class="flow-label">FIFO Queue — Insertion and Eviction</div>
+      <div class="flow">
+        <div class="fb fb-c">New: X<br><small>enqueue →</small></div>
+        <div class="arr">→</div>
+        <div class="fb fb-v">D<br><small>inserted 3rd</small></div>
+        <div class="arr">→</div>
+        <div class="fb fb-v" style="opacity:0.8">C<br><small>inserted 2nd</small></div>
+        <div class="arr">→</div>
+        <div class="fb fb-v" style="opacity:0.6">B<br><small>inserted 1st</small></div>
+        <div class="arr">→</div>
+        <div class="fb fb-r">A<br><small>evict ← oldest</small></div>
+        <div class="arr arr-evict">✕</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — FIFO Cache</span>
+          <div class="code-actions">
+            <button class="btn-c" onclick="tc(this)">Collapse</button>
+            <button class="btn-cp" onclick="cp(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">from</span> collections <span class="kw">import</span> OrderedDict
+
+<span class="kw">class</span> <span class="tp">FIFOCache</span>:
+    <span class="str">"""FIFO cache using OrderedDict (insertion order guaranteed in Python 3.7+)."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="tp">int</span>):
+        self.capacity <span class="op">=</span> capacity
+        self.store    <span class="op">=</span> OrderedDict()  <span class="cmt"># maintains insertion order</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">int</span>:
+        <span class="cmt"># NB: access does NOT change position — FIFO ignores recency</span>
+        <span class="kw">return</span> self.store.<span class="fn">get</span>(key, <span class="op">-</span><span class="num">1</span>)
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="tp">int</span>, value: <span class="tp">int</span>) <span class="op">-></span> <span class="kw">None</span>:
+        <span class="kw">if</span> key <span class="kw">in</span> self.store:
+            <span class="cmt"># Update value but preserve insertion position</span>
+            self.store[key] <span class="op">=</span> value
+            <span class="kw">return</span>
+
+        <span class="kw">if</span> <span class="fn">len</span>(self.store) <span class="op">>=</span> self.capacity:
+            <span class="cmt"># Evict oldest inserted key (first in OrderedDict)</span>
+            self.store.<span class="fn">popitem</span>(last<span class="op">=</span><span class="kw">False</span>)
+
+        self.store[key] <span class="op">=</span> value
+
+<span class="cmt"># Contrast with LRU: in LRU, get() calls move_to_end(key)</span>
+<span class="cmt"># In FIFO, get() does NOT move_to_end — order is purely by insertion.</span></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-g"><div class="tip-title">✅ Perfect for time-ordered streams</div>Log ingestion pipelines, event queues, sliding time windows. When data genuinely becomes less relevant with age regardless of access, FIFO is semantically correct.</div>
+        <div class="tip tip-r"><div class="tip-title">⚠️ Terrible for general-purpose caches</div>Static configs, user sessions, popular product pages — all get evicted the moment something new is inserted. Hit rates crater compared to LRU on real workloads.</div>
+        <div class="tip tip-b"><div class="tip-title">💡 FIFO is the baseline for comparisons</div>When benchmarking LRU vs LFU, always include FIFO as the naïve baseline. It helps you quantify the benefit of tracking access metadata.</div>
+        <div class="tip tip-o"><div class="tip-title">⏭️ Don't use FIFO for user-facing caches</div>A user loading the same profile page repeatedly won't benefit: their data could be evicted after one read if enough new keys came in, causing repeated DB hits.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: RANDOM -->
+  <section class="section-card" id="random">
+    <div class="section-header">
+      <div>
+        <div class="sn">04 — Surprisingly Viable</div>
+        <div class="st">Random Eviction</div>
+        <div class="stag">Pick a random key and evict it. Simpler than you'd think, competitive on certain workloads.</div>
+      </div>
+      <span class="badge badge-simple">Simple</span>
+    </div>
+    <div class="section-body">
+      <div class="info-grid">
+        <div class="info-cell"><div class="icl">What It Is</div><p>When the cache is full, select a key <strong style="color:var(--text-primary)">uniformly at random</strong> and evict it. No metadata is tracked. No order is maintained. Pure entropy makes the eviction decision.</p></div>
+        <div class="info-cell"><div class="icl">When It Competes</div><p>On <strong style="color:var(--text-primary)">uniform access distributions</strong> where all keys are equally likely to be re-requested, there's no information advantage to tracking recency or frequency. Random eviction matches LRU's hit rate while using zero overhead.</p></div>
+        <div class="info-cell"><div class="icl">Real-World Use Case</div><p>CPU TLB (Translation Lookaside Buffer) often uses random replacement. At nanosecond timescales, the overhead of LRU tracking outweighs the marginal hit rate improvement. Hardware prefers simplicity.</p></div>
+        <div class="info-cell"><div class="icl">Theoretical Bound</div><p>For a cache of size k and n total unique keys, a random policy has an expected hit rate proportional to k/n. For a Zipfian distribution (real web traffic), this is far worse than LRU — but for flat distributions, the gap narrows significantly.</p></div>
+      </div>
+
+      <div class="flow-label">Random Eviction — No metadata required</div>
+      <div class="flow">
+        <div class="fb fb-v">A</div>
+        <div class="arr">·</div>
+        <div class="fb fb-v">B</div>
+        <div class="arr">·</div>
+        <div class="fb fb-r" style="position:relative">C<small>🎲 chosen</small></div>
+        <div class="arr">·</div>
+        <div class="fb fb-v">D</div>
+        <div class="arr">·</div>
+        <div class="fb fb-v">E</div>
+        <div class="arr arr-evict">→</div>
+        <div class="fb fb-r">C evicted<br><small>✕ gone</small></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Random Eviction Cache</span>
+          <div class="code-actions">
+            <button class="btn-c" onclick="tc(this)">Collapse</button>
+            <button class="btn-cp" onclick="cp(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">import</span> random
+
+<span class="kw">class</span> <span class="tp">RandomCache</span>:
+    <span class="str">"""Random eviction cache. O(1) get/put with zero metadata overhead."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="tp">int</span>):
+        self.capacity <span class="op">=</span> capacity
+        self.store    <span class="op">=</span> {}        <span class="cmt"># key → value</span>
+        self.keys     <span class="op">=</span> []        <span class="cmt"># for O(1) random selection</span>
+        self.key_idx  <span class="op">=</span> {}        <span class="cmt"># key → index in self.keys</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">int</span>:
+        <span class="kw">return</span> self.store.<span class="fn">get</span>(key, <span class="op">-</span><span class="num">1</span>)
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="tp">int</span>, value: <span class="tp">int</span>) <span class="op">-></span> <span class="kw">None</span>:
+        <span class="kw">if</span> key <span class="kw">in</span> self.store:
+            self.store[key] <span class="op">=</span> value
+            <span class="kw">return</span>
+
+        <span class="kw">if</span> <span class="fn">len</span>(self.store) <span class="op">>=</span> self.capacity:
+            <span class="cmt"># Pick a random key — swap with last for O(1) removal</span>
+            idx    <span class="op">=</span> random.<span class="fn">randint</span>(<span class="num">0</span>, <span class="fn">len</span>(self.keys) <span class="op">-</span> <span class="num">1</span>)
+            victim <span class="op">=</span> self.keys[idx]
+
+            <span class="cmt"># Swap victim with last element for O(1) list removal</span>
+            last_key              <span class="op">=</span> self.keys[<span class="op">-</span><span class="num">1</span>]
+            self.keys[idx]        <span class="op">=</span> last_key
+            self.key_idx[last_key]<span class="op">=</span> idx
+            self.keys.<span class="fn">pop</span>()
+
+            <span class="kw">del</span> self.store[victim]
+            <span class="kw">del</span> self.key_idx[victim]
+
+        self.store[key]    <span class="op">=</span> value
+        self.key_idx[key]  <span class="op">=</span> <span class="fn">len</span>(self.keys)
+        self.keys.<span class="fn">append</span>(key)</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-g"><div class="tip-title">✅ Use for truly uniform access patterns</div>Database buffer pools for OLAP scans with no hot data, or testing/benchmarking where you want a zero-intelligence baseline to compare against.</div>
+        <div class="tip tip-r"><div class="tip-title">⚠️ Bad for skewed real-world traffic</div>Web traffic follows power laws. With random eviction, your most popular page has the same eviction probability as a page nobody visits. Hit rate is proportionally terrible.</div>
+        <div class="tip tip-b"><div class="tip-title">💡 Useful in hardware due to zero overhead</div>CPU caches, TLBs, and branch predictors sometimes use pseudo-random replacement because the logic is simpler than tracking recency at sub-nanosecond timescales.</div>
+        <div class="tip tip-o"><div class="tip-title">⏭️ Not for any user-facing application cache</div>Redis offers allkeys-random, but it's almost never the right choice unless you know your access distribution is flat. Default to LRU instead.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: LRU IMPLEMENTATION -->
+  <section class="section-card" id="lru-impl">
+    <div class="section-header">
+      <div>
+        <div class="sn">05 — Must Know</div>
+        <div class="st">Implementing LRU: HashMap + Doubly Linked List</div>
+        <div class="stag">The canonical O(1) LRU implementation. A favorite in system design and coding interviews.</div>
+      </div>
+      <span class="badge badge-adv">Interview Essential</span>
+    </div>
+    <div class="section-body">
+      <div class="info-grid">
+        <div class="info-cell"><div class="icl">Why These Two Structures?</div><p><strong style="color:var(--text-primary)">HashMap</strong>: O(1) key lookup — find a node in the list by key instantly.<br><strong style="color:var(--text-primary)">Doubly Linked List</strong>: O(1) node move — move any node to head (MRU) or remove from tail (LRU) in constant time.</p></div>
+        <div class="info-cell"><div class="icl">The Core Invariant</div><p>The DLL is always sorted by recency: <strong style="color:var(--text-primary)">Head = most recently used</strong>, <strong style="color:var(--text-primary)">Tail = least recently used</strong>. On every <code style="font-family:'Space Mono',monospace;font-size:11px">get</code> or <code style="font-family:'Space Mono',monospace;font-size:11px">put</code>, the accessed node is moved to the head.</p></div>
+        <div class="info-cell"><div class="icl">Why Doubly (not Singly) Linked?</div><p>To remove an interior node in O(1), you need to update both its predecessor and successor. With only a <code style="font-family:'Space Mono',monospace;font-size:11px">next</code> pointer, removing a node requires traversal to find the predecessor — making eviction O(n).</p></div>
+        <div class="info-cell"><div class="icl">Sentinel Nodes Trick</div><p>Use fake <code style="font-family:'Space Mono',monospace;font-size:11px">head</code> and <code style="font-family:'Space Mono',monospace;font-size:11px">tail</code> sentinel nodes that are never evicted. This eliminates all null pointer edge cases: the list is always non-empty, and you never special-case empty-list operations.</p></div>
+      </div>
+
+      <div class="flow-label">Data Structure Layout</div>
+      <div class="ll-container">
+        <div class="ll-label">HashMap: key → node pointer | DLL: head (MRU) ↔ ... ↔ tail (LRU)</div>
+        <div class="ll-row">
+          <div class="ll-node ll-head">HEAD<br><span class="ll-freq">sentinel</span></div>
+          <div class="ll-ptr">⟷</div>
+          <div class="ll-node fb fb-v"><span class="ll-key">D</span><span class="ll-freq">val=40</span></div>
+          <div class="ll-ptr">⟷</div>
+          <div class="ll-node fb fb-v" style="opacity:0.8"><span class="ll-key">B</span><span class="ll-freq">val=20</span></div>
+          <div class="ll-ptr">⟷</div>
+          <div class="ll-node fb fb-v" style="opacity:0.6"><span class="ll-key">A</span><span class="ll-freq">val=10</span></div>
+          <div class="ll-ptr">⟷</div>
+          <div class="ll-node fb fb-r"><span class="ll-key">C</span><span class="ll-freq">evict next</span></div>
+          <div class="ll-ptr">⟷</div>
+          <div class="ll-node ll-tail">TAIL<br><span class="ll-freq">sentinel</span></div>
+        </div>
+        <div class="ll-anno">map = { A: →nodeA, B: →nodeB, C: →nodeC, D: →nodeD }</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Full LRU Cache — HashMap + Doubly Linked List</span>
+          <div class="code-actions">
+            <button class="btn-c" onclick="tc(this)">Collapse</button>
+            <button class="btn-cp" onclick="cp(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">class</span> <span class="tp">Node</span>:
+    <span class="str">"""Doubly linked list node."""</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, key<span class="op">=</span><span class="num">0</span>, val<span class="op">=</span><span class="num">0</span>):
+        self.key  <span class="op">=</span> key
+        self.val  <span class="op">=</span> val
+        self.prev <span class="op">=</span> <span class="kw">None</span>
+        self.next <span class="op">=</span> <span class="kw">None</span>
+
+
+<span class="kw">class</span> <span class="tp">LRUCache</span>:
+    <span class="str">"""
+    O(1) get and put.
+    Structure: HashMap[key → Node] + Doubly Linked List.
+    DLL invariant: head.next = MRU, tail.prev = LRU.
+    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="tp">int</span>):
+        self.capacity <span class="op">=</span> capacity
+        self.map      <span class="op">=</span> {}                  <span class="cmt"># key → Node (O(1) lookup)</span>
+
+        <span class="cmt"># Sentinel nodes eliminate null-check edge cases</span>
+        self.head <span class="op">=</span> <span class="tp">Node</span>()                   <span class="cmt"># dummy head (MRU side)</span>
+        self.tail <span class="op">=</span> <span class="tp">Node</span>()                   <span class="cmt"># dummy tail (LRU side)</span>
+        self.head.next <span class="op">=</span> self.tail
+        self.tail.prev <span class="op">=</span> self.head
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">int</span>:
+        <span class="kw">if</span> key <span class="kw">not in</span> self.map:
+            <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>
+        node <span class="op">=</span> self.map[key]
+        self.<span class="fn">_move_to_head</span>(node)              <span class="cmt"># Mark as most recently used</span>
+        <span class="kw">return</span> node.val
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="tp">int</span>, value: <span class="tp">int</span>) <span class="op">-></span> <span class="kw">None</span>:
+        <span class="kw">if</span> key <span class="kw">in</span> self.map:
+            node <span class="op">=</span> self.map[key]
+            node.val <span class="op">=</span> value
+            self.<span class="fn">_move_to_head</span>(node)
+            <span class="kw">return</span>
+
+        node <span class="op">=</span> <span class="tp">Node</span>(key, value)
+        self.map[key] <span class="op">=</span> node
+        self.<span class="fn">_insert_at_head</span>(node)
+
+        <span class="kw">if</span> <span class="fn">len</span>(self.map) <span class="op">></span> self.capacity:
+            lru_node <span class="op">=</span> self.tail.prev      <span class="cmt"># LRU is always just before tail</span>
+            self.<span class="fn">_remove</span>(lru_node)
+            <span class="kw">del</span> self.map[lru_node.key]
+
+    <span class="cmt"># ─── DLL helpers ──────────────────────────────────────────</span>
+
+    <span class="kw">def</span> <span class="fn">_remove</span>(self, node: <span class="tp">Node</span>):
+        <span class="str">"""Unlink node from wherever it is in O(1)."""</span>
+        node.prev.next <span class="op">=</span> node.next
+        node.next.prev <span class="op">=</span> node.prev
+
+    <span class="kw">def</span> <span class="fn">_insert_at_head</span>(self, node: <span class="tp">Node</span>):
+        <span class="str">"""Insert node immediately after sentinel head (MRU position)."""</span>
+        node.prev       <span class="op">=</span> self.head
+        node.next       <span class="op">=</span> self.head.next
+        self.head.next.prev <span class="op">=</span> node
+        self.head.next  <span class="op">=</span> node
+
+    <span class="kw">def</span> <span class="fn">_move_to_head</span>(self, node: <span class="tp">Node</span>):
+        <span class="str">"""Re-promote node to MRU position."""</span>
+        self.<span class="fn">_remove</span>(node)
+        self.<span class="fn">_insert_at_head</span>(node)</pre>
+        </div>
+      </div>
+
+      <div class="sdiv"></div>
+
+      <div class="flow-label">Operation Trace — put(E) when cache is full (cap=4)</div>
+      <div class="flow" style="flex-direction:column;align-items:stretch;gap:6px">
+        <div style="display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);margin-bottom:4px">Before: HEAD ⟷ [D] ⟷ [B] ⟷ [A] ⟷ [C] ⟷ TAIL &nbsp;|&nbsp; C is LRU</div>
+        <div style="display:flex;align-items:center;gap:0">
+          <div class="fb fb-c" style="min-width:90px">1. put(E)<br><small>new key</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-r" style="min-width:90px">2. evict C<br><small>tail.prev</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-g" style="min-width:90px">3. del map[C]<br><small>HashMap</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-v" style="min-width:90px">4. insert E<br><small>at head</small></div>
+          <div class="arr">→</div>
+          <div class="fb fb-g" style="min-width:90px">5. map[E]=node<br><small>HashMap</small></div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:4px">After: HEAD ⟷ [E] ⟷ [D] ⟷ [B] ⟷ [A] ⟷ TAIL</div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-g"><div class="tip-title">✅ Sentinel nodes are worth the extra lines</div>Without sentinels, every insert/remove must null-check head and tail. Sentinels make <code style="font-family:'Space Mono',monospace;font-size:11px">_remove</code> and <code style="font-family:'Space Mono',monospace;font-size:11px">_insert_at_head</code> always valid with no conditionals.</div>
+        <div class="tip tip-r"><div class="tip-title">⚠️ Common bug: forgetting map deletion on evict</div>You remove from the DLL but forget <code style="font-family:'Space Mono',monospace;font-size:11px">del self.map[key]</code>. The node is gone from the list but still reachable from the map — a memory leak and a logical bug.</div>
+        <div class="tip tip-b"><div class="tip-title">💡 Python's OrderedDict is a built-in LRU</div><code style="font-family:'Space Mono',monospace;font-size:11px">OrderedDict</code> + <code style="font-family:'Space Mono',monospace;font-size:11px">move_to_end(key)</code> gives you a clean O(1) LRU in 10 lines. Also: <code style="font-family:'Space Mono',monospace;font-size:11px">functools.lru_cache</code> for function memoization.</div>
+        <div class="tip tip-o"><div class="tip-title">⏭️ In interviews, clarify: get() counts as a use?</div>Most LRU definitions say yes — a <code style="font-family:'Space Mono',monospace;font-size:11px">get()</code> promotes the key to MRU. Some variations only promote on <code style="font-family:'Space Mono',monospace;font-size:11px">put()</code>. State your assumption before coding.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Cache Eviction Policies — System Design Reference · March 2025</span>
+  <span><a href="#lru">↑ Top</a></span>
+</footer>
+
+<script>
+function sw(btn, id) {
+  const w = btn.closest('.toggle-wrap');
+  w.querySelectorAll('.ttab').forEach(t => t.classList.remove('active'));
+  w.querySelectorAll('.tcontent').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function tc(btn) {
+  const c = btn.closest('.code-block').querySelector('.code-content');
+  btn.textContent = c.classList.toggle('collapsed') ? 'Expand' : 'Collapse';
+}
+function cp(btn) {
+  const t = btn.closest('.code-block').querySelector('pre').innerText;
+  navigator.clipboard.writeText(t).then(() => {
+    const o = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = o, 1800);
+  });
+}
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+}), { threshold: 0.07 });
+document.querySelectorAll('.section-card').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

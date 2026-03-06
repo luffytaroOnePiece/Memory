@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caching Patterns — System Design Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0b0e14;
+  --bg-card: #111520;
+  --bg-card-hover: #151a27;
+  --bg-code: #080b10;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(99,179,237,0.4);
+  --accent-1: #63b3ed;
+  --accent-1-dim: rgba(99,179,237,0.12);
+  --accent-2: #68d391;
+  --accent-2-dim: rgba(104,211,145,0.1);
+  --accent-warn: #f6ad55;
+  --accent-warn-dim: rgba(246,173,85,0.1);
+  --accent-danger: #fc8181;
+  --accent-danger-dim: rgba(252,129,129,0.1);
+  --accent-purple: #b794f4;
+  --accent-purple-dim: rgba(183,148,244,0.1);
+  --text-primary: #e8edf5;
+  --text-secondary: #8b95a8;
+  --text-muted: #4a5568;
+  --syn-keyword: #b794f4;
+  --syn-function: #63b3ed;
+  --syn-string: #68d391;
+  --syn-number: #f6ad55;
+  --syn-comment: #4a5568;
+  --syn-type: #fbd38d;
+  --syn-op: #fc8181;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-bright) var(--bg-deep);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 3px; }
+
+::selection { background: rgba(99,179,237,0.25); color: var(--text-primary); }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 16px;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,179,237,0.07) 0%, transparent 60%),
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(11,14,20,0.97);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 52px;
+}
+.nav-logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem; font-weight: 500;
+  color: var(--accent-1); letter-spacing: 0.08em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--text-muted);
+  text-decoration: none; letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent-1); }
+
+/* HERO */
+.hero {
+  padding: 9rem 2rem 4rem;
+  max-width: 860px; margin: 0 auto;
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero.visible { opacity: 1; transform: none; }
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  color: var(--accent-1); text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.eyebrow::before {
+  content: ''; width: 24px; height: 1px; background: var(--accent-1);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800; color: var(--text-primary);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+h1 span { color: var(--accent-1); }
+
+.hero-sub {
+  font-size: 1.1rem; color: var(--text-secondary);
+  max-width: 560px; margin-bottom: 2rem;
+}
+
+.pills {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border); border-radius: 100px;
+  color: var(--text-muted); text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.pill:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+/* LAYOUT */
+.content { max-width: 860px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+/* INTRO CARD */
+.intro-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem;
+  margin-bottom: 3rem;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.intro-card.visible { opacity: 1; transform: none; }
+
+.intro-card h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 0.6rem;
+}
+.intro-card p { font-size: 0.95rem; line-height: 1.7; }
+
+.key-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem; margin-top: 1.5rem;
+}
+.key-item {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem;
+  transition: border-color 0.2s;
+}
+.key-item:hover { border-color: var(--border-bright); }
+.key-item .icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+.key-item strong {
+  display: block; font-family: 'Syne', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 0.2rem;
+}
+.key-item span { font-size: 0.8rem; color: var(--text-muted); }
+
+/* SECTION CARDS */
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px; margin-bottom: 2rem;
+  overflow: hidden;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+}
+.section-card.visible { opacity: 1; transform: none; }
+.section-card:hover { border-color: rgba(99,179,237,0.2); }
+
+.section-header {
+  padding: 1.6rem 2rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+}
+.section-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--accent-1);
+  letter-spacing: 0.1em; margin-bottom: 0.3rem;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.35rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 0.3rem;
+}
+.section-tagline { font-size: 0.88rem; color: var(--text-muted); }
+.badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; padding: 0.2rem 0.55rem;
+  border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+.badge-med { background: var(--accent-warn-dim); color: var(--accent-warn); border: 1px solid rgba(246,173,85,0.25); }
+.badge-low { background: var(--accent-2-dim); color: var(--accent-2); border: 1px solid rgba(104,211,145,0.25); }
+.badge-high { background: var(--accent-danger-dim); color: var(--accent-danger); border: 1px solid rgba(252,129,129,0.25); }
+
+.section-body { padding: 1.6rem 2rem; }
+
+/* INFO GRID */
+.info-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem;
+}
+.info-cell {
+  background: var(--bg-deep); padding: 1rem 1.1rem;
+}
+.info-cell .label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.info-cell p { font-size: 0.85rem; line-height: 1.55; }
+
+/* FLOW DIAGRAM */
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin-bottom: 1.5rem; }
+.flow-box {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; padding: 0.55rem 0.85rem;
+  border-radius: 6px; white-space: nowrap;
+  transition: border-color 0.2s;
+}
+.flow-box.app { border: 1px solid rgba(183,148,244,0.4); background: var(--accent-purple-dim); color: var(--accent-purple); }
+.flow-box.cache { border: 1px solid rgba(99,179,237,0.4); background: var(--accent-1-dim); color: var(--accent-1); }
+.flow-box.db { border: 1px solid rgba(104,211,145,0.4); background: var(--accent-2-dim); color: var(--accent-2); }
+.flow-box.async { border: 1px solid rgba(246,173,85,0.4); background: var(--accent-warn-dim); color: var(--accent-warn); }
+.flow-arrow {
+  font-size: 0.8rem; color: var(--text-muted);
+  padding: 0 0.4rem; display: flex; flex-direction: column;
+  align-items: center; gap: 0.1rem;
+}
+.flow-arrow small {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; color: var(--text-muted); white-space: nowrap;
+}
+.flow-branch {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.flow-branch-row { display: flex; align-items: center; }
+
+/* CODE BLOCK */
+.code-wrap { margin-bottom: 1.5rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.code-header {
+  background: #0d1017; padding: 0.6rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.code-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.08em;
+}
+.code-actions { display: flex; gap: 0.5rem; }
+.btn-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; padding: 0.2rem 0.5rem;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); border-radius: 4px; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-code:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+.code-body {
+  background: var(--bg-code);
+  max-height: 340px; overflow: auto;
+  transition: max-height 0.35s ease;
+}
+.code-body.collapsed { max-height: 0; }
+pre {
+  padding: 1.2rem 1.2rem 1.2rem 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; line-height: 1.7;
+  white-space: pre; overflow-x: auto;
+  counter-reset: line;
+}
+.line {
+  display: flex;
+}
+.ln {
+  width: 2.8rem; text-align: right;
+  padding-right: 1.2rem; color: #2d3748;
+  user-select: none; flex-shrink: 0;
+}
+.code-text { flex: 1; }
+.kw { color: var(--syn-keyword); }
+.fn { color: var(--syn-function); }
+.str { color: var(--syn-string); }
+.num { color: var(--syn-number); }
+.cmt { color: var(--syn-comment); font-style: italic; }
+.type { color: var(--syn-type); }
+.op { color: var(--syn-op); }
+.plain { color: #c9d1e0; }
+
+/* TIPS GRID */
+.tips-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+.tip-item {
+  padding: 0.9rem 1rem; border-radius: 8px;
+  font-size: 0.83rem; line-height: 1.5;
+}
+.tip-item strong { display: block; font-size: 0.75rem; margin-bottom: 0.2rem; }
+.tip-perf { background: var(--accent-2-dim); border: 1px solid rgba(104,211,145,0.25); }
+.tip-perf strong { color: var(--accent-2); }
+.tip-warn { background: var(--accent-danger-dim); border: 1px solid rgba(252,129,129,0.25); }
+.tip-warn strong { color: var(--accent-danger); }
+.tip-pro { background: var(--accent-1-dim); border: 1px solid rgba(99,179,237,0.25); }
+.tip-pro strong { color: var(--accent-1); }
+.tip-skip { background: var(--accent-warn-dim); border: 1px solid rgba(246,173,85,0.25); }
+.tip-skip strong { color: var(--accent-warn); }
+
+/* TOGGLE */
+.toggle-wrap { display: flex; gap: 0; margin-bottom: 1.2rem; }
+.toggle-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.06em;
+  padding: 0.3rem 0.8rem; cursor: pointer;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); transition: all 0.15s;
+}
+.toggle-btn:first-child { border-radius: 4px 0 0 4px; }
+.toggle-btn:last-child { border-radius: 0 4px 4px 0; border-left: none; }
+.toggle-btn.active {
+  background: var(--accent-1-dim); border-color: var(--accent-1);
+  color: var(--accent-1);
+}
+
+.level-content { display: none; }
+.level-content.active { display: block; }
+
+/* SUMMARY TABLE */
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem;
+  margin-bottom: 3rem;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.summary-card.visible { opacity: 1; transform: none; }
+.summary-card h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 1.2rem;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); padding: 0.6rem 1rem;
+  text-align: left; border-bottom: 1px solid var(--border);
+}
+td {
+  font-size: 0.85rem; padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+td:first-child {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; color: var(--accent-1);
+}
+
+.highlight-row td { background: rgba(99,179,237,0.04); }
+.highlight-row:hover td { background: rgba(99,179,179,0.07); }
+
+/* NOTE BOX */
+.note-box {
+  background: var(--accent-1-dim);
+  border: 1px solid rgba(99,179,237,0.25);
+  border-left: 3px solid var(--accent-1);
+  border-radius: 6px; padding: 0.9rem 1.1rem;
+  font-size: 0.85rem; margin-top: 1.2rem;
+  color: var(--text-secondary);
+}
+.note-box strong { color: var(--accent-1); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  max-width: 860px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+footer span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .key-grid { grid-template-columns: repeat(2, 1fr); }
+  .section-header { flex-direction: column; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0 1rem; }
+  .nav-links { display: none; }
+  .hero { padding: 6rem 1rem 3rem; }
+  .content { padding: 0 1rem 4rem; }
+  h1 { font-size: 2rem; }
+  .section-body, .section-header { padding: 1.2rem; }
+  footer { padding: 1rem; }
+}
+
+/* FOCUS */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent-1); outline-offset: 2px; border-radius: 2px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">SYS.DESIGN // CACHING</a>
+  <div class="nav-links">
+    <a href="#patterns">Patterns</a>
+    <a href="#cache-aside">Cache-Aside</a>
+    <a href="#read-through">Read-Through</a>
+    <a href="#write-through">Write-Through</a>
+    <a href="#write-back">Write-Back</a>
+    <a href="#summary">Summary</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="eyebrow">SYSTEM DESIGN · CACHING</div>
+  <h1>Caching <span>Patterns</span></h1>
+  <p class="hero-sub">Four foundational strategies for integrating a cache layer between your application and database — with tradeoffs, use cases, and working code.</p>
+  <div class="pills">
+    <a class="pill" href="#cache-aside">→ Cache-Aside</a>
+    <a class="pill" href="#read-through">→ Read-Through</a>
+    <a class="pill" href="#write-through">→ Write-Through</a>
+    <a class="pill" href="#write-back">→ Write-Back</a>
+    <a class="pill" href="#summary">→ Compare All</a>
+  </div>
+</section>
+
+<main class="content" id="patterns">
+
+  <div class="intro-card">
+    <h2>Why caching patterns matter</h2>
+    <p>A cache is only as effective as how you keep it synchronized with your source of truth. Each pattern makes different tradeoffs between <strong style="color:var(--text-primary)">consistency</strong>, <strong style="color:var(--text-primary)">complexity</strong>, and <strong style="color:var(--text-primary)">throughput</strong>. Choosing the wrong pattern can lead to stale data bugs or wasted write overhead that negates your performance gains.</p>
+    <div class="key-grid">
+      <div class="key-item">
+        <div class="icon">⚡</div>
+        <strong>Reduce Latency</strong>
+        <span>Serve hot data from memory instead of disk-backed DBs</span>
+      </div>
+      <div class="key-item">
+        <div class="icon">🛡️</div>
+        <strong>Shield the DB</strong>
+        <span>Absorb read/write load before it hits your database</span>
+      </div>
+      <div class="key-item">
+        <div class="icon">♻️</div>
+        <strong>Manage Staleness</strong>
+        <span>Each pattern handles cache invalidation differently</span>
+      </div>
+      <div class="key-item">
+        <div class="icon">📐</div>
+        <strong>Match Your Workload</strong>
+        <span>Read-heavy vs write-heavy apps need different strategies</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CACHE-ASIDE ─── -->
+  <div class="section-card" id="cache-aside">
+    <div class="section-header">
+      <div>
+        <div class="section-num">PATTERN 01</div>
+        <div class="section-title">Cache-Aside</div>
+        <div class="section-tagline">The application manages the cache explicitly — lazy loading on demand</div>
+      </div>
+      <span class="badge badge-low">MOST COMMON</span>
+    </div>
+    <div class="section-body">
+
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" onclick="toggle(this,'ca-b','ca-a')">Fundamentals</button>
+        <button class="toggle-btn" onclick="toggle(this,'ca-a','ca-b')">Advanced</button>
+      </div>
+
+      <div class="level-content active" id="ca-b">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">What it is</div>
+            <p>The app checks the cache first. On a miss, it fetches from the DB and writes the result back into the cache for future requests.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Why use it</div>
+            <p>Only loads data that is actually requested. The cache never stores data nobody needs — great for large datasets with skewed access.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Real-world use case</div>
+            <p>User profile pages on a social platform. Most profiles are cold; only popular or recently active ones stay warm in cache.</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-box app">App</div>
+          <div class="flow-arrow">→<small>check</small></div>
+          <div class="flow-box cache">Cache</div>
+          <div class="flow-arrow" style="flex-direction:column;padding:0 0.3rem;">
+            <span style="color:var(--accent-2);font-size:0.7rem;">HIT ↓</span>
+            <span style="color:var(--accent-danger);font-size:0.7rem;">MISS →</span>
+          </div>
+          <div class="flow-branch">
+            <div class="flow-branch-row">
+              <div class="flow-box db" style="opacity:0.4;font-size:0.65rem;padding:0.4rem 0.7rem;">skip DB</div>
+            </div>
+            <div class="flow-branch-row" style="gap:0;">
+              <div class="flow-box db">DB</div>
+              <div class="flow-arrow">→<small>populate</small></div>
+              <div class="flow-box cache" style="opacity:0.7;">Cache</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-content" id="ca-a">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">Thundering Herd</div>
+            <p>A cache miss under heavy load causes many concurrent requests to hit the DB simultaneously. Mitigate with mutex locks or probabilistic early expiry.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Stale Data Window</div>
+            <p>Data updated in the DB is not immediately reflected in the cache. Use TTL + explicit invalidation on writes to bound staleness.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Cold Start Problem</div>
+            <p>After a restart or cache flush, every request is a miss. Pre-warm the cache with top-N records during deploy or use a persistent cache layer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-label">PYTHON · CACHE-ASIDE WITH REDIS</span>
+          <div class="code-actions">
+            <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+            <button class="btn-code" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+        <div class="code-body">
+<pre><div class="line"><span class="ln">1</span><span class="code-text"><span class="kw">import</span> <span class="plain">json</span></span></div>
+<div class="line"><span class="ln">2</span><span class="code-text"><span class="kw">import</span> <span class="plain">redis</span></span></div>
+<div class="line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">4</span><span class="code-text"><span class="plain">cache </span><span class="op">=</span> <span class="fn">redis.Redis</span><span class="plain">(host</span><span class="op">=</span><span class="str">"localhost"</span><span class="plain">, port</span><span class="op">=</span><span class="num">6379</span><span class="plain">, decode_responses</span><span class="op">=</span><span class="kw">True</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">5</span><span class="code-text"><span class="type">TTL</span> <span class="op">=</span> <span class="num">300</span>  <span class="cmt"># 5 minutes</span></span></div>
+<div class="line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">7</span><span class="code-text"><span class="kw">def</span> <span class="fn">get_user</span><span class="plain">(user_id: </span><span class="type">int</span><span class="plain">, db_session) </span><span class="op">-&gt;</span> <span class="type">dict</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">8</span><span class="code-text">    <span class="plain">key </span><span class="op">=</span> <span class="fn">f</span><span class="str">"user:{user_id}"</span></span></div>
+<div class="line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">10</span><span class="code-text">    <span class="cmt"># 1. Check cache first</span></span></div>
+<div class="line"><span class="ln">11</span><span class="code-text">    <span class="plain">cached </span><span class="op">=</span> <span class="plain">cache.</span><span class="fn">get</span><span class="plain">(key)</span></span></div>
+<div class="line"><span class="ln">12</span><span class="code-text">    <span class="kw">if</span> <span class="plain">cached:</span></span></div>
+<div class="line"><span class="ln">13</span><span class="code-text">        <span class="kw">return</span> <span class="plain">json.</span><span class="fn">loads</span><span class="plain">(cached)  </span><span class="cmt"># Cache HIT</span></span></div>
+<div class="line"><span class="ln">14</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">15</span><span class="code-text">    <span class="cmt"># 2. Cache MISS — fetch from database</span></span></div>
+<div class="line"><span class="ln">16</span><span class="code-text">    <span class="plain">user </span><span class="op">=</span> <span class="plain">db_session.</span><span class="fn">query</span><span class="plain">(User).</span><span class="fn">filter_by</span><span class="plain">(id</span><span class="op">=</span><span class="plain">user_id).</span><span class="fn">first</span><span class="plain">()</span></span></div>
+<div class="line"><span class="ln">17</span><span class="code-text">    <span class="kw">if not</span> <span class="plain">user:</span></span></div>
+<div class="line"><span class="ln">18</span><span class="code-text">        <span class="kw">return None</span></span></div>
+<div class="line"><span class="ln">19</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">20</span><span class="code-text">    <span class="cmt"># 3. Populate cache for subsequent reads</span></span></div>
+<div class="line"><span class="ln">21</span><span class="code-text">    <span class="plain">user_data </span><span class="op">=</span> <span class="plain">user.</span><span class="fn">to_dict</span><span class="plain">()</span></span></div>
+<div class="line"><span class="ln">22</span><span class="code-text">    <span class="plain">cache.</span><span class="fn">setex</span><span class="plain">(key, </span><span class="type">TTL</span><span class="plain">, json.</span><span class="fn">dumps</span><span class="plain">(user_data))</span></span></div>
+<div class="line"><span class="ln">23</span><span class="code-text">    <span class="kw">return</span> <span class="plain">user_data</span></span></div>
+<div class="line"><span class="ln">24</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">25</span><span class="code-text"><span class="kw">def</span> <span class="fn">update_user</span><span class="plain">(user_id: </span><span class="type">int</span><span class="plain">, data: </span><span class="type">dict</span><span class="plain">, db_session) </span><span class="op">-&gt;</span> <span class="kw">None</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">26</span><span class="code-text">    <span class="cmt"># Write to DB first, then invalidate cache</span></span></div>
+<div class="line"><span class="ln">27</span><span class="code-text">    <span class="plain">db_session.</span><span class="fn">query</span><span class="plain">(User).</span><span class="fn">filter_by</span><span class="plain">(id</span><span class="op">=</span><span class="plain">user_id).</span><span class="fn">update</span><span class="plain">(data)</span></span></div>
+<div class="line"><span class="ln">28</span><span class="code-text">    <span class="plain">db_session.</span><span class="fn">commit</span><span class="plain">()</span></span></div>
+<div class="line"><span class="ln">29</span><span class="code-text">    <span class="plain">cache.</span><span class="fn">delete</span><span class="plain">(</span><span class="fn">f</span><span class="str">"user:{user_id}"</span><span class="plain">)  </span><span class="cmt"># Invalidate stale entry</span></span></div></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-item tip-perf"><strong>✅ Performance tip</strong>Use pipeline/batch gets in Redis to fetch multiple keys in a single round-trip for list views.</div>
+        <div class="tip-item tip-warn"><strong>⚠️ Common mistake</strong>Forgetting to invalidate the cache on writes. Stale reads will persist until TTL expiry.</div>
+        <div class="tip-item tip-pro"><strong>💡 Pro tip</strong>Add jitter to TTLs (e.g., base ± 30s) to prevent cache stampedes when many keys expire at once.</div>
+        <div class="tip-item tip-skip"><strong>⏭️ When to skip</strong>When you need guaranteed consistency — a missed invalidation means stale reads until TTL.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── READ-THROUGH ─── -->
+  <div class="section-card" id="read-through">
+    <div class="section-header">
+      <div>
+        <div class="section-num">PATTERN 02</div>
+        <div class="section-title">Read-Through</div>
+        <div class="section-tagline">The cache itself fetches missing data from the DB — transparent to the application</div>
+      </div>
+      <span class="badge badge-med">INTERMEDIATE</span>
+    </div>
+    <div class="section-body">
+
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" onclick="toggle(this,'rt-b','rt-a')">Fundamentals</button>
+        <button class="toggle-btn" onclick="toggle(this,'rt-a','rt-b')">Advanced</button>
+      </div>
+
+      <div class="level-content active" id="rt-b">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">What it is</div>
+            <p>The application always reads from the cache. When the cache misses, it automatically loads data from the DB and stores it — the app never touches the DB directly.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Why use it</div>
+            <p>Keeps the caching logic centralized in the cache layer rather than scattered in every service. Simpler application code at the cost of a smarter cache.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Real-world use case</div>
+            <p>CDN edge caches: the edge node fetches the origin on a miss and serves all future requests for that asset — the client always talks to the CDN.</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-box app">App</div>
+          <div class="flow-arrow">→<small>always reads</small></div>
+          <div class="flow-box cache">Cache Layer</div>
+          <div class="flow-arrow">→<small>on miss only</small></div>
+          <div class="flow-box db">DB</div>
+          <div class="flow-arrow">→<small>auto-populate</small></div>
+          <div class="flow-box cache" style="opacity:0.7;">Cache Layer</div>
+        </div>
+      </div>
+
+      <div class="level-content" id="rt-a">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">Requires Smart Cache</div>
+            <p>The cache provider must support a configurable "loader" callback. Redis alone doesn't do this — you need a library like Spring Cache, Guava, or Caffeine.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">First-Request Penalty</div>
+            <p>First access is always a cache miss with full DB latency. Consider pre-warming on startup or combining with write-through to ensure initial data is already cached.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">vs. Cache-Aside</div>
+            <p>Read-through is conceptually identical to cache-aside — the key difference is who populates the cache: the cache library (read-through) vs. the application (cache-aside).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-label">JAVA · READ-THROUGH WITH SPRING CACHE</span>
+          <div class="code-actions">
+            <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+            <button class="btn-code" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+        <div class="code-body">
+<pre><div class="line"><span class="ln">1</span><span class="code-text"><span class="cmt">// Spring's @Cacheable = read-through pattern</span></span></div>
+<div class="line"><span class="ln">2</span><span class="code-text"><span class="cmt">// Cache populates automatically on miss — no manual logic needed</span></span></div>
+<div class="line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">4</span><span class="code-text"><span class="plain">@Service</span></span></div>
+<div class="line"><span class="ln">5</span><span class="code-text"><span class="kw">public class</span> <span class="type">UserService</span> <span class="plain">{</span></span></div>
+<div class="line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">7</span><span class="code-text">    <span class="plain">@Autowired</span></span></div>
+<div class="line"><span class="ln">8</span><span class="code-text">    <span class="kw">private</span> <span class="type">UserRepository</span> <span class="plain">repo;</span></span></div>
+<div class="line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">10</span><span class="code-text">    <span class="cmt">// Cache key: "users::42"</span></span></div>
+<div class="line"><span class="ln">11</span><span class="code-text">    <span class="plain">@Cacheable(value </span><span class="op">=</span> <span class="str">"users"</span><span class="plain">, key </span><span class="op">=</span> <span class="str">"#userId"</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">12</span><span class="code-text">    <span class="kw">public</span> <span class="type">User</span> <span class="fn">getUser</span><span class="plain">(</span><span class="type">Long</span> <span class="plain">userId) {</span></span></div>
+<div class="line"><span class="ln">13</span><span class="code-text">        <span class="cmt">// Only called on cache miss — framework handles the rest</span></span></div>
+<div class="line"><span class="ln">14</span><span class="code-text">        <span class="kw">return</span> <span class="plain">repo.</span><span class="fn">findById</span><span class="plain">(userId)</span></span></div>
+<div class="line"><span class="ln">15</span><span class="code-text">                   <span class="plain">.</span><span class="fn">orElseThrow</span><span class="plain">(() </span><span class="op">-&gt;</span> <span class="kw">new</span> <span class="fn">UserNotFoundException</span><span class="plain">(userId));</span></span></div>
+<div class="line"><span class="ln">16</span><span class="code-text">    <span class="plain">}</span></span></div>
+<div class="line"><span class="ln">17</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">18</span><span class="code-text">    <span class="plain">@CacheEvict(value </span><span class="op">=</span> <span class="str">"users"</span><span class="plain">, key </span><span class="op">=</span> <span class="str">"#user.id"</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">19</span><span class="code-text">    <span class="kw">public</span> <span class="type">User</span> <span class="fn">updateUser</span><span class="plain">(</span><span class="type">User</span> <span class="plain">user) {</span></span></div>
+<div class="line"><span class="ln">20</span><span class="code-text">        <span class="kw">return</span> <span class="plain">repo.</span><span class="fn">save</span><span class="plain">(user);  </span><span class="cmt">// Evicts stale cache entry on save</span></span></div>
+<div class="line"><span class="ln">21</span><span class="code-text">    <span class="plain">}</span></span></div>
+<div class="line"><span class="ln">22</span><span class="code-text"><span class="plain">}</span></span></div></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-item tip-perf"><strong>✅ Performance tip</strong>Combine with write-through so the cache is always warm on the first read after a write.</div>
+        <div class="tip-item tip-warn"><strong>⚠️ Common mistake</strong>Caching null results from the DB. A missing key will hammer the DB on every request — use a sentinel value.</div>
+        <div class="tip-item tip-pro"><strong>💡 Pro tip</strong>Use <code style="font-family:IBM Plex Mono,monospace;font-size:0.8em;color:var(--accent-1)">@CachePut</code> over <code style="font-family:IBM Plex Mono,monospace;font-size:0.8em;color:var(--accent-1)">@CacheEvict</code> after writes to avoid a cold-miss penalty on the next read.</div>
+        <div class="tip-item tip-skip"><strong>⏭️ When to skip</strong>If your cache layer doesn't support custom loaders. Without that, you're just doing cache-aside in a trenchcoat.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── WRITE-THROUGH ─── -->
+  <div class="section-card" id="write-through">
+    <div class="section-header">
+      <div>
+        <div class="section-num">PATTERN 03</div>
+        <div class="section-title">Write-Through</div>
+        <div class="section-tagline">Every write goes to both the cache and DB simultaneously — consistency first</div>
+      </div>
+      <span class="badge badge-med">INTERMEDIATE</span>
+    </div>
+    <div class="section-body">
+
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" onclick="toggle(this,'wt-b','wt-a')">Fundamentals</button>
+        <button class="toggle-btn" onclick="toggle(this,'wt-a','wt-b')">Advanced</button>
+      </div>
+
+      <div class="level-content active" id="wt-b">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">What it is</div>
+            <p>Writes are synchronously applied to both cache and database. The operation only completes when both stores have acknowledged the write.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Why use it</div>
+            <p>Cache is never stale — reads after a write always get fresh data. Eliminates the invalidation problem entirely for write paths.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Real-world use case</div>
+            <p>Financial account balances or inventory counts where a stale read could have real consequences — correctness outweighs write latency.</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-box app">App</div>
+          <div class="flow-arrow">→<small>writes to both</small></div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div class="flow-box cache">Cache</div>
+            <div class="flow-box db">DB</div>
+          </div>
+          <div class="flow-arrow">←<small>both ack</small></div>
+          <div class="flow-box app" style="opacity:0.7;">App ✓</div>
+        </div>
+      </div>
+
+      <div class="level-content" id="wt-a">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">Write Amplification</div>
+            <p>Every write hits two stores, increasing write latency and load. For write-heavy workloads this overhead can negate read benefits — profile first.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Wasted Cache Space</div>
+            <p>Data written once and never read again still occupies cache memory. Pair with TTL-based eviction to reclaim space for cold write paths.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Partial Failure</div>
+            <p>If DB write succeeds but cache write fails, or vice versa, you have inconsistency. Wrap in a transaction or use optimistic locking strategies.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-label">TYPESCRIPT · WRITE-THROUGH WITH REDIS</span>
+          <div class="code-actions">
+            <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+            <button class="btn-code" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+        <div class="code-body">
+<pre><div class="line"><span class="ln">1</span><span class="code-text"><span class="kw">import</span> <span class="plain">{ createClient } </span><span class="kw">from</span> <span class="str">"redis"</span><span class="plain">;</span></span></div>
+<div class="line"><span class="ln">2</span><span class="code-text"><span class="kw">import</span> <span class="plain">{ db } </span><span class="kw">from</span> <span class="str">"./database"</span><span class="plain">;</span></span></div>
+<div class="line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">4</span><span class="code-text"><span class="kw">const</span> <span class="plain">cache </span><span class="op">=</span> <span class="fn">createClient</span><span class="plain">();</span></span></div>
+<div class="line"><span class="ln">5</span><span class="code-text"><span class="kw">const</span> <span class="plain">TTL </span><span class="op">=</span> <span class="num">600</span><span class="plain">; </span><span class="cmt">// 10 minutes</span></span></div>
+<div class="line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">7</span><span class="code-text"><span class="cmt">// Write-through: both stores updated before returning</span></span></div>
+<div class="line"><span class="ln">8</span><span class="code-text"><span class="kw">async function</span> <span class="fn">updateInventory</span><span class="plain">(</span></span></div>
+<div class="line"><span class="ln">9</span><span class="code-text">  <span class="plain">itemId: </span><span class="type">string</span><span class="plain">,</span></span></div>
+<div class="line"><span class="ln">10</span><span class="code-text">  <span class="plain">quantity: </span><span class="type">number</span></span></div>
+<div class="line"><span class="ln">11</span><span class="code-text"><span class="plain">): </span><span class="type">Promise</span><span class="plain">&lt;</span><span class="type">void</span><span class="plain">&gt; {</span></span></div>
+<div class="line"><span class="ln">12</span><span class="code-text">  <span class="kw">const</span> <span class="plain">key </span><span class="op">=</span> <span class="fn">`inventory:${itemId}`</span><span class="plain">;</span></span></div>
+<div class="line"><span class="ln">13</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">14</span><span class="code-text">  <span class="cmt">// Both writes in parallel — only return when both succeed</span></span></div>
+<div class="line"><span class="ln">15</span><span class="code-text">  <span class="kw">await</span> <span class="type">Promise</span><span class="plain">.</span><span class="fn">all</span><span class="plain">([</span></span></div>
+<div class="line"><span class="ln">16</span><span class="code-text">    <span class="plain">cache.</span><span class="fn">setEx</span><span class="plain">(key, TTL, </span><span class="type">String</span><span class="plain">(quantity)),</span></span></div>
+<div class="line"><span class="ln">17</span><span class="code-text">    <span class="plain">db.</span><span class="fn">execute</span><span class="plain">(</span></span></div>
+<div class="line"><span class="ln">18</span><span class="code-text">      <span class="str">"UPDATE inventory SET qty = $1 WHERE id = $2"</span><span class="plain">,</span></span></div>
+<div class="line"><span class="ln">19</span><span class="code-text">      <span class="plain">[quantity, itemId]</span></span></div>
+<div class="line"><span class="ln">20</span><span class="code-text">    <span class="plain">),</span></span></div>
+<div class="line"><span class="ln">21</span><span class="code-text">  <span class="plain">]);</span></span></div>
+<div class="line"><span class="ln">22</span><span class="code-text"><span class="plain">}</span></span></div>
+<div class="line"><span class="ln">23</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">24</span><span class="code-text"><span class="kw">async function</span> <span class="fn">getInventory</span><span class="plain">(itemId: </span><span class="type">string</span><span class="plain">): </span><span class="type">Promise</span><span class="plain">&lt;</span><span class="type">number</span><span class="plain">&gt; {</span></span></div>
+<div class="line"><span class="ln">25</span><span class="code-text">  <span class="kw">const</span> <span class="plain">cached </span><span class="op">=</span> <span class="kw">await</span> <span class="plain">cache.</span><span class="fn">get</span><span class="plain">(</span><span class="fn">`inventory:${itemId}`</span><span class="plain">);</span></span></div>
+<div class="line"><span class="ln">26</span><span class="code-text">  <span class="cmt">// Since write-through guarantees freshness, always trust cache</span></span></div>
+<div class="line"><span class="ln">27</span><span class="code-text">  <span class="kw">return</span> <span class="plain">cached </span><span class="op">!==</span> <span class="kw">null </span><span class="op">?</span> <span class="fn">parseInt</span><span class="plain">(cached) : </span><span class="fn">fetchFromDB</span><span class="plain">(itemId);</span></span></div>
+<div class="line"><span class="ln">28</span><span class="code-text"><span class="plain">}</span></span></div></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-item tip-perf"><strong>✅ Performance tip</strong>Run cache and DB writes in parallel with <code style="font-family:IBM Plex Mono,monospace;font-size:0.8em;color:var(--accent-1)">Promise.all</code> to avoid double-latency on the write path.</div>
+        <div class="tip-item tip-warn"><strong>⚠️ Common mistake</strong>Using write-through for write-heavy workloads with no benefit from caching reads — you pay double write cost for nothing.</div>
+        <div class="tip-item tip-pro"><strong>💡 Pro tip</strong>Combine with read-through: writes go through write-through, reads go through read-through. Fully transparent to the app layer.</div>
+        <div class="tip-item tip-skip"><strong>⏭️ When to skip</strong>High write throughput use cases — the doubled write latency will become a bottleneck. Use write-back instead.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── WRITE-BACK ─── -->
+  <div class="section-card" id="write-back">
+    <div class="section-header">
+      <div>
+        <div class="section-num">PATTERN 04</div>
+        <div class="section-title">Write-Back <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--text-muted)">/ Write-Behind</span></div>
+        <div class="section-tagline">Writes hit the cache immediately; DB is updated asynchronously in the background</div>
+      </div>
+      <span class="badge badge-high">COMPLEX</span>
+    </div>
+    <div class="section-body">
+
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" onclick="toggle(this,'wb-b','wb-a')">Fundamentals</button>
+        <button class="toggle-btn" onclick="toggle(this,'wb-a','wb-b')">Advanced</button>
+      </div>
+
+      <div class="level-content active" id="wb-b">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">What it is</div>
+            <p>Writes are acknowledged as soon as they land in the cache. A background worker (or queue) asynchronously flushes dirty cache entries to the database.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Why use it</div>
+            <p>Write latency approaches cache speed (microseconds) instead of DB speed (milliseconds). Burst writes are absorbed and batched, reducing DB write amplification.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Real-world use case</div>
+            <p>Gaming leaderboards or view counters. Thousands of score updates per second hit cache; DB is updated every few seconds with the latest aggregated values.</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-box app">App</div>
+          <div class="flow-arrow">→<small>instant ack</small></div>
+          <div class="flow-box cache">Cache</div>
+          <div class="flow-arrow">→<small>async / batch</small></div>
+          <div class="flow-box async">Queue</div>
+          <div class="flow-arrow">→<small>flush</small></div>
+          <div class="flow-box db">DB</div>
+        </div>
+      </div>
+
+      <div class="level-content" id="wb-a">
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="label">Data Loss Risk</div>
+            <p>If the cache node crashes before flushing, unflushed writes are lost. Mitigate with AOF persistence in Redis or by writing to a durable write-ahead log first.</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Dirty Tracking</div>
+            <p>You must track which cache entries are "dirty" (unflushed). Redis doesn't do this natively — implement via a secondary set of dirty keys or a message queue (Kafka, SQS).</p>
+          </div>
+          <div class="info-cell">
+            <div class="label">Operational Complexity</div>
+            <p>You need a reliable background worker with retry logic, dead-letter handling, and monitoring. A bug in the flusher can silently drop writes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-label">PYTHON · WRITE-BACK WITH DIRTY KEY TRACKING</span>
+          <div class="code-actions">
+            <button class="btn-code" onclick="toggleCode(this)">collapse</button>
+            <button class="btn-code" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+        <div class="code-body">
+<pre><div class="line"><span class="ln">1</span><span class="code-text"><span class="kw">import</span> <span class="plain">threading, time, json</span></span></div>
+<div class="line"><span class="ln">2</span><span class="code-text"><span class="kw">import</span> <span class="plain">redis</span></span></div>
+<div class="line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">4</span><span class="code-text"><span class="plain">cache </span><span class="op">=</span> <span class="fn">redis.Redis</span><span class="plain">(decode_responses</span><span class="op">=</span><span class="kw">True</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">5</span><span class="code-text"><span class="type">DIRTY_SET</span> <span class="op">=</span> <span class="str">"dirty_keys"</span>  <span class="cmt"># Redis set tracking unflushed keys</span></span></div>
+<div class="line"><span class="ln">6</span><span class="code-text"><span class="type">FLUSH_INTERVAL</span> <span class="op">=</span> <span class="num">5</span>          <span class="cmt"># Flush every 5 seconds</span></span></div>
+<div class="line"><span class="ln">7</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">8</span><span class="code-text"><span class="kw">def</span> <span class="fn">write_score</span><span class="plain">(user_id: </span><span class="type">str</span><span class="plain">, score: </span><span class="type">int</span><span class="plain">) </span><span class="op">-&gt;</span> <span class="kw">None</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">9</span><span class="code-text">    <span class="plain">key </span><span class="op">=</span> <span class="fn">f</span><span class="str">"score:{user_id}"</span></span></div>
+<div class="line"><span class="ln">10</span><span class="code-text">    <span class="cmt"># Step 1: Write to cache atomically, mark dirty</span></span></div>
+<div class="line"><span class="ln">11</span><span class="code-text">    <span class="plain">pipe </span><span class="op">=</span> <span class="plain">cache.</span><span class="fn">pipeline</span><span class="plain">()</span></span></div>
+<div class="line"><span class="ln">12</span><span class="code-text">    <span class="plain">pipe.</span><span class="fn">set</span><span class="plain">(key, score)</span></span></div>
+<div class="line"><span class="ln">13</span><span class="code-text">    <span class="plain">pipe.</span><span class="fn">sadd</span><span class="plain">(</span><span class="type">DIRTY_SET</span><span class="plain">, key)   </span><span class="cmt"># Mark for background flush</span></span></div>
+<div class="line"><span class="ln">14</span><span class="code-text">    <span class="plain">pipe.</span><span class="fn">execute</span><span class="plain">()             </span><span class="cmt"># Atomic — returns immediately</span></span></div>
+<div class="line"><span class="ln">15</span><span class="code-text"></span></div>
+<div class="line"><span class="ln">16</span><span class="code-text"><span class="kw">def</span> <span class="fn">background_flusher</span><span class="plain">(db_session) </span><span class="op">-&gt;</span> <span class="kw">None</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">17</span><span class="code-text">    <span class="cmt">"""Runs in a separate thread, periodically syncs to DB."""</span></span></div>
+<div class="line"><span class="ln">18</span><span class="code-text">    <span class="kw">while True</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">19</span><span class="code-text">        <span class="plain">time.</span><span class="fn">sleep</span><span class="plain">(</span><span class="type">FLUSH_INTERVAL</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">20</span><span class="code-text">        <span class="cmt"># Step 2: Pop all dirty keys and flush to DB</span></span></div>
+<div class="line"><span class="ln">21</span><span class="code-text">        <span class="plain">dirty_keys </span><span class="op">=</span> <span class="plain">cache.</span><span class="fn">smembers</span><span class="plain">(</span><span class="type">DIRTY_SET</span><span class="plain">)</span></span></div>
+<div class="line"><span class="ln">22</span><span class="code-text">        <span class="kw">for</span> <span class="plain">key </span><span class="kw">in</span> <span class="plain">dirty_keys:</span></span></div>
+<div class="line"><span class="ln">23</span><span class="code-text">            <span class="plain">value </span><span class="op">=</span> <span class="plain">cache.</span><span class="fn">get</span><span class="plain">(key)</span></span></div>
+<div class="line"><span class="ln">24</span><span class="code-text">            <span class="kw">if</span> <span class="plain">value </span><span class="kw">is not None</span><span class="plain">:</span></span></div>
+<div class="line"><span class="ln">25</span><span class="code-text">                <span class="plain">user_id </span><span class="op">=</span> <span class="plain">key.</span><span class="fn">split</span><span class="plain">(</span><span class="str">":"</span><span class="plain">)[</span><span class="num">1</span><span class="plain">]</span></span></div>
+<div class="line"><span class="ln">26</span><span class="code-text">                <span class="plain">db_session.</span><span class="fn">execute</span><span class="plain">(</span></span></div>
+<div class="line"><span class="ln">27</span><span class="code-text">                    <span class="str">"UPDATE scores SET val=$1 WHERE uid=$2"</span><span class="plain">,</span></span></div>
+<div class="line"><span class="ln">28</span><span class="code-text">                    <span class="plain">[value, user_id]</span></span></div>
+<div class="line"><span class="ln">29</span><span class="code-text">                <span class="plain">)</span></span></div>
+<div class="line"><span class="ln">30</span><span class="code-text">        <span class="plain">cache.</span><span class="fn">srem</span><span class="plain">(</span><span class="type">DIRTY_SET</span><span class="plain">, </span><span class="op">*</span><span class="plain">dirty_keys)  </span><span class="cmt"># Clear after successful flush</span></span></div></pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-item tip-perf"><strong>✅ Performance tip</strong>Batch your DB flushes using <code style="font-family:IBM Plex Mono,monospace;font-size:0.8em;color:var(--accent-1)">INSERT ... ON CONFLICT DO UPDATE</code> (upsert) to reduce round trips to a single statement.</div>
+        <div class="tip-item tip-warn"><strong>⚠️ Common mistake</strong>Not handling the crash-between-cache-write-and-flush scenario. Always use Redis persistence (AOF) or a durable queue as the write-ahead log.</div>
+        <div class="tip-item tip-pro"><strong>💡 Pro tip</strong>Use Kafka as the flush queue — it gives you durability, replay, and consumer lag monitoring out of the box.</div>
+        <div class="tip-item tip-skip"><strong>⏭️ When to skip</strong>Any use case where losing in-flight writes is unacceptable (payments, auth tokens). The async flush window is a real durability gap.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="summary-card" id="summary">
+    <h2>Pattern Comparison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Pattern</th>
+          <th>Consistency</th>
+          <th>Write Latency</th>
+          <th>Read Latency</th>
+          <th>Complexity</th>
+          <th>Best for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>Cache-Aside</td>
+          <td style="color:var(--accent-warn)">Eventual</td>
+          <td style="color:var(--accent-2)">Fast (DB only)</td>
+          <td style="color:var(--accent-2)">Fast (on hit)</td>
+          <td style="color:var(--accent-2)">Low</td>
+          <td>General-purpose reads</td>
+        </tr>
+        <tr>
+          <td>Read-Through</td>
+          <td style="color:var(--accent-warn)">Eventual</td>
+          <td style="color:var(--accent-2)">Fast (DB only)</td>
+          <td style="color:var(--accent-2)">Fast (on hit)</td>
+          <td style="color:var(--accent-warn)">Medium</td>
+          <td>Transparent caching</td>
+        </tr>
+        <tr>
+          <td>Write-Through</td>
+          <td style="color:var(--accent-2)">Strong</td>
+          <td style="color:var(--accent-warn)">Slow (2× writes)</td>
+          <td style="color:var(--accent-2)">Fast</td>
+          <td style="color:var(--accent-warn)">Medium</td>
+          <td>Consistency-critical reads</td>
+        </tr>
+        <tr>
+          <td>Write-Back</td>
+          <td style="color:var(--accent-danger)">Weak</td>
+          <td style="color:var(--accent-2)">Very fast</td>
+          <td style="color:var(--accent-2)">Fast</td>
+          <td style="color:var(--accent-danger)">High</td>
+          <td>High write throughput</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>💡 Exam tip:</strong> Cache-aside is the most commonly tested and deployed pattern. Know that it risks stale reads between a DB update and TTL expiry, and that the fix is explicit cache invalidation on writes — not just relying on TTL.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>SYSTEM DESIGN · CACHING PATTERNS</span>
+  <span>v1.0 · March 2025</span>
+  <span>SWE Reference Series</span>
+</footer>
+
+<script>
+// Entrance animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.hero, .intro-card, .section-card, .summary-card')
+  .forEach(el => observer.observe(el));
+
+// Toggle beginner/advanced
+function toggle(btn, showId, hideId) {
+  document.getElementById(showId).classList.add('active');
+  document.getElementById(hideId).classList.remove('active');
+  btn.classList.add('active');
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => {
+    if (b !== btn) b.classList.remove('active');
+  });
+}
+
+// Collapse/expand code
+function toggleCode(btn) {
+  const body = btn.closest('.code-wrap').querySelector('.code-body');
+  const collapsed = body.classList.toggle('collapsed');
+  btn.textContent = collapsed ? 'expand' : 'collapse';
+}
+
+// Copy code
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = Array.from(pre.querySelectorAll('.code-text'))
+    .map(el => el.textContent).join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ copied';
+    setTimeout(() => btn.textContent = 'copy', 1800);
+  });
+}
+</script>
+</body>
+</html>
