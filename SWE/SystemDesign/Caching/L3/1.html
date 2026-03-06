@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caching — System Design Core Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0c0f14;
+    --bg-card: #131820;
+    --bg-card-hover: #161d28;
+    --bg-code: #0a0d11;
+    --border: #1e2a38;
+    --border-bright: #2e4a6a;
+    --accent-1: #38bdf8;
+    --accent-2: #34d399;
+    --accent-warn: #fb923c;
+    --accent-err: #f87171;
+    --text-primary: #e8f0f8;
+    --text-secondary: #8da4be;
+    --text-muted: #4a6080;
+    --syn-keyword: #c084fc;
+    --syn-function: #38bdf8;
+    --syn-string: #34d399;
+    --syn-number: #fb923c;
+    --syn-comment: #4a6080;
+    --syn-type: #fbbf24;
+    --syn-op: #94a3b8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-deep); }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+  ::selection { background: rgba(56,189,248,0.2); color: var(--text-primary); }
+
+  body {
+    background: var(--bg-deep);
+    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,189,248,0.06) 0%, transparent 60%);
+    color: var(--text-secondary);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Grid pattern overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(12,15,20,0.97);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 52px;
+  }
+
+  .nav-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-logo span { color: var(--accent-1); }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent-1); }
+
+  /* MAIN WRAPPER */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 120px 0 64px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-1);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent-1);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  h1 .accent { color: var(--accent-1); }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .quick-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .pill:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2), transparent);
+  }
+
+  .intro-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 680px;
+    margin-bottom: 1.5rem;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .benefit-item {
+    padding: 1rem;
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .benefit-item:hover { border-color: var(--border-bright); }
+
+  .benefit-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .benefit-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+  }
+  .benefit-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: border-color 0.2s;
+  }
+
+  .section-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s; }
+  .section-card:hover { border-color: var(--border-bright); }
+
+  .section-header {
+    padding: 1.8rem 2rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-1);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+
+  .section-tagline {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-fundamental { background: rgba(56,189,248,0.1); color: var(--accent-1); border: 1px solid rgba(56,189,248,0.2); }
+  .badge-intermediate { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+  .badge-advanced { background: rgba(248,113,113,0.1); color: var(--accent-err); border: 1px solid rgba(248,113,113,0.2); }
+
+  .section-body { padding: 1.8rem 2rem; }
+
+  /* INFO GRID */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .info-cell {
+    padding: 1rem 1.2rem;
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .info-cell-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-cell p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+
+  /* FLOW DIAGRAM */
+  .flow-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-bottom: 1.8rem;
+    padding: 1.2rem;
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  .flow-box {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .flow-box small {
+    display: block;
+    font-size: 9px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  .fb-blue { border: 1px solid rgba(56,189,248,0.4); background: rgba(56,189,248,0.08); color: var(--accent-1); }
+  .fb-green { border: 1px solid rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); color: var(--accent-2); }
+  .fb-orange { border: 1px solid rgba(251,146,60,0.4); background: rgba(251,146,60,0.08); color: var(--accent-warn); }
+  .fb-purple { border: 1px solid rgba(192,132,252,0.4); background: rgba(192,132,252,0.08); color: #c084fc; }
+  .fb-gray { border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-muted); }
+
+  .flow-arrow {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+
+  .flow-arrow.hit { color: var(--accent-2); }
+  .flow-arrow.miss { color: var(--accent-warn); }
+
+  .flow-branch {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 4px;
+  }
+
+  .flow-branch-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .branch-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    padding: 0 6px;
+    white-space: nowrap;
+  }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .code-lang {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .code-actions { display: flex; gap: 6px; align-items: center; }
+
+  .btn-collapse, .btn-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-collapse:hover, .btn-copy:hover { border-color: var(--border-bright); color: var(--text-secondary); }
+
+  .code-content {
+    overflow: hidden;
+    max-height: 600px;
+    transition: max-height 0.3s ease;
+  }
+
+  .code-content.collapsed { max-height: 0; }
+
+  pre {
+    padding: 1.2rem 1.4rem;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  /* Syntax */
+  .kw { color: var(--syn-keyword); }
+  .fn { color: var(--syn-function); }
+  .str { color: var(--syn-string); }
+  .num { color: var(--syn-number); }
+  .cmt { color: var(--syn-comment); font-style: italic; }
+  .tp { color: var(--syn-type); }
+  .op { color: var(--syn-op); }
+
+  /* TIPS GRID */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .tip {
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    line-height: 1.5;
+  }
+
+  .tip-title {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .tip-green { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); }
+  .tip-red { background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2); }
+  .tip-blue { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); }
+  .tip-orange { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.2); }
+
+  /* TOGGLE */
+  .toggle-wrap { margin-bottom: 1.5rem; }
+
+  .toggle-tabs {
+    display: inline-flex;
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px;
+    gap: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .toggle-tab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .toggle-tab.active { background: var(--border-bright); color: var(--text-primary); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* DIVIDER */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--accent-1); }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FOCUS */
+  :focus-visible { outline: 2px solid var(--accent-1); outline-offset: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .benefits-grid { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    main { padding: 0 1rem 4rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .hero { padding: 84px 0 40px; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .section-header { flex-direction: column; }
+    .section-body { padding: 1.2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>//</span> system-design</div>
+  <ul class="nav-links">
+    <li><a href="#what-is-cache">Cache</a></li>
+    <li><a href="#hit-miss">Hit/Miss</a></li>
+    <li><a href="#hot-cold">Hot/Cold</a></li>
+    <li><a href="#ttl">TTL</a></li>
+    <li><a href="#read-path">Read Path</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">System Design · Performance</div>
+    <h1>Caching <span class="accent">Core Concepts</span></h1>
+    <p class="subtitle">A complete reference for how caches work — from latency reduction to TTL strategies. Master these before your next system design interview.</p>
+    <div class="quick-pills">
+      <a href="#what-is-cache" class="pill">01 · What is a Cache</a>
+      <a href="#hit-miss" class="pill">02 · Hit vs Miss</a>
+      <a href="#hot-cold" class="pill">03 · Hot &amp; Cold Data</a>
+      <a href="#ttl" class="pill">04 · TTL</a>
+      <a href="#read-path" class="pill">05 · Read Path</a>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <p>A cache is a high-speed data storage layer that holds a subset of data so that future requests for that data are served faster than is possible by accessing the primary storage layer. Caches sit between the consumer (a service, a user) and the source of truth (a database, an API), absorbing repeated reads.</p>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-title">Latency</div>
+        <div class="benefit-desc">Memory reads are ~100× faster than disk; Redis RTT &lt;1ms vs DB at 5–50ms+</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">🛡️</div>
+        <div class="benefit-title">DB Offload</div>
+        <div class="benefit-desc">Shields your database from thundering-herd reads; fewer connections, lower cost</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📈</div>
+        <div class="benefit-title">Throughput</div>
+        <div class="benefit-desc">In-memory stores handle millions of ops/sec — orders of magnitude beyond RDBMS</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">💰</div>
+        <div class="benefit-title">Cost</div>
+        <div class="benefit-desc">Reduce expensive query compute, egress fees, and DB read replicas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: WHAT IS A CACHE -->
+  <section class="section-card" id="what-is-cache">
+    <div class="section-header">
+      <div>
+        <div class="section-num">01 — Foundation</div>
+        <div class="section-title">What is a Cache?</div>
+        <div class="section-tagline">A fast, intermediate store between your application and its data source</div>
+      </div>
+      <span class="badge badge-fundamental">Fundamental</span>
+    </div>
+    <div class="section-body">
+
+      <div class="toggle-wrap">
+        <div class="toggle-tabs">
+          <button class="toggle-tab active" onclick="switchTab(this,'t1a')">Overview</button>
+          <button class="toggle-tab" onclick="switchTab(this,'t1b')">Deep Dive</button>
+        </div>
+
+        <div id="t1a" class="tab-content active">
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label">What It Is</div>
+              <p>A key-value store (like Redis or Memcached) that sits in front of your database. Frequently-read data is copied into the cache so future reads skip the DB entirely.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Why Use It</div>
+              <p>Database queries often take 5–100ms. An in-memory lookup takes &lt;1ms. For read-heavy workloads, even a 30% hit rate dramatically reduces average latency.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Real-World Use Case</div>
+              <p>Twitter caches the home timeline in Redis. Each timeline load reads from cache instead of joining millions of tweet rows per user request.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Where Caches Live</div>
+              <p>In-process (local memory), distributed (Redis cluster), CDN edge (static assets), CPU L1/L2/L3 (hardware) — each with different latency and scope tradeoffs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="t1b" class="tab-content">
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label">Cache Topology</div>
+              <p><strong style="color:var(--text-primary)">Local cache</strong>: in-process HashMap. Zero network overhead, but not shared across instances. Suitable for static config or small lookup tables.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Distributed Cache</div>
+              <p><strong style="color:var(--text-primary)">Redis / Memcached</strong>: shared across all app servers. One node warms the cache for all. Requires network hop (~0.5ms LAN), but vastly beats DB RTT.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Eviction Policies</div>
+              <p>LRU (Least Recently Used) is most common — discards the key not accessed for the longest time. LFU (Least Frequently Used) better for non-temporal access patterns.</p>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Cache Sizing</div>
+              <p>Start with 20–30% of your working dataset. Monitor your hit rate — below 80% means either cache is too small or you're caching the wrong data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Cache-Aside Pattern</span>
+          <div class="code-actions">
+            <button class="btn-collapse" onclick="toggleCode(this)">Collapse</button>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">import</span> redis
+<span class="kw">import</span> json
+
+redis_client <span class="op">=</span> redis<span class="op">.</span><span class="fn">Redis</span>(host<span class="op">=</span><span class="str">'localhost'</span>, port<span class="op">=</span><span class="num">6379</span>, decode_responses<span class="op">=</span><span class="kw">True</span>)
+
+<span class="kw">def</span> <span class="fn">get_user_profile</span>(user_id: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">dict</span>:
+    cache_key <span class="op">=</span> <span class="str">f"user:profile:{user_id}"</span>
+
+    <span class="cmt"># 1. Try the cache first</span>
+    cached <span class="op">=</span> redis_client<span class="op">.</span><span class="fn">get</span>(cache_key)
+    <span class="kw">if</span> cached:
+        <span class="kw">return</span> json<span class="op">.</span><span class="fn">loads</span>(cached)  <span class="cmt"># Cache HIT — fast path ⚡</span>
+
+    <span class="cmt"># 2. Cache MISS — fall back to the database</span>
+    user <span class="op">=</span> db<span class="op">.</span><span class="fn">query</span>(<span class="str">"SELECT * FROM users WHERE id = %s"</span>, user_id)
+
+    <span class="kw">if</span> user:
+        <span class="cmt"># 3. Populate the cache for future reads (TTL = 300s)</span>
+        redis_client<span class="op">.</span><span class="fn">setex</span>(cache_key, <span class="num">300</span>, json<span class="op">.</span><span class="fn">dumps</span>(user))
+
+    <span class="kw">return</span> user</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-green"><div class="tip-title">✅ Cache read-heavy, rarely-changing data</div>User profiles, product listings, config flags — data that's read 100× more than it's written.</div>
+        <div class="tip tip-red"><div class="tip-title">⚠️ Don't cache unique or one-off queries</div>Caching <code style="font-size:11px">SELECT * WHERE timestamp > now()</code> gives 0% hit rate and wastes memory.</div>
+        <div class="tip tip-blue"><div class="tip-title">💡 Use a consistent key naming scheme</div><code style="font-size:11px">entity:id:field</code> — e.g. <code style="font-size:11px">user:42:profile</code>. Prevents key collisions and aids debugging.</div>
+        <div class="tip tip-orange"><div class="tip-title">⏭️ Skip the cache for financial/audit data</div>Balances, transactions, and compliance logs must always reflect the latest DB state. Stale reads here have real consequences.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: HIT vs MISS -->
+  <section class="section-card" id="hit-miss">
+    <div class="section-header">
+      <div>
+        <div class="section-num">02 — Mechanics</div>
+        <div class="section-title">Cache Hit vs Cache Miss</div>
+        <div class="section-tagline">Two outcomes, vastly different performance implications</div>
+      </div>
+      <span class="badge badge-fundamental">Fundamental</span>
+    </div>
+    <div class="section-body">
+
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Cache Hit ✅</div>
+          <p>The requested key exists in the cache and hasn't expired. The data is returned immediately — no database query is made. Typical latency: <strong style="color:var(--accent-2)">&lt; 1ms</strong>.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Cache Miss ❌</div>
+          <p>The key is absent (never written, was evicted, or expired). The app falls through to the database, then typically writes the result back to cache. Typical latency: <strong style="color:var(--accent-warn)">5–100ms</strong>.</p>
+        </div>
+      </div>
+
+      <div class="flow-label">Cache Hit Path</div>
+      <div class="flow">
+        <div class="flow-box fb-blue">Client<br><small>Request</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-purple">App Server<br><small>Lookup key</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-green">Cache<br><small>HIT ✓</small></div>
+        <div class="flow-arrow hit">→</div>
+        <div class="flow-box fb-blue">Client<br><small>Response &lt;1ms</small></div>
+      </div>
+
+      <div class="flow-label">Cache Miss Path</div>
+      <div class="flow">
+        <div class="flow-box fb-blue">Client<br><small>Request</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-purple">App Server<br><small>Lookup key</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-orange">Cache<br><small>MISS ✗</small></div>
+        <div class="flow-arrow miss">→</div>
+        <div class="flow-box fb-gray">Database<br><small>Query</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-orange">Cache<br><small>Write back</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-blue">Client<br><small>Response</small></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Hit Rate Instrumentation</span>
+          <div class="code-actions">
+            <button class="btn-collapse" onclick="toggleCode(this)">Collapse</button>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">import</span> time
+
+<span class="tp">@dataclass</span>
+<span class="kw">class</span> <span class="tp">CacheStats</span>:
+    hits: <span class="tp">int</span> <span class="op">=</span> <span class="num">0</span>
+    misses: <span class="tp">int</span> <span class="op">=</span> <span class="num">0</span>
+
+    <span class="tp">@property</span>
+    <span class="kw">def</span> <span class="fn">hit_rate</span>(self) <span class="op">-></span> <span class="tp">float</span>:
+        total <span class="op">=</span> self<span class="op">.</span>hits <span class="op">+</span> self<span class="op">.</span>misses
+        <span class="kw">return</span> self<span class="op">.</span>hits <span class="op">/</span> total <span class="kw">if</span> total <span class="op">></span> <span class="num">0</span> <span class="kw">else</span> <span class="num">0.0</span>
+
+stats <span class="op">=</span> <span class="fn">CacheStats</span>()
+
+<span class="kw">def</span> <span class="fn">get_with_stats</span>(key: <span class="tp">str</span>):
+    start <span class="op">=</span> time<span class="op">.</span><span class="fn">perf_counter</span>()
+    value <span class="op">=</span> redis_client<span class="op">.</span><span class="fn">get</span>(key)
+    latency_ms <span class="op">=</span> (time<span class="op">.</span><span class="fn">perf_counter</span>() <span class="op">-</span> start) <span class="op">*</span> <span class="num">1000</span>
+
+    <span class="kw">if</span> value:
+        stats<span class="op">.</span>hits <span class="op">+=</span> <span class="num">1</span>
+        <span class="fn">print</span>(<span class="str">f"HIT  [{latency_ms:.2f}ms] key={key}"</span>)
+    <span class="kw">else</span>:
+        stats<span class="op">.</span>misses <span class="op">+=</span> <span class="num">1</span>
+        <span class="fn">print</span>(<span class="str">f"MISS [{latency_ms:.2f}ms] key={key}"</span>)
+
+    <span class="kw">return</span> value
+
+<span class="cmt"># Target: hit_rate >= 0.80 for most read-heavy services</span>
+<span class="fn">print</span>(<span class="str">f"Hit rate: {stats.hit_rate:.1%}"</span>)</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-green"><div class="tip-title">✅ Monitor hit rate in production</div>Redis exposes <code style="font-size:11px">INFO stats</code> with <code style="font-size:11px">keyspace_hits</code> and <code style="font-size:11px">keyspace_misses</code>. Alert if hit rate drops below your baseline.</div>
+        <div class="tip tip-red"><div class="tip-title">⚠️ Cold start = all misses</div>After a deploy or Redis restart, the cache is empty. Expect a latency spike until the cache warms up. Consider pre-warming critical keys on startup.</div>
+        <div class="tip tip-blue"><div class="tip-title">💡 Cold cache ≠ broken system</div>A miss just means a slightly slower path. Your app must always handle misses gracefully — the DB is your source of truth, the cache is a hint.</div>
+        <div class="tip tip-orange"><div class="tip-title">⏭️ Don't obsess over 100% hit rate</div>A 90% hit rate means 10% of requests hit the DB. That's typically fine. Chasing 100% often means over-caching stale or rarely-needed data.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: HOT vs COLD -->
+  <section class="section-card" id="hot-cold">
+    <div class="section-header">
+      <div>
+        <div class="section-num">03 — Data Patterns</div>
+        <div class="section-title">Hot Data vs Cold Data</div>
+        <div class="section-tagline">Not all data deserves a cache entry — understand what's worth storing</div>
+      </div>
+      <span class="badge badge-intermediate">Intermediate</span>
+    </div>
+    <div class="section-body">
+
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Hot Data 🔥</div>
+          <p>Accessed frequently by many requests. High <strong style="color:var(--text-primary)">read-to-write ratio</strong>. Examples: home feeds, trending items, global config, rate limit counters. This data has high <em>cache utility</em>.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Cold Data 🧊</div>
+          <p>Rarely accessed, or highly unique per request. Examples: archived records, audit logs, one-time report exports. Caching cold data <strong style="color:var(--text-primary)">wastes memory</strong> and lowers hit rate.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Identifying Hot Data</div>
+          <p>Instrument your DB query logs. Look for the top N most-executed queries by volume. The tables and rows they touch are your hot data. Also consider <strong style="color:var(--text-primary)">Pareto's principle</strong>: 80% of traffic often touches 20% of data.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Skewed Access (Hotspots)</div>
+          <p>A single extremely hot key (e.g. a celebrity profile) can overwhelm a single cache shard. Solutions: <strong style="color:var(--text-primary)">key replication</strong> across shards, local in-process caching, or CDN edge caching for public data.</p>
+        </div>
+      </div>
+
+      <div class="flow-label">Access Frequency Spectrum</div>
+      <div class="flow" style="justify-content: space-around; flex-wrap: nowrap;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="flow-box fb-orange" style="width:100px">🔥 Ultra Hot<br><small>Trending posts</small></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent-2)">ALWAYS CACHE</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="flow-box fb-blue" style="width:100px">🌡️ Warm<br><small>User profiles</small></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent-1)">CACHE + TTL</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="flow-box fb-gray" style="width:100px">❄️ Cool<br><small>Old orders</small></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted)">MAYBE</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="flow-box fb-gray" style="width:100px">🧊 Cold<br><small>Audit logs</small></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent-err)">SKIP IT</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Tiered Caching by Access Pattern</span>
+          <div class="code-actions">
+            <button class="btn-collapse" onclick="toggleCode(this)">Collapse</button>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="cmt"># Hot data: short TTL, always cached, high churn tolerated</span>
+<span class="kw">def</span> <span class="fn">get_trending_posts</span>(region: <span class="tp">str</span>) <span class="op">-></span> <span class="tp">list</span>:
+    key <span class="op">=</span> <span class="str">f"trending:{region}"</span>
+    cached <span class="op">=</span> redis_client<span class="op">.</span><span class="fn">get</span>(key)
+    <span class="kw">if</span> cached:
+        <span class="kw">return</span> json<span class="op">.</span><span class="fn">loads</span>(cached)
+
+    posts <span class="op">=</span> db<span class="op">.</span><span class="fn">query</span>(<span class="str">"SELECT * FROM posts ORDER BY views DESC LIMIT 20"</span>)
+    redis_client<span class="op">.</span><span class="fn">setex</span>(key, <span class="num">60</span>, json<span class="op">.</span><span class="fn">dumps</span>(posts))  <span class="cmt"># 60s TTL</span>
+    <span class="kw">return</span> posts
+
+<span class="cmt"># Warm data: longer TTL, invalidated on write</span>
+<span class="kw">def</span> <span class="fn">get_user_profile</span>(user_id: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">dict</span>:
+    key <span class="op">=</span> <span class="str">f"user:profile:{user_id}"</span>
+    cached <span class="op">=</span> redis_client<span class="op">.</span><span class="fn">get</span>(key)
+    <span class="kw">if</span> cached:
+        <span class="kw">return</span> json<span class="op">.</span><span class="fn">loads</span>(cached)
+
+    user <span class="op">=</span> db<span class="op">.</span><span class="fn">query</span>(<span class="str">"SELECT * FROM users WHERE id = %s"</span>, user_id)
+    redis_client<span class="op">.</span><span class="fn">setex</span>(key, <span class="num">3600</span>, json<span class="op">.</span><span class="fn">dumps</span>(user))  <span class="cmt"># 1h TTL</span>
+    <span class="kw">return</span> user
+
+<span class="cmt"># Cold data: skip the cache entirely</span>
+<span class="kw">def</span> <span class="fn">get_audit_log</span>(entry_id: <span class="tp">int</span>) <span class="op">-></span> <span class="tp">dict</span>:
+    <span class="cmt"># Audit logs are unique, rarely re-read — go straight to DB</span>
+    <span class="kw">return</span> db<span class="op">.</span><span class="fn">query</span>(<span class="str">"SELECT * FROM audit_log WHERE id = %s"</span>, entry_id)</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-green"><div class="tip-title">✅ Profile before caching</div>Run <code style="font-size:11px">EXPLAIN ANALYZE</code> on your heaviest queries. Cache the hot tables, not everything.</div>
+        <div class="tip tip-red"><div class="tip-title">⚠️ Beware cache hotspot (hot key)</div>If 1 key gets 10,000 req/s, one Redis node becomes a bottleneck. Use <code style="font-size:11px">local_cache[key]</code> as an L1 in front of Redis.</div>
+        <div class="tip tip-blue"><div class="tip-title">💡 Cache stampede on hot data</div>When a popular key expires, thousands of requests hit the DB simultaneously. Use probabilistic early expiration or a mutex lock to prevent it.</div>
+        <div class="tip tip-orange"><div class="tip-title">⏭️ Don't cache user-specific aggregate data</div><code style="font-size:11px">user:123:recommendations</code> has 0% reuse outside that user — you'd cache N entries for N users with near-zero hit rate benefit.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: TTL -->
+  <section class="section-card" id="ttl">
+    <div class="section-header">
+      <div>
+        <div class="section-num">04 — Expiration</div>
+        <div class="section-title">TTL — Time-To-Live</div>
+        <div class="section-tagline">Every cached value needs a sunset — learn to set the right one</div>
+      </div>
+      <span class="badge badge-intermediate">Intermediate</span>
+    </div>
+    <div class="section-body">
+
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">What TTL Does</div>
+          <p>A TTL is a counter attached to a cache key. When it reaches zero, the key is automatically deleted. This prevents serving stale data indefinitely and bounds your cache's memory footprint.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Why It Matters</div>
+          <p>Without TTLs, your cache fills with stale entries forever. With TTLs, you get <strong style="color:var(--text-primary)">eventual consistency</strong>: the DB is always authoritative, and the cache converges within TTL seconds of any write.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">TTL Too Short</div>
+          <p>Keys expire before they can be reused. Hit rate drops. Your DB sees more load than expected. The cache becomes almost pointless for anything with moderate traffic.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">TTL Too Long</div>
+          <p>Stale data persists. A user updates their profile but sees the old version for hours. Can cause correctness bugs in financial, inventory, or user-facing data.</p>
+        </div>
+      </div>
+
+      <div class="flow-label">TTL Reference Guide</div>
+      <div class="flow" style="flex-direction:column;align-items:stretch;gap:6px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <div class="flow-box fb-blue" style="text-align:left;padding:10px 14px"><span style="color:var(--accent-1);font-family:'IBM Plex Mono',monospace;font-size:10px">30–60s</span><br><small style="color:var(--text-secondary)">Trending / real-time feeds</small></div>
+          <div class="flow-box fb-green" style="text-align:left;padding:10px 14px"><span style="color:var(--accent-2);font-family:'IBM Plex Mono',monospace;font-size:10px">5–60 min</span><br><small style="color:var(--text-secondary)">User profiles, product listings</small></div>
+          <div class="flow-box fb-orange" style="text-align:left;padding:10px 14px"><span style="color:var(--accent-warn);font-family:'IBM Plex Mono',monospace;font-size:10px">1–24 hrs</span><br><small style="color:var(--text-secondary)">Static config, feature flags</small></div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — TTL Strategies</span>
+          <div class="code-actions">
+            <button class="btn-collapse" onclick="toggleCode(this)">Collapse</button>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">import</span> random
+
+<span class="cmt"># Strategy 1: Fixed TTL — simplest, works for most cases</span>
+redis_client<span class="op">.</span><span class="fn">setex</span>(<span class="str">"user:42"</span>, <span class="num">300</span>, data)   <span class="cmt"># Expires in 300s</span>
+
+<span class="cmt"># Strategy 2: Jittered TTL — prevents cache stampede</span>
+<span class="cmt"># Many keys with the same TTL expire simultaneously → DB spike</span>
+base_ttl <span class="op">=</span> <span class="num">300</span>
+jitter <span class="op">=</span> random<span class="op">.</span><span class="fn">randint</span>(<span class="op">-</span><span class="num">30</span>, <span class="num">30</span>)  <span class="cmt"># ±10% variation</span>
+redis_client<span class="op">.</span><span class="fn">setex</span>(<span class="str">"trending"</span>, base_ttl <span class="op">+</span> jitter, data)
+
+<span class="cmt"># Strategy 3: Write-through invalidation — TTL as a safety net</span>
+<span class="kw">def</span> <span class="fn">update_user_profile</span>(user_id: <span class="tp">int</span>, updates: <span class="tp">dict</span>):
+    <span class="cmt"># 1. Write to DB (source of truth)</span>
+    db<span class="op">.</span><span class="fn">update</span>(<span class="str">"UPDATE users SET ... WHERE id = %s"</span>, user_id)
+
+    <span class="cmt"># 2. Immediately invalidate (delete) the cache key</span>
+    <span class="cmt"># Don't update it — let the next read re-populate with fresh data</span>
+    redis_client<span class="op">.</span><span class="fn">delete</span>(<span class="str">f"user:profile:{user_id}"</span>)
+
+<span class="cmt"># Strategy 4: TTL check — inspect remaining TTL on a key</span>
+remaining <span class="op">=</span> redis_client<span class="op">.</span><span class="fn">ttl</span>(<span class="str">"user:42"</span>)
+<span class="cmt"># -2 = key doesn't exist, -1 = key has no TTL set (infinite)</span>
+<span class="kw">if</span> remaining <span class="op">==</span> <span class="op">-</span><span class="num">1</span>:
+    <span class="fn">print</span>(<span class="str">"WARNING: cache key has no TTL — memory leak risk"</span>)</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-green"><div class="tip-title">✅ Add jitter to batch-set TTLs</div>If 10,000 keys all expire at T+300s, your DB gets slammed. Add ±10% random jitter to spread expirations.</div>
+        <div class="tip tip-red"><div class="tip-title">⚠️ Never set TTL = -1 (no expiry) blindly</div>Only omit TTL for data that never changes (e.g. a country code lookup table). Otherwise you risk serving stale data forever.</div>
+        <div class="tip tip-blue"><div class="tip-title">💡 Combine TTL with active invalidation</div>Use TTL as a safety net, but also delete/update the key immediately on writes. This gives you both consistency and resilience.</div>
+        <div class="tip tip-orange"><div class="tip-title">⏭️ Don't set a single global TTL</div>Different data has different staleness tolerance. User names can be cached for an hour. Stock prices for 1 second. Tune per data type.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: READ PATH -->
+  <section class="section-card" id="read-path">
+    <div class="section-header">
+      <div>
+        <div class="section-num">05 — Architecture</div>
+        <div class="section-title">The Full Read Path</div>
+        <div class="section-tagline">Trace a request from client to cache to DB and back — know every step</div>
+      </div>
+      <span class="badge badge-advanced">Advanced</span>
+    </div>
+    <div class="section-body">
+
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-cell-label">Cache-Aside (Lazy Loading)</div>
+          <p>The most common pattern. The <strong style="color:var(--text-primary)">app manages the cache</strong>: on read, check cache first. On miss, hit DB, then write to cache. The cache is only populated on demand.</p>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">Read-Through</div>
+          <p>The cache itself fetches from the DB on a miss. The app only talks to the cache. This <strong style="color:var(--text-primary)">hides DB access details</strong> from the app layer — useful with cache providers like Ehcache or AWS ElastiCache.</p>
+        </div>
+      </div>
+
+      <div class="flow-label">Complete Read Path — Cache-Aside</div>
+      <div class="flow" style="flex-direction:column;align-items:flex-start;gap:8px;padding:1.4rem;">
+        <div style="display:flex;align-items:center;gap:0;width:100%">
+          <div class="flow-box fb-blue" style="min-width:120px">① Client Request<br><small>GET /user/42</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box fb-purple" style="min-width:140px">② App Server<br><small>Build cache key</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box fb-green" style="min-width:120px">③ Redis Lookup<br><small>GET user:42</small></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:24px;padding-left:60px;width:100%">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent-2)">HIT ↓</div>
+            <div class="flow-box fb-green" style="min-width:120px">④a Return Value<br><small>JSON from Redis</small></div>
+            <div class="flow-arrow" style="transform:rotate(90deg)">→</div>
+            <div class="flow-box fb-blue" style="min-width:120px">⑤a Respond &lt;1ms<br><small>200 OK</small></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent-warn)">MISS ↓</div>
+            <div class="flow-box fb-orange" style="min-width:120px">④b Query DB<br><small>SELECT * FROM users</small></div>
+            <div class="flow-arrow" style="transform:rotate(90deg)">→</div>
+            <div class="flow-box fb-orange" style="min-width:120px">⑤b Write Cache<br><small>SETEX user:42 300</small></div>
+            <div class="flow-arrow" style="transform:rotate(90deg)">→</div>
+            <div class="flow-box fb-blue" style="min-width:120px">⑥b Respond ~50ms<br><small>200 OK</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python — Complete Cache-Aside Read Path</span>
+          <div class="code-actions">
+            <button class="btn-collapse" onclick="toggleCode(this)">Collapse</button>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="code-content">
+<pre><span class="kw">from</span> typing <span class="kw">import</span> Optional
+<span class="kw">import</span> json, redis, logging
+
+log <span class="op">=</span> logging<span class="op">.</span><span class="fn">getLogger</span>(<span class="str">__name__</span>)
+cache <span class="op">=</span> redis<span class="op">.</span><span class="fn">Redis</span>(host<span class="op">=</span><span class="str">'redis'</span>, port<span class="op">=</span><span class="num">6379</span>, decode_responses<span class="op">=</span><span class="kw">True</span>)
+
+<span class="kw">def</span> <span class="fn">get_user</span>(user_id: <span class="tp">int</span>) <span class="op">-></span> Optional[<span class="tp">dict</span>]:
+    <span class="str">"""Full cache-aside read path with observability."""</span>
+    cache_key <span class="op">=</span> <span class="str">f"user:v2:{user_id}"</span>  <span class="cmt"># Versioned key for schema changes</span>
+    TTL_SECONDS <span class="op">=</span> <span class="num">300</span>
+
+    <span class="cmt"># Step 1: Attempt cache lookup</span>
+    <span class="kw">try</span>:
+        raw <span class="op">=</span> cache<span class="op">.</span><span class="fn">get</span>(cache_key)
+    <span class="kw">except</span> redis<span class="op">.</span>RedisError <span class="kw">as</span> e:
+        <span class="cmt"># Step 1a: Cache is unavailable — degrade gracefully, go to DB</span>
+        log<span class="op">.</span><span class="fn">warning</span>(<span class="str">f"Redis error: {e}, falling back to DB"</span>)
+        raw <span class="op">=</span> <span class="kw">None</span>
+
+    <span class="kw">if</span> raw <span class="kw">is not</span> <span class="kw">None</span>:
+        <span class="cmt"># Step 2a: CACHE HIT — deserialize and return</span>
+        log<span class="op">.</span><span class="fn">debug</span>(<span class="str">f"Cache HIT: {cache_key}"</span>)
+        <span class="kw">return</span> json<span class="op">.</span><span class="fn">loads</span>(raw)
+
+    <span class="cmt"># Step 2b: CACHE MISS — query the database</span>
+    log<span class="op">.</span><span class="fn">debug</span>(<span class="str">f"Cache MISS: {cache_key}"</span>)
+    user <span class="op">=</span> db<span class="op">.</span><span class="fn">query_one</span>(<span class="str">"SELECT * FROM users WHERE id = %s"</span>, user_id)
+
+    <span class="kw">if</span> user <span class="kw">is None</span>:
+        <span class="cmt"># Step 3: User doesn't exist — cache negative result briefly</span>
+        <span class="cmt"># Prevents DB hammering for non-existent IDs (negative caching)</span>
+        cache<span class="op">.</span><span class="fn">setex</span>(cache_key, <span class="num">30</span>, json<span class="op">.</span><span class="fn">dumps</span>(<span class="kw">None</span>))
+        <span class="kw">return</span> <span class="kw">None</span>
+
+    <span class="cmt"># Step 4: Populate cache for future reads</span>
+    cache<span class="op">.</span><span class="fn">setex</span>(cache_key, TTL_SECONDS, json<span class="op">.</span><span class="fn">dumps</span>(user))
+    <span class="kw">return</span> user</pre>
+        </div>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip tip-green"><div class="tip-title">✅ Always handle Redis being down</div>Wrap cache ops in try/except. If Redis fails, fall through to the DB. Your app should degrade, not crash.</div>
+        <div class="tip tip-red"><div class="tip-title">⚠️ Cache negative results too</div>If someone queries <code style="font-size:11px">user:99999</code> (nonexistent) 10,000 times, every request hits the DB. Cache <code style="font-size:11px">null</code> for 30s to protect against this.</div>
+        <div class="tip tip-blue"><div class="tip-title">💡 Version your cache keys</div>Use <code style="font-size:11px">user:v2:42</code> instead of <code style="font-size:11px">user:42</code>. When your data schema changes, bump the version to auto-invalidate all old entries.</div>
+        <div class="tip tip-orange"><div class="tip-title">⏭️ Read-through isn't always better</div>Cache-aside gives you more control over what gets cached and when. Read-through hides complexity but makes debugging harder. Start with cache-aside.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Caching Core Concepts — System Design Reference · March 2025</span>
+  <span><a href="#what-is-cache">↑ Back to top</a></span>
+</footer>
+
+<script>
+  // Tab switching
+  function switchTab(btn, targetId) {
+    const wrap = btn.closest('.toggle-wrap');
+    wrap.querySelectorAll('.toggle-tab').forEach(t => t.classList.remove('active'));
+    wrap.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(targetId).classList.add('active');
+  }
+
+  // Collapse/expand code
+  function toggleCode(btn) {
+    const content = btn.closest('.code-block').querySelector('.code-content');
+    const collapsed = content.classList.toggle('collapsed');
+    btn.textContent = collapsed ? 'Expand' : 'Collapse';
+  }
+
+  // Copy code
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => btn.textContent = orig, 1800);
+    });
+  }
+
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.section-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
