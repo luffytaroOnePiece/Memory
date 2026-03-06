@@ -50,10 +50,10 @@
     "FrontEnd": {
       "React": {
         "1": "React Hooks Guide"
-      },
-      "SolidPrinciples": {
-        "1": "SOLID Principles in Development"
       }
+    },
+    "SolidPrinciples": {
+      "1": "SOLID Principles in Development"
     }
   }
 }
