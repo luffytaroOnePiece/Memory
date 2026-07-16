@@ -65,5 +65,15 @@
         }
       }
     }
+  },
+  "LifeStyle": {
+    "Cosmetics": {
+      "Perfumes": {
+        "God Father": {
+          "1": "God Father - Claude",
+          "2": "God Father - Gemini"
+        }
+      }
+    }
   }
 }

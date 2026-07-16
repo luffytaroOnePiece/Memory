@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beardo Godfather EDP | The Universal Premium Encyclopedia</title>
+    <meta name="description" content="Discover the authoritative essence of Beardo Godfather EDP. An in-depth interactive encyclopedia exploring notes, performance, design, and the alpha male philosophy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <meta property="og:title" content="Beardo Godfather EDP | Aromatic Woody Spicy Fragrance">
+    <meta property="og:description" content="Explore the commanding presence of Beardo Godfather Eau De Parfum.">
+    <meta property="og:type" content="product">
+    <link rel="canonical" href="https://beardo.in/products/beardo-godfather-perfume-edp">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "Beardo Godfather Perfume EDP",
+      "image": "https://beardo.in/cdn/shop/files/godfather-edp.jpg",
+      "description": "An alluring and authoritative Eau De Parfum for men featuring notes of Mint, Lemon, Geranium, Vetiver, and Musk. A versatile, long-lasting fragrance.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Beardo"
+      },
+      "category": "Fragrance",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://beardo.in/products/beardo-godfather-perfume-edp",
+        "priceCurrency": "INR",
+        "price": "1200.00",
+        "itemCondition": "https://schema.org/NewCondition",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Which are the right places to wear the perfume correctly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By spraying the perfume on your collar bones, behind the ear lobes, wrists and underarms makes it last longer."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Does it last all day long?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If sprayed at the right pulse points, given its highly concentrated formula, it is sure to last longer than other standard EDT perfumes."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is it good for winter or summer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Beardo has created this perfume to be versatile and therefore it can be used for all seasons and reasons."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            /* Visual Identity Extracted from Product */
+            --primary-bg: #050505;
+            --surface: #111111;
+            --surface-light: #1a1a1a;
+            --gold: #d4af37;
+            --gold-dark: #8a7020;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor */
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-head);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9998;
+            transition: top 0.1s, left 0.1s, width 0.2s, height 0.2s, border-color 0.2s;
+        }
+
+        /* Scroll Progress */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+
+        /* Background Effects */
+        #smokeCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.5;
+        }
+
+        /* Layout & Utilities */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .section-padding {
+            padding: 10rem 0;
+        }
+
+        .glass-panel {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 3rem;
+            transition: var(--transition);
+        }
+        .glass-panel:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+        }
+
+        .text-gold { color: var(--gold); }
+        .text-muted { color: var(--text-muted); }
+        .text-center { text-align: center; }
+
+        /* Typography Extravaganza */
+        .mega-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 4rem);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+        .brand-logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            margin-top: 5rem;
+        }
+        
+        /* CSS Rendered Bottle */
+        .bottle-container {
+            position: relative;
+            width: 200px;
+            height: 350px;
+            margin: 0 auto 3rem;
+            perspective: 1000px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .bottle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .bottle-cap {
+            width: 60px;
+            height: 70px;
+            background: linear-gradient(90deg, #111, #333, #111);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .bottle-neck {
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .bottle-body {
+            width: 160px;
+            height: 250px;
+            background: rgba(10, 10, 10, 0.85);
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                inset -10px 0 30px rgba(255,255,255,0.05),
+                inset 10px 0 30px rgba(0,0,0,0.8),
+                0 20px 50px rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .bottle-label {
+            width: 80%;
+            height: 40%;
+            border: 1px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+        .label-brand { font-family: var(--font-head); font-size: 0.8rem; letter-spacing: 3px; color: var(--gold); }
+        .label-name { font-family: var(--font-head); font-size: 1.2rem; font-weight: bold; margin: 5px 0; }
+        .label-desc { font-family: var(--font-body); font-size: 0.5rem; letter-spacing: 2px; color: var(--text-muted); }
+        .bottle-reflection {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Story Section */
+        .story-section p {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ddd;
+        }
+
+        /* Pyramid Section (Category Specific) */
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .pyramid-level {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem;
+            background: rgba(20, 20, 20, 0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .pyramid-level::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; width: 4px; height: 100%;
+            background: var(--gold);
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+            transform-origin: bottom;
+        }
+        .pyramid-level:hover::before { transform: scaleY(1); }
+        .pyramid-level:hover { background: rgba(30, 30, 30, 0.8); transform: scale(1.02); }
+        
+        .level-title { font-family: var(--font-head); color: var(--gold); font-size: 1.5rem; width: 30%; }
+        .level-notes { font-size: 1.1rem; width: 60%; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .note-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Performance Radar */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .stat-bar { margin-bottom: 1.5rem; }
+        .stat-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+        .bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--gold); width: 0; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+
+        /* Anatomy / Pulse Points */
+        .anatomy-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .pulse-point {
+            position: absolute;
+            width: 16px; height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: none;
+        }
+        .pulse-point::after {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--gold); border-radius: 50%;
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .pulse-point:hover .tooltip { opacity: 1; }
+
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .specs-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .specs-table td {
+            padding: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+        .specs-table td:first-child {
+            color: var(--text-muted);
+            width: 40%;
+        }
+
+        /* Review Cards */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .review-card {
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border-left: 2px solid var(--gold);
+        }
+        .stars { color: var(--gold); margin-bottom: 1rem; letter-spacing: 2px;}
+
+        /* Animations Utils */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #000;
+        }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .performance-grid { grid-template-columns: 1fr; }
+            .mega-title { font-size: 3rem; }
+            .story-section p { font-size: 1.3rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .pyramid-level { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .level-title, .level-notes { width: 100%; }
+            .bottle-container { transform: scale(0.8); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <canvas id="smokeCanvas" aria-hidden="true"></canvas>
+
+    <nav>
+        <div class="brand-logo">BEARDO</div>
+        <div class="nav-links">
+            <a href="#overview">Overview</a>
+            <a href="#notes">Fragrance</a>
+            <a href="#performance">Performance</a>
+            <a href="#specs">Specs</a>
+            <a href="#guide">Guide</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="hero">
+        <div class="ambient-glow"></div>
+        <div class="hero-content reveal active">
+            
+            <div class="bottle-container">
+                <div class="bottle">
+                    <div class="bottle-cap"></div>
+                    <div class="bottle-neck"></div>
+                    <div class="bottle-body">
+                        <div class="bottle-reflection"></div>
+                        <div class="bottle-label">
+                            <span class="label-brand">BEARDO</span>
+                            <span class="label-name">GODFATHER</span>
+                            <span class="label-desc">EAU DE PARFUM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span class="subtitle">Power Without Noise</span>
+            <h1 class="mega-title">The Godfather</h1>
+            <p class="text-muted" style="letter-spacing: 2px; text-transform: uppercase;">Aromatic • Woody • Spicy</p>
+        </div>
+    </header>
+
+    <section id="overview" class="section-padding story-section text-center">
+        <div class="container reveal">
+            <span class="subtitle">The Philosophy</span>
+            <h2 class="section-title">Authority Claimed, Not Given</h2>
+            <p>
+                In a world full of noise, distractions, and fleeting trends, the <span class="text-gold">Beardo Godfather EDP</span> represents something rare: unshakeable presence. Sold every 15 seconds, this is not just a fragrance; it is a declaration. 
+                <br><br>
+                <em>"Hukumat maangi nahi jaati… cheeni jaati hai."</em>
+            </p>
+        </div>
+    </section>
+
+    <section id="notes" class="section-padding">
+        <div class="container">
+            <div class="text-center reveal">
+                <span class="subtitle">Olfactory Architecture</span>
+                <h2 class="section-title">The Fragrance Pyramid</h2>
+                <p class="text-muted max-w-2xl mx-auto">A fine concoction of sharp citrus, passionate florals, and a relentlessly masculine base. Crafted as a high-concentration Eau De Parfum to outlast ordinary scents.</p>
+            </div>
+
+            <div class="pyramid-container">
+                <div class="pyramid-level reveal" style="width: 80%;">
+                    <div class="level-title">Top Notes</div>
+                    <div class="level-notes">
+                        <span class="note-tag">Mint</span>
+                        <span class="note-tag">Lemon</span>
+                        <span class="note-tag">Mandarin</span>
+                    </div>
+                </div>
+                <div class="pyramid-level reveal" style="width: 90%;">
+                    <div class="level-title">Heart Notes</div>
+                    <div class="level-notes">
+                        <span class="note-tag">Geranium Flowers</span>
+                        <span class="note-tag">Aromatic Spices</span>
+                    </div>
+                </div>
+                <div class="pyramid-level reveal" style="width: 100%;">
+                    <div class="level-title">Base Notes</div>
+                    <div class="level-notes">
+                        <span class="note-tag">Haitian Vetiver</span>
+                        <span class="note-tag">Sensual Musk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="performance" class="section-padding" style="background: rgba(10,10,10,0.5);">
+        <div class="container">
+            <div class="performance-grid">
+                <div class="reveal">
+                    <span class="subtitle">Technical Efficacy</span>
+                    <h2 class="section-title">Engineered to Last</h2>
+                    <p class="text-muted" style="margin-bottom: 2rem;">
+                        As an Eau De Parfum (EDP), Godfather boasts a significantly higher perfume oil concentration than standard EDTs. This ensures a persistent sillage that leaves a mark without overwhelming the room. 
+                    </p>
+                    
+                    <div class="stats-container">
+                        <div class="stat-bar">
+                            <div class="stat-header"><span>Longevity (6-12 Hrs)</span> <span>90%</span></div>
+                            <div class="bar-bg"><div class="bar-fill" data-width="90%"></div></div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-header"><span>Sillage & Projection</span> <span>85%</span></div>
+                            <div class="bar-bg"><div class="bar-fill" data-width="85%"></div></div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-header"><span>Versatility (Day & Night)</span> <span>95%</span></div>
+                            <div class="bar-bg"><div class="bar-fill" data-width="95%"></div></div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-header"><span>Masculine Appeal</span> <span>98%</span></div>
+                            <div class="bar-bg"><div class="bar-fill" data-width="98%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal glass-panel">
+                    <h3 style="margin-bottom: 1.5rem; font-family: var(--font-head); color: var(--gold);">Pros & Cons</h3>
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: #4CAF50; margin-bottom: 0.5rem;">The Strengths</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.5rem;">✓ <strong>Value:</strong> Exceptional quality-to-price ratio.</li>
+                            <li style="margin-bottom: 0.5rem;">✓ <strong>Performance:</strong> True EDP concentration ensures all-day wear.</li>
+                            <li style="margin-bottom: 0.5rem;">✓ <strong>Profile:</strong> Often compared to luxury scents (like Versace Eros) for its sweet/spicy balance.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #f44336; margin-bottom: 0.5rem;">The Limitations</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.5rem;">✗ <strong>Opening:</strong> The initial citrus burst can feel slightly aggressive to sensitive noses before settling.</li>
+                            <li style="margin-bottom: 0.5rem;">✗ <strong>Popularity:</strong> Being a bestseller means you might encounter others wearing the same signature scent.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="specs" class="section-padding">
+        <div class="container grid-2">
+            <div class="reveal glass-panel">
+                <span class="subtitle">The Blueprint</span>
+                <h2 class="section-title">Specifications</h2>
+                <table class="specs-table">
+                    <tr>
+                        <td>Brand</td>
+                        <td>Beardo</td>
+                    </tr>
+                    <tr>
+                        <td>Product Name</td>
+                        <td>Godfather Perfume</td>
+                    </tr>
+                    <tr>
+                        <td>Type / Concentration</td>
+                        <td>Eau De Parfum (EDP)</td>
+                    </tr>
+                    <tr>
+                        <td>Fragrance Family</td>
+                        <td>Aromatic, Woody, Spicy</td>
+                    </tr>
+                    <tr>
+                        <td>Available Volumes</td>
+                        <td>50ml / 100ml / Pack of 2</td>
+                    </tr>
+                    <tr>
+                        <td>Manufacturer</td>
+                        <td>Helios Packaging Pvt. Ltd. (Rajasthan, India)</td>
+                    </tr>
+                    <tr>
+                        <td>Target Audience</td>
+                        <td>Men (Alpha Persona)</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="reveal">
+                <h3 class="section-title">Design Language</h3>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">
+                    The physical manifestation of the Godfather ethos. A heavy, dark glass flacon that feels substantial in the hand, accented by uncompromising lines and gold typography. It doesn't scream for attention on the dresser; it commands it quietly.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="glass-panel" style="padding: 1rem; text-align: center; flex: 1;">
+                        <span style="display:block; font-size: 2rem; color: var(--gold);">#0A0A0A</span>
+                        <span class="text-muted" style="font-size: 0.8rem;">Primary Abyss</span>
+                    </div>
+                    <div class="glass-panel" style="padding: 1rem; text-align: center; flex: 1;">
+                        <span style="display:block; font-size: 2rem; color: var(--gold);">#D4AF37</span>
+                        <span class="text-muted" style="font-size: 0.8rem;">Godfather Gold</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="guide" class="section-padding" style="background: linear-gradient(180deg, transparent, #080808);">
+        <div class="container text-center reveal">
+            <span class="subtitle">Ritual</span>
+            <h2 class="section-title">The Art of Application</h2>
+            <p class="text-muted max-w-2xl mx-auto" style="margin-bottom: 3rem;">To maximize the projection and longevity of Beardo Godfather, target the pulse points where the body naturally generates heat, activating the fragrance oils.</p>
+            
+            <div class="anatomy-container">
+                <svg viewBox="0 0 200 300" width="100%" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2">
+                    <path d="M100 20 C60 20, 50 70, 50 100 C50 120, 60 140, 75 150 C60 160, 20 180, 10 250 L190 250 C180 180, 140 160, 125 150 C140 140, 150 120, 150 100 C150 70, 140 20, 100 20 Z" fill="rgba(20,20,20,0.5)"/>
+                    <path d="M75 150 C80 180, 120 180, 125 150" />
+                </svg>
+
+                <div class="pulse-point" style="top: 55%; left: 35%;">
+                    <span class="tooltip">Left Collarbone</span>
+                </div>
+                <div class="pulse-point" style="top: 55%; left: 65%;">
+                    <span class="tooltip">Right Collarbone</span>
+                </div>
+                <div class="pulse-point" style="top: 40%; left: 45%;">
+                    <span class="tooltip">Behind Ear / Jawline</span>
+                </div>
+                <div class="pulse-point" style="top: 85%; left: 20%;">
+                    <span class="tooltip">Inner Wrist</span>
+                </div>
+                <div class="pulse-point" style="top: 85%; left: 80%;">
+                    <span class="tooltip">Inner Wrist</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container reveal">
+            <span class="subtitle text-center">Testimonies</span>
+            <h2 class="section-title text-center" style="margin-bottom: 3rem;">From the Brotherhood</h2>
+            
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <h4 style="margin-bottom: 1rem;">"Perfect winter fragrance"</h4>
+                    <p class="text-muted">"Close dupe for Versace Eros. Affordable and long lasting. At the beginning it's citrus and mint, but then you smell spices."</p>
+                    <span style="display: block; margin-top: 1rem; font-size: 0.8rem; color: var(--gold);">- Verified Buyer</span>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <h4 style="margin-bottom: 1rem;">"Heads will turn"</h4>
+                    <p class="text-muted">"One of the seductive sexy perfumes. Fragrance stays for the whole day. Dark, bold personality of a man in a suit. Screams Godfather."</p>
+                    <span style="display: block; margin-top: 1rem; font-size: 0.8rem; color: var(--gold);">- Verified Buyer</span>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★☆</div>
+                    <h4 style="margin-bottom: 1rem;">"Manly and Long-lasting"</h4>
+                    <p class="text-muted">"I am a frequent traveler. Having a good manly odor is a top priority. This EDP does the job of giving you long-lasting fragrance within budget."</p>
+                    <span style="display: block; margin-top: 1rem; font-size: 0.8rem; color: var(--gold);">- Verified Buyer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background: rgba(10,10,10,0.3);">
+        <div class="container reveal">
+            <span class="subtitle text-center">Intelligence</span>
+            <h2 class="section-title text-center">Frequently Asked Questions</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h4 style="color: var(--gold); margin-bottom: 0.5rem;">Does it last all day long?</h4>
+                    <p class="text-muted">If sprayed at the right pulse points, given its highly concentrated EDP formula, it is engineered to last significantly longer than standard EDT perfumes, generally performing well for 6-12 hours depending on skin chemistry.</p>
+                </div>
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h4 style="color: var(--gold); margin-bottom: 0.5rem;">Is it suitable for specific seasons?</h4>
+                    <p class="text-muted">Beardo Godfather is meticulously blended with both fresh top notes (Mint/Lemon) and warm base notes (Musk/Vetiver), making it exceptionally versatile for all seasons—though it excels in cooler evening settings.</p>
+                </div>
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h4 style="color: var(--gold); margin-bottom: 0.5rem;">Are there any alternatives within Beardo?</h4>
+                    <p class="text-muted">For those seeking deeper woods and tobacco, <span class="text-main">Whisky Smoke</span> is a strong alternative. For an even more premium experience, the <span class="text-main">Beardo Alpha Extrait De Parfum</span> line offers higher concentrations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2 class="brand-logo" style="font-size: 2rem; margin-bottom: 1rem;">BEARDO</h2>
+            <p class="text-muted">This is an independent interactive encyclopedia created for educational & demonstrative purposes.</p>
+            <p class="text-muted" style="font-size: 0.8rem; margin-top: 2rem;">© 2026 Premium Encyclopedia Engine. All brand names belong to their respective owners.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            
+            // Add slight delay to the ring for trailing effect
+            setTimeout(() => {
+                cursorRing.style.left = e.clientX + 'px';
+                cursorRing.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        // Hover effect for interactive elements
+        const interactables = document.querySelectorAll('a, .glass-panel, .pyramid-level, .pulse-point');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '60px';
+                cursorRing.style.height = '60px';
+                cursorRing.style.borderColor = 'rgba(212, 175, 55, 0.9)';
+                cursorRing.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '40px';
+                cursorRing.style.height = '40px';
+                cursorRing.style.borderColor = 'rgba(212, 175, 55, 0.5)';
+                cursorRing.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Scroll Progress Bar
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for Scroll Reveal Animations
+        const reveals = document.querySelectorAll('.reveal');
+        const stats = document.querySelectorAll('.bar-fill');
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Trigger stat bars if inside the element
+                    const localStats = entry.target.querySelectorAll('.bar-fill');
+                    if (localStats.length > 0) {
+                        localStats.forEach(stat => {
+                            stat.style.width = stat.getAttribute('data-width');
+                        });
+                    } else if (entry.target.classList.contains('bar-fill')) {
+                         entry.target.style.width = entry.target.getAttribute('data-width');
+                    }
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        reveals.forEach(reveal => {
+            revealObserver.observe(reveal);
+        });
+        
+        stats.forEach(stat => {
+            revealObserver.observe(stat);
+        });
+
+        // HTML5 Canvas Smoke/Fog Particle System
+        const canvas = document.getElementById('smokeCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 200;
+                this.size = Math.random() * 100 + 50;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.05 + 0.01;
+                // Mixture of dark grey and subtle gold for that Godfather vibe
+                const colors = ['255, 255, 255', '212, 175, 55', '100, 100, 100'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -this.size) {
+                    this.y = canvas.height + this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, `rgba(${this.color}, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(${this.color}, 0)`);
+                ctx.fillStyle = gradient;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const numberOfParticles = Math.min(window.innerWidth / 20, 50); // Performance cap
+            for (let i = 0; i < numberOfParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Initialize Canvas
+        initParticles();
+        animateParticles();
+    </script>
+</body>
+</html>
