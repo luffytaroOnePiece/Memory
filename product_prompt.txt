@@ -1,0 +1,462 @@
+```text
+# UNIVERSAL PREMIUM PRODUCT ENCYCLOPEDIA HTML GENERATOR
+
+Create a stunning, production-grade, single-file HTML experience for the product provided below.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRODUCT INPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Product URL:
+[PASTE PRODUCT URL HERE]
+
+Examples
+
+https://example.com/product
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MISSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your task is NOT to recreate an ecommerce page.
+
+Instead, analyze the product, research it thoroughly, and create a premium interactive encyclopedia that feels like a fusion of:
+
+• Apple Product Pages
+• National Geographic
+• Porsche Configurator
+• Nike Storytelling
+• Sony Product Showcase
+• Adobe Landing Pages
+• Luxury Coffee Table Books
+• High-end Editorial Magazines
+
+The final page should educate, inspire, and visually impress.
+
+It should feel like a website built specifically for this product.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — ANALYZE THE PRODUCT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+First determine automatically:
+
+• Product Category
+• Brand
+• Product Name
+• Model
+• Product Type
+• Industry
+• Target Audience
+• Design Language
+• Materials
+• Colors
+• Shape
+• Premium Positioning
+• Technical Complexity
+• Primary Selling Points
+• Unique Features
+
+Never assume the product category.
+
+Detect it from the URL and available information.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — RESEARCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Research from trusted sources whenever available.
+
+Priority order:
+
+1. Official Product Page
+2. Official Brand Website
+3. Manufacturer Documentation
+4. User Manuals
+5. Press Releases
+6. Technical Specifications
+7. Community Discussions
+8. Professional Reviews
+9. Industry Databases
+
+Collect only verifiable information.
+
+Never fabricate specifications.
+
+Whenever information cannot be verified display:
+
+"Not officially disclosed."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — EXTRACT VISUAL IDENTITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Automatically derive the visual language from the product.
+
+Extract
+
+• Primary Color
+• Secondary Color
+• Accent Color
+• Surface Colors
+• Materials
+• Texture
+• Finish
+• Packaging Style
+• Logo Style
+• Brand Personality
+• Mood
+• Lighting Style
+
+Create an entirely unique design.
+
+Examples
+
+Luxury Watch
+→ Steel
+→ Gold
+→ Black
+→ Mechanical animations
+
+Gaming Laptop
+→ RGB
+→ Neon
+→ Circuit patterns
+
+Camera
+→ Dark graphite
+→ Lens reflections
+
+Coffee
+→ Warm brown
+→ Steam
+→ Natural textures
+
+Chocolate
+→ Rich cocoa
+→ Gold foil
+→ Smooth gradients
+
+Perfume
+→ Glass
+→ Smoke
+→ Luxury lighting
+
+Every product must have its own visual identity.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 4 — COLLECT MEDIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use official media whenever possible.
+
+Include
+
+• Hero image
+• Multiple product angles
+• Lifestyle images
+• Packaging
+• Components
+• Close-ups
+• Logos
+• Diagrams
+• Illustrations
+• Infographics
+
+Do not use placeholders if official assets exist.
+
+Images must be
+
+• Lazy loaded
+• Responsive
+• High quality
+• Optimized
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 5 — GENERATE DYNAMIC CONTENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate core sections for every product.
+
+Include
+
+1. Hero Section
+
+2. Product Overview
+
+3. Brand Story
+
+4. Design Philosophy
+
+5. Why This Product Exists
+
+6. Key Features
+
+7. Materials / Ingredients / Components
+
+8. Engineering / Manufacturing Process
+
+9. Technology Behind the Product
+
+10. Internal Architecture (when applicable)
+
+11. Technical Specifications
+
+12. Visual Exploded View (SVG if applicable)
+
+13. Timeline / Evolution
+
+14. Performance
+
+15. Real World Usage
+
+16. Best Use Cases
+
+17. Target Audience
+
+18. Pros
+
+19. Cons
+
+20. Comparisons
+
+21. Competitor Alternatives
+
+22. Buying Guide
+
+23. Maintenance / Care
+
+24. Sustainability
+
+25. Packaging
+
+26. Frequently Asked Questions
+
+27. Customer Insights
+
+28. Expert Summary
+
+29. Final Verdict
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CATEGORY-SPECIFIC INTELLIGENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After identifying the product category, automatically create additional sections that are relevant ONLY to that category.
+
+Examples:
+
+Perfume
+• Fragrance Pyramid
+• Notes
+• Longevity
+• Projection
+• Sillage
+• Seasons
+• Layering
+
+Laptop
+• CPU
+• GPU
+• Benchmarks
+• Cooling
+• Ports
+• Upgradeability
+
+Camera
+• Sensor
+• Lens
+• Autofocus
+• ISO
+• Dynamic Range
+
+Car
+• Engine
+• Suspension
+• Safety
+• Interior
+• Performance
+
+Food
+• Ingredients
+• Nutrition
+• Origin
+• Pairings
+
+Coffee
+• Bean Origin
+• Roast Level
+• Brewing Guide
+
+Shoes
+• Midsole
+• Cushioning
+• Durability
+• Grip
+
+Phone
+• Processor
+• Camera
+• Battery
+• Display
+
+Automatically determine which sections belong to the detected category.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL EXPERIENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an immersive experience with:
+
+• Fullscreen hero
+• Glassmorphism
+• Premium gradients
+• Scroll storytelling
+• Floating elements
+• Mouse glow
+• Luxury typography
+• Animated SVG graphics
+• Interactive cards
+• Parallax
+• Depth
+• Smooth page transitions
+• Scroll progress indicator
+• Reveal animations
+• Micro interactions
+• Elegant hover effects
+• Animated backgrounds
+• Dynamic lighting
+• Canvas particle effects (where appropriate)
+
+Animations should enhance the experience without reducing performance.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BACKGROUND DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate a unique background inspired by the product.
+
+Possible effects:
+
+• Mesh gradients
+• Smoke
+• Fog
+• Dust
+• Metallic reflections
+• Glass
+• Light rays
+• Water ripples
+• Coffee steam
+• Fabric textures
+• Carbon fiber
+• Wood grain
+• Abstract geometry
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TECHNICAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate ONE standalone HTML file.
+
+Everything must be embedded.
+
+Use only
+
+• HTML5
+• CSS3
+• Vanilla JavaScript
+• SVG
+• Canvas
+
+Do not use
+
+• React
+• Vue
+• Angular
+• Bootstrap
+• Tailwind
+• External frameworks
+• Build tools
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RESPONSIVE DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Perfect support for:
+
+• Mobile
+• Tablet
+• Laptop
+• Desktop
+• Ultra-wide displays
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PERFORMANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Optimize for speed:
+
+• Lazy loading
+• requestAnimationFrame animations
+• Efficient DOM updates
+• CSS variables
+• Hardware acceleration
+• Minimal layout shifts
+• Deferred JavaScript
+• Optimized image rendering
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACCESSIBILITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Include:
+
+• Semantic HTML
+• Keyboard navigation
+• ARIA labels
+• Alt text
+• High contrast support
+• Reduced motion support
+• Accessible forms and controls
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SEO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate:
+
+• Optimized title
+• Meta description
+• Open Graph tags
+• Twitter Cards
+• Canonical URL
+• Schema.org Product JSON-LD
+• FAQ Schema
+• Breadcrumb Schema
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WRITING STYLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Write like a premium editorial publication.
+
+Be informative, technically accurate, and engaging.
+
+Avoid generic marketing copy.
+
+Explain concepts clearly.
+
+Include interesting facts where relevant.
+
+Present balanced opinions, highlighting both strengths and limitations.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL OUTPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate ONLY the complete HTML document.
+
+Do not output explanations, markdown, or commentary.
+
+The result should be production-ready, visually stunning, responsive, accessible, SEO-friendly, high-performance, and uniquely tailored to the supplied product so that every generated page feels custom-designed rather than based on a template.
+```
