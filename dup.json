@@ -46,6 +46,26 @@
       }
     }
   },
+  "SWE": {
+    "FrontEnd": {
+      "React": {
+        "1": "React Hooks Guide"
+      }
+    },
+    "SolidPrinciples": {
+      "1": "SOLID Principles in Development"
+    },
+    "SystemDesign": {
+      "Caching": {
+        "L3": {
+          "1": "Basic Caching Concepts",
+          "2": "Eviction Policies",
+          "3": "Caching Patterns",
+          "4": "Where Caches Live"
+        }
+      }
+    }
+  },
   "LifeStyle": {
     "Cosmetics": {
       "Perfumes": {
