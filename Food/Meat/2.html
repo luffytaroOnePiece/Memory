@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Complete nutrition encyclopedia for Mahi-Mahi (Coryphaena hippurus) — macros, micronutrients, health benefits, preparation, safety, and Indian pricing.">
+<meta property="og:title" content="Mahi-Mahi — Human Nutrition Encyclopedia">
+<meta property="og:description" content="Premium interactive nutrition profile for Mahi-Mahi sea fish.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="#">
+<title>Mahi-Mahi — Human Nutrition Encyclopedia</title>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Food","name":"Mahi-Mahi","alternateName":["Dolphinfish","Dorado","Coryphaena hippurus"],"description":"A lean, firm-fleshed ocean fish prized for its high protein, omega-3 content, and rich micronutrient profile."}
+</script>
+<style>
+/* ============ CSS CUSTOM PROPERTIES ============ */
+:root {
+  /* Ocean-teal palette — deep sea depth meets bioluminescence */
+  --c-bg: #080f18;
+  --c-bg2: #0d1825;
+  --c-surface: #111f2e;
+  --c-surface2: #162536;
+  --c-border: rgba(0,210,210,0.12);
+  --c-accent: #00d4b8;
+  --c-accent2: #00a8e8;
+  --c-accent3: #7af0d8;
+  --c-gold: #f5c842;
+  --c-warn: #ff8c42;
+  --c-danger: #ff4d6d;
+  --c-success: #3dd68c;
+  --c-text: #e8f4f8;
+  --c-text2: #94b8cc;
+  --c-text3: #5a7a8e;
+  --c-glass: rgba(13,24,37,0.7);
+  --c-glow: rgba(0,212,184,0.15);
+  /* Type */
+  --f-display: 'Georgia', 'Times New Roman', serif;
+  --f-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  /* Radius */
+  --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-xl: 32px;
+  /* Shadow */
+  --s-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+  --s-glow: 0 0 40px rgba(0,212,184,0.12);
+  /* Transition */
+  --t: 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --c-bg: #f0f7fa;
+  --c-bg2: #e4f0f6;
+  --c-surface: #ffffff;
+  --c-surface2: #f5fbfd;
+  --c-border: rgba(0,150,150,0.15);
+  --c-accent: #00897b;
+  --c-accent2: #0277bd;
+  --c-accent3: #00bcd4;
+  --c-gold: #c8860a;
+  --c-warn: #e65100;
+  --c-danger: #c62828;
+  --c-success: #2e7d32;
+  --c-text: #0d2030;
+  --c-text2: #2a5068;
+  --c-text3: #607d8b;
+  --c-glass: rgba(240,247,250,0.85);
+  --c-glow: rgba(0,137,123,0.08);
+}
+
+/* ============ RESET & BASE ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--c-bg);color:var(--c-text);font-family:var(--f-body);line-height:1.6;overflow-x:hidden;transition:background var(--t),color var(--t)}
+img{max-width:100%;display:block}
+a{color:var(--c-accent);text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+details>summary{cursor:pointer;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+
+/* ============ BACKGROUND TEXTURE ============ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%,rgba(0,212,184,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%,rgba(0,168,232,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 100% 100% at 50% 50%,var(--c-bg2) 0%,var(--c-bg) 100%);
+  pointer-events:none;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:-1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;pointer-events:none;
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--c-bg)}
+::-webkit-scrollbar-thumb{background:var(--c-accent);border-radius:3px}
+
+/* ============ NAV ============ */
+#topnav{
+  position:sticky;top:0;z-index:100;
+  background:var(--c-glass);backdrop-filter:blur(20px) saturate(150%);
+  border-bottom:1px solid var(--c-border);
+  padding:0 clamp(16px,4vw,40px);
+  display:flex;align-items:center;gap:8px;min-height:54px;
+  transition:background var(--t);
+}
+.nav-logo{
+  font-family:var(--f-display);font-size:0.9rem;
+  color:var(--c-accent);letter-spacing:0.05em;white-space:nowrap;
+  margin-right:8px;
+}
+.nav-links{
+  display:flex;gap:2px;overflow-x:auto;flex:1;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{
+  padding:6px 12px;border-radius:var(--r-sm);font-size:0.78rem;
+  color:var(--c-text2);transition:background var(--t),color var(--t);
+  white-space:nowrap;letter-spacing:0.02em;
+}
+.nav-link:hover,.nav-link.active{background:var(--c-surface);color:var(--c-accent)}
+.nav-actions{display:flex;gap:8px;margin-left:auto}
+.btn-theme{
+  width:36px;height:36px;border-radius:var(--r-sm);
+  background:var(--c-surface);color:var(--c-text2);
+  display:grid;place-items:center;font-size:1rem;
+  transition:background var(--t),color var(--t);
+  border:1px solid var(--c-border);
+}
+.btn-theme:hover{background:var(--c-surface2);color:var(--c-accent)}
+
+/* ============ SEARCH BAR ============ */
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:10px 16px;
+  max-width:560px;margin:0 auto 40px;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.search-bar:focus-within{border-color:var(--c-accent);box-shadow:0 0 0 3px var(--c-glow)}
+.search-bar svg{color:var(--c-text3);flex-shrink:0}
+.search-bar input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--c-text);font-size:0.9rem;font-family:inherit;
+}
+.search-bar input::placeholder{color:var(--c-text3)}
+
+/* ============ HERO ============ */
+#hero{
+  min-height:100svh;display:flex;align-items:center;
+  padding:80px clamp(16px,5vw,80px) 60px;
+  position:relative;overflow:hidden;
+}
+.hero-inner{
+  max-width:1200px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:40px}}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-xl);padding:5px 14px;
+  font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-accent);margin-bottom:20px;
+}
+.hero-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--c-accent);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero-name{
+  font-family:var(--f-display);
+  font-size:clamp(3rem,7vw,6rem);
+  font-weight:700;line-height:1;
+  background:linear-gradient(135deg,var(--c-accent3) 0%,var(--c-accent) 40%,var(--c-accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:12px;
+}
+.hero-sciname{
+  font-size:0.95rem;font-style:italic;color:var(--c-text3);
+  letter-spacing:0.04em;margin-bottom:24px;
+}
+.hero-tagline{
+  font-size:1.1rem;color:var(--c-text2);line-height:1.7;
+  max-width:520px;margin-bottom:36px;
+}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.badge{
+  padding:4px 12px;border-radius:var(--r-xl);font-size:0.72rem;
+  letter-spacing:0.06em;border:1px solid;
+}
+.badge-teal{border-color:var(--c-accent);color:var(--c-accent);background:rgba(0,212,184,0.08)}
+.badge-blue{border-color:var(--c-accent2);color:var(--c-accent2);background:rgba(0,168,232,0.08)}
+.badge-gold{border-color:var(--c-gold);color:var(--c-gold);background:rgba(245,200,66,0.08)}
+
+/* Hero macro pills */
+.hero-macros{display:flex;flex-wrap:wrap;gap:12px}
+.macro-pill{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:12px 18px;flex:1;min-width:100px;
+  text-align:center;position:relative;overflow:hidden;
+  transition:transform var(--t),box-shadow var(--t);
+}
+.macro-pill:hover{transform:translateY(-2px);box-shadow:var(--s-glow)}
+.macro-pill::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--c-glow),transparent);
+  opacity:0;transition:opacity var(--t);
+}
+.macro-pill:hover::before{opacity:1}
+.macro-pill-val{
+  font-family:var(--f-display);font-size:1.5rem;font-weight:700;
+  color:var(--c-accent);display:block;
+}
+.macro-pill-lbl{font-size:0.68rem;color:var(--c-text3);letter-spacing:0.08em;text-transform:uppercase}
+
+/* Hero fish visual */
+.hero-visual{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.fish-art{
+  width:100%;max-width:480px;
+  filter:drop-shadow(0 0 40px rgba(0,212,184,0.3));
+  animation:fish-float 6s ease-in-out infinite;
+}
+@keyframes fish-float{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-12px) rotate(2deg)}
+}
+@media(prefers-reduced-motion:reduce){
+  .fish-art{animation:none}
+  .hero-eyebrow span{animation:none}
+}
+.hero-score-ring{
+  position:absolute;bottom:20px;right:10px;
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:16px 20px;text-align:center;
+  box-shadow:var(--s-card);
+}
+.score-num{
+  font-family:var(--f-display);font-size:2.4rem;font-weight:700;
+  background:linear-gradient(135deg,var(--c-gold),var(--c-accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.score-lbl{font-size:0.65rem;color:var(--c-text3);letter-spacing:0.1em;text-transform:uppercase}
+
+/* ============ SECTION LAYOUT ============ */
+.container{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.section{padding:80px 0}
+.section-header{margin-bottom:48px}
+.section-eyebrow{
+  font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-accent);margin-bottom:8px;display:block;
+}
+.section-title{
+  font-family:var(--f-display);font-size:clamp(1.8rem,4vw,2.6rem);
+  font-weight:700;color:var(--c-text);line-height:1.2;
+}
+.section-subtitle{color:var(--c-text2);margin-top:8px;font-size:1rem}
+.divider{
+  height:1px;background:linear-gradient(90deg,transparent,var(--c-border),transparent);
+  margin:0;
+}
+
+/* ============ CARDS ============ */
+.card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:24px;
+  box-shadow:var(--s-card);transition:transform var(--t),box-shadow var(--t);
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--s-card),var(--s-glow)}
+.card-accent-bar{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--c-accent),var(--c-accent2));
+}
+.card-label{
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--c-text3);margin-bottom:6px;
+}
+.card-value{
+  font-family:var(--f-display);font-size:1.4rem;font-weight:700;
+  color:var(--c-text);
+}
+.card-sub{font-size:0.8rem;color:var(--c-text2);margin-top:2px}
+
+/* ============ GRID HELPERS ============ */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* ============ QUICK FACTS ============ */
+.facts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.fact-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:14px 16px;
+  display:flex;flex-direction:column;gap:3px;
+  transition:border-color var(--t);
+}
+.fact-item:hover{border-color:var(--c-accent)}
+.fact-key{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text3)}
+.fact-val{font-size:0.95rem;color:var(--c-text);font-weight:500}
+
+/* ============ PRICE SECTION ============ */
+.price-hero{
+  background:linear-gradient(135deg,var(--c-surface) 0%,var(--c-surface2) 100%);
+  border:1px solid var(--c-border);border-radius:var(--r-xl);
+  padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;
+  align-items:center;overflow:hidden;position:relative;
+}
+.price-hero::before{
+  content:'₹';position:absolute;right:-20px;top:-30px;
+  font-family:var(--f-display);font-size:200px;font-weight:900;
+  color:var(--c-accent);opacity:0.04;line-height:1;pointer-events:none;
+}
+@media(max-width:600px){.price-hero{grid-template-columns:1fr}}
+.price-main{font-family:var(--f-display);font-size:clamp(2.5rem,6vw,4rem);font-weight:700;color:var(--c-accent)}
+.price-per{font-size:0.9rem;color:var(--c-text3);margin-top:4px}
+.price-table{width:100%;border-collapse:collapse}
+.price-table td{padding:8px 0;border-bottom:1px solid var(--c-border);font-size:0.9rem}
+.price-table td:last-child{text-align:right;color:var(--c-accent);font-weight:600}
+.price-note{
+  background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.2);
+  border-radius:var(--r-md);padding:12px 16px;font-size:0.82rem;
+  color:var(--c-gold);margin-top:20px;
+}
+
+/* ============ NUTRITION TABLE ============ */
+.nut-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r-lg);border:1px solid var(--c-border)}
+.nut-table{width:100%;border-collapse:collapse;min-width:600px}
+.nut-table th{
+  background:var(--c-surface2);color:var(--c-text3);
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:12px 16px;text-align:left;border-bottom:1px solid var(--c-border);
+}
+.nut-table td{
+  padding:11px 16px;border-bottom:1px solid var(--c-border);
+  font-size:0.88rem;color:var(--c-text);
+}
+.nut-table tr:last-child td{border-bottom:none}
+.nut-table tr:hover td{background:var(--c-surface2)}
+.nut-table .nut-name{color:var(--c-text2);font-weight:500}
+.nut-table .nut-val{font-family:var(--f-mono);color:var(--c-text);font-size:0.85rem}
+.nut-table .nut-dv{color:var(--c-text3);font-size:0.8rem}
+.dv-bar-wrap{display:flex;align-items:center;gap:8px}
+.dv-bar{height:5px;background:var(--c-surface2);border-radius:3px;flex:1;max-width:80px;overflow:hidden}
+.dv-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c-accent),var(--c-accent2));transition:width 0.8s ease}
+.nut-cat-header td{
+  background:linear-gradient(90deg,rgba(0,212,184,0.06),transparent);
+  color:var(--c-accent);font-size:0.7rem;letter-spacing:0.12em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;
+}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filter-tab{
+  padding:6px 14px;border-radius:var(--r-xl);font-size:0.76rem;
+  border:1px solid var(--c-border);color:var(--c-text2);
+  transition:background var(--t),color var(--t),border-color var(--t);
+}
+.filter-tab:hover,.filter-tab.active{
+  background:var(--c-accent);border-color:var(--c-accent);color:#000;
+}
+
+/* ============ DONUT CHART ============ */
+.macro-viz{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.donut-wrap{position:relative;width:180px;height:180px;flex-shrink:0}
+.donut-svg{width:100%;height:100%}
+.donut-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+}
+.donut-cal{
+  font-family:var(--f-display);font-size:1.6rem;font-weight:700;
+  color:var(--c-text);
+}
+.donut-unit{font-size:0.68rem;color:var(--c-text3);letter-spacing:0.08em;text-transform:uppercase}
+.donut-legend{flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px}
+.legend-item{display:flex;align-items:center;gap:10px}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.legend-info{flex:1}
+.legend-name{font-size:0.82rem;color:var(--c-text2)}
+.legend-val{font-size:0.78rem;color:var(--c-text3)}
+.legend-bar-wrap{flex:1;height:4px;background:var(--c-surface2);border-radius:2px;overflow:hidden}
+.legend-bar{height:100%;border-radius:2px;transition:width 0.9s ease}
+
+/* ============ PROGRESS BARS ============ */
+.prog-item{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.prog-label{font-size:0.82rem;color:var(--c-text2);min-width:120px}
+.prog-bar-wrap{flex:1;height:8px;background:var(--c-surface2);border-radius:4px;overflow:hidden}
+.prog-bar{height:100%;border-radius:4px;transition:width 1s ease}
+.prog-value{font-size:0.8rem;color:var(--c-text2);min-width:50px;text-align:right;font-family:var(--f-mono)}
+
+/* ============ BENEFITS ============ */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.benefit-card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:22px;
+  transition:transform var(--t),box-shadow var(--t);
+  display:flex;gap:16px;
+}
+.benefit-card:hover{transform:translateY(-2px);box-shadow:var(--s-glow)}
+.benefit-icon{font-size:1.8rem;flex-shrink:0;line-height:1}
+.benefit-body h4{font-size:0.95rem;color:var(--c-text);margin-bottom:4px}
+.benefit-body p{font-size:0.82rem;color:var(--c-text2);line-height:1.5}
+.evidence-badge{
+  display:inline-block;font-size:0.65rem;padding:2px 8px;
+  border-radius:var(--r-xl);margin-top:6px;letter-spacing:0.06em;
+}
+.ev-strong{background:rgba(61,214,140,0.15);color:var(--c-success);border:1px solid rgba(61,214,140,0.3)}
+.ev-moderate{background:rgba(245,200,66,0.12);color:var(--c-gold);border:1px solid rgba(245,200,66,0.25)}
+.ev-limited{background:rgba(255,140,66,0.12);color:var(--c-warn);border:1px solid rgba(255,140,66,0.25)}
+
+/* ============ TIMING ============ */
+.timing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.timing-card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:20px;
+  transition:transform var(--t);
+}
+.timing-card:hover{transform:translateY(-2px)}
+.timing-icon{font-size:1.5rem;margin-bottom:8px}
+.timing-period{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text3);margin-bottom:4px}
+.timing-rec{font-size:0.9rem;font-weight:600;color:var(--c-text);margin-bottom:6px}
+.timing-why{font-size:0.8rem;color:var(--c-text2);line-height:1.5}
+.timing-suitable{
+  display:inline-block;padding:3px 10px;border-radius:var(--r-xl);
+  font-size:0.68rem;letter-spacing:0.05em;margin-bottom:8px;
+}
+.suitable-yes{background:rgba(61,214,140,0.15);color:var(--c-success)}
+.suitable-good{background:rgba(0,212,184,0.12);color:var(--c-accent)}
+.suitable-limited{background:rgba(255,140,66,0.1);color:var(--c-warn)}
+
+/* ============ PAIRINGS ============ */
+.pairing-cards{display:flex;flex-wrap:wrap;gap:12px}
+.pairing-chip{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:10px 16px;
+  transition:border-color var(--t),background var(--t);
+  cursor:default;
+}
+.pairing-chip:hover{border-color:var(--c-accent);background:var(--c-surface2)}
+.pairing-food{font-size:0.9rem;color:var(--c-text);font-weight:500;margin-bottom:2px}
+.pairing-why{font-size:0.72rem;color:var(--c-text3)}
+
+/* ============ CALCULATOR ============ */
+.calc-wrap{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-xl);padding:36px;
+}
+.calc-slider-wrap{margin:24px 0}
+.calc-slider{
+  -webkit-appearance:none;appearance:none;width:100%;height:6px;
+  border-radius:3px;outline:none;cursor:pointer;
+  background:linear-gradient(90deg,var(--c-accent) var(--pct,50%),var(--c-surface2) var(--pct,50%));
+  transition:background 0.1s;
+}
+.calc-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--c-accent);border:3px solid var(--c-bg);
+  box-shadow:0 0 0 3px rgba(0,212,184,0.3);
+  cursor:pointer;transition:box-shadow var(--t);
+}
+.calc-slider::-webkit-slider-thumb:hover{box-shadow:0 0 0 6px rgba(0,212,184,0.2)}
+.calc-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--c-text3);margin-top:6px}
+.calc-serving-display{
+  font-family:var(--f-display);font-size:2rem;color:var(--c-accent);
+  text-align:center;margin-bottom:8px;
+}
+.calc-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:24px}
+.calc-item{
+  background:var(--c-surface2);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:14px;text-align:center;
+}
+.calc-val{font-family:var(--f-display);font-size:1.3rem;font-weight:700;color:var(--c-accent)}
+.calc-lbl{font-size:0.68rem;color:var(--c-text3);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+
+/* ============ AMINO ACIDS ============ */
+.aa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.aa-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:12px 14px;
+}
+.aa-name{font-size:0.8rem;color:var(--c-text2);margin-bottom:4px}
+.aa-val{font-size:0.9rem;font-weight:600;color:var(--c-text);font-family:var(--f-mono)}
+.aa-bar-wrap{height:4px;background:var(--c-surface2);border-radius:2px;margin-top:6px;overflow:hidden}
+.aa-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--c-accent2),var(--c-accent))}
+.aa-essential{border-left:3px solid var(--c-accent)}
+.aa-nonessential{border-left:3px solid var(--c-text3)}
+
+/* ============ SCORE SECTION ============ */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.score-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:20px;text-align:center;
+}
+.score-circle{
+  width:80px;height:80px;border-radius:50%;
+  margin:0 auto 12px;display:grid;place-items:center;
+  border:3px solid var(--c-border);position:relative;overflow:hidden;
+}
+.score-circle-val{
+  font-family:var(--f-display);font-size:1.4rem;font-weight:700;
+  position:relative;z-index:1;
+}
+.score-circle::before{
+  content:'';position:absolute;inset:0;
+  background:conic-gradient(var(--accent-color,#00d4b8) var(--pct,0%),transparent 0%);
+  opacity:0.2;
+}
+.score-item-name{font-size:0.78rem;color:var(--c-text2);letter-spacing:0.04em}
+
+/* ============ DIET BADGES ============ */
+.diet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.diet-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:14px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.diet-status{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.diet-name{font-size:0.9rem;color:var(--c-text);font-weight:500;margin-bottom:2px}
+.diet-note{font-size:0.75rem;color:var(--c-text3)}
+
+/* ============ SAFETY CARDS ============ */
+.safety-cards{display:flex;flex-direction:column;gap:12px}
+.safety-card{
+  border-radius:var(--r-md);padding:16px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.safety-card.warn{background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.2)}
+.safety-card.info{background:rgba(0,168,232,0.07);border:1px solid rgba(0,168,232,0.2)}
+.safety-card.danger{background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.2)}
+.safety-icon{font-size:1.3rem;flex-shrink:0}
+.safety-title{font-size:0.9rem;font-weight:600;color:var(--c-text);margin-bottom:3px}
+.safety-text{font-size:0.82rem;color:var(--c-text2);line-height:1.5}
+
+/* ============ COMPARISON TABLE ============ */
+.compare-table-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--c-border)}
+.compare-table{width:100%;border-collapse:collapse;min-width:400px}
+.compare-table th{
+  background:var(--c-surface2);padding:10px 16px;
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--c-text3);text-align:left;border-bottom:1px solid var(--c-border);
+}
+.compare-table td{
+  padding:10px 16px;border-bottom:1px solid var(--c-border);
+  font-size:0.88rem;color:var(--c-text);
+}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:var(--c-surface2)}
+.compare-better{color:var(--c-success);font-weight:600}
+.compare-neutral{color:var(--c-text2)}
+
+/* ============ MYTHS ============ */
+.myth-cards{display:flex;flex-direction:column;gap:16px}
+.myth-card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.myth-header{
+  padding:16px 20px;display:flex;gap:12px;align-items:flex-start;
+  background:rgba(255,77,109,0.05);border-bottom:1px solid rgba(255,77,109,0.1);
+}
+.myth-icon{font-size:1.2rem;flex-shrink:0}
+.myth-label{font-size:0.65rem;color:var(--c-danger);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px}
+.myth-text{font-size:0.9rem;color:var(--c-text);font-weight:500}
+.reality-body{
+  padding:16px 20px;display:flex;gap:12px;align-items:flex-start;
+}
+.reality-label{font-size:0.65rem;color:var(--c-success);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px}
+.reality-text{font-size:0.85rem;color:var(--c-text2);line-height:1.5}
+
+/* ============ FAQ ============ */
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);overflow:hidden;
+  transition:border-color var(--t);
+}
+.faq-item:hover{border-color:var(--c-accent)}
+.faq-item[open]{border-color:var(--c-accent)}
+.faq-summary{
+  padding:16px 20px;font-size:0.92rem;color:var(--c-text);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  font-weight:500;
+}
+.faq-arrow{
+  width:20px;height:20px;border-radius:50%;background:var(--c-surface2);
+  display:grid;place-items:center;font-size:0.7rem;color:var(--c-accent);
+  flex-shrink:0;transition:transform var(--t);
+}
+details[open] .faq-arrow{transform:rotate(180deg)}
+.faq-body{padding:0 20px 16px;font-size:0.85rem;color:var(--c-text2);line-height:1.6}
+
+/* ============ EVIDENCE ============ */
+.evidence-list{display:flex;flex-direction:column;gap:12px}
+.evidence-item{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--r-md);padding:16px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.ev-indicator{font-size:1rem;flex-shrink:0;margin-top:2px}
+.ev-claim{font-size:0.9rem;color:var(--c-text);font-weight:500;margin-bottom:3px}
+.ev-explanation{font-size:0.8rem;color:var(--c-text2);line-height:1.5}
+.ev-source{font-size:0.72rem;color:var(--c-text3);margin-top:4px;font-family:var(--f-mono)}
+
+/* ============ SUMMARY CARD ============ */
+.summary-final{
+  background:linear-gradient(135deg,rgba(0,212,184,0.08) 0%,rgba(0,168,232,0.06) 100%);
+  border:1px solid var(--c-accent);border-radius:var(--r-xl);
+  padding:clamp(24px,4vw,48px);
+}
+.summary-title{
+  font-family:var(--f-display);font-size:clamp(1.5rem,3vw,2.2rem);
+  color:var(--c-text);margin-bottom:8px;
+}
+.summary-sub{font-size:0.9rem;color:var(--c-text3);margin-bottom:32px}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.summary-item{
+  background:var(--c-glass);backdrop-filter:blur(12px);
+  border:1px solid var(--c-border);border-radius:var(--r-md);padding:16px;
+}
+.summary-key{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text3);margin-bottom:4px}
+.summary-val{font-size:0.9rem;color:var(--c-text);font-weight:500}
+
+/* ============ FOOTER ============ */
+footer{
+  background:var(--c-surface);border-top:1px solid var(--c-border);
+  padding:48px clamp(16px,4vw,40px);margin-top:80px;
+}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
+.footer-title{font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-accent);margin-bottom:12px}
+.footer-text{font-size:0.8rem;color:var(--c-text3);line-height:1.7}
+.footer-links{display:flex;flex-direction:column;gap:6px}
+.footer-link{font-size:0.82rem;color:var(--c-text2);transition:color var(--t)}
+.footer-link:hover{color:var(--c-accent)}
+.footer-disclaimer{
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--c-border);
+  font-size:0.75rem;color:var(--c-text3);line-height:1.6;
+}
+
+/* ============ UTILITY ============ */
+.text-accent{color:var(--c-accent)}
+.text-muted{color:var(--c-text3)}
+.text-sm{font-size:0.85rem}
+.mb-4{margin-bottom:16px}
+.mb-6{margin-bottom:24px}
+.mb-8{margin-bottom:32px}
+.flex{display:flex}
+.gap-3{gap:12px}
+.items-center{align-items:center}
+.flex-wrap{flex-wrap:wrap}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Prepare/Cooking ratings */
+.prep-rating{display:flex;gap:6px;margin-top:4px}
+.star{color:var(--c-gold);font-size:0.85rem}
+.star.empty{color:var(--c-text3)}
+
+/* Group label inside table */
+tr.group-row td{padding:6px 16px;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-accent);background:rgba(0,212,184,0.04);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="topnav" role="navigation" aria-label="Section navigation">
+  <span class="nav-logo">🐟 NutriBook</span>
+  <div class="nav-links" role="list">
+    <a href="#overview" class="nav-link" role="listitem">Overview</a>
+    <a href="#nutrition" class="nav-link" role="listitem">Nutrition</a>
+    <a href="#micronutrients" class="nav-link" role="listitem">Micros</a>
+    <a href="#benefits" class="nav-link" role="listitem">Benefits</a>
+    <a href="#timing" class="nav-link" role="listitem">Timing</a>
+    <a href="#preparation" class="nav-link" role="listitem">Preparation</a>
+    <a href="#fitness" class="nav-link" role="listitem">Fitness</a>
+    <a href="#safety" class="nav-link" role="listitem">Safety</a>
+    <a href="#evidence" class="nav-link" role="listitem">Evidence</a>
+    <a href="#faq" class="nav-link" role="listitem">FAQ</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="themeToggle" aria-label="Toggle dark/light mode">🌙</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero" aria-label="Hero overview">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span aria-hidden="true"></span> Ocean Fish · Sea Fish</div>
+      <h1 class="hero-name">Mahi-Mahi</h1>
+      <p class="hero-sciname">Coryphaena hippurus · Dolphinfish · Dorado</p>
+      <p class="hero-tagline">A vibrant open-ocean predator celebrated for its lean, firm flesh, exceptional protein density, and rich array of B vitamins, omega-3 fatty acids, and trace minerals essential to human health.</p>
+      <div class="hero-badges">
+        <span class="badge badge-teal">High Protein</span>
+        <span class="badge badge-blue">Omega-3 Source</span>
+        <span class="badge badge-gold">Low Fat</span>
+        <span class="badge badge-teal">Gluten-Free</span>
+        <span class="badge badge-blue">Non-Vegetarian</span>
+      </div>
+      <div class="hero-macros">
+        <div class="macro-pill">
+          <span class="macro-pill-val" data-target="93" id="heroCalories">—</span>
+          <span class="macro-pill-lbl">kcal / 100g</span>
+        </div>
+        <div class="macro-pill">
+          <span class="macro-pill-val" data-target="20.2" id="heroProtein">—</span>
+          <span class="macro-pill-lbl">g Protein</span>
+        </div>
+        <div class="macro-pill">
+          <span class="macro-pill-val" data-target="0.8" id="heroCarbs">—</span>
+          <span class="macro-pill-lbl">g Carbs</span>
+        </div>
+        <div class="macro-pill">
+          <span class="macro-pill-val" data-target="0.7" id="heroFat">—</span>
+          <span class="macro-pill-lbl">g Fat</span>
+        </div>
+        <div class="macro-pill">
+          <span class="macro-pill-val" data-target="0" id="heroFiber">0</span>
+          <span class="macro-pill-lbl">g Fiber</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Elegant CSS-based SVG fish illustration -->
+      <svg class="fish-art" viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" aria-label="Mahi-Mahi fish illustration" role="img">
+        <defs>
+          <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00d4b8"/>
+            <stop offset="40%" stop-color="#00a8e8"/>
+            <stop offset="80%" stop-color="#1a6b3c"/>
+            <stop offset="100%" stop-color="#f5c842"/>
+          </linearGradient>
+          <linearGradient id="bellyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e8f4f8" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#c0e0ea" stop-opacity="0.6"/>
+          </linearGradient>
+          <linearGradient id="finGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#00d4b8"/>
+            <stop offset="100%" stop-color="#00a8e8" stop-opacity="0.5"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="scaleGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.08)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+        </defs>
+        <!-- Tail fin -->
+        <path d="M370 100 Q420 60 440 40 Q430 80 440 140 Q430 200 420 210 Q400 190 370 175 Q400 140 370 100Z" fill="url(#finGrad)" opacity="0.85"/>
+        <!-- Body -->
+        <ellipse cx="200" cy="145" rx="190" ry="75" fill="url(#bodyGrad)" filter="url(#glow)"/>
+        <!-- Belly highlight -->
+        <ellipse cx="190" cy="170" rx="160" ry="38" fill="url(#bellyGrad)" opacity="0.5"/>
+        <!-- Dorsal fin -->
+        <path d="M80 90 Q120 40 200 50 Q260 48 320 65 Q310 80 290 88 Q220 70 150 80 Q100 85 80 100Z" fill="url(#finGrad)" opacity="0.8"/>
+        <!-- Pectoral fin -->
+        <path d="M160 140 Q130 160 120 190 Q150 175 180 165Z" fill="url(#finGrad)" opacity="0.7"/>
+        <!-- Anal fin -->
+        <path d="M200 200 Q220 225 250 230 Q240 210 230 205Z" fill="url(#finGrad)" opacity="0.7"/>
+        <!-- Forehead (characteristic blunt head) -->
+        <ellipse cx="60" cy="140" rx="55" ry="50" fill="url(#bodyGrad)"/>
+        <!-- Eye -->
+        <circle cx="52" cy="125" r="12" fill="#0d1825"/>
+        <circle cx="52" cy="125" r="8" fill="#1a3a4a"/>
+        <circle cx="55" cy="122" r="3" fill="rgba(255,255,255,0.9)"/>
+        <!-- Lateral line -->
+        <path d="M90 125 Q180 115 300 120 Q350 122 380 128" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-dasharray="6,4"/>
+        <!-- Scale shimmer -->
+        <ellipse cx="180" cy="130" rx="50" ry="25" fill="url(#scaleGrad)" opacity="0.6"/>
+        <ellipse cx="260" cy="140" rx="40" ry="20" fill="url(#scaleGrad)" opacity="0.5"/>
+        <!-- Gill line -->
+        <path d="M95 105 Q88 140 95 175" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+        <!-- Color markings -->
+        <ellipse cx="200" cy="110" rx="80" ry="12" fill="rgba(245,200,66,0.2)" opacity="0.7"/>
+        <!-- Mouth -->
+        <path d="M18 148 Q22 155 28 148" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      </svg>
+      <div class="hero-score-ring" aria-label="Overall nutrition score">
+        <div class="score-num">88</div>
+        <div class="score-lbl">Nutrition Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ SEARCH BAR ============ -->
+<section id="overview" style="padding:48px 0 0">
+  <div class="container">
+    <div class="search-bar" role="search" aria-label="Search for another food">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Explore another food — regenerate this profile to continue" aria-label="Food search (static demo)" readonly>
+    </div>
+
+    <!-- QUICK FACTS -->
+    <div class="section-header">
+      <span class="section-eyebrow">Snapshot</span>
+      <h2 class="section-title">Quick Facts</h2>
+      <p class="section-subtitle">Essential classification, availability, and characteristics at a glance.</p>
+    </div>
+    <div class="facts-grid mb-8">
+      <div class="fact-item"><span class="fact-key">Scientific Name</span><span class="fact-val"><em>Coryphaena hippurus</em></span></div>
+      <div class="fact-item"><span class="fact-key">Common Names</span><span class="fact-val">Mahi-Mahi, Dolphinfish, Dorado</span></div>
+      <div class="fact-item"><span class="fact-key">Food Type</span><span class="fact-val">Marine fish (wild-caught)</span></div>
+      <div class="fact-item"><span class="fact-key">Family</span><span class="fact-val">Coryphaenidae</span></div>
+      <div class="fact-item"><span class="fact-key">Order</span><span class="fact-val">Perciformes</span></div>
+      <div class="fact-item"><span class="fact-key">Origin / Waters</span><span class="fact-val">Tropical & subtropical oceans worldwide</span></div>
+      <div class="fact-item"><span class="fact-key">Major Producing Regions</span><span class="fact-val">India, Sri Lanka, Taiwan, Peru, Ecuador</span></div>
+      <div class="fact-item"><span class="fact-key">Seasonality (India)</span><span class="fact-val">Year-round; best Oct–Mar (post-monsoon)</span></div>
+      <div class="fact-item"><span class="fact-key">Typical Serving Size</span><span class="fact-val">100–150 g (cooked fillet)</span></div>
+      <div class="fact-item"><span class="fact-key">Edible Portion</span><span class="fact-val">~55–60% of whole fish</span></div>
+      <div class="fact-item"><span class="fact-key">Vegetarian</span><span class="fact-val">No ✕</span></div>
+      <div class="fact-item"><span class="fact-key">Vegan</span><span class="fact-val">No ✕</span></div>
+      <div class="fact-item"><span class="fact-key">Gluten-Free</span><span class="fact-val">Yes ✓ (plain)</span></div>
+      <div class="fact-item"><span class="fact-key">Lactose-Free</span><span class="fact-val">Yes ✓</span></div>
+      <div class="fact-item"><span class="fact-key">Mercury Level</span><span class="fact-val">Low to moderate</span></div>
+      <div class="fact-item"><span class="fact-key">Storage (fresh)</span><span class="fact-val">2 days refrigerated / 3 months frozen</span></div>
+      <div class="fact-item"><span class="fact-key">Texture</span><span class="fact-val">Firm, moist, mild-flavored</span></div>
+      <div class="fact-item"><span class="fact-key">Flesh Color</span><span class="fact-val">Pink-white when raw; white when cooked</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICE SECTION ============ -->
+<section style="padding:0 0 80px">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">India Market</span>
+      <h2 class="section-title">Price in India</h2>
+      <p class="section-subtitle">Approximate retail prices — vary by city, season, quality, and platform.</p>
+    </div>
+    <div class="price-hero">
+      <div>
+        <div class="price-main">₹ 400–650</div>
+        <div class="price-per">per kilogram (retail estimate)</div>
+        <div class="price-note">⚠ Prices are approximate current estimates and vary by market, city, season, and platform. Certified organic or premium imports may cost significantly more.</div>
+      </div>
+      <div>
+        <table class="price-table" aria-label="Mahi-Mahi price breakdown">
+          <tr><td>Per 100 g</td><td>₹ 40–65</td></tr>
+          <tr><td>Per typical serving (130 g)</td><td>₹ 52–85</td></tr>
+          <tr><td>Per kg (coastal market)</td><td>₹ 350–500</td></tr>
+          <tr><td>Per kg (metro supermarket)</td><td>₹ 500–700</td></tr>
+          <tr><td>Per kg (frozen, packaged)</td><td>₹ 450–650</td></tr>
+          <tr><td>Premium import fillet</td><td>₹ 700–1,200/kg</td></tr>
+        </table>
+        <p style="font-size:0.75rem;color:var(--c-text3);margin-top:10px">Data: coastal fish markets (Kerala, Goa, Tamil Nadu), metro retailers, and online seafood platforms as of 2024–2025 estimates. Not a live price feed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ NUTRITION ============ -->
+<section id="nutrition" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Macronutrients</span>
+      <h2 class="section-title">Full Nutrition Profile</h2>
+      <p class="section-subtitle">Data based on raw, wild-caught Mahi-Mahi per 100 g (USDA FoodData Central).</p>
+    </div>
+
+    <!-- Macro Visualization -->
+    <div class="card mb-8" style="padding:32px">
+      <h3 style="font-size:1rem;color:var(--c-text2);margin-bottom:24px;letter-spacing:0.05em">Macronutrient Breakdown</h3>
+      <div class="macro-viz">
+        <div class="donut-wrap" aria-hidden="true">
+          <svg class="donut-svg" viewBox="0 0 180 180">
+            <!-- Protein: 85% of calories -->
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#00d4b8" stroke-width="18" stroke-dasharray="373 440" stroke-dashoffset="110" transform="rotate(-90 90 90)"/>
+            <!-- Fat: 7% -->
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#00a8e8" stroke-width="18" stroke-dasharray="31 440" stroke-dashoffset="-263" transform="rotate(-90 90 90)"/>
+            <!-- Carbs: 3% -->
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#f5c842" stroke-width="18" stroke-dasharray="13 440" stroke-dashoffset="-294" transform="rotate(-90 90 90)"/>
+            <!-- Other: 5% -->
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#5a7a8e" stroke-width="18" stroke-dasharray="22 440" stroke-dashoffset="-307" transform="rotate(-90 90 90)"/>
+          </svg>
+          <div class="donut-center">
+            <span class="donut-cal">93</span>
+            <span class="donut-unit">kcal / 100g</span>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#00d4b8"></div>
+            <div class="legend-info">
+              <div class="legend-name">Protein</div>
+              <div class="legend-val">20.2 g · 87% of calories</div>
+            </div>
+            <div class="legend-bar-wrap"><div class="legend-bar" style="background:#00d4b8;width:87%"></div></div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#00a8e8"></div>
+            <div class="legend-info">
+              <div class="legend-name">Fat</div>
+              <div class="legend-val">0.7 g · 7% of calories</div>
+            </div>
+            <div class="legend-bar-wrap"><div class="legend-bar" style="background:#00a8e8;width:7%"></div></div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#f5c842"></div>
+            <div class="legend-info">
+              <div class="legend-name">Carbohydrates</div>
+              <div class="legend-val">0.8 g · 3% of calories</div>
+            </div>
+            <div class="legend-bar-wrap"><div class="legend-bar" style="background:#f5c842;width:3%"></div></div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#5a7a8e"></div>
+            <div class="legend-info">
+              <div class="legend-name">Water</div>
+              <div class="legend-val">~78 g · dominant content</div>
+            </div>
+            <div class="legend-bar-wrap"><div class="legend-bar" style="background:#5a7a8e;width:55%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <div class="calc-wrap mb-8" id="calculator">
+      <h3 style="font-size:1.1rem;color:var(--c-text);margin-bottom:4px">Serving Size Calculator</h3>
+      <p style="font-size:0.82rem;color:var(--c-text3);margin-bottom:4px">Adjust serving size to see real-time nutrient values.</p>
+      <div class="calc-serving-display" id="calcDisplay">130 g</div>
+      <div class="calc-slider-wrap">
+        <input type="range" class="calc-slider" id="calcSlider" min="50" max="400" value="130" step="5" aria-label="Serving size in grams" style="--pct:20%">
+        <div class="calc-labels"><span>50 g</span><span>200 g</span><span>400 g</span></div>
+      </div>
+      <div class="calc-results" id="calcResults">
+        <div class="calc-item"><div class="calc-val" id="cCalories">121</div><div class="calc-lbl">Calories</div></div>
+        <div class="calc-item"><div class="calc-val" id="cProtein">26.3g</div><div class="calc-lbl">Protein</div></div>
+        <div class="calc-item"><div class="calc-val" id="cCarbs">1.0g</div><div class="calc-lbl">Carbs</div></div>
+        <div class="calc-item"><div class="calc-val" id="cFat">0.9g</div><div class="calc-lbl">Fat</div></div>
+        <div class="calc-item"><div class="calc-val" id="cOmega3">0.2g</div><div class="calc-lbl">Omega-3</div></div>
+        <div class="calc-item"><div class="calc-val" id="cB12">2.0µg</div><div class="calc-lbl">Vit B12</div></div>
+        <div class="calc-item"><div class="calc-val" id="cSe">52µg</div><div class="calc-lbl">Selenium</div></div>
+        <div class="calc-item"><div class="calc-val" id="cNa">93mg</div><div class="calc-lbl">Sodium</div></div>
+      </div>
+    </div>
+
+    <!-- Macro Table -->
+    <h3 style="font-size:1rem;color:var(--c-text2);margin-bottom:16px;letter-spacing:0.04em">Complete Macronutrient Table</h3>
+    <div class="nut-table-wrap mb-8">
+      <table class="nut-table" aria-label="Macronutrient profile of Mahi-Mahi">
+        <thead>
+          <tr>
+            <th>Nutrient</th>
+            <th>Per 100 g</th>
+            <th>Per 130 g serving</th>
+            <th>% Daily Value</th>
+            <th>Contribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="nut-cat-header"><td colspan="5">Energy & Macros</td></tr>
+          <tr><td class="nut-name">Calories</td><td class="nut-val">93 kcal</td><td>121 kcal</td><td>6%</td><td><div class="dv-bar-wrap"><div class="dv-bar"><div class="dv-bar-fill" style="width:6%"></div></div><span>Low</span></div></td></tr>
+          <tr><td class="nut-name">Protein</td><td class="nut-val">20.2 g</td><td>26.3 g</td><td>40%</td><td><div class="dv-bar-wrap"><div class="dv-bar"><div class="dv-bar-fill" style="width:40%"></div></div><span>Very High</span></div></td></tr>
+          <tr><td class="nut-name">Total Carbohydrates</td><td class="nut-val">0.8 g</td><td>1.0 g</td><td>&lt;1%</td><td><div class="dv-bar-wrap"><div class="dv-bar"><div class="dv-bar-fill" style="width:1%"></div></div><span>Negligible</span></div></td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Dietary Fiber</td><td class="nut-val">0 g</td><td>0 g</td><td>0%</td><td>—</td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Total Sugars</td><td class="nut-val">0 g</td><td>0 g</td><td>0%</td><td>—</td></tr>
+          <tr><td class="nut-name">Total Fat</td><td class="nut-val">0.7 g</td><td>0.9 g</td><td>1%</td><td><div class="dv-bar-wrap"><div class="dv-bar"><div class="dv-bar-fill" style="width:1%"></div></div><span>Very Low</span></div></td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Saturated Fat</td><td class="nut-val">0.19 g</td><td>0.25 g</td><td>1%</td><td>—</td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Monounsaturated Fat</td><td class="nut-val">0.12 g</td><td>0.16 g</td><td>—</td><td>—</td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Polyunsaturated Fat</td><td class="nut-val">0.17 g</td><td>0.22 g</td><td>—</td><td>—</td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Omega-3 (ALA+EPA+DHA)</td><td class="nut-val">~0.13 g</td><td>~0.17 g</td><td>~9%</td><td><div class="dv-bar-wrap"><div class="dv-bar"><div class="dv-bar-fill" style="width:9%"></div></div><span>Moderate</span></div></td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Omega-6</td><td class="nut-val">~0.04 g</td><td>~0.05 g</td><td>—</td><td>—</td></tr>
+          <tr><td class="nut-name" style="padding-left:28px">Trans Fat</td><td class="nut-val">0 g</td><td>0 g</td><td>0%</td><td>—</td></tr>
+          <tr class="nut-cat-header"><td colspan="5">Other</td></tr>
+          <tr><td class="nut-name">Water</td><td class="nut-val">~78 g</td><td>~101 g</td><td>—</td><td>High hydration value</td></tr>
+          <tr><td class="nut-name">Ash (Minerals total)</td><td class="nut-val">~1.3 g</td><td>~1.7 g</td><td>—</td><td>Rich mineral base</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.75rem;color:var(--c-text3)">Source: USDA FoodData Central, NDB No. 15194. Values for raw, wild-caught Mahi-Mahi. Cooked values may differ due to water loss and cooking method.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ MICRONUTRIENTS ============ -->
+<section id="micronutrients" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Vitamins & Minerals</span>
+      <h2 class="section-title">Micronutrient Dashboard</h2>
+      <p class="section-subtitle">Per 100 g raw, wild-caught. % DV based on FDA 2020 reference values for adults.</p>
+    </div>
+
+    <div class="filter-tabs mb-4" role="tablist" aria-label="Filter nutrients">
+      <button class="filter-tab active" onclick="filterNutrients('all',this)" role="tab" aria-selected="true">All</button>
+      <button class="filter-tab" onclick="filterNutrients('vitamins',this)" role="tab" aria-selected="false">Vitamins</button>
+      <button class="filter-tab" onclick="filterNutrients('minerals',this)" role="tab" aria-selected="false">Minerals</button>
+    </div>
+
+    <div class="nut-table-wrap">
+      <table class="nut-table" aria-label="Micronutrient profile of Mahi-Mahi" id="microTable">
+        <thead>
+          <tr>
+            <th>Nutrient</th>
+            <th>Amount / 100 g</th>
+            <th>Unit</th>
+            <th>% DV</th>
+            <th>Significance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-row vitamins-row"><td colspan="5">B VITAMINS</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B1 (Thiamine)</td><td class="nut-val">0.023</td><td>mg</td><td>~2%</td><td>Low</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B2 (Riboflavin)</td><td class="nut-val">0.072</td><td>mg</td><td>~6%</td><td>Moderate</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B3 (Niacin)</td><td class="nut-val">6.94</td><td>mg</td><td><strong>43%</strong></td><td><strong style="color:var(--c-accent)">High ★</strong></td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B5 (Pantothenic Acid)</td><td class="nut-val">0.63</td><td>mg</td><td>~13%</td><td>Good</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B6 (Pyridoxine)</td><td class="nut-val">0.37</td><td>mg</td><td><strong>22%</strong></td><td><strong style="color:var(--c-accent)">High ★</strong></td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B9 (Folate)</td><td class="nut-val">5</td><td>µg DFE</td><td>~1%</td><td>Low</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin B12 (Cobalamin)</td><td class="nut-val">0.65</td><td>µg</td><td><strong>27%</strong></td><td><strong style="color:var(--c-accent)">High ★</strong></td></tr>
+          <tr class="group-row vitamins-row"><td colspan="5">FAT-SOLUBLE VITAMINS</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin A (RAE)</td><td class="nut-val">54</td><td>µg RAE</td><td>~6%</td><td>Moderate</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin D</td><td class="nut-val">~3.2</td><td>µg</td><td>~16%</td><td>Good</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin E</td><td class="nut-val">0.40</td><td>mg</td><td>~3%</td><td>Low</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin K</td><td class="nut-val">~0.1</td><td>µg</td><td>&lt;1%</td><td>Negligible</td></tr>
+          <tr class="group-row vitamins-row"><td colspan="5">WATER-SOLUBLE (OTHER)</td></tr>
+          <tr class="vitamins-row"><td class="nut-name">Vitamin C</td><td class="nut-val">0</td><td>mg</td><td>0%</td><td>Not significant</td></tr>
+          <tr class="group-row minerals-row"><td colspan="5">MACROMINERALS</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Phosphorus</td><td class="nut-val">196</td><td>mg</td><td><strong>16%</strong></td><td>Good</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Potassium</td><td class="nut-val">416</td><td>mg</td><td><strong>9%</strong></td><td>Moderate</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Sodium</td><td class="nut-val">88</td><td>mg</td><td>4%</td><td>Low</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Magnesium</td><td class="nut-val">30</td><td>mg</td><td>7%</td><td>Moderate</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Calcium</td><td class="nut-val">15</td><td>mg</td><td>1%</td><td>Low</td></tr>
+          <tr class="group-row minerals-row"><td colspan="5">TRACE MINERALS</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Selenium</td><td class="nut-val">36.5</td><td>µg</td><td><strong>66%</strong></td><td><strong style="color:var(--c-gold)">Very High ★★</strong></td></tr>
+          <tr class="minerals-row"><td class="nut-name">Iron</td><td class="nut-val">1.29</td><td>mg</td><td>7%</td><td>Moderate</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Zinc</td><td class="nut-val">0.45</td><td>mg</td><td>4%</td><td>Low–Moderate</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Copper</td><td class="nut-val">0.06</td><td>mg</td><td>7%</td><td>Moderate</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Manganese</td><td class="nut-val">0.013</td><td>mg</td><td>1%</td><td>Low</td></tr>
+          <tr class="minerals-row"><td class="nut-name">Iodine</td><td class="nut-val">~25</td><td>µg</td><td>~17%</td><td>Good</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.75rem;color:var(--c-text3);margin-top:12px">★ Notable contribution. ★★ Exceptional contribution. Some values (Vitamin D, Iodine) are estimates and may vary. "~" denotes approximate measured range. % DV reference: FDA 2020 Daily Values for adults on 2,000 kcal diet.</p>
+
+    <!-- Amino Acid Profile -->
+    <div style="margin-top:48px">
+      <div class="section-header" style="margin-bottom:24px">
+        <span class="section-eyebrow">Protein Quality</span>
+        <h3 class="section-title" style="font-size:1.8rem">Amino Acid Profile</h3>
+        <p class="section-subtitle">Estimated values per 100 g raw (based on fish protein composition data; individual values may vary).</p>
+      </div>
+      <div class="aa-grid">
+        <div class="aa-item aa-essential"><div class="aa-name">Leucine (E)</div><div class="aa-val">~1.64 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:82%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Lysine (E)</div><div class="aa-val">~1.82 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:91%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Valine (E)</div><div class="aa-val">~1.02 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:51%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Isoleucine (E)</div><div class="aa-val">~0.92 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:46%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Threonine (E)</div><div class="aa-val">~0.88 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:44%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Phenylalanine (E)</div><div class="aa-val">~0.78 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:39%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Methionine (E)</div><div class="aa-val">~0.60 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:30%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Tryptophan (E)</div><div class="aa-val">~0.22 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:11%"></div></div></div>
+        <div class="aa-item aa-essential"><div class="aa-name">Histidine (E)</div><div class="aa-val">~0.58 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="width:29%"></div></div></div>
+        <div class="aa-item aa-nonessential"><div class="aa-name">Glutamic Acid</div><div class="aa-val">~3.05 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="background:var(--c-text3);width:100%"></div></div></div>
+        <div class="aa-item aa-nonessential"><div class="aa-name">Aspartic Acid</div><div class="aa-val">~1.97 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="background:var(--c-text3);width:65%"></div></div></div>
+        <div class="aa-item aa-nonessential"><div class="aa-name">Alanine</div><div class="aa-val">~1.18 g</div><div class="aa-bar-wrap"><div class="aa-bar" style="background:var(--c-text3);width:39%"></div></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--c-text3);margin-top:10px">(E) = Essential amino acid. Teal border = essential; grey border = conditionally non-essential. Values are estimated from standard lean marine fish protein composition. Mahi-Mahi is a complete protein source containing all essential amino acids.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ BENEFITS ============ -->
+<section id="benefits" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Physiology</span>
+      <h2 class="section-title">How Mahi-Mahi May Benefit the Human Body</h2>
+      <p class="section-subtitle">Benefits are organized by body system and graded by evidence level. This is not medical advice.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">🧠</div>
+        <div class="benefit-body">
+          <h4>Brain & Nervous System</h4>
+          <p>Omega-3 DHA supports neuronal membrane fluidity and synaptic transmission. Vitamin B6 and B12 are critical for myelin synthesis and neurotransmitter production (serotonin, dopamine). Niacin (B3) supports brain energy metabolism.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence (omega-3, B12)</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">❤️</div>
+        <div class="benefit-body">
+          <h4>Heart & Cardiovascular</h4>
+          <p>EPA and DHA reduce triglycerides and platelet aggregation. Niacin modulates HDL cholesterol. Low saturated fat content makes it heart-friendly. Potassium helps maintain healthy blood pressure.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence (omega-3, potassium)</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💪</div>
+        <div class="benefit-body">
+          <h4>Muscle Growth & Repair</h4>
+          <p>Exceptionally high complete protein (20+ g/100g) supplies all essential amino acids. Leucine acts as the primary mTOR signal for muscle protein synthesis. Ideal for post-workout recovery.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🛡️</div>
+        <div class="benefit-body">
+          <h4>Immune System</h4>
+          <p>Selenium is a critical cofactor for glutathione peroxidase, a major antioxidant enzyme. Vitamin B6 supports lymphocyte development. Zinc and copper play roles in immune signaling and wound healing.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence (selenium)</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🦴</div>
+        <div class="benefit-body">
+          <h4>Bones & Teeth</h4>
+          <p>Phosphorus is second only to calcium in bone mineral density maintenance. Vitamin D aids calcium absorption. While calcium content is modest, the phosphorus-to-calcium ratio supports bone metabolism.</p>
+          <span class="evidence-badge ev-moderate">🟡 Moderate evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">👁️</div>
+        <div class="benefit-body">
+          <h4>Eye Health</h4>
+          <p>DHA (omega-3) is a structural component of the retina. Vitamin A supports rhodopsin synthesis for low-light vision. Adequate omega-3 intake is associated with lower risk of age-related macular degeneration.</p>
+          <span class="evidence-badge ev-moderate">🟡 Moderate evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🩸</div>
+        <div class="benefit-body">
+          <h4>Blood & Red Blood Cells</h4>
+          <p>Vitamin B12 is essential for erythropoiesis (red blood cell formation). B6 supports hemoglobin synthesis. Iron (as heme iron from fish) is highly bioavailable compared to plant sources, aiding in preventing anemia.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence (B12, heme iron)</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-body">
+          <h4>Energy & Metabolism</h4>
+          <p>B vitamins (B1, B2, B3, B5, B6) are co-enzymes in the Krebs cycle and electron transport chain. Niacin and riboflavin directly support ATP production. Mahi-Mahi contributes to sustained energy without blood sugar spikes.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🧬</div>
+        <div class="benefit-body">
+          <h4>Thyroid Function</h4>
+          <p>Iodine (~25 µg per 100g) supports thyroxine (T4) synthesis. Selenium is essential for T4→T3 conversion via deiodinase enzymes. Both together make Mahi-Mahi a meaningful dietary contributor to thyroid health.</p>
+          <span class="evidence-badge ev-moderate">🟡 Moderate evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">✨</div>
+        <div class="benefit-body">
+          <h4>Skin & Hair</h4>
+          <p>Niacin (B3) supports skin barrier function and may reduce inflammatory skin conditions. B6 supports protein metabolism for keratin. Omega-3s contribute to skin hydration and elasticity. Selenium has antioxidant effects on skin cells.</p>
+          <span class="evidence-badge ev-limited">🟠 Limited evidence</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💧</div>
+        <div class="benefit-body">
+          <h4>Hydration</h4>
+          <p>Contains ~78% water by weight. Electrolytes potassium (416 mg) and sodium (88 mg) contribute to fluid balance. As a lean protein source it provides meaningful hydration support alongside meal fluids.</p>
+          <span class="evidence-badge ev-strong">🟢 Well-established (water/electrolyte content)</span>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🧪</div>
+        <div class="benefit-body">
+          <h4>Antioxidant Defense</h4>
+          <p>Selenium as selenocysteine in glutathione peroxidase provides powerful oxidative stress protection. Vitamin E provides lipid-soluble antioxidant activity. These compounds help protect cellular membranes from lipid peroxidation.</p>
+          <span class="evidence-badge ev-strong">🟢 Strong evidence (selenium)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ TIMING ============ -->
+<section id="timing" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Chrono-Nutrition</span>
+      <h2 class="section-title">Best Time to Eat Mahi-Mahi</h2>
+      <p class="section-subtitle">General guidance based on nutritional properties. Individual needs vary significantly.</p>
+    </div>
+    <div class="timing-grid">
+      <div class="timing-card">
+        <div class="timing-icon">🌅</div>
+        <div class="timing-period">Morning / Breakfast</div>
+        <span class="timing-suitable suitable-good">✓ Good</span>
+        <div class="timing-rec">Protein-rich start</div>
+        <div class="timing-why">High protein kickstarts muscle protein synthesis and satiety. B vitamins support morning energy. Portion: 80–100 g. Pair with eggs or wholegrain for complete nutrition. Fish for breakfast is not traditional in all cultures but is nutritionally sound.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-icon">☀️</div>
+        <div class="timing-period">Lunch</div>
+        <span class="timing-suitable suitable-yes">★ Excellent</span>
+        <div class="timing-rec">Ideal mid-day meal</div>
+        <div class="timing-why">The digestive system is most active midday. A 130–180 g fillet with complex carbs (brown rice, quinoa) and vegetables provides balanced macros, sustains energy through the afternoon, and leverages high protein for satiety. Best pairings: lemon, vegetables, whole grains.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-icon">🏋️</div>
+        <div class="timing-period">Pre-Workout</div>
+        <span class="timing-suitable suitable-good">✓ Good (2–3h before)</span>
+        <div class="timing-rec">Lean protein support</div>
+        <div class="timing-why">Provides easily digestible lean protein that supports muscle availability during exercise. Low fat content means faster gastric clearance. Ideal 2–3 hours before exercise. Avoid immediately pre-workout as any protein source can cause digestive discomfort during intense exercise.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-icon">🔄</div>
+        <div class="timing-period">Post-Workout</div>
+        <span class="timing-suitable suitable-yes">★ Excellent</span>
+        <div class="timing-rec">Top recovery food</div>
+        <div class="timing-why">High leucine content triggers mTOR signaling for muscle protein synthesis. Rapid protein delivery within 30–90 min of training. Pair with fast carbs (rice, potato) to replenish glycogen. 130–200 g serving ideal for most adults. One of the best post-workout protein sources available.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-icon">🌆</div>
+        <div class="timing-period">Dinner</div>
+        <span class="timing-suitable suitable-yes">★ Excellent</span>
+        <div class="timing-rec">Light, nutrient-dense choice</div>
+        <div class="timing-why">Very low calorie density and high protein supports evening nutrition without excess caloric load. Omega-3s may support overnight anti-inflammatory processes. Avoid heavy preparation (deep-frying) at dinner. Grilled or steamed with vegetables is ideal for evening digestion.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-icon">🌙</div>
+        <div class="timing-period">Late Night</div>
+        <span class="timing-suitable suitable-limited">⚠ Limited</span>
+        <div class="timing-rec">Not ideal</div>
+        <div class="timing-why">Protein can support overnight muscle repair but a full meal late at night is generally not recommended. If needed, keep portion small (80 g) with minimal added fat. Casein proteins (dairy) are traditionally better for overnight slow release, but lean fish can work if other options are unavailable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ PORTION & PAIRINGS ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">How Much</span>
+      <h2 class="section-title">Recommended Portions</h2>
+    </div>
+    <div class="grid-3 mb-8">
+      <div class="card"><div class="card-accent-bar"></div><div class="card-label">General Adult</div><div class="card-value">100–150 g</div><div class="card-sub">~1 medium fillet, 2–3x per week</div></div>
+      <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-accent2),var(--c-success))"></div><div class="card-label">Active / Athlete</div><div class="card-value">150–250 g</div><div class="card-sub">Post-workout, higher protein needs</div></div>
+      <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-gold),var(--c-warn))"></div><div class="card-label">Weight Management</div><div class="card-value">100–130 g</div><div class="card-sub">High satiety per calorie; excellent choice</div></div>
+    </div>
+
+    <div class="section-header" style="margin-bottom:24px">
+      <span class="section-eyebrow">Synergy</span>
+      <h3 class="section-title" style="font-size:1.8rem">Best Food Pairings</h3>
+    </div>
+    <div class="pairing-cards">
+      <div class="pairing-chip"><div class="pairing-food">🍋 Lemon / Citrus</div><div class="pairing-why">Vitamin C enhances non-heme iron absorption; brightens flavor; no extra calories</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🍚 Brown Rice</div><div class="pairing-why">Complex carbs for glycogen replenishment; complete meal with balanced macros</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🥦 Broccoli</div><div class="pairing-why">Vitamin C + fiber + sulforaphane; fat-soluble vitamins from fish improve absorption</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🥑 Avocado</div><div class="pairing-why">Healthy MUFA complement omega-3s; fat-soluble vitamin A absorption is boosted by fat</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🧄 Garlic</div><div class="pairing-why">Allicin may have synergistic cardiovascular benefits with fish omega-3s</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🍠 Sweet Potato</div><div class="pairing-why">Beta-carotene + potassium; excellent post-workout carb pairing</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🫒 Olive Oil</div><div class="pairing-why">Enhances fat-soluble vitamin absorption; heart-healthy MUFA complement</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🥬 Spinach</div><div class="pairing-why">Iron + folate from spinach; vitamin C in spinach boosts fish iron absorption</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🍶 Miso / Fermented soy</div><div class="pairing-why">Probiotics + complete protein combination; traditional Asian pairing</div></div>
+      <div class="pairing-chip"><div class="pairing-food">🌿 Fresh Herbs (dill, coriander)</div><div class="pairing-why">Add phytonutrients, antioxidants, and minerals with negligible calories</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ PREPARATION ============ -->
+<section id="preparation" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Cooking Science</span>
+      <h2 class="section-title">Raw vs. Cooked & Preparation Methods</h2>
+    </div>
+
+    <!-- Raw vs Cooked -->
+    <div class="compare-table-wrap mb-8">
+      <table class="compare-table" aria-label="Raw vs cooked comparison for Mahi-Mahi">
+        <thead>
+          <tr><th>Nutrient</th><th>Raw (per 100g)</th><th>Cooked/Grilled (per 100g)</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Calories</td><td>93 kcal</td><td>~109 kcal</td><td class="compare-better">↑ ~17% (water loss concentrates)</td></tr>
+          <tr><td>Protein</td><td>20.2 g</td><td>~23.7 g</td><td class="compare-better">↑ ~17% (concentration)</td></tr>
+          <tr><td>Fat</td><td>0.7 g</td><td>~0.9 g</td><td class="compare-neutral">↑ slight (concentration)</td></tr>
+          <tr><td>Omega-3</td><td>~0.13 g</td><td>~0.11–0.13 g</td><td class="compare-neutral">Minimal loss if not overcooked</td></tr>
+          <tr><td>Vitamin B12</td><td>0.65 µg</td><td>~0.50–0.60 µg</td><td>↓ ~10–20% (heat-sensitive)</td></tr>
+          <tr><td>Selenium</td><td>36.5 µg</td><td>~34–36 µg</td><td class="compare-better">↓ Minimal — good retention</td></tr>
+          <tr><td>B6 (Pyridoxine)</td><td>0.37 mg</td><td>~0.28–0.32 mg</td><td>↓ ~15–25% (water-soluble)</td></tr>
+          <tr><td>Niacin</td><td>6.94 mg</td><td>~6.5–7.2 mg</td><td class="compare-better">Good retention</td></tr>
+          <tr><td>Water</td><td>~78 g</td><td>~70 g</td><td>↓ Water lost during cooking</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Preparation Methods -->
+    <div class="section-header" style="margin-bottom:24px">
+      <span class="section-eyebrow">Method Comparison</span>
+      <h3 class="section-title" style="font-size:1.8rem">Best Preparation Methods</h3>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-accent-bar"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Steaming</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Best nutrient retention. Gentle heat preserves omega-3s and water-soluble B vitamins. No added fat. Maintains moisture. Ideal for health-focused preparation.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-accent2),var(--c-accent))"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Grilling / Broiling</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Excellent flavor development through Maillard reaction. Minimal fat needed. Slight loss of heat-labile vitamins. Avoid charring — reduces heterocyclic amine formation. Very popular in restaurant preparation.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-success),var(--c-accent))"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Baking / Roasting</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Gentle, even cooking. Can add herbs, lemon, vegetables in the same pan. Moderate nutrient retention. 180°C / 20 min is a reliable guideline. Great for batch cooking.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-gold),var(--c-warn))"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Pan-Searing (minimal oil)</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span><span class="star empty">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Good flavor. Adds some fat (type depends on cooking oil used). Can be very quick. May slightly increase calorie count. Use olive oil or coconut oil for best profile.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-text3),var(--c-text3))"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Poaching</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Very moist, gentle result. Some water-soluble nutrients leach into poaching liquid (use it as a broth). No added fat. Less flavorful without seasoning.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-danger),var(--c-warn))"></div>
+        <h4 style="margin-bottom:8px;font-size:0.95rem">Deep Frying</h4>
+        <div class="prep-rating"><span class="star">★</span><span class="star">★</span><span class="star empty">★</span><span class="star empty">★</span><span class="star empty">★</span></div>
+        <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px">Significantly increases calorie and fat content. High heat destroys some omega-3s. Batter adds refined carbohydrates. Occasional use acceptable. Not recommended for regular health-focused eating.</p>
+      </div>
+    </div>
+
+    <!-- Storage -->
+    <div style="margin-top:48px">
+      <div class="section-header" style="margin-bottom:24px">
+        <span class="section-eyebrow">Preservation</span>
+        <h3 class="section-title" style="font-size:1.8rem">Storage Guide</h3>
+      </div>
+      <div class="grid-auto">
+        <div class="card"><div class="card-accent-bar"></div><div class="card-label">Fresh (whole or fillet)</div><div class="card-value">1–2 days</div><div class="card-sub">Refrigerate at 0–4°C. Keep on ice.</div></div>
+        <div class="card"><div class="card-accent-bar"></div><div class="card-label">Cooked</div><div class="card-value">3–4 days</div><div class="card-sub">Refrigerate in airtight container.</div></div>
+        <div class="card"><div class="card-accent-bar"></div><div class="card-label">Frozen (raw)</div><div class="card-value">2–3 months</div><div class="card-sub">Vacuum-sealed; best quality within 2 months.</div></div>
+        <div class="card"><div class="card-accent-bar"></div><div class="card-label">Frozen (cooked)</div><div class="card-value">1–2 months</div><div class="card-sub">Quality decreases; still safe if sealed.</div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-danger),var(--c-warn))"></div><div class="card-label">Spoilage Signs</div><div class="card-value" style="font-size:0.9rem;color:var(--c-text2)">Ammonia smell, slimy texture, grey/brown color, cloudy eyes</div><div class="card-sub">Discard if any signs are present.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ FITNESS ============ -->
+<section id="fitness" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Performance</span>
+      <h2 class="section-title">Fitness & Muscle Profile</h2>
+    </div>
+    <div class="grid-2 mb-8">
+      <div class="card">
+        <div class="card-accent-bar"></div>
+        <h4 style="margin-bottom:16px;font-size:1rem;color:var(--c-text2)">Protein Quality Assessment</h4>
+        <div class="prog-item"><span class="prog-label">PDCAAS Score</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent);width:95%"></div></div><span class="prog-value">~0.95</span></div>
+        <div class="prog-item"><span class="prog-label">Protein Content</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent);width:85%"></div></div><span class="prog-value">20.2g/100g</span></div>
+        <div class="prog-item"><span class="prog-label">Leucine Content</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent2);width:82%"></div></div><span class="prog-value">~1.64g</span></div>
+        <div class="prog-item"><span class="prog-label">Digestibility</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-success);width:96%"></div></div><span class="prog-value">Very High</span></div>
+        <p style="font-size:0.78rem;color:var(--c-text3);margin-top:8px">Mahi-Mahi is a complete protein source with an excellent amino acid profile that rivals chicken breast for muscle-building purposes.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-gold),var(--c-accent))"></div>
+        <h4 style="margin-bottom:16px;font-size:1rem;color:var(--c-text2)">Fitness Suitability</h4>
+        <div class="prog-item"><span class="prog-label">Post-workout</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent);width:95%"></div></div><span class="prog-value">Excellent</span></div>
+        <div class="prog-item"><span class="prog-label">Muscle Building</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent);width:90%"></div></div><span class="prog-value">Very High</span></div>
+        <div class="prog-item"><span class="prog-label">Fat Loss Support</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-success);width:92%"></div></div><span class="prog-value">Excellent</span></div>
+        <div class="prog-item"><span class="prog-label">Endurance</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-accent2);width:70%"></div></div><span class="prog-value">Good</span></div>
+        <div class="prog-item"><span class="prog-label">Pre-workout (2h+)</span><div class="prog-bar-wrap"><div class="prog-bar" style="background:var(--c-gold);width:75%"></div></div><span class="prog-value">Good</span></div>
+      </div>
+    </div>
+
+    <!-- Glycemic Response -->
+    <div class="card mb-8">
+      <div class="card-accent-bar"></div>
+      <h4 style="margin-bottom:12px;font-size:1rem;color:var(--c-text2)">Glycemic Response</h4>
+      <div class="grid-3" style="gap:16px">
+        <div style="text-align:center;padding:16px;background:var(--c-surface2);border-radius:var(--r-md)">
+          <div style="font-family:var(--f-display);font-size:2rem;color:var(--c-success)">~0</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Glycemic Index</div>
+          <div style="font-size:0.75rem;color:var(--c-text2);margin-top:4px">No significant carbohydrates present</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--c-surface2);border-radius:var(--r-md)">
+          <div style="font-family:var(--f-display);font-size:2rem;color:var(--c-success)">~0</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Glycemic Load</div>
+          <div style="font-size:0.75rem;color:var(--c-text2);margin-top:4px">Safe for diabetic-friendly eating patterns</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--c-surface2);border-radius:var(--r-md)">
+          <div style="font-family:var(--f-display);font-size:2rem;color:var(--c-accent)">0 g</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Sugar Content</div>
+          <div style="font-size:0.75rem;color:var(--c-text2);margin-top:4px">No sugars; no impact on blood glucose</div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--c-text2);margin-top:12px">Mahi-Mahi has essentially no glycemic impact when prepared without added carbohydrates (breading, sauces). The protein content may actually improve glycemic response of an overall meal by slowing gastric emptying.</p>
+    </div>
+
+    <!-- Weight Management -->
+    <div class="card">
+      <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-success),var(--c-accent))"></div>
+      <h4 style="margin-bottom:16px;font-size:1rem;color:var(--c-text2)">Weight Management Profile</h4>
+      <div class="grid-3" style="gap:12px">
+        <div>
+          <div style="font-size:0.72rem;color:var(--c-text3);margin-bottom:3px">Calorie Density</div>
+          <div style="font-size:0.9rem;font-weight:600;color:var(--c-success)">Very Low — 93 kcal/100g</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Similar to chicken breast; excellent for calorie-restricted diets</div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;color:var(--c-text3);margin-bottom:3px">Satiety Index</div>
+          <div style="font-size:0.9rem;font-weight:600;color:var(--c-accent)">High</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Protein is the most satiating macronutrient; helps control appetite</div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;color:var(--c-text3);margin-bottom:3px">Overeating Risk</div>
+          <div style="font-size:0.9rem;font-weight:600;color:var(--c-success)">Very Low</div>
+          <div style="font-size:0.75rem;color:var(--c-text3)">Mild flavor and high protein make overconsumption unlikely</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ SAFETY ============ -->
+<section id="safety" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Risk & Caution</span>
+      <h2 class="section-title">Safety Profile</h2>
+      <p class="section-subtitle">Mahi-Mahi is generally considered safe and healthy. The following are relevant considerations.</p>
+    </div>
+    <div class="safety-cards mb-8">
+      <div class="safety-card info">
+        <span class="safety-icon">🐟</span>
+        <div>
+          <div class="safety-title">Mercury Level: Low to Moderate</div>
+          <div class="safety-text">Mahi-Mahi is classified by the US FDA and EPA as a "best choice" fish for mercury content. Average mercury ~0.178 ppm — lower than tuna, swordfish, or king mackerel. Pregnant individuals and young children can generally eat 2–3 servings per week as per FDA guidance.</div>
+        </div>
+      </div>
+      <div class="safety-card warn">
+        <span class="safety-icon">⚠️</span>
+        <div>
+          <div class="safety-title">Scombroid Fish Poisoning Risk</div>
+          <div class="safety-text">Mahi-Mahi has a notably higher risk for scombroid poisoning compared to many fish because of its relatively high histidine content, which bacteria convert to histamine when fish is improperly stored. Always buy from reputable sources, keep cold (below 4°C), and never consume fish that smells strongly ammoniated or has a peppery taste. Symptoms are temporary but can include flushing, headache, and nausea.</div>
+        </div>
+      </div>
+      <div class="safety-card info">
+        <span class="safety-icon">🦐</span>
+        <div>
+          <div class="safety-title">Fish Allergy</div>
+          <div class="safety-text">Fish is one of the major food allergens. Individuals with fish allergy should avoid Mahi-Mahi. Cross-reactivity between different fish species is common but not universal — some individuals are allergic to specific species only. Consult an allergist before introducing new fish species if you have known fish allergy.</div>
+        </div>
+      </div>
+      <div class="safety-card info">
+        <span class="safety-icon">🤰</span>
+        <div>
+          <div class="safety-title">Pregnancy Considerations</div>
+          <div class="safety-text">The FDA and WHO recommend pregnant individuals can safely eat 2–3 servings per week of "best choice" fish (including Mahi-Mahi). The omega-3 DHA is important for fetal brain development. Ensure fish is fully cooked (internal temperature ≥63°C/145°F) to avoid listeria and other foodborne pathogens. Raw or undercooked fish should be avoided during pregnancy.</div>
+        </div>
+      </div>
+      <div class="safety-card info">
+        <span class="safety-icon">👶</span>
+        <div>
+          <div class="safety-title">Children</div>
+          <div class="safety-text">Suitable for children over 6 months when well-cooked and free of bones. FDA recommends 1–2 servings per week for children. Remove all bones carefully. Mashed or flaked fish is appropriate for infants after solid food introduction. The DHA content supports cognitive development.</div>
+        </div>
+      </div>
+      <div class="safety-card info">
+        <span class="safety-icon">🫘</span>
+        <div>
+          <div class="safety-title">Purine Content & Kidney Health</div>
+          <div class="safety-text">Like all fish and meat, Mahi-Mahi contains purines. Individuals with gout or hyperuricemia should moderate intake (typically ≤2 servings per week). People with chronic kidney disease (CKD) should consult their nephrologist about phosphorus and potassium intake from fish, as these minerals are concentrated and may require dietary management at advanced CKD stages.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who should be careful -->
+    <h3 style="font-size:1.3rem;color:var(--c-text);margin-bottom:20px">Who Should Take Extra Care?</h3>
+    <div class="diet-grid">
+      <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Healthy Adults</div><div class="diet-note">Excellent choice. 2–3 servings/week is ideal.</div></div></div>
+      <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Athletes</div><div class="diet-note">Top-tier protein source for performance and recovery.</div></div></div>
+      <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Weight Management</div><div class="diet-note">Very low calorie density; high satiety protein.</div></div></div>
+      <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Pregnant Individuals</div><div class="diet-note">Safe at 2–3/week fully cooked; DHA beneficial.</div></div></div>
+      <div class="diet-item"><span class="diet-status">⚠️</span><div><div class="diet-name">Fish Allergy</div><div class="diet-note">Avoid. Major allergen. Cross-reactivity possible.</div></div></div>
+      <div class="diet-item"><span class="diet-status">⚠️</span><div><div class="diet-name">Gout / High Uric Acid</div><div class="diet-note">Moderate intake; purines can raise uric acid.</div></div></div>
+      <div class="diet-item"><span class="diet-status">⚠️</span><div><div class="diet-name">Advanced CKD</div><div class="diet-note">High potassium & phosphorus — consult nephrologist.</div></div></div>
+      <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Older Adults</div><div class="diet-note">Excellent for maintaining muscle mass and cognitive health.</div></div></div>
+    </div>
+
+    <!-- Diet Compatibility -->
+    <div style="margin-top:48px">
+      <h3 style="font-size:1.3rem;color:var(--c-text);margin-bottom:20px">Diet Compatibility</h3>
+      <div class="diet-grid">
+        <div class="diet-item"><span class="diet-status">✕</span><div><div class="diet-name">Vegetarian</div><div class="diet-note">Not suitable — animal protein source</div></div></div>
+        <div class="diet-item"><span class="diet-status">✕</span><div><div class="diet-name">Vegan</div><div class="diet-note">Not suitable</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Keto</div><div class="diet-note">Excellent — virtually zero carbs, high protein</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Low-Carb</div><div class="diet-note">Excellent — 0.8g carbs per 100g</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">High-Protein</div><div class="diet-note">Excellent — 20.2g protein per 100g</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Gluten-Free</div><div class="diet-note">Yes (plain, not breaded)</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Dairy-Free</div><div class="diet-note">Yes</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Paleo</div><div class="diet-note">Excellent fit</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Pescatarian</div><div class="diet-note">Core food</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Mediterranean</div><div class="diet-note">Excellent — a cornerstone of this diet pattern</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Low-FODMAP</div><div class="diet-note">Suitable (plain, no high-FODMAP sauces)</div></div></div>
+        <div class="diet-item"><span class="diet-status">✅</span><div><div class="diet-name">Diabetic-Friendly</div><div class="diet-note">Zero glycemic load; excellent choice</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ CULTURAL & CULINARY ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Culture & Kitchen</span>
+      <h2 class="section-title">Culinary & Cultural Uses</h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-accent-bar"></div>
+        <h4 style="margin-bottom:12px;font-size:1rem">India — Regional Uses</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent)"><strong style="color:var(--c-text)">Kerala (Ayila/Vatta curries):</strong> Mahi-Mahi adapted into traditional spiced fish curries with coconut milk, kudampuli (Malabar tamarind), and curry leaves.</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent)"><strong style="color:var(--c-text)">Goa:</strong> Grilled with rechado masala (red chili-vinegar paste); also used in caldine (mild yellow curry with coconut).</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent)"><strong style="color:var(--c-text)">Tamil Nadu:</strong> Marinated in tamarind, chili, and turmeric; pan-fried or grilled as "meen varuval."</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent)"><strong style="color:var(--c-text)">Mumbai / coastal Maharashtra:</strong> Used in shallow-fried preparations with semolina (rava) coating.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-accent2),var(--c-accent))"></div>
+        <h4 style="margin-bottom:12px;font-size:1rem">International Uses</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent2)"><strong style="color:var(--c-text)">Hawaii (USA):</strong> The name "Mahi-Mahi" comes from Hawaiian. Grilled with passion fruit glaze is iconic.</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent2)"><strong style="color:var(--c-text)">Mexico & Central America:</strong> Popular in fish tacos (tacos de dorado) with cabbage slaw, avocado, and lime.</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent2)"><strong style="color:var(--c-text)">Mediterranean:</strong> Grilled simply with olive oil, herbs, garlic, and lemon.</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent2)"><strong style="color:var(--c-text)">Japan:</strong> Occasionally used in sashimi; more common as grilled (shioyaki) or teriyaki preparation.</li>
+          <li style="font-size:0.85rem;color:var(--c-text2);padding-left:12px;border-left:2px solid var(--c-accent2)"><strong style="color:var(--c-text)">Peru:</strong> Used in ceviche preparations (ceviche de dorado) — raw fish marinated in lime juice.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Meal Examples -->
+    <div style="margin-top:48px">
+      <div class="section-header" style="margin-bottom:24px">
+        <span class="section-eyebrow">Practical Nutrition</span>
+        <h3 class="section-title" style="font-size:1.8rem">Daily Meal Examples</h3>
+        <p class="section-subtitle">Illustrative meal ideas — not individualized medical meal plans.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="card-accent-bar"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">LUNCH</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">Grilled Mahi-Mahi Bowl</div><div style="font-size:0.82rem;color:var(--c-text2)">130g grilled fillet + ½ cup brown rice + roasted broccoli + lemon-herb dressing.<br><br><span style="color:var(--c-accent)">~400 kcal · 35g protein</span></div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-accent2),var(--c-accent))"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">POST-WORKOUT</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">Recovery Plate</div><div style="font-size:0.82rem;color:var(--c-text2)">180g steamed Mahi-Mahi + medium sweet potato + spinach salad with olive oil.<br><br><span style="color:var(--c-accent)">~500 kcal · 46g protein</span></div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-success),var(--c-accent))"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">DINNER</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">Light Evening Meal</div><div style="font-size:0.82rem;color:var(--c-text2)">100g baked Mahi-Mahi + steamed vegetables + miso soup.<br><br><span style="color:var(--c-accent)">~280 kcal · 28g protein</span></div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-gold),var(--c-warn))"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">INDIAN STYLE</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">Kerala Fish Curry</div><div style="font-size:0.82rem;color:var(--c-text2)">130g Mahi-Mahi in coconut-tamarind gravy + red rice + coconut chutney.<br><br><span style="color:var(--c-accent)">~520 kcal · 32g protein</span></div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-text3),var(--c-surface))"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">BREAKFAST</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">High-Protein Morning</div><div style="font-size:0.82rem;color:var(--c-text2)">80g pan-seared Mahi-Mahi + 2 scrambled eggs + avocado slices + whole grain toast.<br><br><span style="color:var(--c-accent)">~450 kcal · 42g protein</span></div></div>
+        <div class="card"><div class="card-accent-bar" style="background:linear-gradient(90deg,var(--c-accent),var(--c-success))"></div><div style="font-size:0.7rem;color:var(--c-text3);margin-bottom:4px">WEIGHT MANAGEMENT</div><div style="font-size:0.95rem;font-weight:600;color:var(--c-text);margin-bottom:6px">Lean Calorie Deficit</div><div style="font-size:0.82rem;color:var(--c-text2)">100g grilled fillet + large mixed salad (greens, tomato, cucumber) + lemon-vinegar dressing.<br><br><span style="color:var(--c-accent)">~200 kcal · 22g protein</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ NUTRITION SCORE ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Assessment</span>
+      <h2 class="section-title">Nutrition Score Breakdown</h2>
+      <p class="section-subtitle">Illustrative scoring for comparative education. Not an official rating.</p>
+    </div>
+    <div class="score-grid">
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#00d4b8;--pct:95%">
+          <span class="score-circle-val" style="color:#00d4b8">95</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-accent);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Protein Quality</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#00a8e8;--pct:85%">
+          <span class="score-circle-val" style="color:#00a8e8">85</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-accent2);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Micronutrient Density</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#f5c842;--pct:72%">
+          <span class="score-circle-val" style="color:#f5c842">72</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-gold);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Omega-3 Content</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#3dd68c;--pct:90%">
+          <span class="score-circle-val" style="color:#3dd68c">90</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-success);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Satiety Value</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#00d4b8;--pct:70%">
+          <span class="score-circle-val" style="color:#00d4b8">70</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-accent);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Antioxidant Potential</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#3dd68c;--pct:95%">
+          <span class="score-circle-val" style="color:#3dd68c">95</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-success);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Processing Level (Low)</div>
+      </div>
+      <div class="score-item">
+        <div class="score-circle" style="--accent-color:#00a8e8;--pct:80%">
+          <span class="score-circle-val" style="color:#00a8e8">80</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-accent2);opacity:0.3"></div>
+        </div>
+        <div class="score-item-name">Overall Food Quality</div>
+      </div>
+      <div class="score-item" style="border:2px solid var(--c-accent)">
+        <div class="score-circle" style="--accent-color:#f5c842;--pct:88%">
+          <span class="score-circle-val" style="color:#f5c842;font-size:1.8rem">88</span>
+          <div style="position:absolute;inset:3px;border-radius:50%;border:3px solid var(--c-gold);opacity:0.5"></div>
+        </div>
+        <div class="score-item-name" style="font-weight:700;color:var(--c-text)">Overall Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ MYTHS ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Fact vs. Fiction</span>
+      <h2 class="section-title">Common Nutrition Myths</h2>
+    </div>
+    <div class="myth-cards">
+      <div class="myth-card">
+        <div class="myth-header"><span class="myth-icon">❌</span><div><div class="myth-label">Myth</div><div class="myth-text">"Mahi-Mahi is high in mercury and dangerous to eat regularly."</div></div></div>
+        <div class="reality-body"><span style="font-size:1.2rem">✅</span><div><div class="reality-label">Reality</div><div class="reality-text">Mahi-Mahi is listed by the US FDA and EPA in the "Best Choices" category for mercury — the safest tier. With an average of ~0.178 ppm mercury, it is significantly lower than large predatory fish like tuna, swordfish, or shark. The FDA recommends 2–3 servings per week even for pregnant individuals.</div></div></div>
+      </div>
+      <div class="myth-card">
+        <div class="myth-header"><span class="myth-icon">❌</span><div><div class="myth-label">Myth</div><div class="myth-text">"Fish protein is inferior to meat protein for muscle building."</div></div></div>
+        <div class="reality-body"><span style="font-size:1.2rem">✅</span><div><div class="reality-label">Reality</div><div class="reality-text">Mahi-Mahi contains all essential amino acids in adequate proportions with a PDCAAS near 1.0, comparable to chicken or beef. Its high leucine content effectively stimulates muscle protein synthesis. Research shows fish protein is equally effective as meat protein for muscle hypertrophy when calorie and total protein intake are matched.</div></div></div>
+      </div>
+      <div class="myth-card">
+        <div class="myth-header"><span class="myth-icon">❌</span><div><div class="myth-label">Myth</div><div class="myth-text">"All fat in fish is healthy omega-3 and can be eaten in unlimited amounts."</div></div></div>
+        <div class="reality-body"><span style="font-size:1.2rem">✅</span><div><div class="reality-label">Reality</div><div class="reality-text">Mahi-Mahi is actually very low in total fat (0.7g/100g) compared to fatty fish like salmon (13g/100g). While its fat is predominantly unsaturated, the total omega-3 content (~0.13g/100g) is modest. Fatty fish like salmon, sardines, and mackerel provide substantially higher omega-3 quantities per serving.</div></div></div>
+      </div>
+      <div class="myth-card">
+        <div class="myth-header"><span class="myth-icon">❌</span><div><div class="myth-label">Myth</div><div class="myth-text">"Mahi-Mahi is related to dolphins and raises ethical concerns."</div></div></div>
+        <div class="reality-body"><span style="font-size:1.2rem">✅</span><div><div class="reality-label">Reality</div><div class="reality-text">Mahi-Mahi (also called "dolphinfish" or "dorado") is a ray-finned fish with no biological relation to dolphins (marine mammals). The name "dolphinfish" historically referred to how it swam in groups near ships, similar to dolphin behavior. The Hawaiian name "Mahi-Mahi" is now widely preferred precisely to avoid this confusion.</div></div></div>
+      </div>
+      <div class="myth-card">
+        <div class="myth-header"><span class="myth-icon">❌</span><div><div class="myth-label">Myth</div><div class="myth-text">"Cooking fish destroys all its omega-3 content."</div></div></div>
+        <div class="reality-body"><span style="font-size:1.2rem">✅</span><div><div class="reality-label">Reality</div><div class="reality-text">While high heat can degrade some omega-3s, most studies show that grilling, baking, and steaming at reasonable temperatures preserve 75–90% of omega-3 fatty acids. Deep-frying causes more significant losses. The key is avoiding very high prolonged heat. Steaming and poaching have the best omega-3 retention.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ EVIDENCE ============ -->
+<section id="evidence" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Scientific Review</span>
+      <h2 class="section-title">Evidence Summary</h2>
+      <p class="section-subtitle">Key nutrition claims rated by evidence quality. 🟢 Strong · 🟡 Moderate · 🟠 Limited · 🔴 Insufficient</p>
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item">
+        <span class="ev-indicator">🟢</span>
+        <div>
+          <div class="ev-claim">Marine omega-3s (EPA, DHA) reduce triglycerides and support cardiovascular health</div>
+          <div class="ev-explanation">Extensively reviewed in multiple meta-analyses and by the American Heart Association. EPA and DHA at ≥1g/day significantly reduce triglycerides. Fish consumption (2+ servings/week) associated with reduced cardiovascular event risk in large cohort studies.</div>
+          <div class="ev-source">AHA Scientific Advisory · JAMA 2021 meta-analysis · FDA qualified health claim</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟢</span>
+        <div>
+          <div class="ev-claim">Dietary protein supports muscle protein synthesis; leucine is the key trigger</div>
+          <div class="ev-explanation">Well-established through decades of research. Leucine activates mTORC1 signaling, the primary anabolic pathway. Fish protein has equivalent MPS rates to beef in randomized controlled trials when leucine content is matched. This applies to Mahi-Mahi's protein profile.</div>
+          <div class="ev-source">Norton & Layman, J Nutr 2006 · Phillips et al., Am J Clin Nutr 2009</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟢</span>
+        <div>
+          <div class="ev-claim">Selenium as selenoproteins is a critical antioxidant cofactor</div>
+          <div class="ev-explanation">Selenium is an essential component of glutathione peroxidases and thioredoxin reductases. Its role in antioxidant defense and thyroid hormone metabolism is well-established. Mahi-Mahi provides 66% DV per 100g, making it an excellent dietary selenium source.</div>
+          <div class="ev-source">NIH Office of Dietary Supplements · WHO Technical Report Series</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟢</span>
+        <div>
+          <div class="ev-claim">Vitamin B12 from animal foods is essential for neurological function and erythropoiesis</div>
+          <div class="ev-explanation">Vitamin B12 deficiency causes megaloblastic anemia and irreversible neurological damage. Fish is one of the best dietary sources. The B12 in fish is in the methylcobalamin form with high bioavailability (~40–80%). Adequate B12 intake from fish can prevent deficiency in people who include seafood in their diet.</div>
+          <div class="ev-source">USDA FoodData Central · NIH ODS B12 fact sheet · Stabler, NEJM 2013</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟡</span>
+        <div>
+          <div class="ev-claim">Regular fish consumption may reduce risk of age-related cognitive decline</div>
+          <div class="ev-explanation">Several large observational studies associate higher fish intake with lower risk of Alzheimer's disease and cognitive decline. DHA is a structural component of brain cell membranes. However, RCT evidence for DHA supplements on cognitive outcomes in healthy adults is mixed. Overall observational signal is positive.</div>
+          <div class="ev-source">Morris et al., Arch Neurol 2005 · Cochrane Review 2016</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟡</span>
+        <div>
+          <div class="ev-claim">High protein intake from lean fish supports weight management and fat loss</div>
+          <div class="ev-explanation">Multiple randomized trials show high-protein diets increase satiety, reduce ad libitum intake, and preserve lean mass during weight loss. Fish protein is equally effective as meat protein. However, weight loss depends on overall caloric balance rather than any single food.</div>
+          <div class="ev-source">Halton & Hu, J Am Coll Nutr 2004 · Leidy et al., Am J Clin Nutr 2015</div>
+        </div>
+      </div>
+      <div class="evidence-item">
+        <span class="ev-indicator">🟠</span>
+        <div>
+          <div class="ev-claim">Omega-3s from fish may reduce symptoms of depression</div>
+          <div class="ev-explanation">Observational studies show associations between higher fish intake and lower depression rates. Some RCTs with high-dose EPA supplementation show modest antidepressant effects. However, the optimal dose, form, and mechanism are still under investigation. Fish consumption is a plausible behavioral marker rather than proven causative factor in many studies.</div>
+          <div class="ev-source">Liao et al., Transl Psychiatry 2019 · Mocking et al., Transl Psychiatry 2016</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Common Questions</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list" role="list">
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Is Mahi-Mahi healthy? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Yes — Mahi-Mahi is widely considered one of the healthiest fish available. It is exceptionally high in lean protein (20+ g per 100g), very low in fat, free of carbohydrates, and rich in selenium, B vitamins (especially niacin, B6, and B12), and omega-3 fatty acids. It has low mercury compared to large predatory fish and is recommended by major health organizations as part of a balanced diet.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">How much Mahi-Mahi should I eat per week? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Most health guidelines recommend 2–3 servings (100–150g cooked per serving) of fish per week for healthy adults. Since Mahi-Mahi is classified as a "Best Choice" fish for mercury content by the FDA, it can be consumed regularly within these guidelines. Pregnant individuals, nursing mothers, and young children can also eat 2–3 servings weekly. Those with specific health conditions should consult a healthcare provider.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Is Mahi-Mahi good for weight loss? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">It is an excellent choice for weight management. With only 93 kcal per 100g and over 20g of protein, it is one of the highest protein-to-calorie ratio foods available. Protein is the most satiating macronutrient and helps preserve lean muscle mass during a calorie deficit. It has essentially zero sugar or starch that would spike blood glucose. The main caution is preparation method — grilled or steamed Mahi-Mahi is ideal; deep-fried or heavy-sauced preparations add significant calories.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Can I eat Mahi-Mahi every day? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">While safe within mercury guidelines, eating any single food daily limits dietary diversity. Most nutrition guidelines recommend varying protein sources throughout the week. 2–3 times per week is a common evidence-based recommendation for fish consumption. Daily consumption for most adults would still be within safe mercury exposure levels, but rotating with other fish (salmon, sardines, mackerel) ensures a broader nutrient spectrum including higher omega-3 intake from fatty fish varieties.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Is Mahi-Mahi good before or after exercise? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Mahi-Mahi is excellent post-workout. Its high leucine content stimulates muscle protein synthesis, and its lean profile means fast digestion without gastrointestinal discomfort. Eat within 30–90 minutes post-workout ideally alongside carbohydrates (rice, sweet potato). For pre-workout, it's suitable 2–3 hours before exercise; closer to training time, lighter options may be better as protein can slow gastric emptying.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">How should I store fresh Mahi-Mahi? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Fresh Mahi-Mahi should be refrigerated immediately and consumed within 1–2 days. Keep it on ice or in the coldest part of your refrigerator (below 4°C / 40°F). For longer storage, freeze the fish within 1–2 days of purchase. Vacuum-sealed frozen fish maintains best quality for 2–3 months. Always thaw in the refrigerator overnight, never at room temperature. Due to its higher histidine content (scombroid risk), keeping Mahi-Mahi properly cold is especially important.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Raw or cooked — which is better nutritionally? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Cooked Mahi-Mahi is generally preferred for safety and bioavailability. Cooking eliminates bacteria (Salmonella, Listeria), parasites, and reduces scombroid poisoning risk. Most nutrients are well-retained in gentle cooking (steaming, grilling, baking). While some heat-labile B vitamins are slightly reduced, cooking actually increases protein bioavailability by denaturing proteins and making them easier to digest. Raw fish preparations (ceviche, sushi) are traditional but carry higher food safety risks, particularly for vulnerable populations.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Is Mahi-Mahi suitable for people with diabetes? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Yes — it is an excellent choice for people with diabetes or blood sugar management concerns. Mahi-Mahi contains essentially zero carbohydrates and has a glycemic index of zero. Its high protein content may actually improve glycemic response of overall meals by slowing gastric emptying. The omega-3 fatty acids may additionally have modest beneficial effects on insulin sensitivity. The key is preparation — avoid added sauces high in sugar or refined carbohydrate coatings.</div>
+      </details>
+      <details class="faq-item" role="listitem">
+        <summary class="faq-summary">Where can I buy Mahi-Mahi in India? <span class="faq-arrow" aria-hidden="true">▼</span></summary>
+        <div class="faq-body">Mahi-Mahi is available in India primarily through: (1) Coastal fish markets in Kerala, Goa, Karnataka, Tamil Nadu, and Andhra Pradesh — usually sold fresh or on ice; (2) Online seafood platforms (Licious, FreshToHome, SeaToHome) which deliver fresh or frozen fillets; (3) Premium supermarkets in metro cities; (4) Frozen sections of large hypermarkets. It may be labelled under local names or simply as "dolphinfish." Prices typically range ₹400–650/kg retail.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ SUMMARY CARD ============ -->
+<section class="section">
+  <div class="container">
+    <div class="summary-final">
+      <h2 class="summary-title">Mahi-Mahi — In One Minute</h2>
+      <p class="summary-sub">Everything that matters about this food, at a glance.</p>
+      <div class="summary-grid">
+        <div class="summary-item"><div class="summary-key">Best Benefit</div><div class="summary-val">Exceptional lean protein for muscle synthesis & metabolic health</div></div>
+        <div class="summary-item"><div class="summary-key">Biggest Strength</div><div class="summary-val">20.2g protein / 93 kcal per 100g — elite protein efficiency</div></div>
+        <div class="summary-item"><div class="summary-key">Best Time to Eat</div><div class="summary-val">Post-workout or lunch (within 2h of training)</div></div>
+        <div class="summary-item"><div class="summary-key">Ideal Serving</div><div class="summary-val">100–150g cooked fillet, 2–3× per week</div></div>
+        <div class="summary-item"><div class="summary-key">Best Pairing</div><div class="summary-val">Brown rice + lemon + broccoli (iron absorption + complete macros)</div></div>
+        <div class="summary-item"><div class="summary-key">Biggest Caution</div><div class="summary-val">Scombroid risk if improperly stored; keep cold below 4°C</div></div>
+        <div class="summary-item"><div class="summary-key">India Price (approx.)</div><div class="summary-val">₹400–650/kg · ₹52–85 per serving</div></div>
+        <div class="summary-item"><div class="summary-key">Nutrition Score</div><div class="summary-val" style="color:var(--c-gold);font-size:1.1rem;font-weight:700">88 / 100 — Excellent</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-title">Methodology & Data Sources</div>
+        <p class="footer-text">Nutrition values are sourced primarily from USDA FoodData Central (NDB No. 15194, raw wild-caught Mahi-Mahi) and supplemented with data from Indian National Institute of Nutrition (NIN), WHO/FAO nutrient reference tables, and peer-reviewed literature. Vitamin D and iodine estimates reflect published ranges for marine fish. % Daily Values based on FDA 2020 reference values for adults on a 2,000 kcal diet. Price estimates are approximate retail ranges observed in Indian markets (2024–2025) and are not live prices.</p>
+        <div style="margin-top:16px;font-size:0.78rem;color:var(--c-text3)">
+          Nutritional values naturally vary due to: geographic origin of catch, season, size and age of fish, feeding patterns, storage and handling conditions, preparation and cooking method, and serving size measurement.
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">Key References</div>
+        <div class="footer-links">
+          <a href="https://fdc.nal.usda.gov" class="footer-link" target="_blank" rel="noopener">USDA FoodData Central</a>
+          <a href="https://ods.od.nih.gov" class="footer-link" target="_blank" rel="noopener">NIH Office of Dietary Supplements</a>
+          <a href="https://www.fda.gov/food/consumers/advice-about-eating-fish" class="footer-link" target="_blank" rel="noopener">FDA Fish Advice</a>
+          <a href="https://www.who.int/nutrition" class="footer-link" target="_blank" rel="noopener">WHO Nutrition</a>
+          <a href="https://www.nin.res.in" class="footer-link" target="_blank" rel="noopener">NIN India</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">Disclaimer</div>
+        <p class="footer-text">This page is for general nutrition education only and is not medical or dietetic advice. Individual nutritional needs vary. Consult a registered dietitian or physician for personalized guidance. No claims on this page should be construed as treatment or prevention of any medical condition.</p>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>NutriBook · Mahi-Mahi Nutrition Encyclopedia</strong> · Data accuracy: estimated based on published databases. Not a substitute for professional medical advice. · Open-source nutrition education.
+    </div>
+  </div>
+</footer>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+/* ===== FOOD DATA OBJECT ===== */
+const foodData = {
+  name: "Mahi-Mahi",
+  scientificName: "Coryphaena hippurus",
+  category: "Marine Fish",
+  family: "Coryphaenidae",
+  servingSize: 100,
+  priceIndia: { perKg: 525, per100g: 52.5, perServing: 68 },
+  macros: {
+    calories: 93, protein: 20.2, carbohydrates: 0.8, fiber: 0,
+    sugars: 0, fat: 0.7, saturatedFat: 0.19,
+    monounsaturatedFat: 0.12, polyunsaturatedFat: 0.17,
+    omega3: 0.13, omega6: 0.04
+  },
+  vitamins: {
+    b1: 0.023, b2: 0.072, b3: 6.94, b5: 0.63,
+    b6: 0.37, b9: 5, b12: 0.65,
+    a: 54, d: 3.2, e: 0.40
+  },
+  minerals: {
+    phosphorus: 196, potassium: 416, sodium: 88,
+    magnesium: 30, calcium: 15, selenium: 36.5,
+    iron: 1.29, zinc: 0.45, copper: 0.06, iodine: 25
+  }
+};
+
+/* ===== THEME ===== */
+(function initTheme() {
+  const saved = localStorage.getItem('nutriTheme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+})();
+
+document.getElementById('themeToggle').addEventListener('click', function() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('nutriTheme', next);
+  this.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+/* ===== ANIMATED COUNTERS ===== */
+function animateCounter(el, target, decimals = 0, duration = 1200) {
+  const start = performance.now();
+  function update(time) {
+    const elapsed = time - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = target * ease;
+    el.textContent = decimals > 0 ? current.toFixed(decimals) : Math.round(current).toString();
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Only animate if motion is allowed
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!prefersReduced) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseFloat(el.dataset.target);
+        const dec = Number.isInteger(target) ? 0 : (target < 5 ? 1 : 0);
+        animateCounter(el, target, dec);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => obs.observe(el));
+}
+
+/* ===== SERVING CALCULATOR ===== */
+const slider = document.getElementById('calcSlider');
+const calcDisplay = document.getElementById('calcDisplay');
+
+function updateCalc(val) {
+  const m = foodData.macros;
+  const v = foodData.vitamins;
+  const min = foodData.minerals;
+  const f = val / 100;
+  calcDisplay.textContent = val + ' g';
+  document.getElementById('cCalories').textContent = Math.round(m.calories * f);
+  document.getElementById('cProtein').textContent = (m.protein * f).toFixed(1) + 'g';
+  document.getElementById('cCarbs').textContent = (m.carbohydrates * f).toFixed(1) + 'g';
+  document.getElementById('cFat').textContent = (m.fat * f).toFixed(1) + 'g';
+  document.getElementById('cOmega3').textContent = (m.omega3 * f).toFixed(2) + 'g';
+  document.getElementById('cB12').textContent = (v.b12 * f).toFixed(2) + 'µg';
+  document.getElementById('cSe').textContent = Math.round(min.selenium * f) + 'µg';
+  document.getElementById('cNa').textContent = Math.round(min.sodium * f) + 'mg';
+  // Update slider gradient
+  const pct = ((val - 50) / (400 - 50)) * 100;
+  slider.style.setProperty('--pct', pct + '%');
+}
+
+slider.addEventListener('input', function() { updateCalc(parseInt(this.value)); });
+updateCalc(130);
+
+/* ===== MICRONUTRIENT FILTER ===== */
+function filterNutrients(type, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+  const rows = document.querySelectorAll('#microTable tbody tr');
+  rows.forEach(row => {
+    if (type === 'all') {
+      row.style.display = '';
+    } else {
+      const show = row.classList.contains(type + '-row') || row.classList.contains('group-row');
+      row.style.display = show ? '' : 'none';
+      // Hide group rows that belong to other category
+      if (row.classList.contains('group-row')) {
+        row.style.display = '';
+      }
+    }
+  });
+  // Fix: hide group-rows for the other category
+  if (type !== 'all') {
+    document.querySelectorAll('#microTable tbody .group-row').forEach(row => {
+      const nextSib = row.nextElementSibling;
+      if (nextSib && !nextSib.classList.contains(type + '-row')) {
+        row.style.display = 'none';
+      } else {
+        row.style.display = '';
+      }
+    });
+  }
+}
+
+/* ===== ACTIVE NAV (IntersectionObserver) ===== */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => sectionObs.observe(s));
+
+/* ===== PROGRESS BARS ANIMATE ON SCROLL ===== */
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('[style*="width:"]').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        requestAnimationFrame(() => {
+          setTimeout(() => { bar.style.width = w; }, 50);
+        });
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.card, .score-item, .benefit-card').forEach(el => barObs.observe(el));
+</script>
+</body>
+</html>

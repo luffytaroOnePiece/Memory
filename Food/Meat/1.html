@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahi-Mahi (Dolphinfish) | Premium Nutrition Encyclopedia</title>
+    <meta name="description" content="Comprehensive nutritional profile, benefits, safety, and scientific data for Mahi-Mahi (Sea Fish).">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Food",
+      "name": "Mahi-Mahi",
+      "alternateName": "Dolphinfish, Coryphaena hippurus",
+      "description": "A lean, marine surface-dwelling fish known for its firm texture and high protein content.",
+      "category": "Seafood"
+    }
+    </script>
+
+    <style>
+        /* CSS Variables & Theming */
+        :root {
+            /* Light Theme */
+            --bg-base: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-card-solid: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent-primary: #0284c7;
+            --accent-secondary: #38bdf8;
+            --border-color: rgba(15, 23, 42, 0.1);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --gradient-hero: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+            
+            /* Status Colors */
+            --color-success: #16a34a;
+            --color-warning: #ca8a04;
+            --color-danger: #dc2626;
+            
+            /* Spacing & Layout */
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --container-width: 1200px;
+            
+            /* Typography */
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg-base: #020617;
+            --bg-card: rgba(15, 23, 42, 0.6);
+            --bg-card-solid: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #475569;
+            --accent-primary: #38bdf8;
+            --accent-secondary: #0284c7;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+            --gradient-hero: radial-gradient(circle at top right, #0c4a6e, #020617);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Base Reset & Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1.5rem; }
+        h3 { font-size: 1.25rem; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        /* Layout */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+        /* UI Components */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: rgba(15, 23, 42, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .badge {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-primary);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+        
+        .icon-btn:hover { background: var(--border-color); }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-visual {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--accent-primary) 0%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-visual::after {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            border: 2px dashed var(--accent-secondary);
+            animation: spin 30s linear infinite;
+        }
+
+        .score-circle {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            background: var(--bg-card-solid);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 2;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .score-circle span:first-child { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
+        .score-circle span:last-child { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); }
+
+        /* Macro Quick Stats */
+        .macro-quick-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .stat-box .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Calculator Section */
+        .calculator-panel {
+            background: var(--bg-card-solid);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--accent-primary);
+            margin: -2rem auto 4rem auto;
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .slider-container {
+            margin: 2rem 0;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--accent-primary);
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        /* Progress Charts */
+        .macro-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .macro-progress {
+            height: 100%;
+            background: var(--accent-primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .data-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* FAQ Details */
+        details {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        summary {
+            padding: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        summary::-webkit-details-marker { display: none; }
+        
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            transition: transform 0.3s ease;
+        }
+        
+        details[open] summary::after { transform: rotate(45deg); }
+        
+        details p {
+            padding: 0 1.25rem 1.25rem;
+            margin: 0;
+        }
+
+        /* Tags/Badges Grid */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .status-yes { background: rgba(22, 163, 74, 0.1); color: var(--color-success); border: 1px solid rgba(22, 163, 74, 0.2); }
+        .status-warn { background: rgba(202, 138, 4, 0.1); color: var(--color-warning); border: 1px solid rgba(202, 138, 4, 0.2); }
+        .status-no { background: rgba(220, 38, 38, 0.1); color: var(--color-danger); border: 1px solid rgba(220, 38, 38, 0.2); }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-visual { width: 60%; margin: 0 auto; }
+            .nav-links { display: none; } /* Simplified mobile nav for snippet */
+            .data-table-wrapper { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Data Object (Source of Truth) -->
+    <script>
+        const foodData = {
+            name: "Mahi-Mahi",
+            scientificName: "Coryphaena hippurus",
+            commonNames: ["Dolphinfish", "Dorado", "Parla (India)"],
+            category: "Seafood / Fish",
+            family: "Coryphaenidae",
+            origin: "Tropical and subtropical waters globally",
+            servingSize: 100, // base calculation unit in grams
+            overallScore: 88, // out of 100
+
+            priceIndia: {
+                retailRange: "₹500 - ₹800",
+                perKg: "~ ₹650",
+                per100g: "~ ₹65",
+                perServing: "~ ₹97 (150g)",
+                notes: "Prices vary by coastal vs inland cities, freshness, and season. Often sold as 'Parla'."
+            },
+
+            macros: {
+                calories: 85,
+                protein: 18.5,
+                carbohydrates: 0,
+                fiber: 0,
+                sugars: 0,
+                fat: 0.7,
+                saturatedFat: 0.2,
+                monounsaturatedFat: 0.1,
+                polyunsaturatedFat: 0.2,
+                omega3: 138, // in mg
+                omega6: 12 // in mg
+            },
+
+            vitamins: [
+                { name: "Vitamin B3 (Niacin)", amount: 5.4, unit: "mg", dv: 34, importance: "High" },
+                { name: "Vitamin B6", amount: 0.4, unit: "mg", dv: 24, importance: "High" },
+                { name: "Vitamin B12", amount: 0.6, unit: "mcg", dv: 25, importance: "High" },
+                { name: "Vitamin B5", amount: 0.7, unit: "mg", dv: 14, importance: "Moderate" },
+                { name: "Vitamin A", amount: 53, unit: "IU", dv: 2, importance: "Low" }
+            ],
+
+            minerals: [
+                { name: "Selenium", amount: 36.5, unit: "mcg", dv: 66, importance: "High" },
+                { name: "Phosphorus", amount: 143, unit: "mg", dv: 14, importance: "Moderate" },
+                { name: "Potassium", amount: 416, unit: "mg", dv: 9, importance: "Moderate" },
+                { name: "Magnesium", amount: 29, unit: "mg", dv: 7, importance: "Low" },
+                { name: "Sodium", amount: 88, unit: "mg", dv: 4, importance: "Low" }
+            ],
+
+            bioactiveCompounds: [
+                { name: "Astaxanthin / Carotenoids", notes: "Trace amounts depending on the fish's diet, contributing to slight coloration." },
+                { name: "Bioactive Peptides", notes: "Formed during digestion of the high-quality protein, potentially possessing antioxidant properties." }
+            ],
+
+            benefits: [
+                { system: "Muscles & Metabolism", evidence: "Strong", desc: "Provides high-quality, complete lean protein essential for muscle repair, enzymes, and metabolic function." },
+                { system: "Brain & Nervous System", evidence: "Strong", desc: "Rich in Vitamin B12 and B6, crucial for nerve health, myelin synthesis, and cognitive function." },
+                { system: "Antioxidant Defense", evidence: "Strong", desc: "Excellent source of Selenium, a required cofactor for glutathione peroxidases that protect cells from oxidative damage." },
+                { system: "Cardiovascular Health", evidence: "Moderate", desc: "Low in saturated fat and contains beneficial Omega-3s (though less than fatty fish like salmon) and potassium which support heart health." }
+            ],
+
+            bestTimes: [
+                { time: "Lunch / Dinner", recommended: true, reason: "Excellent lean protein source for main meals, providing high satiety without heavy fats." },
+                { time: "Post-Workout", recommended: true, reason: "High bioavailability of essential amino acids makes it ideal for muscle recovery." },
+                { time: "Before Bed", recommended: false, reason: "Takes effort to digest large protein meals; best eaten at least 2-3 hours before sleep." }
+            ],
+
+            pairings: [
+                { goal: "Better Satiety & Digestion", food: "Cruciferous Veggies (Broccoli, Asparagus)", reason: "Adds dietary fiber which is absent in fish." },
+                { goal: "Flavor & Vitamin C", food: "Citrus (Lemon/Lime)", reason: "Enhances flavor, aids slightly in mineral absorption, and complements the mild taste." },
+                { goal: "Balanced Energy", food: "Complex Carbs (Brown Rice, Quinoa)", reason: "Provides the carbohydrates needed for energy that the fish lacks." }
+            ],
+
+            cautions: [
+                { group: "Pregnant/Nursing Individuals", risk: "Moderate Mercury", details: "Considered a 'Good Choice' by the FDA, safe to eat 1-2 servings a week, but not a 'Best Choice' due to moderate mercury levels." },
+                { group: "General Public", risk: "Scombroid (Histamine) Poisoning", details: "If not properly chilled immediately after catching, bacteria can convert histidine into histamine, causing severe allergic-type reactions." },
+                { group: "Allergies", risk: "Fish Allergy", details: "Those with finned-fish allergies must strictly avoid." }
+            ],
+
+            dietCompatibility: [
+                { diet: "Pescatarian", status: "yes", reason: "Standard seafood." },
+                { diet: "Keto / Low-Carb", status: "yes", reason: "Contains zero carbohydrates." },
+                { diet: "Gluten-Free", status: "yes", reason: "Naturally gluten-free." },
+                { diet: "Vegan / Vegetarian", status: "no", reason: "Animal product." }
+            ],
+
+            myths: [
+                { myth: "Mahi-Mahi is dolphin meat.", reality: "It is a fish completely unrelated to marine mammals (dolphins). The confusion stems from its common name 'Dolphinfish'." },
+                { myth: "All seafood is high in Omega-3.", reality: "Mahi-Mahi is a lean fish and contains relatively low amounts of Omega-3 compared to salmon or mackerel." }
+            ],
+
+            faq: [
+                { q: "Is Mahi-Mahi healthy for weight loss?", a: "Yes, it is extremely high in protein and very low in calories and fat, making it excellent for satiety in a calorie deficit." },
+                { q: "Can I eat it every day?", a: "It's best limited to 1-2 times a week due to moderate mercury levels to avoid bioaccumulation." },
+                { q: "How should I store it?", a: "Raw fish must be kept tightly wrapped in the coldest part of the refrigerator and cooked within 1-2 days, or frozen at 0°F (-18°C) for up to 3 months." }
+            ]
+        };
+    </script>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div style="font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-primary);"><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19a12 12 0 0 0-16.09-.61Z"/><path d="M4.14 15.08A12 12 0 0 1 12 3a12 12 0 0 1 7.86 12.27"/></svg>
+                NUTRIPEDIA
+            </div>
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#nutrition">Nutrition</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#safety">Safety</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="nav-controls">
+                <!-- Dummy Search -->
+                <button class="icon-btn" aria-label="Search" onclick="alert('Enter another food and regenerate this nutrition profile.')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+                <!-- Theme Toggle -->
+                <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="overview" class="hero">
+            <div class="container hero-content fade-in">
+                <div>
+                    <div class="badge" style="margin-bottom: 1rem;" id="ui-category"></div>
+                    <h1 id="ui-name">Loading...</h1>
+                    <p style="font-size: 1.25rem; font-style: italic;" id="ui-scientific"></p>
+                    <p id="ui-origin" style="margin-top: 1rem; max-width: 500px;"></p>
+                    
+                    <div class="macro-quick-stats">
+                        <div class="stat-box">
+                            <div class="value" id="quick-cal"></div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">KCAL</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value" id="quick-pro"></div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">PROTEIN</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value" id="quick-fat"></div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">FAT</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="score-circle">
+                        <span id="ui-score"></span>
+                        <span>Score</span>
+                    </div>
+                    <!-- Real Fish representation -->
+                    <img src="https://cdn.britannica.com/66/251866-050-AB7FD77E/Mahi-mahi-fish-Bahamas.jpg" alt="Mahi-Mahi Fish" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; position: relative; z-index: 1; padding: 5px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Calculator -->
+        <div class="container fade-in">
+            <div class="calculator-panel">
+                <h3 style="text-align: center; margin-bottom: 0.5rem;">Interactive Nutrition Calculator</h3>
+                <p style="text-align: center; font-size: 0.9rem;">Adjust serving size to calculate macros and micros dynamically.</p>
+                
+                <div class="slider-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600;">Serving Size</span>
+                        <span id="slider-val" style="font-weight: 700; color: var(--accent-primary);">100 g</span>
+                    </div>
+                    <input type="range" id="serving-slider" min="50" max="350" step="10" value="100">
+                </div>
+
+                <div class="grid grid-4" style="margin-top: 2rem;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Calories</span> <span id="calc-cal" style="font-weight: 600;"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Protein</span> <span id="calc-pro" style="font-weight: 600;"></span>
+                        </div>
+                        <div class="macro-bar"><div class="macro-progress" style="width: 90%; background: #38bdf8;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Fat</span> <span id="calc-fat" style="font-weight: 600;"></span>
+                        </div>
+                        <div class="macro-bar"><div class="macro-progress" style="width: 5%; background: #fbbf24;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Carbs</span> <span id="calc-car" style="font-weight: 600;"></span>
+                        </div>
+                        <div class="macro-bar"><div class="macro-progress" style="width: 0%; background: #4ade80;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Facts & India Price -->
+        <section class="section fade-in">
+            <div class="container grid grid-2">
+                <div class="glass-card">
+                    <h3>Classification & Quick Facts</h3>
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <li><strong>Family:</strong> <span id="ui-family"></span></li>
+                        <li><strong>Common Names:</strong> <span id="ui-common"></span></li>
+                        <li><strong>Glycemic Index (GI):</strong> 0 (No carbohydrates)</li>
+                        <li><strong>Water Content:</strong> ~78% (Excellent for hydration support)</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 1.5rem;">Diet Compatibility</h4>
+                    <div class="tag-list" id="diet-tags">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="glass-card" style="border: 1px solid var(--accent-primary);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3>Market Price (India)</h3>
+                        <span class="badge" style="background: var(--accent-primary); color: white; border: none;">₹ INR</span>
+                    </div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent-primary); line-height: 1;" id="price-range"></div>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;" id="price-notes"></p>
+                    
+                    <div class="grid grid-2" style="margin-top: 1.5rem; gap: 1rem;">
+                        <div style="background: rgba(15, 23, 42, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Per Kg</div>
+                            <div style="font-weight: 700; font-size: 1.25rem;" id="price-kg"></div>
+                        </div>
+                        <div style="background: rgba(15, 23, 42, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Per 100g</div>
+                            <div style="font-weight: 700; font-size: 1.25rem;" id="price-100g"></div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0;">*Prices are approximate and fluctuate based on region, season, and quality.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete Nutrition Profile -->
+        <section id="nutrition" class="section fade-in">
+            <div class="container">
+                <h2 style="text-align: center;">Complete Micronutrient Profile</h2>
+                <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto;">Analysis based on raw, 100g edible portion. Percentages relative to general daily values.</p>
+                
+                <div class="grid grid-2">
+                    <!-- Vitamins -->
+                    <div class="glass-card">
+                        <h3>Vitamins</h3>
+                        <div class="data-table-wrapper" style="margin-top: 1rem;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nutrient</th>
+                                        <th>Amount</th>
+                                        <th>% DV</th>
+                                        <th>Significance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vitamins-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Minerals -->
+                    <div class="glass-card">
+                        <h3>Minerals</h3>
+                        <div class="data-table-wrapper" style="margin-top: 1rem;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nutrient</th>
+                                        <th>Amount</th>
+                                        <th>% DV</th>
+                                        <th>Significance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="minerals-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-2" style="margin-top: 1.5rem;">
+                     <!-- Fatty Acids -->
+                     <div class="glass-card">
+                        <h3>Fatty Acid Profile</h3>
+                        <ul style="list-style: none; margin-top: 1rem;">
+                            <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <span>Saturated Fat</span> <span id="fa-sat"></span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <span>Monounsaturated</span> <span id="fa-mufa"></span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <span>Polyunsaturated</span> <span id="fa-pufa"></span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <span>Omega-3</span> <span id="fa-o3" style="font-weight: 600; color: var(--accent-primary);"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Bioactives -->
+                    <div class="glass-card">
+                        <h3>Bioactive Compounds</h3>
+                        <div id="bioactives-list" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits & Fitness -->
+        <section id="benefits" class="section fade-in" style="background: rgba(15, 23, 42, 0.02);">
+            <div class="container">
+                <h2>How This Food May Benefit the Body</h2>
+                <div class="grid grid-2" id="benefits-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <h3 style="margin-top: 4rem; margin-bottom: 1.5rem;">Muscle & Fitness Profile</h3>
+                <div class="glass-card">
+                    <p><strong>Protein Quality:</strong> Mahi-mahi contains complete protein with a highly bioavailable amino acid profile, including essential BCAAs (Leucine, Isoleucine, Valine) critical for muscle protein synthesis.</p>
+                    <p><strong>Energy Production:</strong> High levels of Vitamin B3 (Niacin) and B6 facilitate the conversion of food into usable energy (ATP) during intense exercise.</p>
+                    <p><strong>Weight Management:</strong> Extremely low calorie density and zero carbohydrates make it an ideal staple during cutting phases or calorie deficits. Its high protein content maximizes thermogenesis and satiety.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consumption (Timing, Prep, Pairings) -->
+        <section class="section fade-in">
+            <div class="container grid grid-2">
+                <div>
+                    <h2>Best Time to Eat</h2>
+                    <div id="timing-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <h2 style="margin-top: 3rem;">Best Pairings</h2>
+                    <div id="pairings-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Preparation & Storage</h2>
+                    <div class="glass-card" style="margin-bottom: 1.5rem;">
+                        <h3>Best Ways to Prepare</h3>
+                        <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-secondary);">
+                            <li style="margin-bottom: 0.5rem;"><strong>Grilling (Best):</strong> Mahi-mahi is firm and holds up perfectly on a grill. Minimal fat needed.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Baking (Very Good):</strong> Retains moisture if not overcooked. Wrap in parchment or foil.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Pan-Searing (Good):</strong> Quick and flavorful, but adds calories if cooked in heavy oils.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Frying (Less Ideal):</strong> Adds excessive Omega-6 fats and calories, detracting from its lean profile.</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3>Raw vs Cooked</h3>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Cooking fish causes water loss, which concentrates the protein per 100g (cooked weight yields ~24g protein per 100g). However, aggressive heat (like deep frying) can degrade heat-sensitive B vitamins and alter healthy fat structures.</p>
+                        
+                        <h3 style="margin-top: 1.5rem;">Storage Guide</h3>
+                        <ul style="margin-top: 1rem; margin-left: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <li><strong>Refrigerator:</strong> 1-2 days max. Keep in the coldest part (usually the bottom back).</li>
+                            <li><strong>Freezer:</strong> Up to 3-4 months if vacuum-sealed. Thaw safely overnight in the fridge.</li>
+                            <li><strong>Spoilage Signs:</strong> Overly "fishy" or ammonia smell, slimy texture, or dull, discolored flesh.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Safety, Cautions & Myths -->
+        <section id="safety" class="section fade-in">
+            <div class="container">
+                <h2>Safety Profile & Cautions</h2>
+                <div class="grid grid-3" id="cautions-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <h2 style="margin-top: 4rem;">Common Myths</h2>
+                <div class="grid grid-2" id="myths-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section fade-in" style="background: rgba(15, 23, 42, 0.02);">
+            <div class="container">
+                <h2 style="text-align: center;">Frequently Asked Questions</h2>
+                <div style="max-width: 800px; margin: 2rem auto 0 auto;" id="faq-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Card -->
+        <section class="section fade-in">
+            <div class="container">
+                <div class="glass-card" style="background: var(--gradient-hero); border: 1px solid var(--accent-primary); text-align: center; max-width: 800px; margin: 0 auto;">
+                    <h2>Mahi-Mahi — In One Minute</h2>
+                    <p style="color: var(--text-primary); margin-bottom: 2rem; opacity: 0.9;">A high-level summary of this food's nutritional profile.</p>
+                    
+                    <div class="grid grid-2" style="text-align: left; gap: 2rem;">
+                        <div>
+                            <p><strong>Biggest Strength:</strong> Exceptionally lean, high-quality complete protein.</p>
+                            <p><strong>Best Benefit:</strong> Supports muscle repair and metabolic health.</p>
+                            <p><strong>Ideal Serving:</strong> 150g (Yields ~28g protein).</p>
+                        </div>
+                        <div>
+                            <p><strong>Best Pairing:</strong> Fibrous vegetables & complex carbs.</p>
+                            <p><strong>Biggest Caution:</strong> Histamine poisoning (requires immediate chilling post-catch) & moderate mercury.</p>
+                            <p><strong>Overall Score:</strong> <span style="font-weight: 700; color: var(--accent-primary);">88/100</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="padding: 4rem 0; border-top: 1px solid var(--border-color); text-align: center; background: var(--bg-card-solid);">
+        <div class="container">
+            <h4 style="margin-bottom: 1rem;">Nutrition Methodology</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem auto;">
+                Nutritional values vary based on the specific variety, maturity, wild-caught vs farmed status, growing environment, preparation, and cooking methods. The Daily Value (% DV) metrics used are standard adult estimations and may not reflect individual medical or athletic requirements.
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem;">
+                <strong>Disclaimer:</strong> This page is for general nutrition education and is not medical advice. Consult a healthcare provider or registered dietitian before making significant dietary changes, especially if pregnant, nursing, or managing a medical condition.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                <span>Data Ref: USDA FoodData Central</span> |
+                <span>Scientific Ref: NIH, FDA guidelines</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            setupInteractivity();
+            setupIntersectionObservers();
+        });
+
+        function initApp() {
+            // Populate Hero
+            document.getElementById('ui-name').textContent = foodData.name;
+            document.getElementById('ui-scientific').textContent = foodData.scientificName;
+            document.getElementById('ui-category').textContent = foodData.category;
+            document.getElementById('ui-origin').textContent = `Origin: ${foodData.origin}`;
+            document.getElementById('ui-score').textContent = foodData.overallScore;
+
+            // Populate Quick Facts
+            document.getElementById('ui-family').textContent = foodData.family;
+            document.getElementById('ui-common').textContent = foodData.commonNames.join(', ');
+            
+            // Populate Prices
+            document.getElementById('price-range').textContent = foodData.priceIndia.retailRange;
+            document.getElementById('price-notes').textContent = foodData.priceIndia.notes;
+            document.getElementById('price-kg').textContent = foodData.priceIndia.perKg;
+            document.getElementById('price-100g').textContent = foodData.priceIndia.per100g;
+
+            // Populate Diet Tags
+            const dietTagsContainer = document.getElementById('diet-tags');
+            foodData.dietCompatibility.forEach(diet => {
+                let statusClass = diet.status === 'yes' ? 'status-yes' : diet.status === 'warn' ? 'status-warn' : 'status-no';
+                let icon = diet.status === 'yes' ? '✓' : diet.status === 'warn' ? '⚠' : '✕';
+                dietTagsContainer.innerHTML += `
+                    <div class="status-badge ${statusClass}" title="${diet.reason}">
+                        <span>${icon}</span> ${diet.diet}
+                    </div>
+                `;
+            });
+
+            // Populate Fatty Acids
+            document.getElementById('fa-sat').textContent = `${foodData.macros.saturatedFat} g`;
+            document.getElementById('fa-mufa').textContent = `${foodData.macros.monounsaturatedFat} g`;
+            document.getElementById('fa-pufa').textContent = `${foodData.macros.polyunsaturatedFat} g`;
+            document.getElementById('fa-o3').textContent = `${foodData.macros.omega3} mg`;
+
+            // Render Tables & Grids
+            renderTable('vitamins-body', foodData.vitamins);
+            renderTable('minerals-body', foodData.minerals);
+            renderBioactives();
+            renderBenefits();
+            renderTiming();
+            renderPairings();
+            renderCautions();
+            renderMyths();
+            renderFAQ();
+
+            // Initial Calculator update
+            updateCalculator(100);
+        }
+
+        function renderTable(elementId, dataArray) {
+            const tbody = document.getElementById(elementId);
+            let html = '';
+            dataArray.forEach(item => {
+                let color = item.importance === 'High' ? 'var(--color-success)' : (item.importance === 'Moderate' ? 'var(--color-warning)' : 'inherit');
+                html += `
+                    <tr>
+                        <td style="font-weight: 500;">${item.name}</td>
+                        <td>${item.amount} ${item.unit}</td>
+                        <td>${item.dv}%</td>
+                        <td style="color: ${color}; font-weight: 500;">${item.importance}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderBioactives() {
+            const container = document.getElementById('bioactives-list');
+            let html = '';
+            foodData.bioactiveCompounds.forEach(item => {
+                html += `
+                    <div>
+                        <h4 style="color: var(--accent-primary); margin-bottom: 0.25rem;">${item.name}</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">${item.notes}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderBenefits() {
+            const container = document.getElementById('benefits-grid');
+            let html = '';
+            foodData.benefits.forEach(b => {
+                let badgeColor = b.evidence === 'Strong' ? 'var(--color-success)' : 'var(--color-warning)';
+                html += `
+                    <div class="glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <h3 style="margin: 0; color: var(--accent-primary);">${b.system}</h3>
+                            <span class="badge" style="color: ${badgeColor}; border-color: ${badgeColor}; font-size: 0.7rem;">${b.evidence} Evidence</span>
+                        </div>
+                        <p style="font-size: 0.95rem;">${b.desc}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderTiming() {
+            const container = document.getElementById('timing-list');
+            let html = '';
+            foodData.bestTimes.forEach(t => {
+                let icon = t.recommended ? '✓' : '✕';
+                let color = t.recommended ? 'var(--color-success)' : 'var(--color-danger)';
+                html += `
+                    <div class="glass-card" style="padding: 1rem;">
+                        <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <span style="color: ${color}; font-weight: 800;">${icon}</span> ${t.time}
+                        </h4>
+                        <p style="font-size: 0.9rem; margin: 0;">${t.reason}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderPairings() {
+            const container = document.getElementById('pairings-list');
+            let html = '';
+            foodData.pairings.forEach(p => {
+                html += `
+                    <div class="glass-card" style="padding: 1rem;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--accent-primary); font-weight: 700; margin-bottom: 0.25rem;">For ${p.goal}</div>
+                        <h4 style="margin-bottom: 0.5rem;">+ ${p.food}</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">${p.reason}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderCautions() {
+            const container = document.getElementById('cautions-grid');
+            let html = '';
+            foodData.cautions.forEach(c => {
+                html += `
+                    <div class="glass-card" style="border-top: 3px solid var(--color-danger);">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">${c.group}</div>
+                        <h4 style="color: var(--color-danger); margin-bottom: 0.5rem;">${c.risk}</h4>
+                        <p style="font-size: 0.9rem; margin: 0;">${c.details}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderMyths() {
+            const container = document.getElementById('myths-grid');
+            let html = '';
+            foodData.myths.forEach(m => {
+                html += `
+                    <div class="glass-card">
+                        <div style="color: var(--color-danger); font-weight: 700; margin-bottom: 0.5rem;">✕ Myth: "${m.myth}"</div>
+                        <div style="color: var(--color-success); font-weight: 700; margin-bottom: 0.5rem;">✓ Reality:</div>
+                        <p style="font-size: 0.9rem; margin: 0;">${m.reality}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderFAQ() {
+            const container = document.getElementById('faq-container');
+            let html = '';
+            foodData.faq.forEach(f => {
+                html += `
+                    <details>
+                        <summary>${f.q}</summary>
+                        <p>${f.a}</p>
+                    </details>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function setupInteractivity() {
+            // Theme Toggle
+            const themeBtn = document.getElementById('theme-toggle');
+            const htmlTag = document.documentElement;
+            
+            // Check local storage or prefers-color-scheme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlTag.setAttribute('data-theme', savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                htmlTag.setAttribute('data-theme', 'light');
+            }
+
+            themeBtn.addEventListener('click', () => {
+                let current = htmlTag.getAttribute('data-theme');
+                let next = current === 'dark' ? 'light' : 'dark';
+                htmlTag.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+
+            // Calculator Slider
+            const slider = document.getElementById('serving-slider');
+            slider.addEventListener('input', (e) => {
+                updateCalculator(e.target.value);
+            });
+        }
+
+        function updateCalculator(grams) {
+            const factor = grams / 100;
+            
+            // Update Text
+            document.getElementById('slider-val').textContent = `${grams} g`;
+            
+            const cal = (foodData.macros.calories * factor).toFixed(0);
+            const pro = (foodData.macros.protein * factor).toFixed(1);
+            const fat = (foodData.macros.fat * factor).toFixed(1);
+            const car = (foodData.macros.carbohydrates * factor).toFixed(1);
+
+            document.getElementById('calc-cal').textContent = cal + ' kcal';
+            document.getElementById('calc-pro').textContent = pro + ' g';
+            document.getElementById('calc-fat').textContent = fat + ' g';
+            document.getElementById('calc-car').textContent = car + ' g';
+
+            // Also update quick hero stats for immersion (based on 100g by default, but syncs with calc)
+            document.getElementById('quick-cal').textContent = cal;
+            document.getElementById('quick-pro').textContent = pro + 'g';
+            document.getElementById('quick-fat').textContent = fat + 'g';
+        }
+
+        function setupIntersectionObservers() {
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Sticky Nav Active State Observer
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        let id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if(link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-20% 0px -70% 0px" });
+
+            sections.forEach(sec => {
+                sectionObserver.observe(sec);
+            });
+        }
+    </script>
+</body>
+</html>

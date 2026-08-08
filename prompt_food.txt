@@ -1,0 +1,1471 @@
+Here’s a strong **master prompt** you can use with an AI coding model to generate the nutrition-book HTML. It is designed so you can replace `[FOOD NAME]` with anything — banana, chicken breast, beetroot, rice, egg, salmon, etc.
+
+# MASTER PROMPT — High-Performance Interactive Nutrition Book
+
+Create a **single self-contained `index.html` file** for a premium, modern, interactive **Human Nutrition Encyclopedia**.
+
+The user will provide one food item:
+
+**FOOD:** `[FOOD NAME]`
+
+Your job is to research/analyze the food and generate a highly detailed nutrition profile specifically for **human consumption**.
+
+The result must feel like a premium combination of:
+
+* Modern nutrition encyclopedia
+* Scientific food database
+* Apple-style product page
+* High-end health dashboard
+* Interactive digital nutrition book
+
+Do **not** create a basic blog page or simple table.
+
+---
+
+## 1. TECHNICAL REQUIREMENTS
+
+Create everything inside **one `index.html` file**.
+
+Use:
+
+* Semantic HTML5
+* Modern CSS
+* Vanilla JavaScript
+* CSS variables
+* CSS Grid
+* CSS Flexbox
+* CSS animations
+* CSS transitions
+* Responsive design
+* Accessible HTML
+* Progressive enhancement
+
+Avoid unnecessary frameworks.
+
+Do NOT require:
+
+* React
+* Vue
+* Angular
+* Bootstrap
+* Tailwind
+* jQuery
+
+The page must work by simply opening:
+
+`index.html`
+
+in a modern browser.
+
+External resources may only be used when genuinely useful.
+
+---
+
+# 2. DESIGN DIRECTION
+
+Create a visually rich, premium nutrition-book interface.
+
+Design language:
+
+* Modern
+* Scientific
+* Clean
+* High contrast
+* Sophisticated
+* Data-rich
+* Editorial
+* Slightly futuristic
+* Organic/natural visual feeling
+
+Use:
+
+* Rich gradients
+* Subtle glass effects
+* Soft shadows
+* Layered backgrounds
+* Fine borders
+* Grain/noise texture
+* Radial gradients
+* Mesh-like gradients
+* Subtle glow effects
+* Large typography
+* Rounded cards
+* Data visualization
+* Micro-interactions
+
+Avoid:
+
+* Excessive glassmorphism
+* Excessive animations
+* Cartoonish UI
+* Generic Bootstrap appearance
+* Huge unnecessary whitespace
+* Slow JavaScript animations
+
+The interface should feel **fast and premium**, not flashy.
+
+---
+
+# 3. PERFORMANCE IS CRITICAL
+
+The HTML must be optimized for performance.
+
+Prioritize:
+
+* CSS animations over JavaScript animations
+* `transform` and `opacity` for animation
+* Avoid layout thrashing
+* Avoid unnecessary DOM manipulation
+* Minimal JavaScript
+* Lazy-load non-critical assets
+* Use `content-visibility` where appropriate
+* Use `will-change` sparingly
+* Avoid huge images
+* Avoid continuously running expensive animations
+
+Animations should respect:
+
+```css
+@media (prefers-reduced-motion: reduce)
+```
+
+When reduced motion is enabled, disable non-essential animations.
+
+Target:
+
+* Fast initial rendering
+* Smooth 60 FPS interactions
+* Mobile-friendly performance
+* No unnecessary dependencies
+
+---
+
+# 4. PAGE STRUCTURE
+
+Create the following major sections.
+
+---
+
+## HERO SECTION
+
+Display:
+
+### `[FOOD NAME]`
+
+Below it:
+
+* Scientific/common name
+* Food category
+* Family
+* Origin
+* Typical serving size
+* Edible portion
+* Calories per serving
+* Overall nutrition score
+
+Include a visually rich hero representation of the food.
+
+If an external image is unavailable, create an elegant CSS-based visual placeholder.
+
+Hero should contain a compact summary:
+
+```text
+Calories
+Protein
+Carbohydrates
+Fat
+Fiber
+```
+
+Use animated number counters where appropriate.
+
+---
+
+# 5. QUICK FACTS
+
+Create a visually strong "Quick Facts" section.
+
+Include:
+
+* Food type
+* Food family
+* Plant / animal / fungal / processed
+* Botanical family where applicable
+* Scientific name
+* Common names
+* Origin
+* Major producing regions
+* Seasonality
+* Typical availability in India
+* Vegetarian / non-vegetarian classification
+* Vegan suitability
+* Gluten-free status
+* Lactose-free status
+* Typical serving size
+* Storage life
+* Storage method
+
+Do not invent information.
+
+If information varies by variety, clearly explain the variation.
+
+---
+
+# 6. INDIA PRICE SECTION
+
+This is mandatory.
+
+Show:
+
+## Approximate Price in India
+
+Include:
+
+* Typical retail price
+* Price per kg where applicable
+* Price per 100 g
+* Price per serving
+* Premium/organic price range if relevant
+* Price variation by region/season if relevant
+* Price trend explanation
+
+Use Indian Rupees:
+
+`₹`
+
+Clearly label prices as **approximate/current estimates**, because food prices vary by:
+
+* city
+* season
+* quality
+* brand
+* organic/non-organic status
+* retail platform
+
+Do not fabricate an exact live price.
+
+If current web data is available, use current Indian market/retail information and mention the source/date.
+
+---
+
+# 7. FOOD CLASSIFICATION
+
+Create a detailed classification card.
+
+Include:
+
+### Food Type
+
+Examples:
+
+* Fruit
+* Vegetable
+* Grain
+* Legume
+* Nut
+* Seed
+* Meat
+* Fish
+* Seafood
+* Dairy
+* Fermented food
+* Beverage
+* Spice
+* Herb
+* Processed food
+
+### Family
+
+For plants:
+
+* Botanical family
+* Genus
+* Species
+
+For animal foods:
+
+* Biological classification where meaningful
+
+Also include:
+
+* Food group
+* Culinary category
+* Nutritional category
+
+---
+
+# 8. FULL MACRONUTRIENT PROFILE
+
+Create an interactive nutrition table.
+
+Default basis:
+
+### Per 100 g
+
+Include:
+
+* Calories
+* Protein
+* Total carbohydrates
+* Dietary fiber
+* Total sugars
+* Added sugars if applicable
+* Starch
+* Total fat
+* Saturated fat
+* Monounsaturated fat
+* Polyunsaturated fat
+* Trans fat
+* Omega-3
+* Omega-6
+
+Also calculate:
+
+### Per typical serving
+
+And where useful:
+
+### Per 1 kg
+
+Show percentage contribution toward typical daily values where scientifically appropriate.
+
+Clearly state the reference basis.
+
+---
+
+# 9. COMPLETE MICRONUTRIENT PROFILE
+
+Create a comprehensive micronutrient dashboard.
+
+Include relevant:
+
+### Vitamins
+
+* Vitamin A
+* Vitamin B1
+* Vitamin B2
+* Vitamin B3
+* Vitamin B5
+* Vitamin B6
+* Vitamin B7
+* Vitamin B9 / Folate
+* Vitamin B12
+* Vitamin C
+* Vitamin D
+* Vitamin E
+* Vitamin K
+
+### Minerals
+
+* Calcium
+* Iron
+* Magnesium
+* Phosphorus
+* Potassium
+* Sodium
+* Zinc
+* Copper
+* Manganese
+* Selenium
+* Chromium
+* Molybdenum
+* Iodine where relevant
+
+Do not force nutrients that are naturally absent or insignificant.
+
+Use:
+
+* Amount
+* Unit
+* % Daily Value
+* Significance
+
+Example:
+
+```text
+Potassium
+358 mg
+10% DV
+High contribution
+```
+
+---
+
+# 10. PHYTONUTRIENTS & BIOACTIVE COMPOUNDS
+
+If the food contains meaningful bioactive compounds, explain them.
+
+Examples:
+
+* Polyphenols
+* Flavonoids
+* Anthocyanins
+* Carotenoids
+* Lycopene
+* Beta-carotene
+* Lutein
+* Zeaxanthin
+* Sulforaphane
+* Allicin
+* Catechins
+* Curcumin
+* Quercetin
+
+For each important compound explain:
+
+* What it is
+* Where it occurs in the food
+* What research suggests
+* Potential physiological relevance
+
+Avoid presenting preliminary research as established medical fact.
+
+---
+
+# 11. BENEFITS FOR THE HUMAN BODY
+
+Create a detailed section:
+
+## How This Food May Benefit the Human Body
+
+Organize benefits by body system.
+
+### Brain & nervous system
+
+### Heart & cardiovascular system
+
+### Digestive system
+
+### Muscles
+
+### Bones
+
+### Immune system
+
+### Eyes
+
+### Skin
+
+### Hair
+
+### Blood / red blood cell support
+
+### Metabolism
+
+### Energy production
+
+### Hydration
+
+### Gut microbiome
+
+Only include benefits supported by the nutrient composition and credible scientific evidence.
+
+Separate:
+
+**Strong evidence**
+
+**Moderate evidence**
+
+**Preliminary evidence**
+
+Do not make medical-treatment claims.
+
+Do not say that a food "cures" diseases.
+
+---
+
+# 12. WHEN TO EAT IT
+
+Create a timeline-style section:
+
+## Best Time to Eat
+
+Explain whether it is better suited for:
+
+### Morning
+
+### Breakfast
+
+### Mid-morning
+
+### Lunch
+
+### Pre-workout
+
+### Post-workout
+
+### Evening
+
+### Dinner
+
+### Before bed
+
+For each period give:
+
+* Recommended?
+* Why?
+* Ideal portion
+* Best combinations
+* Situations where it may not be ideal
+
+Do not claim that a specific time is universally superior if evidence does not support it.
+
+---
+
+# 13. HOW MUCH TO EAT
+
+Create:
+
+## Recommended Portion
+
+Give practical serving suggestions.
+
+Examples:
+
+* 50 g
+* 100 g
+* 1 medium fruit
+* 1 cup
+* 2 eggs
+* 150 g cooked food
+
+Include:
+
+### General adult portion
+
+### Active person
+
+### Weight-management context
+
+### Higher-calorie context
+
+Clearly distinguish general nutrition guidance from individualized medical advice.
+
+---
+
+# 14. BEST FOOD COMBINATIONS
+
+Create an interactive section:
+
+## Best Pairings
+
+Show foods that complement the selected food.
+
+Categories:
+
+### For better protein
+
+### For better iron absorption
+
+### For better vitamin absorption
+
+### For better satiety
+
+### For better digestion
+
+### For pre-workout
+
+### For post-workout
+
+### For a balanced meal
+
+Explain WHY each combination works.
+
+---
+
+# 15. ABSORPTION & BIOAVAILABILITY
+
+Create:
+
+## Nutrient Absorption
+
+Explain:
+
+* Which nutrients are well absorbed
+* Which have limited bioavailability
+* Factors increasing absorption
+* Factors reducing absorption
+* Cooking effects
+* Fermentation effects
+* Soaking effects
+* Sprouting effects
+* Combining with fat
+* Combining with vitamin C
+* Antinutrients where relevant
+
+Examples:
+
+* Phytates
+* Oxalates
+* Lectins
+* Tannins
+
+Only include compounds relevant to the food.
+
+---
+
+# 16. RAW VS COOKED
+
+If applicable, create a comparison table:
+
+| Nutrient | Raw | Cooked | Difference |
+| -------- | --: | -----: | ---------: |
+
+Explain changes caused by:
+
+* boiling
+* steaming
+* roasting
+* frying
+* baking
+* pressure cooking
+
+Do not assume cooking always decreases nutrients.
+
+Explain nutrient concentration changes caused by water loss.
+
+---
+
+# 17. FOOD PREPARATION
+
+Create:
+
+## Best Ways to Prepare
+
+Rank preparation methods:
+
+1. Best
+2. Very good
+3. Good
+4. Acceptable
+5. Less ideal
+
+Evaluate based on:
+
+* nutrient retention
+* digestibility
+* added calories
+* added fat
+* sodium
+* food safety
+
+---
+
+# 18. STORAGE
+
+Create:
+
+## Storage Guide
+
+Include:
+
+* Room temperature
+* Refrigerator
+* Freezer
+* Cut food storage
+* Cooked food storage
+* Signs of spoilage
+* Approximate shelf life
+
+Do not give unsafe food-storage advice.
+
+---
+
+# 19. SAFETY & SIDE EFFECTS
+
+Create:
+
+## Safety Profile
+
+Include relevant:
+
+* Allergies
+* Intolerances
+* Food poisoning risks
+* Excess consumption concerns
+* Drug/nutrient interactions if well established
+* Kidney-related concerns where relevant
+* Pregnancy considerations where relevant
+* Children considerations where relevant
+* Food preparation risks
+
+Use clear warning cards.
+
+Do not unnecessarily scare the user.
+
+---
+
+# 20. WHO SHOULD BE CAREFUL?
+
+Create cards for:
+
+* Healthy adults
+* Children
+* Older adults
+* Athletes
+* Pregnant individuals
+* People with food allergies
+* People with specific dietary restrictions
+
+Only mention a group when there is a legitimate reason.
+
+Avoid personalized medical advice.
+
+---
+
+# 21. DIET COMPATIBILITY
+
+Create badges:
+
+* Vegetarian
+* Vegan
+* Keto compatibility
+* Low-carb compatibility
+* High-protein compatibility
+* Gluten-free
+* Dairy-free
+* Paleo compatibility
+* Whole-food compatibility
+* Low-FODMAP suitability where evidence permits
+
+Use:
+
+✓ Suitable
+
+⚠ Depends
+
+✕ Generally unsuitable
+
+Explain the reasoning.
+
+---
+
+# 22. WEIGHT MANAGEMENT
+
+Create:
+
+## Weight Management Profile
+
+Explain:
+
+* Calorie density
+* Satiety
+* Fiber contribution
+* Protein contribution
+* Portion control
+* Whether it is useful during a calorie deficit
+* Whether it is easy to overconsume
+
+Never claim that the food itself causes fat loss.
+
+---
+
+# 23. MUSCLE & FITNESS
+
+Create:
+
+## Fitness Profile
+
+Explain:
+
+* Protein quality
+* Amino acids
+* Carbohydrate availability
+* Glycogen relevance
+* Fat content
+* Pre-workout suitability
+* Post-workout suitability
+* Recovery relevance
+
+If protein is incomplete, explain what foods can complement it.
+
+---
+
+# 24. GLYCEMIC RESPONSE
+
+If carbohydrate-containing:
+
+Include:
+
+* Approximate glycemic index when reliable data exists
+* Glycemic load
+* Sugar content
+* Fiber
+* Factors affecting glucose response
+* Portion size effect
+
+Do not fabricate GI values.
+
+If reliable data varies significantly, show a range and explain why.
+
+---
+
+# 25. AMINO ACID PROFILE
+
+If meaningful protein is present, show:
+
+* Leucine
+* Isoleucine
+* Valine
+* Lysine
+* Methionine
+* Phenylalanine
+* Threonine
+* Tryptophan
+* Histidine
+
+Show essential vs non-essential amino acids where data is available.
+
+---
+
+# 26. FATTY ACID PROFILE
+
+If meaningful fat is present, show:
+
+* Saturated
+* MUFA
+* PUFA
+* Omega-3
+* Omega-6
+* Ratio where useful
+
+Do not overinterpret omega ratios.
+
+---
+
+# 27. HYDRATION PROFILE
+
+If relevant:
+
+* Water content
+* Electrolytes
+* Potassium
+* Sodium
+* Magnesium
+* Hydration usefulness
+
+Explain whether it meaningfully contributes to hydration.
+
+---
+
+# 28. ENVIRONMENT & ORIGIN
+
+Where meaningful include:
+
+* Origin
+* Cultivation
+* Seasonality
+* Major producing countries
+* India production
+* Sustainability considerations
+* Organic vs conventional considerations
+
+Keep this section concise.
+
+---
+
+# 29. CULTURAL & CULINARY USE
+
+Include:
+
+* Indian regional uses
+* International uses
+* Traditional preparation methods
+* Common recipes
+* Popular combinations
+
+Do not make unsupported traditional medicine claims.
+
+If discussing traditional medicine, clearly separate traditional beliefs from modern scientific evidence.
+
+---
+
+# 30. SCIENTIFIC EVIDENCE
+
+Create:
+
+## Evidence Summary
+
+Use evidence levels:
+
+🟢 Strong
+
+🟡 Moderate
+
+🟠 Limited
+
+🔴 Insufficient
+
+For important claims, provide:
+
+* Claim
+* Evidence level
+* Short explanation
+* Source/reference where available
+
+Prefer authoritative sources such as:
+
+* USDA FoodData Central
+* NIH
+* PubMed
+* FDA
+* WHO
+* FAO
+* ICMR/NIN
+* Indian food composition databases
+* peer-reviewed research
+
+Do not invent citations.
+
+---
+
+# 31. NUTRITION SCORE
+
+Create an overall visual score.
+
+Example categories:
+
+### Nutrient Density
+
+### Protein
+
+### Fiber
+
+### Micronutrients
+
+### Antioxidant Potential
+
+### Satiety
+
+### Processing Level
+
+### Overall Food Quality
+
+Use a transparent scoring methodology.
+
+Do not pretend the score is an official medical or governmental rating.
+
+---
+
+# 32. INTERACTIVE NUTRITION CALCULATOR
+
+Add a serving-size slider.
+
+Example:
+
+```text
+Serving size
+[-----●----------] 150 g
+```
+
+Dynamically update:
+
+* Calories
+* Protein
+* Carbs
+* Fat
+* Fiber
+* Sugar
+* Selected micronutrients
+
+Use vanilla JavaScript.
+
+The calculation should be based on the per-100-g nutrition data.
+
+---
+
+# 33. MACRO VISUALIZATION
+
+Create attractive visualizations using CSS/HTML/SVG.
+
+Show:
+
+* Protein
+* Carbohydrates
+* Fat
+* Fiber
+
+Use:
+
+* Donut chart
+* Horizontal bars
+* Progress indicators
+
+Avoid heavy chart libraries unless absolutely necessary.
+
+---
+
+# 34. NUTRIENT DENSITY TABLE
+
+Create a sortable/filterable table.
+
+Columns:
+
+* Nutrient
+* Amount
+* Unit
+* % DV
+* Category
+* Importance
+
+Allow users to filter:
+
+* Macronutrients
+* Vitamins
+* Minerals
+* Bioactive compounds
+
+---
+
+# 35. DAILY VALUE EXPLANATION
+
+Add a small methodology section explaining:
+
+* What %DV means
+* Reference basis
+* Why values can vary
+* Raw vs cooked differences
+* Variety differences
+* Geographic differences
+
+---
+
+# 36. FOOD QUALITY CHECK
+
+Create:
+
+## What To Look For When Buying
+
+Include:
+
+* Freshness indicators
+* Color
+* Texture
+* Smell
+* Packaging
+* Ripeness
+* Signs of damage
+* Signs of spoilage
+* Organic labeling where relevant
+
+---
+
+# 37. COMMON MYTHS
+
+Create:
+
+## Nutrition Myths
+
+Include 3–6 common claims about the food.
+
+For each:
+
+### Myth
+
+### Reality
+
+### Evidence
+
+Clearly distinguish facts from popular claims.
+
+---
+
+# 38. FAQ
+
+Create an expandable FAQ using `<details>` / `<summary>`.
+
+Include questions such as:
+
+* Is this food healthy?
+* How much should I eat?
+* Can I eat it every day?
+* Is it good for weight loss?
+* Is it good before exercise?
+* Is it good after exercise?
+* Is it good at night?
+* Raw or cooked?
+* What should I combine it with?
+* Who should avoid it?
+* How should I store it?
+
+Only include questions relevant to the food.
+
+---
+
+# 39. DAILY MEAL EXAMPLES
+
+Create practical examples.
+
+### Breakfast
+
+### Lunch
+
+### Snack
+
+### Pre-workout
+
+### Post-workout
+
+### Dinner
+
+Show how `[FOOD NAME]` can fit into a normal human diet.
+
+Avoid presenting these as individualized medical meal plans.
+
+---
+
+# 40. SUMMARY CARD
+
+At the bottom create a highly visual summary:
+
+## `[FOOD NAME]` — In One Minute
+
+Show:
+
+* Best benefit
+* Biggest nutritional strength
+* Best time to eat
+* Ideal serving
+* Best pairing
+* Biggest caution
+* Approximate Indian price
+* Overall nutrition score
+
+---
+
+# 41. DATA QUALITY RULES
+
+This is extremely important.
+
+Never fabricate:
+
+* nutrient values
+* prices
+* scientific names
+* health benefits
+* study results
+* citations
+* glycemic index
+* amino acid values
+* mineral values
+
+If reliable information is unavailable:
+
+Display:
+
+> "Reliable data unavailable"
+
+or
+
+> "Values vary significantly by variety/preparation."
+
+Clearly distinguish:
+
+### Measured data
+
+### Estimated data
+
+### General nutrition guidance
+
+### Scientific evidence
+
+### Traditional claims
+
+---
+
+# 42. NUTRITION DATA FORMAT
+
+Keep all food-specific data in a JavaScript object near the beginning of the script:
+
+```javascript
+const foodData = {
+    name: "",
+    scientificName: "",
+    category: "",
+    family: "",
+    servingSize: 100,
+
+    priceIndia: {
+        perKg: null,
+        per100g: null,
+        perServing: null
+    },
+
+    macros: {
+        calories: 0,
+        protein: 0,
+        carbohydrates: 0,
+        fiber: 0,
+        sugars: 0,
+        fat: 0,
+        saturatedFat: 0,
+        monounsaturatedFat: 0,
+        polyunsaturatedFat: 0,
+        omega3: 0,
+        omega6: 0
+    },
+
+    vitamins: {},
+
+    minerals: {},
+
+    bioactiveCompounds: [],
+
+    benefits: [],
+
+    cautions: [],
+
+    bestTimes: [],
+
+    pairings: [],
+
+    evidence: []
+};
+```
+
+The UI should be generated from this data rather than hardcoding the same information repeatedly.
+
+---
+
+# 43. NAVIGATION
+
+Create a sticky navigation bar.
+
+Sections:
+
+```text
+Overview
+Nutrition
+Benefits
+Timing
+Preparation
+Safety
+Fitness
+Evidence
+FAQ
+```
+
+Clicking a section should smoothly scroll to it.
+
+Highlight the active section using IntersectionObserver.
+
+---
+
+# 44. SEARCH / FOOD SWITCHER
+
+At the top include a search/input interface:
+
+```text
+Explore another food
+[ Search food... ]
+```
+
+For this generated static file, the search can display:
+
+> "Enter another food and regenerate this nutrition profile."
+
+Do not pretend the static page has a backend database.
+
+---
+
+# 45. DARK / LIGHT MODE
+
+Implement a theme toggle.
+
+Use:
+
+* Light mode
+* Dark mode
+
+Save preference using:
+
+```javascript
+localStorage
+```
+
+Respect:
+
+```css
+prefers-color-scheme
+```
+
+---
+
+# 46. MOBILE EXPERIENCE
+
+The page must be excellent on:
+
+* iPhone
+* Android
+* Tablets
+* Laptop
+* Desktop
+* Large monitors
+
+Do not simply shrink the desktop layout.
+
+Reflow:
+
+* cards
+* tables
+* charts
+* navigation
+* nutrition grids
+
+Tables should horizontally scroll when necessary.
+
+---
+
+# 47. ACCESSIBILITY
+
+Include:
+
+* Semantic headings
+* ARIA labels where necessary
+* Keyboard navigation
+* Visible focus states
+* Good color contrast
+* Reduced motion support
+* Accessible buttons
+* Accessible charts/data representations
+
+Do not rely on color alone to communicate meaning.
+
+---
+
+# 48. MICRO-INTERACTIONS
+
+Use subtle effects:
+
+* Card hover
+* Number reveal
+* Progress bar animation
+* Section reveal
+* Button press
+* Navigation indicator
+* Tooltip
+* Expand/collapse
+
+Keep animations fast and subtle.
+
+Avoid excessive bouncing.
+
+---
+
+# 49. VISUAL TEXTURE
+
+Create a premium visual background using CSS.
+
+Possible techniques:
+
+```css
+radial-gradient()
+linear-gradient()
+conic-gradient()
+background-blend-mode
+```
+
+Add a subtle noise/grain effect using CSS or a lightweight inline SVG/data URI.
+
+Do not use huge background images.
+
+---
+
+# 50. SEO
+
+Include:
+
+* `<title>`
+* meta description
+* Open Graph metadata
+* semantic structure
+* canonical placeholder
+* structured data / JSON-LD where appropriate
+
+Example structured data:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Food",
+  "name": "[FOOD NAME]"
+}
+```
+
+Only include structured data that is valid for the actual content.
+
+---
+
+# 51. FOOTER
+
+Include:
+
+### Nutrition methodology
+
+Explain that nutritional values vary based on:
+
+* variety
+* maturity
+* growing conditions
+* preparation
+* cooking
+* serving size
+
+Add:
+
+> This page is for general nutrition education and is not medical advice.
+
+Include source links/references where applicable.
+
+---
+
+# 52. FINAL QUALITY STANDARD
+
+The final result must look like a **professional nutrition encyclopedia**, not an AI-generated generic webpage.
+
+It should have:
+
+* Excellent visual hierarchy
+* High-quality typography
+* Rich data presentation
+* Scientific credibility
+* Indian pricing
+* Complete macro/micronutrients
+* Human-body benefits
+* Timing recommendations
+* Food preparation information
+* Safety information
+* Interactive serving calculator
+* Dark/light theme
+* Responsive layout
+* Smooth animations
+* Excellent performance
+* Accessible design
+
+The page should immediately communicate:
+
+> "This is a serious, modern nutrition reference for this food."
+
+---
+
+# FINAL OUTPUT REQUIREMENT
+
+Return ONLY the complete contents of:
+
+```text
+index.html
+```
+
+Do not explain the code.
+
+Do not provide multiple files.
+
+Do not provide setup instructions.
+
+Everything must be contained in the single HTML file.
+
+The only variable input is:
+
+**`[FOOD NAME]`**
+
+Generate the complete nutrition encyclopedia for that food.

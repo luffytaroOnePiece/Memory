@@ -75,5 +75,11 @@
         }
       }
     }
+  },
+  "Food": {
+    "Meat": {
+      "1": "Mahi Mahi Fish - Gemini",
+      "2": "Mahi Mahi Fish - Claude"
+    }
   }
 }
